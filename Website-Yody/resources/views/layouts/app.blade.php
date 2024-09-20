@@ -6,6 +6,7 @@
     <meta name="robots" content="noindex, follow" />
     @vite('resources/css/app.css')
     <title>YODY</title>
+    
 </head>
 <body>
     <div>

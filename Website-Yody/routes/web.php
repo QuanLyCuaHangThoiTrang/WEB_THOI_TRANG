@@ -24,6 +24,7 @@ Route::resource('/products', ShopController::class);
 // routes/web.php
 Route::get('/about-us', [AboutUs_Controller::class, 'about'])->name('about');
 Route::get('/contact-us', [ContactUs_Controller::class, 'contact'])->name('contact');
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{MaGH}/{MaCTSP}', [CartController::class, 'removeFromCart'])->name('cart.remove');
@@ -33,14 +34,15 @@ Route::put('/cart/update', [CartController::class, 'update'])->name('cart.update
 
 Route::get('/home', [Home_Controller::class, 'home'])->name(name: 'home');
 
-
 Route::get('login', [Login_Controller::class, 'showLoginForm'])->name('login');
 Route::post('/login', [Login_Controller::class,'postLogin'])->name('login.postLogin');
 
 Route::get('/register', [Register_Controller::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [Register_Controller::class, 'register'])->name('register');
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::post('/checkoutDH', [CheckoutController::class, 'processCheckoutDH'])->name('checkout.processDH');
 
 Route::get('/product_detail', [ProductDetailController::class,'index']);
 Route::get('/product_detail/{MaSP}', [ProductDetailController::class, 'index']);

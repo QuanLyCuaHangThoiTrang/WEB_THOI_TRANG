@@ -221,6 +221,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        document.querySelectorAll('.color-radio').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const selectedColor = this.dataset.maMau;
+                document.querySelector('input[name="MaMau"]').value = selectedColor;
+            });
+        });
         document.addEventListener('DOMContentLoaded', function() {
             const colorRadios = document.querySelectorAll('.color-radio');
             const sizeRadios = document.querySelectorAll('.size-radio');
@@ -331,4 +337,5 @@
             }
         });
     </script>   
+    
 @endsection

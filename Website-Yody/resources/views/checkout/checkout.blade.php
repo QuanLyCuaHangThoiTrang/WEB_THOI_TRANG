@@ -66,16 +66,20 @@
                         <div class="mb-2">
                             <div class="relative flex flex-col">
                                 <label for="full_name" class="mb-2 block text-sm font-medium text-gray-900"> Họ và tên </label>
-                                <input name="full_name" type="text" required class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Enter full name" />
+                                <input name="full_name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text" required class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Enter full name" />
                             </div>
                         </div>
                         <div class="mb-2">
                         <div class="relative flex flex-col">
                             <label for="email" class="mb-2 block text-sm font-medium text-gray-900"> Email </label>
-                            <input name="email" type="text" required class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Enter email" />
+                            <input value="{{ Auth::check() ? Auth::user()->Email : '' }}" name="email" type="text" required class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Enter email" />
                         </div>
                     </div>
                     </div>
+
+                    <input type="hidden" id="hidden_tinh" name="hidden_tinh" value="">
+                    <input type="hidden" id="hidden_quan" name="hidden_quan" value="">
+                    <input type="hidden" id="hidden_phuong" name="hidden_phuong" value="">
 
                     <div class="col-span-1 md:col-span-4 mb-0">
                     <label for="diachi" class="mb-2 block text-sm font-medium text-gray-900"> Địa chỉ </label>
@@ -138,7 +142,7 @@
                 <div class="mt-2 mb-2">
                         <div class="relative flex flex-col justify-between">
                         <label for="phone_number" class="mb-2 block text-sm font-medium text-gray-900"> Số điện thoại</label>
-                            <input name="phone_number" type="text" required class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Enter phone number" />
+                            <input value="{{ Auth::check() ? Auth::user()->SDT : '' }}" name="phone_number" type="text" required class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Enter phone number" />
                         </div>
                     </div>
 

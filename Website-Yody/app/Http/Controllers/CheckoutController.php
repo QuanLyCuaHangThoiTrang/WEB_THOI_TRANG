@@ -12,7 +12,6 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        
         $chiTietGioHang = [];
         $tongTien = 0;
         $giamGia = 0; // Ví dụ, bạn có thể tính giảm giá từ thông tin giỏ hàng hoặc session
@@ -31,7 +30,7 @@ class CheckoutController extends Controller
             // Nếu người dùng chưa đăng nhập, lấy giỏ hàng từ session
             $gioHangSession = session()->get('gioHang', []);
             $chiTietGioHang = $gioHangSession;
-            $tongTien = array_sum(array_column($gioHangSession, 'tongTien'));
+            $tongTien = array_sum(array_column($gioHangSession, 'ThanhTien'));
         }
 
         // Trả về view với chi tiết giỏ hàng và tổng tiền
