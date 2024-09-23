@@ -15,10 +15,15 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('layouts.app');
 });
+<<<<<<< Updated upstream
 Route::get('/', function () {
     return view('home.home');
 });
 
+=======
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/home-products', [Section_ProductController::class, 'showProducts'])->name('home.products');
+>>>>>>> Stashed changes
 
 Route::resource('/products', ShopController::class);
 Route::get('/about-us', [AboutUs_Controller::class, 'about'])->name('about');
