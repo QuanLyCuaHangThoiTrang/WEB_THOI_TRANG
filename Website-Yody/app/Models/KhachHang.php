@@ -20,7 +20,6 @@ class KhachHang extends Authenticatable
     protected $casts = [
       
         'MaKH' => 'string',
-      
     ];
 
     protected $hidden = [

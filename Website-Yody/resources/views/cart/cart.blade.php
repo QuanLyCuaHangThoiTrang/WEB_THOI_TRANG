@@ -65,12 +65,9 @@
                                         <div class="flex flex-col gap-2">
                                             <h6 class="font-semibold text-base leading-7">{{ $item['TenSP'] }}</h6>
                                             <h6 class="font-medium text-base leading-7 text-red-600">{{ $item['DonGia'] }}</h6>
-                                            <button class="btn bg-gray-100 flex p-1 w-fit rounded-lg">
-                                                <span class="font-semibold">{{ $item['TenMau'] }}, {{ $item['TenSize'] }}</span>
-                                                <span class="inline-block pl-2 pt-1">
-                                                    <x-icons.icon name="chevron-down"/>
-                                                </span>
-                                            </button>
+                                           
+                                            <span class="font-semibold w-10 h-10 border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-105" style="background-color: {{ $item['TenMau'] }}"></span>
+                                                <span class="font-semibold">Size: {{ $item['TenSize'] }}</span>
                                         </div>
                                         <div class="flex items-center ml-auto mt-4 md:mt-0">                                       
                                             <div class="relative flex items-center max-w-[8rem] border rounded-2xl">
@@ -112,16 +109,12 @@
                             </div>
                             <div class="flex items-center justify-between pb-2">
                                 <p class="leading-8 text-gray-600">Giảm giá:</p>
-                                <p class="leading-8 text-red-600">-20.000đ</p>
+                                <p class="leading-8 text-red-600">0</p>
                             </div>
                             <div class="flex items-center justify-between pb-2">
                                 <p class="leading-8 text-gray-600">Vận chuyển:</p>
-                                <p class="leading-8 text-gray-600">-20.000đ</p>
-                            </div>
-                            <div class="flex items-center justify-between pb-2">
-                                <p class="leading-8 text-gray-600">Giảm giá vận chuyển:</p>
-                                <p class="leading-8 text-red-600">-20.000đ</p>
-                            </div>
+                                <p class="leading-8 text-gray-600">20</p>
+                            </div>                     
                             <div class="flex items-center justify-between border-t border-gray-200 py-4">
                                 <h3 class="text-lg font-bold text-gray-800">Promo code</h3>
                                 <div class="flex border overflow-hidden max-w-sm rounded-md">

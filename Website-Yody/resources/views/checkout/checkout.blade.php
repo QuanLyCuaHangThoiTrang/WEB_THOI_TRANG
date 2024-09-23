@@ -77,7 +77,7 @@
 
                         <!-- Select for Xã/Phường -->
                         <div class="col-span-1">
-                            <input type="hidden" id="hidden_phuong" name="hidden_phuong" value="">
+                            <input type="hidden" id="hidden_phuong" name="hidden_phuong" value="hidden_phuong">
                             <label for="phuong" class="mb-2 block text-sm font-medium text-gray-900"> Phường/Xã</label>
                             <select 
                                 id="phuong" 
