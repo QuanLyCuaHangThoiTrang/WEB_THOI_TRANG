@@ -83,13 +83,14 @@ const timer = setInterval(() => {
         </div>
 
         <div class="grid gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            @foreach(array_slice($products, 0, 3) as $product)
+
+            @foreach ($chiTietSanPhams as $chiTietSanPham)  
                 <div class="border p-5 rounded cursor-pointer hover:border-2 duration-150">
-                    <img src="{{ $product['image'] }}" alt="{{ $product['productName'] }}" class="w-full h-auto">
-                    <h4 class="font-bold flex justify-start mt-3">{{ $product['productName'] }}</h4>
+                     <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="" class="w-full h-auto">
+                    <h4 class="font-bold flex justify-start mt-3">{{ $chiTietSanPham->SanPham->TenSP }}</h4>
                     <div class="flex flex-col">
                         <div class="flex mt-1">
-                            <p class="text-lg">{{ $product['price'] }} VND</p>
+                            <p class="text-lg">{{ $chiTietSanPham->SanPham->GiaBan }} VND</p> 
                             <p class="text-white font-medium text-sm ml-auto border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">-10%</p>
                         </div>
                     </div>
