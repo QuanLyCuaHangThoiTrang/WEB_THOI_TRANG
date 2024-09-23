@@ -6,7 +6,11 @@ export default {
     "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'old-standard': ['Old Standard TT', 'serif'],
+      },
+    },
   },
   plugins: [],
 }

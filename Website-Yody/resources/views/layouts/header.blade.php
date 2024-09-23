@@ -1,50 +1,39 @@
-<header class="top-0 sticky z-20 w-full bg-white">
-    <div class="w-full p-4 md:p-4 bg-white shadow-md bg-opacity-80 backdrop-blur-2xl">
-        <div class="container mx-auto flex items-center h-full justify-between px-3 lg:px-5 relative">
-            <div class="flex items-center gap-7 flex-grow">
+<header class=" font-old-standard z-50 bg-white border-b border-gray-300 w-full fixed">
+    <div class="w-full p-3 bg-transparent bg-opacity-100 ">
+        <div class=" mx-auto flex items-center h-full justify-between px-3 lg:px-5 relative">
+            <div class="flex items-center gap-10 flex-grow">
                 <div>
                     <button id="menu-toggle" class="block lg:hidden">
                         <x-icons.icon name="menu-toggle"/>
                     </button>
                 </div>
-                <div class="logo md:w-[95px] w-[70px]">
+                <div class="logo md:w-[85px] w-[70px]">
                     <a href="{{ url('/') }}">
                         <span class="cursor-pointer">
                             <img class="w-full h-auto max-w-full" src="{{ asset('/icons/logo.webp') }}" alt="logo">
                         </span>
                     </a>
                 </div>
-                <ul class="menu hidden lg:flex md:hidden text-sky-900 relative">
+                <div class="justify-center text-center items-center bg-white rounded-full px-6 mx-auto">
+                    <ul class="menu hidden lg:flex md:hidden text-blue-950 text-center relative flex-grow  ">
                     <li>
-                        <a href="{{ url('/') }}" class="inline-block px-3 py-4 text-base md:text-xl lg:text-xl font-bold">SALE OFF 50%</a>
-                    </li>
-                    <li>
-                        <a href="" class="inline-block px-3 py-4 text-lg font-semibold">TRANG CHỦ</a>
+                        <a href="{{ url('/') }}" class="inline-block px-3 py-4 text-lg font-semibold">TRANG CHỦ</a>
                     </li>
                     <li class="relative flex">
-                        <a href="{{ url('/products') }}" id="product-menu-toggle" class="px-3 py-4 text-lg font-semibold flex items-center">
-                            SẢN PHẨM
-                            <x-icons.icon name="chevron-down"/>
-                        </a>
+                        <a href="{{ url('/products') }}" id="product-menu-toggle" class="inline-block px-3 py-4 text-lg font-semibold">SẢN PHẨM</a>
                     </li>
                     <li>
                         <a href="{{ url('/contact-us') }}" class="inline-block px-3 py-4 text-lg font-semibold">LIÊN HỆ</a>
                     </li>
+                    <li>
+                        <a href="{{ url('/about-us') }}" class="inline-block px-3 py-4 text-lg font-semibold">VỀ CHÚNG TÔI</a>
+                    </li>
                 </ul>
-            </div>
-
-            <div class="searchbar-container relative w-full md:w-auto items-center hidden md:flex">
-                <form action="{{ url('/search') }}" method="GET" class="flex items-center w-full">
-                    <input 
-                        type="search" 
-                        name="query" 
-                        class="w-full md:w-58 px-7 py-2 text-sm border border-gray-300 rounded-3xl focus:outline-none focus:ring-blue-500" 
-                        placeholder="Tìm kiếm sản phẩm..."
-                    />
-                </form>
+                </div>
+                
             </div>
             <div class="flex items-center justify-center gap-5">
-                <button id="search-toggle" class="md:hidden ml-10">
+                <button id="search-toggle" class=" ml-10">
                    <x-icons.icon name="search-toggle"/>
                 </button>
                 <button id="cart-toggle" class="ml-1">
@@ -56,7 +45,6 @@
                 @auth
                     @php
                         $customer = Auth::user();
-                        
                     @endphp
                     <a href="{{ url('account/' . $customer->MaKH) }}" id="profile-toggle" class="flex items-center">
                         <x-icons.icon name="profile"/>
@@ -72,8 +60,6 @@
                         <x-icons.icon name="profile"/>
                     </a>
                 @endauth
-
-
             </div>
         </div>
         <div id="product-mega-menu" class="absolute left-0 top-full w-full bg-white shadow-xl hidden">

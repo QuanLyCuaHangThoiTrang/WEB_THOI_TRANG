@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Account_Controller;
 use App\Http\Controllers\Register_Controller;
 use App\Http\Controllers\Login_Controller;
-use App\Http\Controllers\Home_Controller;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactUs_Controller;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\CartController;
@@ -12,15 +12,25 @@ use App\Http\Controllers\AboutUs_Controller;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Section_ProductController;
+
+
+
 Route::get('/', function () {
     return view('layouts.app');
 });
-Route::get('/', function () {
-    return view('home.home');
-});
+Route::get('/', [HomeController::class, 'home'])->name('home');
 
 
 Route::resource('/products', ShopController::class);
+
+Route::get('/home-products', [Section_ProductController::class, 'showProducts'])->name('home.section-product');
+
+
+
+
+
+
 // routes/web.php
 Route::get('/about-us', [AboutUs_Controller::class, 'about'])->name('about');
 Route::get('/contact-us', [ContactUs_Controller::class, 'contact'])->name('contact');
@@ -30,8 +40,6 @@ Route::get('/cart/remove/{MaGH}/{MaCTSP}', [CartController::class, 'removeFromCa
 Route::get('/cart/remove/{MaCTSP}', [CartController::class, 'removeFromCartSS'])->name('cart.removeSS');
 Route::get('/cart/removeall', [CartController::class, 'removeAllart'])->name('cart.removeAll');
 Route::put('/cart/update', [CartController::class, 'update'])->name('cart.update');
-
-Route::get('/home', [Home_Controller::class, 'home'])->name(name: 'home');
 
 
 Route::get('login', [Login_Controller::class, 'showLoginForm'])->name('login');

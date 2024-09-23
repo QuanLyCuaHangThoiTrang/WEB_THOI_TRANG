@@ -5,16 +5,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const productMenuToggle = document.getElementById('product-menu-toggle');
     const productDropdownMenu = document.getElementById('product-dropdown-menu');
 
-    menuToggle.addEventListener('click', () => {
-        offcanvasMenu.classList.toggle('hidden');
-    });
+    if (menuToggle && offcanvasMenu && offcanvasClose) {
+        menuToggle.addEventListener('click', () => {
+            offcanvasMenu.classList.toggle('hidden');
+        });
 
-    offcanvasClose.addEventListener('click', () => {
-        offcanvasMenu.classList.add('hidden');
-    });
+        offcanvasClose.addEventListener('click', () => {
+            offcanvasMenu.classList.add('hidden');
+        });
+    }
 
-    productMenuToggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        productDropdownMenu.classList.toggle('hidden');
+    if (productMenuToggle && productDropdownMenu) {
+        productMenuToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            productDropdownMenu.classList.toggle('hidden');
+        });
+    }
+
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (productDropdownMenu && !productMenuToggle.contains(e.target) && !productDropdownMenu.contains(e.target)) {
+            productDropdownMenu.classList.add('hidden');
+        }
     });
 });
