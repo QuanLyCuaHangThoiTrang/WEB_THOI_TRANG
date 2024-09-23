@@ -7,13 +7,13 @@
                   <div class="w-full lg:sticky top-0 sm:flex gap-4">
                     <!-- Chỉ hiện trên màn hình lớn -->
                     <div class="hidden sm:space-y-3 sm:block max-sm:hidden max-sm:mb-4">
-                        <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-bra-the-thao-nu-STN7052-GHI%20(1).jpg" alt="Product1" class="w-full cursor-pointer mx-auto rounded-md outline" />
-                        <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-bra-the-thao-nu-STN7052-GHI%20(4).jpg" alt="Product3" class="w-full cursor-pointer rounded-md" />
-                        <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-bra-the-thao-nu-STN7052-GHI%20(5).jpg" alt="Product4" class="w-full cursor-pointer rounded-md" />
+                        @foreach ($hinhAnhList as $hinhAnh)
+                        <img src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" alt="Product1" class="w-full cursor-pointer mx-auto rounded-md outline product-thumbnail" data-image-src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" />
+                        @endforeach
                     </div>
 
                     <!-- Chỉ hiện hình chính -->
-                    <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-bra-the-thao-nu-STN7052-GHI%20(1).jpg" alt="Product" class="w-4/5 rounded-md object-cover mx-auto" />
+                    <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="Product" class="main-product-image w-4/5 rounded-md object-cover mx-auto" />
                     <hr class="border w-[200px] justify-center items-center mx-auto mt-2">
                   </div>
                   <!-- 3 hình căn giữa chỉ trên thiết bị di động -->
@@ -30,7 +30,6 @@
                           <p class="text-blue-800 text-xl font-bold">{{ $chiTietSanPham->SanPham->GiaBan }}</p>
                           <p class="text-gray-400 text-xl"><strike>$16</strike> <span class="text-sm ml-1.5">Tax included</span></p>
                       </div>
-
                       <div class="flex space-x-2 mt-4">
                           <svg class="w-5 fill-yellow-400" viewBox="0 0 14 13" fill="none"
                               xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +69,7 @@
                                             name="selected_color" 
                                             value="{{ $mauSac->MaMau }}" 
                                             class="hidden color-radio" 
-                                            data-ma-mau="{{ $mauSac->MaMau }}"
+                                            data-ma-mau="{{ $mauSac->MaMau }}"                                
                                         >
                                         <label 
                                             for="color_{{ $mauSac->MaMau }}" 
@@ -114,15 +113,15 @@
                               </button>
                               <input id="quantity" class="cart-plus-minus-box input-text qty text w-16 text-center border border-gray-300 rounded-md" name="SoLuong" value="1" readonly>
                               @csrf
+                              <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->SanPham->MaSP }}">     
                               <input type="hidden" name="DonGia" value="{{ $chiTietSanPham->SanPham->GiaBan }}">
-                              <input type="hidden" name="MaKH" value="KH001">                          
-                              <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->MaSP }}">
+                              <input type="hidden" name="MaKH" value="KH001">                                                  
                               <input type="hidden" name="MaSize" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
                               <input type="hidden" name="MaMau" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
                               <button type="button" class="inc qtybutton w-10 h-10 bg-gray-200 flex items-center justify-center rounded-md hover:bg-gray-300" onclick="updateQuantity(1)">
                                   <span class="text-lg font-bold">+</span>
                               </button>
-                          </div>
+                          </div>                       
                                 <button id="add-to-cart-btn" type="submit" class="w-full md:w-auto lg:w-[300px] min-w-[200px] bg-yellow-500 rounded-xl py-2 px-10 font-semibold text-lg text-white transition-all duration-500 hover:bg-yellow-400 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600">
                                     Thêm vào giỏ hàng
                                 </button>
@@ -227,18 +226,55 @@
                 document.querySelector('input[name="MaMau"]').value = selectedColor;
             });
         });
-        document.addEventListener('DOMContentLoaded', function() {
+        
+        $(document).ready(function() {
+            $('.color-radio').on('change', function() {
+                var maMau = this.dataset.maMau; // Lấy mã màu từ thuộc tính data-ma-mau
+                var maSP = '{{ $chiTietSanPham->SanPham->MaSP }}'; // Lấy mã sản phẩm từ blade (hoặc điều chỉnh nếu cần)
+                updateProductImage(maSP, maMau);
+            });
+
+            function updateProductImage(maSP, maMau) {
+                $.ajax({
+                    url: '/get-image', // Đường dẫn đến hàm getImageByMaSPAndMaMau
+                    type: 'GET',
+                    data: {
+                        maSP: maSP,
+                        maMau: maMau
+                    },
+                    success: function(response) {
+                        if (response.HinhAnh) {
+                            // Cập nhật src của thẻ <img> với đường dẫn hình ảnh mới
+                            $('.main-product-image').attr('src', response.HinhAnh);
+                        } else {
+                            console.error('Không tìm thấy hình ảnh.');
+                        }
+                    },
+                    error: function() {
+                        console.error('Lỗi khi lấy hình ảnh.');
+                    }
+                });
+            }
+        });    
+
+        document.addEventListener('DOMContentLoaded', function() {            
             const colorRadios = document.querySelectorAll('.color-radio');
             const sizeRadios = document.querySelectorAll('.size-radio');
             const stockQuantitySpan = document.getElementById('stock-quantity');
             const addToCartBtn = document.getElementById('add-to-cart-btn');
-        
+            const mainProductImage = document.querySelector('.main-product-image');  
+            // Lấy tất cả các ảnh thu nhỏ (thumbnail)
+            const thumbnails = document.querySelectorAll('.product-thumbnail');        
             let lastSelectedSize = null; // Biến để lưu kích thước đã chọn trước đó
-    
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Thay đổi src của ảnh chính bằng giá trị của thuộc tính data-image-src
+                    mainProductImage.src = this.dataset.imageSrc;
+                });
+            });
             function updateStockAndSizes() {
                 const selectedColor = document.querySelector('input[name="selected_color"]:checked');
-                const selectedSize = document.querySelector('input[name="selected_size"]:checked');
-                
+                const selectedSize = document.querySelector('input[name="selected_size"]:checked');           
                 if (selectedColor) {
                     const colorCode = selectedColor.value;
                     const sizeCode = selectedSize ? selectedSize.value : lastSelectedSize;

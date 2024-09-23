@@ -11,9 +11,10 @@ class ChiTietSanPham extends Model
     protected $table = 'chitietsanpham';
     public $timestamps = false;
     protected $primaryKey = 'MaCTSP';
-    protected $fillable = ['MaSP', 'MaSize', 'MaMau', 'SKU', 'SoLuongTonKho'];
+    protected $fillable = ['MaSP', 'MaSize', 'MaMau','HinhAnh','SKU', 'SoLuongTonKho'];
     protected $casts = [
         'MaCTSP' => 'string',
+        'HinhAnh' => 'string',
     ];
     // Thiết lập mối quan hệ với SanPham
     public function sanPham()

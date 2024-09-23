@@ -21,7 +21,6 @@ Route::get('/', function () {
 
 
 Route::resource('/products', ShopController::class);
-// routes/web.php
 Route::get('/about-us', [AboutUs_Controller::class, 'about'])->name('about');
 Route::get('/contact-us', [ContactUs_Controller::class, 'contact'])->name('contact');
 
@@ -49,8 +48,7 @@ Route::get('/product_detail/{MaSP}', [ProductDetailController::class, 'index']);
 Route::get('/test_endpoint/{MaMau}', [ProductDetailController::class, 'getProductDetails']);
 Route::get('/get-sizes-by-color/{MaMau}/{MaSP}', [ProductDetailController::class, 'getSizesByColor']);
 Route::get('/test_endpointa/{MaSP}/{MaSize}/{MaMau}', [ProductDetailController::class, 'getProductDetails1']);
-
-
+Route::get('/get-image', [ProductDetailController::class, 'getImageByMaSPAndMaMau']);
 
 Route::get('account/{MaKH}', [Account_Controller::class, 'showAccountForm'])->middleware('auth');
 Route::post('/logout', function () {

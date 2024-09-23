@@ -22,7 +22,7 @@
                                         </svg>                                
                                     </a>   
                                     <div class="w-full md:max-w-[150px]">
-                                        <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-polo-nu-yody-APN7136-XAH-3%20(1).JPG" alt="product image" class="w-full h-auto rounded-xl object-cover">
+                                        <img src="{{ asset('images/products/' . $chitiet->ChiTietSanPham->HinhAnh) }}" alt="product image" class="w-full h-auto rounded-xl object-cover">
                                     </div>
                                     <div class="flex-1 md:flex md:items-center">
                                         <div class="flex flex-col gap-2">
