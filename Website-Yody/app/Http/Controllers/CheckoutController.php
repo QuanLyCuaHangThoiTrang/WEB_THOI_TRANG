@@ -12,7 +12,6 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        
         $chiTietGioHang = [];
         $tongTien = 0;
         $giamGia = 0; // Ví dụ, bạn có thể tính giảm giá từ thông tin giỏ hàng hoặc session
@@ -26,18 +25,20 @@ class CheckoutController extends Controller
             if ($gioHang) {
                 $chiTietGioHang = $gioHang->chiTietGioHang;
                 $tongTien = $gioHang->TongGiaTri;
+                
             }
         } else {
             // Nếu người dùng chưa đăng nhập, lấy giỏ hàng từ session
             $gioHangSession = session()->get('gioHang', []);
             $chiTietGioHang = $gioHangSession;
-            $tongTien = array_sum(array_column($gioHangSession, 'tongTien'));
+            $tongTien = array_sum(array_column($gioHangSession, 'ThanhTien'));
         }
 
         // Trả về view với chi tiết giỏ hàng và tổng tiền
         return view('checkout.checkout', compact('chiTietGioHang', 'tongTien', 'giamGia'));
     }
     
+    /*
     public function processCheckout(Request $request)
     {
        // Kiểm tra nếu người dùng đã đăng nhập
@@ -45,7 +46,6 @@ class CheckoutController extends Controller
             $user = Auth::user();
           
             $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
-
             if ($gioHang && $gioHang->TongGiaTri > 0) {
                 // Giỏ hàng có sản phẩm -> tiếp tục xử lý thanh toán
                 return redirect()->route('checkout.index')->with('success', 'Đơn hàng của bạn đã được xử lý.');
@@ -67,14 +67,13 @@ class CheckoutController extends Controller
         }
         
     }
-    
+    */
     
     public function processCheckoutDH(Request $request)
     {
         // Thực hiện kiểm tra và xử lý thanh toán
         if (Auth::check()) {
-            $user = Auth::user();
-           
+            $user = Auth::user();          
             $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
             if ($gioHang && $gioHang->TongGiaTri > 0) {
                 // Gọi phương thức lưu đơn hàng
@@ -103,7 +102,10 @@ class CheckoutController extends Controller
 
             if ($gioHang && $gioHang->TongGiaTri > 0) {
                 $maDH = 'DH' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
-              
+                if($request->input('payment_method') == 'Thanh toán momo')
+                {
+                    return redirect('https://www.momo.vn/');
+                }
                 // Tạo đơn hàng mới
                 $donHang = DonHang::create([
                     'MaDH' => $maDH,

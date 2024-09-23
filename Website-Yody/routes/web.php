@@ -24,16 +24,9 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::resource('/products', ShopController::class);
 
-Route::get('/home-products', [Section_ProductController::class, 'showProducts'])->name('home.section-product');
-
-
-
-
-
-
-// routes/web.php
 Route::get('/about-us', [AboutUs_Controller::class, 'about'])->name('about');
 Route::get('/contact-us', [ContactUs_Controller::class, 'contact'])->name('contact');
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{MaGH}/{MaCTSP}', [CartController::class, 'removeFromCart'])->name('cart.remove');
@@ -42,21 +35,25 @@ Route::get('/cart/removeall', [CartController::class, 'removeAllart'])->name('ca
 Route::put('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
 
+Route::get('/home', [HomeController::class, 'home'])->name(name: 'home');
+
+
 Route::get('login', [Login_Controller::class, 'showLoginForm'])->name('login');
 Route::post('/login', [Login_Controller::class,'postLogin'])->name('login.postLogin');
 
 Route::get('/register', [Register_Controller::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [Register_Controller::class, 'register'])->name('register');
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::post('/checkoutDH', [CheckoutController::class, 'processCheckoutDH'])->name('checkout.processDH');
 
 Route::get('/product_detail', [ProductDetailController::class,'index']);
 Route::get('/product_detail/{MaSP}', [ProductDetailController::class, 'index']);
 Route::get('/test_endpoint/{MaMau}', [ProductDetailController::class, 'getProductDetails']);
 Route::get('/get-sizes-by-color/{MaMau}/{MaSP}', [ProductDetailController::class, 'getSizesByColor']);
 Route::get('/test_endpointa/{MaSP}/{MaSize}/{MaMau}', [ProductDetailController::class, 'getProductDetails1']);
-
-
+Route::get('/get-image', [ProductDetailController::class, 'getImageByMaSPAndMaMau']);
 
 Route::get('account/{MaKH}', [Account_Controller::class, 'showAccountForm'])->middleware('auth');
 Route::post('/logout', function () {

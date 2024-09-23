@@ -176,7 +176,6 @@ class CartController extends Controller
             // Người dùng đã đăng nhập
             // Lấy mảng các sản phẩm cần cập nhật từ request
             $items = $request->items;
-    
             foreach ($items as $item) {
                 // Cập nhật số lượng và thành tiền cho từng sản phẩm
                 ChiTietGioHang::where([

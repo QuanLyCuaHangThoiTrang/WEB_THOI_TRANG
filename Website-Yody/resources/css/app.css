@@ -20,6 +20,13 @@ html,body{
 body {
     display: flex;
     flex-direction: column;
+    
+}
+
+.color-radio:checked + label {
+    border: 3px solid #613cf6; /* Viền màu vàng */
+    transform: scale(1.1); /* Phóng to nhẹ khi được chọn */
+    transition: transform 0.2s ease-in-out, border 0.2s ease-in-out;
 }
 
 #product-mega-menu {

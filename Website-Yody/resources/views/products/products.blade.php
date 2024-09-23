@@ -168,7 +168,7 @@
           @foreach ($chiTietSanPhams as $chiTietSanPham)  
             <div class="group relative cursor-pointer">
                 <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                    <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/swn6004-den-sdn6314-bed-04.jpg" alt="Product Image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="Product Image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                 </div>
                 <div class="mt-4 pb-3">
                     <h3 class="text-base">{{ $chiTietSanPham->SanPham->TenSP }}</h3>
