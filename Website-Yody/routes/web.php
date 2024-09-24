@@ -27,7 +27,6 @@ Route::get('/', function () {
 
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/home-products', [Section_ProductController::class, 'showProducts'])->name('home.products');
 
 
 Route::resource('/products', ShopController::class);

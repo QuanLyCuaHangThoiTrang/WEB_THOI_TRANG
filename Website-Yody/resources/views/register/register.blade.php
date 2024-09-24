@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="font-[sans-serif] bg-slate-200 py-2">
+<div class="font-[sans-serif] mt-20 bg-slate-200 py-2">
     <div class="flex flex-col items-center justify-center">
         <div class="grid md:grid-cols-2 items-center bg-white gap-4 max-md:gap-8 max-w-5xl max-md:max-w-lg w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
             <div class="md:max-w-md w-full px-4">
@@ -17,6 +17,9 @@
                         <div class="relative flex items-center">
                             <input name="full_name" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter full name" />
                         </div>
+                        @error('full_name')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Username -->
@@ -25,6 +28,9 @@
                         <div class="relative flex items-center">
                             <input name="username" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter username" />
                         </div>
+                        @error('username')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Phone Number -->
@@ -33,6 +39,9 @@
                         <div class="relative flex items-center">
                             <input name="phone_number" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter phone number" />
                         </div>
+                        @error('phone_number')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Email -->
@@ -41,6 +50,9 @@
                         <div class="relative flex items-center">
                             <input name="email" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter email" />
                         </div>
+                        @error('email')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Password -->
@@ -49,6 +61,9 @@
                         <div class="relative flex items-center">
                             <input name="password" type="password" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter password" />
                         </div>
+                        @error('password')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <!-- Confirm Password -->
@@ -57,6 +72,9 @@
                         <div class="relative flex items-center">
                             <input name="password_confirmation" type="password" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Confirm password" />
                         </div>
+                        @error('password_confirmation')
+                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="mt-4">
