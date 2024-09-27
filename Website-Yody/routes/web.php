@@ -53,7 +53,6 @@ Route::get('/register', [Register_Controller::class, 'showRegistrationForm'])->n
 Route::post('/register', [Register_Controller::class, 'register'])->name('register');
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 Route::post('/checkoutDH', [CheckoutController::class, 'processCheckoutDH'])->name('checkout.processDH');
 
 Route::get('/product_detail', [ProductDetailController::class,'index']);
@@ -68,3 +67,6 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
+
+
+Route::post('/momo-callback', [CheckoutController::class, 'MoMoCallback'])->name(name: 'momo.callback');
