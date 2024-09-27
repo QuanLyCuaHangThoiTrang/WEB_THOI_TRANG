@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
+    
     public function home()
     {
         $chiTietSanPhams = ChiTietSanPham::with(['sanPham', 'kichThuoc', 'mauSac'])
@@ -25,4 +26,5 @@ class HomeController extends Controller
     // Truyền dữ liệu vào view
     return view('home.home', ['chiTietSanPhams' => $chiTietSanPhams]);
     }  
+    
 }

@@ -18,15 +18,41 @@ class Register_Controller extends Controller
 
         // Validate the form data
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'username' => 'required|string|max:100|unique:khachhang,Username',
-            'phone_number' => 'required|string|max:50',
+            'full_name' => [
+                'required', 
+                'string', 
+                'regex:/^[a-zA-Z\s]+$/', // Chỉ chứa chữ cái và khoảng trắng
+                'max:255', 
+                'min:3', // Ít nhất 2 ký tự để tránh nhập ký tự đơn lẻ
+                'not_regex:/^\s*([a-zA-Z]\s*){1}$/', // Không cho phép chỉ nhập một ký tự
+            ], 
+            'username' => [
+                'required',
+                'string',
+                'min:3', // Tên đăng nhập phải có ít nhất 5 ký tự
+                'regex:/^[a-zA-Z0-9_]+$/', // Không chứa ký tự đặc biệt, chỉ cho phép chữ cái, số và dấu gạch dưới
+                'unique:khachhang,Username',
+            ],
+            'phone_number' => 'required|string|regex:/^(0[0-9]{9,10})$/', // Kiểm tra số điện thoại 10-11 số
             'email' => 'required|string|email|max:255|unique:khachhang,Email',
             'password' => 'required|string|min:8|confirmed',
+        ], [
+            'full_name.required' => 'Họ tên không được để trống.',
+            'full_name.regex' => 'Họ tên chỉ chứa chữ cái và khoảng trắng.',
+            'username.required' => 'Tên đăng nhập không được để trống.',
+            'username.unique' => 'Tên đăng nhập đã tồn tại.',
+            'phone_number.required' => 'Số điện thoại không được để trống.',
+            'phone_number.regex' => 'Số điện thoại phải có 10 hoặc 11 số và bắt đầu bằng số 0.',
+            'email.required' => 'Email không được để trống.',
+            'email.unique' => 'Email đã tồn tại trong hệ thống.',
+            'password.required' => 'Mật khẩu không được để trống.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
         ]);
+        
 
         // Generate a unique MaKH (Primary Key)
-        $MaKH = 'KH' . Str::random(4); // Adjust this as needed
+        $latestCustomer = Customer::orderBy('MaKH', 'desc')->first();
+        $MaKH = 'KH' . str_pad(optional($latestCustomer)->id + 1, 4, '0', STR_PAD_LEFT); // VD: KH0001, KH0002
 
         // Create a new customer record
         Customer::create([
@@ -34,7 +60,7 @@ class Register_Controller extends Controller
             'HoTen' => $request->full_name,
             'Email' => $request->email,
             'SDT' => $request->phone_number,
-            'LoaiKH' => 'Thành viên', // Set a default value or get it from the form
+            'LoaiKH' => 'Thành viên', // Default value
             'Username' => $request->username,
             'Password' => Hash::make($request->password),
         ]);

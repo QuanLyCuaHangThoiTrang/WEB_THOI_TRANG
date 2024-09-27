@@ -23,7 +23,7 @@ class Login_Controller extends Controller
             // Đăng nhập thành công
             //$user = Auth::user();
             //session(['user' => $user]);     
-            return '123';
+            return redirect('home');
         }
 
         // Đăng nhập thất bại
