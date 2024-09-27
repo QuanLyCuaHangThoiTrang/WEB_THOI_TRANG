@@ -4,20 +4,16 @@
                         <div class="mt-2 text-base">
                             <div class="flex items-center justify-between pb-2">
                                 <p class="leading-8 text-gray-600">Tổng giá trị sản phẩm</p>
-                                <p class="leading-8 text-gray-600">{{ $tongGiaTri }}</p>
+                                <p class="leading-8 text-gray-600">{{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
                             </div>
                             <div class="flex items-center justify-between pb-2">
                                 <p class="leading-8 text-gray-600">Giảm giá:</p>
-                                <p class="leading-8 text-red-600">-20.000đ</p>
+                                <p class="leading-8 text-red-600">{{ number_format(0, 0, ',', '.') }} đ</p>
                             </div>
                             <div class="flex items-center justify-between pb-2">
                                 <p class="leading-8 text-gray-600">Vận chuyển:</p>
-                                <p class="leading-8 text-gray-600">-20.000đ</p>
-                            </div>
-                            <div class="flex items-center justify-between pb-2">
-                                <p class="leading-8 text-gray-600">Giảm giá vận chuyển:</p>
-                                <p class="leading-8 text-red-600">-20.000đ</p>
-                            </div>
+                                <p class="leading-8 text-gray-600">{{ number_format(20000, 0, ',', '.') }} đ</p>
+                            </div>                         
                             <div class="flex items-center justify-between border-t border-gray-200 py-4">
                                 <h3 class="text-lg font-bold text-gray-800">Promo code</h3>
                                 <div class="flex border overflow-hidden max-w-sm rounded-md">
@@ -33,7 +29,7 @@
                                 <div class="flex font-semibold items-center border-t border-gray-200 justify-between py-4">
                                 
                                     <p class="text-xl leading-8">Tổng giá trị:</p>
-                                    <p class="text-xl leading-8">{{ $tongGiaTri }}</p>
+                                    <p class="text-xl leading-8">{{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
                                 </div>
                              
                                     @csrf

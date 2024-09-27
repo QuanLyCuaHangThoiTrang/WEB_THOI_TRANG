@@ -167,21 +167,25 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           @foreach ($chiTietSanPhams as $chiTietSanPham)  
             <div class="group relative cursor-pointer">
+              <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}">
                 <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                    <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="Product Image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                  <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="Product Image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    
                 </div>
                 <div class="mt-4 pb-3">
                     <h3 class="text-base">{{ $chiTietSanPham->SanPham->TenSP }}</h3>
                     <!-- Sử dụng flex để căn chỉnh giá và nút chi tiết -->
                     <div class="flex justify-between items-center mt-2">
-                        <h3 class="font-semibold">{{ $chiTietSanPham->SanPham->GiaBan }}VND</h3>
+                        <h3 class="font-semibold">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
                         <!-- Nút Xem Chi Tiết -->
-                        <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                        {{-- <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
                             Chi Tiết
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
+              </a>
             </div>
+          
             @endforeach
         </div>
 

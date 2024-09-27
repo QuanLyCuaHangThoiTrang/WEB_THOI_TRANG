@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="font-sans">
-        <div class="lg:max-w-6xl pt-10 pb-24 p-4 max-w-lg mx-auto">
+        <div class="lg:max-w-6xl pt-10 mt-24 pb-24 p-4 max-w-lg mx-auto">
             <form action="{{ route('cart.add') }}" method="POST">
               <div class="grid items-start grid-cols-1 lg:grid-cols-2 gap-4 max-lg:gap-12">
                   <div class="w-full lg:sticky top-0 sm:flex gap-4">
@@ -25,10 +25,14 @@
                   </div>
 
                   <div>
-                      <h2 class="text-2xl font-bold text-yellow-600">{{ $chiTietSanPham->SanPham->TenSP }} <span id="stock-quantity" class="soluongton">({{ $SoLuongTonKho }})</span> </h2>
+                      <h2 class="text-2xl font-bold text-yellow-600">{{ $chiTietSanPham->SanPham->TenSP }}</h2>
                       <div class="flex flex-wrap gap-4 mt-4">
-                          <p class="text-blue-800 text-xl font-bold">{{ $chiTietSanPham->SanPham->GiaBan }}</p>
-                          <p class="text-gray-400 text-xl"><strike>$16</strike> <span class="text-sm ml-1.5">Tax included</span></p>
+                        <p class="text-black text-medium">Kho: <span id="stock-quantity" class="soluongton">{{ $SoLuongTonKho }}</span></p>
+                      </div>
+                      <div class="flex flex-wrap gap-4 mt-4">
+                         
+                          <p class="text-blue-800 text-xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</p>
+                          {{-- <p class="text-gray-400 text-xl"><strike>$16</strike> <span class="text-sm ml-1.5">Tax included</span></p> --}}
                       </div>
                       <div class="flex space-x-2 mt-4">
                           <svg class="w-5 fill-yellow-400" viewBox="0 0 14 13" fill="none"
@@ -286,7 +290,7 @@
                     
                     if (selectedDetails) {
                         // Cập nhật số lượng tồn kho
-                        stockQuantitySpan.textContent = `(${selectedDetails.SoLuongTonKho})`;
+                        stockQuantitySpan.textContent = `${selectedDetails.SoLuongTonKho}`;
     
                         // Hiển thị nút "Thêm vào giỏ hàng"
                         addToCartBtn.style.display = selectedDetails.SoLuongTonKho > 0 ? 'inline' : 'none';

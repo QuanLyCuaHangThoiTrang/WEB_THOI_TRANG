@@ -2,12 +2,26 @@
     @csrf
     @method('PUT')
     @if(Auth::check())
-        @foreach ($chiTietGioHang as $index => $chitiet)
+            @foreach ($chiTietGioHang as $index => $chitiet)
             <div id="confirmModal-{{ $index }}" class="font-old-standard fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 ease-in-out">
                 <div class="bg-white rounded-lg p-6 shadow-lg transform transition-transform duration-300 ease-in-out scale-90">
                     <p class="text-lg font-semibold mb-4 text-gray-800">Bạn có muốn xoá sản phẩm này không?</p>
                     <div class="flex justify-end gap-4">
                         <a href="{{ route('cart.remove', ['MaGH' => $chitiet->MaGH, 'MaCTSP' => $chitiet->MaCTSP]) }}" class="remove-item">
+                            <button type="button" class="confirmRemove bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200 ease-in-out">Có</button>
+                        </a>
+                        <button type="button" class="cancelRemove bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition duration-200 ease-in-out">Không</button>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @else
+        @foreach ($gioHangSession as $index => $item)
+            <div id="confirmModal-{{ $index }}" class="font-old-standard fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 ease-in-out">
+                <div class="bg-white rounded-lg p-6 shadow-lg transform transition-transform duration-300 ease-in-out scale-90">
+                    <p class="text-lg font-semibold mb-4 text-gray-800">Bạn có muốn xoá sản phẩm này không?</p>
+                    <div class="flex justify-end gap-4">
+                        <a href="{{ route('cart.removeSS', ['MaCTSP' => $item['MaCTSP']]) }}" class="remove-item">
                             <button type="button" class="confirmRemove bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200 ease-in-out">Có</button>
                         </a>
                         <button type="button" class="cancelRemove bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition duration-200 ease-in-out">Không</button>

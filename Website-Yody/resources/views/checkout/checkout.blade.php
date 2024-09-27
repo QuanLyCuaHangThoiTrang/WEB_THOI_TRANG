@@ -122,20 +122,20 @@
                             <div class="mt-2 text-base">       
                                 <div class="flex items-center justify-between pb-2">
                                     <p class="leading-8 text-gray-600">Tổng giá trị sản phẩm</p>
-                                    <p class="leading-8 text-gray-600">{{ $tongTien }}đ</p>
+                                    <p class="leading-8 text-gray-600">{{ number_format($tongTien, 0, ',', '.') }} đ</p>
                                 </div>
                                 <div class="flex items-center justify-between pb-2">
                                     <p class="leading-8 text-gray-600">Giảm giá:</p>
-                                    <p class="leading-8 text-red-600">0đ</p>
+                                    <p class="leading-8 text-red-600">{{ number_format(0, 0, ',', '.') }} đ</p>
                                 </div>
                                 <div class="flex items-center justify-between pb-2">
                                     <p class="leading-8 text-gray-600">Vận chuyển:</p>
-                                    <p class="leading-8 text-gray-600">20.000đ</p>
+                                    <p class="leading-8 text-gray-600">{{ number_format(20000, 0, ',', '.') }} đ</p>
                                 </div>
 
                                 <div class="flex font-semibold items-center border-t border-gray-200 justify-between py-4">
                                     <p class="text-xl leading-8">Tổng giá trị:</p>
-                                    <p class="text-xl leading-8">{{ $tongTien }}đ</p>
+                                    <p class="text-xl leading-8">{{ number_format($tongTien, 0, ',', '.') }} đ</p>
                                 </div>
 
                                 <button type="submit"
