@@ -174,6 +174,8 @@
                 </div>
                 <div class="mt-4 pb-3">
                     <h3 class="text-base">{{ $chiTietSanPham->SanPham->TenSP }}</h3>
+                    <span class="font-semibold w-5 h-5 border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-105" style="background-color: {{ $chiTietSanPham->mauSac->TenMau }}"></span>
+                    <span class="font-semibold">Size: {{ $chiTietSanPham->KichThuoc->TenSize }}</span>
                     <!-- Sử dụng flex để căn chỉnh giá và nút chi tiết -->
                     <div class="flex justify-between items-center mt-2">
                         <h3 class="font-semibold">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
@@ -188,9 +190,7 @@
           
             @endforeach
         </div>
-        <div class="mt-6">
-          {{ $chiTietSanPhams->links() }} <!-- Laravel cung cấp phương thức links() để tạo phân trang -->
-      </div>
+
     </div>
       </section>
     </main>
