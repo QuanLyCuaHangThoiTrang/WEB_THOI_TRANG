@@ -12,9 +12,13 @@ use App\Http\Controllers\AboutUs_Controller;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Section_ProductController;
+use App\Http\Controllers\Auth\ProviderController;
 
-
+use Laravel\Socialite\Facades\Socialite;
+ 
+Route::get('/auth/{provider}/redirect', [ProviderController::class,'redirect']);
+ 
+Route::get('/auth/{provider}/callback', [ProviderController::class,'callback']);
 
 Route::get('/', function () {
     return view('layouts.app');

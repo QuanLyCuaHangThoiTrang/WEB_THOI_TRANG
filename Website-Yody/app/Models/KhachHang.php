@@ -15,7 +15,7 @@ class KhachHang extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
-        'MaKH','HoTen', 'Email', 'SDT', 'LoaiKH', 'Username', 'Password',
+        'MaKH','HoTen', 'Email', 'SDT', 'LoaiKH', 'Username', 'Password'
     ];
     protected $casts = [
       
