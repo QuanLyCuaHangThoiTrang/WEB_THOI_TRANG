@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const productMenuToggle = document.getElementById('product-menu-toggle');
     const productMegaMenu = document.getElementById('product-mega-menu');
-    
+
     if (productMenuToggle) {
         productMenuToggle.addEventListener('mouseover', () => {
             productMegaMenu.style.display = 'block';
@@ -12,6 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Thêm sự kiện mouseover và mouseleave cho mega menu
+    productMegaMenu.addEventListener('mouseover', () => {
+        productMegaMenu.style.display = 'block';
+    });
+
+    productMegaMenu.addEventListener('mouseleave', () => {
+        productMegaMenu.style.display = 'none';
+    });
+
+    // Ẩn mega menu nếu chuột không ở trong cả hai phần tử
     document.addEventListener('mouseover', (event) => {
         if (!productMenuToggle.contains(event.target) && !productMegaMenu.contains(event.target)) {
             productMegaMenu.style.display = 'none';

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\DanhMuc;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $danhmucs = DanhMuc::with('chiTietDanhMuc')->get();
+        view()->share('danhmucs', $danhmucs);
     }
 }

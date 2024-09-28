@@ -25,7 +25,8 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/home', [HomeController::class, 'home'])->name(name: 'home');
 
 // Sản phẩm
-Route::resource('/products', ShopController::class);
+Route::get('/products', [ShopController::class, 'index'])->name('products.index');
+Route::get('/products/{MaCTDM}', [ShopController::class, 'showProducts'])->name('products.show');
 
 // Chi tiết sản phẩm
 Route::get('/product_detail', [ProductDetailController::class,'index']);

@@ -20,10 +20,23 @@ class ShopController extends Controller
                 ->from('chitietsanpham')
                 ->groupBy('MaSP');
         })
-        ->paginate(12); // Phân trang với 10 mục trên mỗi trang
-
-    // Truyền dữ liệu vào view
-    return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams]);
+        ->paginate(8); // Phân trang với 10 mục trên mỗi trang
+        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams]);
     }  
-    
+    public function showProducts($MaCTDM)
+    {
+        $chiTietSanPhams = ChiTietSanPham::with(['sanPham', 'kichThuoc', 'mauSac'])
+        ->whereHas('sanPham', function($query) use ($MaCTDM) {
+            $query->where('MaCTDM', $MaCTDM)
+            ->where('TrangThai', 1); // Kiểm tra trạng thái của sản phẩm
+        })
+        ->whereIn('MaCTSP', function($query) {
+            // Truy vấn con để lấy MaCTSP đầu tiên cho mỗi MaSP
+            $query->selectRaw('MIN(MaCTSP)')
+                ->from('chitietsanpham')
+                ->groupBy('MaSP');
+        })
+        ->paginate(12); // Phân trang với 10 mục trên mỗi trang
+        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams]);
+    }
 }

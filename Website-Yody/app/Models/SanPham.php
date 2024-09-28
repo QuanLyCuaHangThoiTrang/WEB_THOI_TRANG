@@ -13,8 +13,9 @@ class SanPham extends Model
     protected $primaryKey = 'MaSP';
     protected $casts = [
         'MaSP' => 'string',
+        'MaCTDM' => 'string',
     ];
-    protected $fillable = ['TenSP','TrangThai','GiaBan'];
+    protected $fillable = ['TenSP','MaCTDM','TrangThai','GiaBan'];
     // Thiết lập mối quan hệ với ChiTietSanPham
     public function chiTietSanPham()
     {

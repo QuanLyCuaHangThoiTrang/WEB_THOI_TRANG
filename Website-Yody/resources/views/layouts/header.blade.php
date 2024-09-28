@@ -65,47 +65,17 @@
         <div id="product-mega-menu" class="absolute left-0 top-full w-full bg-white shadow-xl hidden">
             <div class="p-6 px-32 pb-10 flex gap-10">
                 <!-- Column 1 -->
-                <div class="w-1/4 border-r-2">
-                    <h3 class="text-lg font-semibold mb-4">Áo</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Áo polo</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Áo khoác</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Áo thun</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Áo sơ mi</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Áo hoodie</a></li>
-                    </ul>
-                </div>
-                <!-- Column 2 -->
-                <div class="w-1/4 border-r-2">
-                    <h3 class="text-lg font-semibold mb-4">Quần</h3>
-                    <ul class="space-y-2 ">
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Quần Jean</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Quần kaki</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Quần dài</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Quần short</a></li>
-                    </ul>
-                </div>
-                <div class="w-1/4 border-r-2">
-                    <h3 class="text-lg font-semibold mb-4">Đồ bộ</h3>
-                    <ul class="space-y-2 ">
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Sub-item 1</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Sub-item 2</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Sub-item 3</a></li>
-                    </ul>
-                </div>
-                <!-- Column 3 -->
-                <div class="w-1/4 border-r-2">
-                    <h3 class="text-lg font-semibold mb-4">Đồ thể thao</h3>
-                    <ul class="space-y-2 ">
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Sub-item 1</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Sub-item 2</a></li>
-                        <li><a href="#" class="block text-base hover:bg-gray-100 py-1">Sub-item 3</a></li>
-                    </ul>
-                </div>
-                <!-- Column 4 (e.g., Image) -->
-                <div class="w-1/4">
-                    <img src="https://yody.vn/images/menu-desktop/menu_man.png" alt="Featured" class="w-full h-auto rounded-lg shadow-md">
-                </div>
+                 <!-- Column 1 -->
+                 @foreach($danhmucs as $danhmuc)
+                 <div class="w-1/4 border-r-2">     
+                     <h3 class="text-lg font-semibold mb-4">{{ $danhmuc->TenDanhMuc }}</h3>
+                     <ul class="space-y-2">
+                         @foreach ($danhmuc->ChiTietDanhMuc as $ChiTietDM)
+                             <li><a href="{{  url('/products/' . $ChiTietDM->MaCTDM) }}" class="block text-base hover:bg-gray-100 py-1">{{ $ChiTietDM->TenCTDM }}</a></li>
+                         @endforeach
+                     </ul>
+                 </div>     
+                 @endforeach                  
             </div>
         </div>
     </div>

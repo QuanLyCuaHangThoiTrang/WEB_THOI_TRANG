@@ -188,7 +188,9 @@
           
             @endforeach
         </div>
-
+        <div class="mt-6">
+          {{ $chiTietSanPhams->links() }} <!-- Laravel cung cấp phương thức links() để tạo phân trang -->
+      </div>
     </div>
       </section>
     </main>
