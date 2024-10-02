@@ -134,19 +134,17 @@
     <div class="flex items-center p-6">
       <div class="relative inline-block text-left">
         <div>
-          <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" id="menu-button" aria-expanded="false" aria-haspopup="true">
-            Sort
+          <div type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" id="menu-button" aria-expanded="false" aria-haspopup="true">
+            Sắp xếp
             <svg class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
             </svg>
-          </button>
+          </div>
         </div>
         <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none hidden" id="dropdown-menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-          <div class="py-1" role="none">
-            <a href="#" class="block px-4 py-2 text-sm font-medium text-gray-900" role="menuitem" tabindex="-1" id="menu-item-0">Most Popular</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-1">Newest</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-2">Price: Low to High</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-3">Price: High to Low</a>
+          <div class="py-1" role="none">          
+            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-2" data-sort="asc">Giá: Tăng dần</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-3" data-sort="desc">Giá: Giảm dần</a>
           </div>
         </div>
       </div>
@@ -166,7 +164,7 @@
          <div class="col-span-3">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           @foreach ($chiTietSanPhams as $chiTietSanPham)  
-            <div class="group relative cursor-pointer">
+            <div class="group relative cursor-pointer product-item" data-color="{{ $chiTietSanPham->mauSac->TenMau }}" data-size="{{ $chiTietSanPham->KichThuoc->TenSize }}">
               <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}">
                 <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                   <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="Product Image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
@@ -190,7 +188,10 @@
           
             @endforeach
         </div>
-
+        <!-- Thêm các liên kết phân trang ở đây -->
+        <div class="mt-6">
+          {{ $chiTietSanPhams->links() }}
+        </div>
     </div>
       </section>
     </main>
@@ -198,4 +199,75 @@
 
     </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Lắng nghe sự kiện khi chọn màu
+    const colorInputs = document.querySelectorAll('input[name="color[]"]');
+    const sizeInputs = document.querySelectorAll('input[name="size[]"]'); // Thêm dòng này
+    const products = document.querySelectorAll('.product-item');
+
+    // Hàm lọc sản phẩm
+    function filterProducts() {
+        const selectedColors = Array.from(colorInputs)
+            .filter(input => input.checked)
+            .map(input => input.value);
+
+        const selectedSizes = Array.from(sizeInputs) // Thêm dòng này
+            .filter(input => input.checked)
+            .map(input => input.value); // Thêm dòng này
+
+        products.forEach(product => {
+            const productColor = product.dataset.color; // Lấy màu của sản phẩm
+            const productSize = product.dataset.size; // Lấy kích thước sản phẩm
+            console.log(productSize);
+            // Hiển thị sản phẩm nếu có màu khớp với màu đã chọn và kích thước khớp với kích thước đã chọn
+            const isColorMatch = selectedColors.length === 0 || selectedColors.includes(productColor);
+            const isSizeMatch = selectedSizes.length === 0 || selectedSizes.includes(productSize);
+
+            product.style.display = (isColorMatch && isSizeMatch) ? 'block' : 'none';
+        });
+    }
+
+    // Lắng nghe sự kiện thay đổi
+    colorInputs.forEach(input => {
+        input.addEventListener('change', filterProducts);
+    });
+
+    sizeInputs.forEach(input => { // Thêm đoạn này
+        input.addEventListener('change', filterProducts);
+    }); 
+    // Thêm đoạn này
+    // Sắp xếp theo giá
+    // Lắng nghe sự kiện khi chọn mục trong dropdown
+    const sortItems = document.querySelectorAll('#dropdown-menu a');
+
+    sortItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+
+            const sortOrder = item.getAttribute('data-sort');
+            sortProducts(sortOrder);
+        });
+    });
+
+    // Hàm sắp xếp sản phẩm
+    function sortProducts(order) {
+        const productsArray = Array.from(products);
+
+        productsArray.sort((a, b) => {
+            const priceA = parseFloat(a.querySelector('h3.font-semibold').innerText.replace('.', '').replace(' đ', ''));
+            const priceB = parseFloat(b.querySelector('h3.font-semibold').innerText.replace('.', '').replace(' đ', ''));
+
+            return order === 'asc' ? priceA - priceB : priceB - priceA;
+        });
+
+        const productContainer = document.querySelector('.grid.grid-cols-2.sm\\:grid-cols-3.lg\\:grid-cols-4');
+        productContainer.innerHTML = ''; // Xóa tất cả sản phẩm hiện có
+
+        productsArray.forEach(product => {
+            productContainer.appendChild(product); // Thêm sản phẩm đã sắp xếp vào container
+        });
+    }
+});
+</script>
 @endsection

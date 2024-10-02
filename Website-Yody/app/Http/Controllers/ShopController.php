@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChiTietSanPham;
+use App\Models\KichThuoc;
 use Illuminate\Http\Request;
 use App\Models\SanPham;
+use App\Models\MauSac;
 
 class ShopController extends Controller
 {
@@ -21,7 +23,9 @@ class ShopController extends Controller
                 ->groupBy('MaSP');
         })
         ->paginate(8); // Phân trang với 10 mục trên mỗi trang
-        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams]);
+        $mauSac = MauSac::all();
+        $size = KichThuoc::all();
+        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
     }  
     public function showProducts($MaCTDM)
     {
@@ -37,6 +41,8 @@ class ShopController extends Controller
                 ->groupBy('MaSP');
         })
         ->paginate(12); // Phân trang với 10 mục trên mỗi trang
-        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams]);
+        $mauSac = MauSac::all();
+        $size = KichThuoc::all();
+        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
     }
 }
