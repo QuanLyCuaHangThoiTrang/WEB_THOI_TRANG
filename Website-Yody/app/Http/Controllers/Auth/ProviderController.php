@@ -31,7 +31,9 @@ class ProviderController extends Controller
             $khachHang->HoTen = $user->getName();
             $khachHang->Email = $user->getEmail();
             $khachHang->SDT = ''; // Có thể lấy từ thông tin người dùng
-            $khachHang->LoaiKH = 'Google';
+            $khachHang->LoaiKH = 'Thành viên';
+            $khachHang->Provider = 'google';
+            $khachHang->Provider_ID = $user->getId();
             $khachHang->Username = $user->getNickname();
 
             $khachHang->save(); // Lưu vào cơ sở dữ liệu

@@ -67,6 +67,9 @@ Route::get('/test_endpointa/{MaSP}/{MaSize}/{MaMau}', [ProductDetailController::
 Route::get('/get-image', [ProductDetailController::class, 'getImageByMaSPAndMaMau']);
 
 Route::get('account/{MaKH}', [Account_Controller::class, 'showAccountForm'])->middleware('auth');
+Route::put('/account/{MaKH}/update-password', [Account_Controller::class, 'updatePassword'])->name('account.updatePassword');
+Route::put('/account/{MaKH}/update-account', [Account_Controller::class, 'updateAccount'])->name('account.updateAccount');
+
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');

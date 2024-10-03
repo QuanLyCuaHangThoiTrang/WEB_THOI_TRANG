@@ -50,9 +50,10 @@ class Register_Controller extends Controller
         ]);
         
 
-        // Generate a unique MaKH (Primary Key)
-        $latestCustomer = Customer::orderBy('MaKH', 'desc')->first();
-        $MaKH = 'KH' . str_pad(optional($latestCustomer)->id + 1, 4, '0', STR_PAD_LEFT); // VD: KH0001, KH0002
+        do {
+            $randomString = Str::random(6); // Generate a random string of length 6
+            $MaKH = 'KH' . $randomString; // Combine with 'KH' prefix
+        } while (Customer::where('MaKH', $MaKH)->exists()); 
 
         // Create a new customer record
         Customer::create([
@@ -69,4 +70,3 @@ class Register_Controller extends Controller
         return redirect()->route('login')->with('success', 'Registration successful.');
     }
 }
-
