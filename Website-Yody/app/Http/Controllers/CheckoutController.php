@@ -118,7 +118,7 @@ class CheckoutController extends Controller
                     $PhanTramGiamGia = 0;
                 }
                 $giamGia = (int) ($gioHang->TongGiaTri * 100/100)* $PhanTramGiamGia / 100;
-                $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;
+                $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;            
                 return $this->ThanhToanMomo($tongTien,$maDH,$diachi,$hoten,$email,$sodienthoai);
             }
             else
@@ -161,6 +161,7 @@ class CheckoutController extends Controller
                 $gioHang->TongGiaTri = 0;
                 $gioHang->save();
 
+                $this->ActiveVoucher(session()->get('MaVC'));
                 return redirect()->route('thanhtoan.ThanhCong')->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
             }
         } else {
@@ -201,10 +202,20 @@ class CheckoutController extends Controller
                 'LoaiKH' => 'Online',
                 'Username' => '', // Ví dụ trạng thái đơn hàng
                 'Password' => '',
-            ]);               
+            ]); 
+            if(session()->get('MaVC'))
+                {
+                    $PhanTramGiamGia =  session()->get('PhanTramGiamGia');
+                }
+                else
+                {
+                    $PhanTramGiamGia = 0;
+                }    
+            $tongGT = array_sum(array_column($gioHangSession, 'ThanhTien'));          
             // Tạo đơn hàng mới
-            $tongGT = array_sum(array_column($gioHangSession, 'ThanhTien'));
-            $donHang = $this->createDonHang($maDH,$maKH,$diachi,$tongGT,$request->input('payment_method'));       
+            $giamGia = $tongGT * $PhanTramGiamGia / 100;
+            $tongTien = $tongGT - $giamGia + $phiship;           
+            $donHang = $this->createDonHang($maDH,$maKH,$diachi,$tongTien,$request->input('payment_method'));       
       
             // Lưu chi tiết đơn hàng
             foreach ($gioHangSession as $item) {
@@ -217,6 +228,7 @@ class CheckoutController extends Controller
                 ]);
             }
             session()->forget('gioHang');
+            $this->ActiveVoucher(session()->get('MaVC'));
             return redirect()->route('thanhtoan.ThanhCong')->with('success', 'Đơn hàng của bạn đã được tạo thành công.');   
         } 
         else 
@@ -325,7 +337,7 @@ class CheckoutController extends Controller
             $this->clearTemporarySessionData();
             session()->forget('gioHang');
         }
-    
+        $this->ActiveVoucher(session()->get('MaVC'));
         return redirect()->route('products.index')->with('success', 'Thanh toán thành công và đơn hàng của bạn đã được lưu.');
     }
     private function createDonHang($maDH, $maKH, $diachi, $tongGiaTri, $paymentMethod)
@@ -418,5 +430,15 @@ class CheckoutController extends Controller
     {
         session()->forget(['MaVC', 'PhanTramGiamGia']);
         return redirect()->back()->with('success', 'Voucher đã được hủy thành công.');
+    }
+    public function ActiveVoucher($maVoucher)
+    {     
+        $voucher = Voucher::find($maVoucher);
+        if ($voucher) {
+            session()->forget('MaVC');
+            session()->forget('PhanTramGiamGia');
+            $voucher->Active = 0;
+            $voucher->save();
+        }
     }
 }
