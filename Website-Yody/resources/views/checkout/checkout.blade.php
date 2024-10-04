@@ -1,8 +1,49 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="bg-gray-100 px-12 pb-10">
-        <section class="container mx-auto py-2 lg:py-4 bg-gray-100">
+    <div class="bg-gray-100 px-12 pb-10 mt-20">
+        <section class="container mx-auto py-2 lg:py-4 bg-gray-100">       
+                <div class="w-full max-w-7xl mx-auto relative z-10">
+                    <div class="flex flex-col lg:flex-row gap-4">
+                        <!-- Product List -->
+                        <div class="flex-1 lg:pr-8 pb-8 lg:py-4 w-full max-xl:max-w-3xl max-xl:mx-auto">                
+                            <div class="flex flex-col bg-white px-7 py-5 border-b border-gray-200 gap-4 md:gap-4">
+                                <div class="grid grid-cols-2 justify-between space-x-4">
+                                    <form class="formabc" action="{{ route('checkout.applyVoucher') }}" method="POST">
+                                        @csrf
+                                        <div class="w-full">
+                                            <div class="relative flex flex-row">
+                                                <label  class="mb-2 block text-sm font-medium text-gray-900">Giảm giá</label>
+                                                <input 
+                                                    type="text"name="voucher_code"
+                                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                                                    placeholder="Enter full name" />
+                                                    <button type="submit" class="button bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Nhập mã</button>
+                                            </div>
+                                        
+                                                <!-- Hiển thị thông báo lỗi -->
+                                                    @if ($errors->has('voucher_code'))
+                                                        <div class="mt-2 text-red-600 text-sm">
+                                                            {{ $errors->first('voucher_code') }}
+                                                        </div>
+                                                    @endif                                     
+                                        </div>
+                                    </form>
+                                    @if (session()->get('MaVC'))
+                                    <form class="formabc" action="{{ route('voucher.cancel') }}" method="POST">
+                                        @csrf
+                                                        
+                                        <button type="submit" class="button bg-red-500 text-white px-4 py-2 rounded-lg">Hủy voucher</button>
+                                                               
+                                    </form>
+                                    @endif
+                                </div>
+                            </div>                            
+                        </div>      
+                    </div>
+                </div>
+           
+           
             <form class="formabc" action="{{ route('checkout.processDH') }}" method="POST">
                 @csrf
                 <div class="w-full max-w-7xl mx-auto relative z-10">
@@ -122,11 +163,11 @@
                             <div class="mt-2 text-base">       
                                 <div class="flex items-center justify-between pb-2">
                                     <p class="leading-8 text-gray-600">Tổng giá trị sản phẩm</p>
-                                    <p class="leading-8 text-gray-600">{{ number_format($tongTien, 0, ',', '.') }} đ</p>
+                                    <p class="leading-8 text-gray-600">{{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
                                 </div>
                                 <div class="flex items-center justify-between pb-2">
                                     <p class="leading-8 text-gray-600">Giảm giá:</p>
-                                    <p class="leading-8 text-red-600">{{ number_format(0, 0, ',', '.') }} đ</p>
+                                    <p class="leading-8 text-red-600">{{ number_format($giamGia, 0, ',', '.') }} đ</p>
                                 </div>
                                 <div class="flex items-center justify-between pb-2">
                                     <p class="leading-8 text-gray-600">Vận chuyển:</p>

@@ -19,7 +19,6 @@ class SanPham extends Model
     // Thiết lập mối quan hệ với ChiTietSanPham
     public function chiTietSanPham()
     {
-        return $this->hasOne(ChiTietSanPham::class, 'MaSP', 'MaSP')
-        ->orderBy('MaCTSP'); // Sắp xếp để lấy chi tiết đầu tiên
+        return $this->hasMany(ChiTietSanPham::class, 'MaSP', 'MaSP');
     }
 }

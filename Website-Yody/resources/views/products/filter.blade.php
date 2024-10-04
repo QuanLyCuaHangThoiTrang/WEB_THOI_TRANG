@@ -1,22 +1,5 @@
 <form class="hidden lg:block">
-            <ul role="list" class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-              <li>
-                <a href="#">Totes</a>
-              </li>
-              <li>
-                <a href="#">Backpacks</a>
-              </li>
-              <li>
-                <a href="#">Travel Bags</a>
-              </li>
-              <li>
-                <a href="#">Hip Bags</a>
-              </li>
-              <li>
-                <a href="#">Laptop Sleeves</a>
-              </li>
-            </ul>
-
+            
             <div class="border-b border-gray-200 py-6">
                 <h3 class="-my-3 flow-root">
                     <!-- Expand/collapse section button -->

@@ -68,6 +68,8 @@ Route::post('/register', [Register_Controller::class, 'register'])->name('regist
 // Các route thanh toán
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkoutDH', [CheckoutController::class, 'processCheckoutDH'])->name('checkout.processDH');
+Route::post('/Voucher', [CheckoutController::class, 'applyVoucher'])->name('checkout.applyVoucher');
+Route::post('/voucher/cancel', [CheckoutController::class, 'cancelVoucher'])->name('voucher.cancel');
 
 // Route đăng xuất
 Route::post('/logout', function () {
@@ -75,5 +77,6 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
-// Callback MoMo
-Route::post('/momo-callback', [CheckoutController::class, 'MoMoCallback'])->name(name: 'momo.callback');
+// Thanh toán momo
+Route::get('/momo/response', [CheckoutController::class, 'handleMomoResponse'])->name('momo.response');
+Route::get('/ThanhToanThanhCong', [CheckoutController::class, 'ThanhToanThanhCong'])->name('thanhtoan.ThanhCong');

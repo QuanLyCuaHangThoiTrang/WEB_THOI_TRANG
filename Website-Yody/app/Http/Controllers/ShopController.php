@@ -12,37 +12,23 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $chiTietSanPhams = ChiTietSanPham::with(['sanPham', 'kichThuoc', 'mauSac'])
-        ->whereHas('sanPham', function($query) {
-            $query->where('TrangThai', 1); // Kiểm tra trạng thái của sản phẩm
-        })
-        ->whereIn('MaCTSP', function($query) {
-            // Truy vấn con để lấy MaCTSP đầu tiên cho mỗi MaSP
-            $query->selectRaw('MIN(MaCTSP)')
-                ->from('chitietsanpham')
-                ->groupBy('MaSP');
-        })
-        ->paginate(8); // Phân trang với 10 mục trên mỗi trang
+        $sanPhams = SanPham::with(['chiTietSanPham.mauSac', 'chiTietSanPham.kichThuoc'])
+        ->where('TrangThai', 1) // Thêm điều kiện lấy trạng thái là 1
+        ->has('chiTietSanPham')
+        ->paginate(8);;
         $mauSac = MauSac::all();
         $size = KichThuoc::all();
-        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
+        return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
     }  
     public function showProducts($MaCTDM)
     {
-        $chiTietSanPhams = ChiTietSanPham::with(['sanPham', 'kichThuoc', 'mauSac'])
-        ->whereHas('sanPham', function($query) use ($MaCTDM) {
-            $query->where('MaCTDM', $MaCTDM)
-            ->where('TrangThai', 1); // Kiểm tra trạng thái của sản phẩm
-        })
-        ->whereIn('MaCTSP', function($query) {
-            // Truy vấn con để lấy MaCTSP đầu tiên cho mỗi MaSP
-            $query->selectRaw('MIN(MaCTSP)')
-                ->from('chitietsanpham')
-                ->groupBy('MaSP');
-        })
-        ->paginate(12); // Phân trang với 10 mục trên mỗi trang
+        $sanPhams = SanPham::with(['chiTietSanPham.mauSac', 'chiTietSanPham.kichThuoc'])
+        ->where('MaCTDM',$MaCTDM)
+        ->where('TrangThai', 1) // Thêm điều kiện lấy trạng thái là 1
+        ->has('chiTietSanPham')
+        ->paginate(8);;
         $mauSac = MauSac::all();
         $size = KichThuoc::all();
-        return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
+        return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
     }
 }

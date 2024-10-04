@@ -8,6 +8,7 @@ use App\Models\ChiTietGioHang; // Model chi tiết giỏ hàng
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\ChiTietSanPham;
+use App\Models\Voucher;
 
 class CartController extends Controller
 {
@@ -249,6 +250,4 @@ class CartController extends Controller
             return redirect()->back()->with('success', 'Giỏ hàng đã được xóa thành công');
         }
     }
-
-    
 }
