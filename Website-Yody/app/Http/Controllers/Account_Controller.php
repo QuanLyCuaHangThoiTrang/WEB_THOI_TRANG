@@ -61,20 +61,27 @@ class Account_Controller extends Controller
     // Xác thực dữ liệu đầu vào
     $request->validate([
         'full_name' => 'required|string|max:255',
-        'phone_number' => 'required|string|max:15',
         // Thêm các trường khác nếu cần
     ], [
         'full_name.required' => 'Vui lòng nhập họ và tên.',
-        'phone_number.required' => 'Vui lòng nhập số điện thoại.',
     ]);
 
     // Cập nhật thông tin tài khoản
     $khachhang->HoTen = $request->full_name;
-    $khachhang->SDT = $request->phone_number;
+    $khachhang->Username = $request->taikhoan;
 
     $khachhang->save();
     dd($request->all());
     return back()->with('success', 'Thông tin tài khoản đã được cập nhật thành công.');
+}
+public function deleteAccount(Request $request, $MaKH)
+{
+    $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
+
+    // Xóa tài khoản
+    $khachhang->delete();
+
+    return back()->with('success', 'Tài khoản đã được xóa thành công.');
 }
 
 }

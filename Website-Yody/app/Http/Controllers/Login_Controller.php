@@ -18,24 +18,23 @@ class Login_Controller extends Controller
             'taikhoan' => ['required'], // Tên field Username từ form
             'matkhau' => ['required'],  // Tên field Password từ form
         ]);
+        
         // Sử dụng Username và Password để xác thực
-        if (Auth::attempt(['Username' => $request->taikhoan, 'password' => $request->matkhau])) {
+        $remember = $request->has('remember'); // Kiểm tra nếu người dùng chọn "Nhớ tôi"
+    
+        if (Auth::attempt(['Username' => $request->taikhoan, 'password' => $request->matkhau], $remember)) {
             // Đăng nhập thành công
-            //$user = Auth::user();
-            //session(['user' => $user]);     
             return redirect('home');
         }
-
+    
         // Đăng nhập thất bại
-        return redirect('login_register');
+        return redirect()->back()->withErrors(['credentials' => 'Thông tin đăng nhập không chính xác.']);
     }
-    // Xử lý đăng nhập
     
     // Đăng xuất
     public function logout()
     {
         Auth::logout();
-        session()->forget('isLoggedIn');
         return redirect()->route('login')->with('success', 'Đăng xuất thành công.');
     }
 }

@@ -1,104 +1,159 @@
 <div id="canvas-filter" class="fixed inset-0 z-50 lg:hidden hidden" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
     <div class="fixed inset-0 z-50 flex">
-        <div class="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
-            <div class="flex items-center justify-between px-4">
+        <div class="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-6 pb-12 shadow-xl rounded-lg">
+            <div class="flex items-center justify-between px-6">
                 <h2 class="text-lg font-medium text-gray-900">Filters</h2>
                 <button class="focus:outline-none" id="close-filter">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600 hover:text-gray-900 transition duration-150">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
             <form class="mt-4 border-t border-gray-200">
                 <h3 class="sr-only">Categories</h3>
-                @include('account.components.sidebar') <!-- Include sidebar -->
-                <div class="border-t border-gray-200 px-4 py-6">
-                    <button type="submit" class="w-full bg-gray-900 py-2 text-white hover:bg-gray-700">Apply Filters</button>
+                <div>
+                    <ul role="list" class="space-y-4 border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                        <li>
+                            <a href="#">Account</a>
+                        </li>
+                        <li>
+                            <a href="#">Address</a>
+                        </li>
+                        <li>
+                            <a href="#">Voucher</a>
+                        </li>
+                        <li>
+                            <a href="#">Order History</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="border-t border-gray-200 px-6 py-4">
+                    <button type="submit" class="button bg-gray-900 py-2 text-white hover:bg-gray-700 transition duration-200 rounded-md shadow-md">Apply Filters</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<main class="mx-auto max-w-7xl mt-14 px-4 sm:px-6 lg:px-4">
+<main class="mx-auto max-w-7xl px-4 mt-14">
     <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
-        <h1 class="text-3xl pb-3 font-bold tracking-tight text-gray-900">ACCOUNT SETTINGS</h1>
-        <div class="flex items-center p-5">
-            <button id="filter-button" class="ml-4 lg:hidden text-gray-700 hover:text-gray-900">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Account Settings</h1>
+        <div class="flex items-center pt-4">
+            <button id="filter-button" class="ml-4 lg:hidden text-gray-700 hover:text-gray-900 transition duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                 </svg>
             </button>
         </div>
     </div>
 
-    <section aria-labelledby="products-heading" class="pb-24 pt-6">
-        <div class="grid grid-cols-1 gap-x-4 gap-y-10 lg:grid-cols-4">
-            <!-- Filters -->
+    <section aria-labelledby="account-details-heading" class="pb-24 pt-6">
+        <div class="grid grid-cols-1 gap-y-10 lg:grid-cols-4">
+            <!-- Filters for larger screens -->
             <form class="hidden lg:block">
-                @include('account.components.sidebar')
+                <div>
+                    <ul role="list" class="space-y-4 border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                        <li>
+                            <a href="">Account</a>
+                        </li>
+                        <li>
+                            <a href="#">Address</a>
+                        </li>
+                        <li>
+                            <a href="#">Voucher</a>
+                        </li>
+                        <li>
+                            <a href="#">Order History</a>
+                        </li>
+                    </ul>
+                </div>
             </form>
 
-            <div class="col-span-3 border-l">
-                <div class="flex-1 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
-                    <div class="flex flex-col bg-white px-7 gap-4 md:gap-4">
-                        <div class="grid grid-cols-2 justify-between space-x-4">
-                            <form action="{{ route('account.updateAccount', $khachhang->MaKH) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <div class="mb-2">
-                                    <div class="relative flex flex-col">
-                                        <label for="full_name" class="mb-2 block text-sm font-medium text-gray-900"> Họ và tên </label>
-                                        <input id="full_name" name="full_name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text" required class="block w-full rounded-lg border p-2.5 text-sm" placeholder="Enter full name" />
-
-                                    </div>
-                                </div>
-                                <div class="mb-2">
-                                    <div class="relative flex flex-col">
-                                        <label for="email" class="mb-2 block text-sm font-medium text-gray-900"> Email </label>
-                                        <input id="email" value="{{ Auth::check() ? Auth::user()->Email : '' }}" name="email" type="text" required class="block w-full rounded-lg border p-2.5 text-sm" placeholder="Enter email" />
-                                    </div>
-                                </div>
-                                <div class="mt-2 mb-2">
-                                    <div class="relative flex flex-col justify-between">
-                                        <label for="phone_number" class="mb-2 block text-sm font-medium text-gray-900"> Số điện thoại</label>
-                                        <input id="phone_number" value="{{ Auth::check() ? Auth::user()->SDT : '' }}" name="phone_number" type="text" required class="block w-full rounded-lg border p-2.5 text-sm" placeholder="Enter phone number" />
-                                    </div>
-                                </div>
-                                <div class="mt-4">
-                                    <button type="submit" class="w-full bg-gray-900 py-2 text-white hover:bg-gray-700">Save Changes</button>
-                                </div>
-                            </form>
-
-                        @if(!$isGoogleAccount)
-                        <!-- Form cập nhật mật khẩu -->
-                        <form method="POST" action="{{ route('account.updatePassword', $khachhang->MaKH) }}">
+            <div class="col-span-3 bg-gray-50 border-l">
+                <div class="bg-blue-950 w-full py-2 relative"></div>
+                <div class="flex-1 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
+                    <!-- Account Details Section -->
+                    <div class="flex flex-col bg-gray-50 px-7 gap-4 md:gap-4 p-6 mb-6">
+                        <div class="border-b">
+                            <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Account Details</h3>
+                        </div>
+                        <form action="{{ route('account.updateAccount', $khachhang->MaKH) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="mb-4">
-                                <label for="current_password" class="block text-sm font-medium text-gray-900">Mật khẩu hiện tại</label>
-                                <input name="current_password" type="password" required class="block w-full rounded-lg border p-2.5 text-sm">
+                                <label for="full_name" class="block py-2 text-sm font-medium text-gray-700">Tên khách hàng</label>
+                                <input id="full_name" name="full_name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none" placeholder="Enter full name" />
                             </div>
                             <div class="mb-4">
-                                <label for="new_password" class="block text-sm font-medium text-gray-900">Mật khẩu mới</label>
-                                <input name="new_password" type="password" required class="block w-full rounded-lg border p-2.5 text-sm">
+                                <label for="taikhoan" class="block text-sm py-2 font-medium text-gray-700">Tài khoản</label>
+                                <input id="taikoan" name="taikhoan" value="{{ Auth::check() ? Auth::user()->Username : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none" placeholder="Enter user name" />
                             </div>
                             <div class="mb-4">
-                                <label for="new_password_confirmation" class="block text-sm font-medium text-gray-900">Xác nhận mật khẩu mới</label>
-                                <input name="new_password_confirmation" type="password" required class="block w-full rounded-lg border p-2.5 text-sm">
+                                <label for="email" class="block text-sm py-2 font-medium text-gray-700">Email</label>
+                                <input id="email" name="email" value="{{ Auth::check() ? Auth::user()->Email : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px]  py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none" placeholder="Enter email" />
                             </div>
-                            <button type="submit" class="bg-blue-500 text-white rounded-lg p-2">Cập nhật mật khẩu</button>
+                           
+                            <!-- Save Changes Button -->
+                            <div class="mt-4">
+                                <button type="submit" class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 transition duration-200 rounded-md shadow-md">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-blue-950 w-full py-2 relative"></div>
+                    <!-- Password Update Section -->
+                    <div class="flex flex-col  px-7 gap-4 md:gap-4 p-6">
+                        <div class="border-b">
+                            <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Change Password</h3>
+                        </div>
+                        @if(!$isGoogleAccount)
+                        <form action="{{ route('account.updateAccount', $khachhang->MaKH) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-4">
+                                <label for="new_password" class="block text-sm font-medium py-2 text-gray-700">Mật khẩu mới</label>
+                                <input name="new_password" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none" placeholder="Enter new password">
+                            </div>
+                            <div class="mb-4">
+                                <label for="new_password_confirmation" class="block text-sm py-2 font-medium text-gray-700">Xác nhận mật khẩu mới</label>
+                                <input name="new_password_confirmation" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none" placeholder="Confirm new password">
+                            </div>
+                            <div class="mt-4">
+                                <button type="submit" class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 transition duration-200 rounded-md shadow-md">Save</button>
+                            </div>
                         </form>
                         @else
-                        <!-- Thông báo cho tài khoản Google -->
                         <div class="mt-4 text-red-600">
                             Tài khoản Google không thể thay đổi mật khẩu.
                         </div>
                         @endif
+                    </div>
+                    <div class="bg-blue-950 w-full py-2 relative"></div>
+                    <!-- Account Deletion Section -->
+                    <div class="mb-10 px-7 mt-4">
+                        <p class="py-2 text-xl  font-semibold">Delete Account</p>
+                        <p class="inline-flex items-center rounded-full py-1 text-rose-600">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-10a1 1 0 1 1 2 0v4a1 1 0 1 1-2 0V8zm1-4a1 1 0 1 1 1 1 1 1 0 0 1-1-1z" clip-rule="evenodd" />
+                          </svg>
+                          Tài khoản của bạn sẽ được xóa vĩnh viễn No longer want to use our service? You can delete your account here. This action is not reversible. All information related to this account will be deleted permanently.
+                        </p>
+                        <form action="{{ route('account.delete', $khachhang->MaKH) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="mt-4 rounded-md bg-red-600 py-2 px-8 text-white hover:bg-red-800">Xóa tài khoản</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </main>
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+    if (!confirm('Bạn có chắc chắn muốn xóa tài khoản của mình không? Hành động này sẽ không thể khôi phục.')) {
+        e.preventDefault();
+    }
+});
+</script>

@@ -69,7 +69,7 @@ Route::get('/get-image', [ProductDetailController::class, 'getImageByMaSPAndMaMa
 Route::get('account/{MaKH}', [Account_Controller::class, 'showAccountForm'])->middleware('auth');
 Route::put('/account/{MaKH}/update-password', [Account_Controller::class, 'updatePassword'])->name('account.updatePassword');
 Route::put('/account/{MaKH}/update-account', [Account_Controller::class, 'updateAccount'])->name('account.updateAccount');
-
+Route::delete('/account/delete/{MaKH}', [Account_Controller::class, 'deleteAccount'])->name('account.delete');
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
