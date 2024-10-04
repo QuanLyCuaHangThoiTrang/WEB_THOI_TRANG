@@ -1,12 +1,12 @@
 <?php
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Registration;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 
-class Register_Controller extends Controller
+class RegisterController extends Controller
 {
     public function showRegistrationForm()
     {

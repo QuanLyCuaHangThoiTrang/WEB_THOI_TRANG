@@ -1,10 +1,10 @@
 <?php
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Login;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Login_Controller extends Controller
+class LoginController extends Controller
 {
     // Hiển thị form đăng nhập
     public function showLoginForm()

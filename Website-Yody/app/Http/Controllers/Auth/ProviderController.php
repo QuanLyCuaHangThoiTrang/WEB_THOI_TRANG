@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
@@ -7,6 +9,8 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\KhachHang;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail; // Import Mail facade
+use App\Mail\WelcomeMail; // Import the WelcomeMail class
 
 class ProviderController extends Controller
 {
@@ -57,9 +61,17 @@ class ProviderController extends Controller
     
             // Lưu vào cơ sở dữ liệu
             $khachHang->save(); 
+            
+            // Gửi email chào mừng
+            try {
+                Mail::to($khachHang->Email)->send(new WelcomeMail($khachHang)); // Send the welcome email
+            } catch (\Exception $e) {
+                Log::error('Mail sending failed: ' . $e->getMessage());
+            }
     
             Auth::login($khachHang); // Đăng nhập người dùng mới
             return redirect()->to('/'); // Điều hướng về trang chính
         }
     }
+    
 }

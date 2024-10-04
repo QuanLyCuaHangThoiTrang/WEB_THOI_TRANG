@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<div class="font-[sans-serif] mt-20 bg-slate-200 py-2">
+<div class=" mt-20 bg-slate-200 py-2">
     <div class="flex flex-col items-center justify-center">
-        <div class="grid md:grid-cols-2 items-center bg-white gap-4 max-md:gap-8 max-w-5xl max-md:max-w-lg w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
+        <div class="font-[sans-serif] grid md:grid-cols-2 items-center bg-white gap-4 max-md:gap-8 max-w-5xl max-md:max-w-lg w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
             <div class="md:max-w-md w-full px-4">
                 <form action="{{ route('register') }}" method="POST">
                     @csrf

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Account;
+use App\Http\Controllers\Controller;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class Account_Controller extends Controller
+class AccountController extends Controller
 {
     public function showAccountForm($MaKH)
     {
@@ -71,7 +71,6 @@ class Account_Controller extends Controller
     $khachhang->Username = $request->taikhoan;
 
     $khachhang->save();
-    dd($request->all());
     return back()->with('success', 'Thông tin tài khoản đã được cập nhật thành công.');
 }
 public function deleteAccount(Request $request, $MaKH)
@@ -79,7 +78,7 @@ public function deleteAccount(Request $request, $MaKH)
     $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
 
     // Xóa tài khoản
-    $khachhang->delete();
+    // $khachhang->delete();
 
     return back()->with('success', 'Tài khoản đã được xóa thành công.');
 }

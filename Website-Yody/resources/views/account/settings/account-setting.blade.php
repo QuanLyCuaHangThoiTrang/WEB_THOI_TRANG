@@ -56,16 +56,16 @@
                 <div>
                     <ul role="list" class="space-y-4 border-gray-200 pb-6 text-sm font-medium text-gray-900">
                         <li>
-                            <a href="">Account</a>
+                            <a href="{{ url('/account/' . $khachhang->MaKH) }}">Account</a>
                         </li>
                         <li>
-                            <a href="#">Address</a>
+                            <a href="{{ url('/addresses/' . $khachhang->MaKH) }}">Address</a>
                         </li>
                         <li>
-                            <a href="#">Voucher</a>
+                            <a href={{ url('/voucher/{MaKH}') }}">Voucher</a>
                         </li>
                         <li>
-                            <a href="#">Order History</a>
+                            <a href="{{ url('/order-history/{MaKH}') }}">Order History</a>
                         </li>
                     </ul>
                 </div>
@@ -131,7 +131,7 @@
                     </div>
                     <div class="bg-blue-950 w-full py-2 relative"></div>
                     <!-- Account Deletion Section -->
-                    <div class="mb-10 px-7 mt-4">
+                    {{-- <div class="mb-10 px-7 mt-4">
                         <p class="py-2 text-xl  font-semibold">Delete Account</p>
                         <p class="inline-flex items-center rounded-full py-1 text-rose-600">
                           <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -144,7 +144,7 @@
                             @method('DELETE')
                             <button type="submit" class="mt-4 rounded-md bg-red-600 py-2 px-8 text-white hover:bg-red-800">Xóa tài khoản</button>
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
