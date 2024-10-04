@@ -23,30 +23,32 @@ class AddressController extends Controller
     public function createAddress(Request $request)
     {
         $request->validate([
-            'MaKH' => 'required|exists:khach_hang,MaKH', // Kiểm tra MaKH có tồn tại không
+            'MaKH' => 'required|exists:khachhang,MaKH',
             'Duong' => 'required|string|max:255',
             'Phuong' => 'nullable|string|max:200',
             'Huyen' => 'nullable|string|max:200',
             'Tinh' => 'nullable|string|max:200',
         ]);
-
+    
         $address = new DiaChiKhachHang();
+        $address->MaDC = uniqid(); // Tạo mã ngẫu nhiên cho MaDC nếu không dùng AUTO_INCREMENT
         $address->MaKH = $request->input('MaKH');
         $address->Duong = $request->input('Duong');
         $address->Phuong = $request->input('Phuong');
         $address->Huyen = $request->input('Huyen');
         $address->Tinh = $request->input('Tinh');
         $address->save();
-
+    
         return back()->with('success', 'Địa chỉ đã được thêm thành công.');
     }
+    // ALTER TABLE diachikhachhang MODIFY COLUMN MaDC VARCHAR(20);
+    
 
     public function deleteAddress($MaDC)
-    {
+{
         $address = DiaChiKhachHang::findOrFail($MaDC);
         $address->delete();
-
         return back()->with('success', 'Địa chỉ đã được xóa thành công.');
-    }
+}
     
 }

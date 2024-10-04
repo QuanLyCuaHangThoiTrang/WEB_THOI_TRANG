@@ -77,64 +77,73 @@
                 </form>
             <!-- Form tạo địa chỉ -->
             <div class="col-span-3 bg-gray-50 border-l">
-                <form method="POST" action="{{ route('addresses.create') }}">
-                    @csrf
-                    <input type="hidden" id="MaKH" name="MaKH" value="{{ $MaKH }}">
-
-                    <div class="col-span-1 md:col-span-4 mb-5">
-                        <label for="diachi" class="mb-2 block text-sm font-medium text-gray-900">Địa chỉ</label>
-                        <input 
-                            type="text" 
-                            id="diachi" 
-                            name="Duong"  
-                            placeholder="Nhập địa chỉ" 
-                            required 
-                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                        />
-                        <div id="diachiError" class="text-red-600 text-sm mt-1">
-                            {{ $errors->first('Duong') }} 
+                <div class="bg-blue-950 w-full py-2 relative"></div>
+                <div class="flex-1 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
+                    <div class="flex flex-col bg-gray-50 px-7 gap-4 md:gap-4 p-6 mb-6">
+                        <div class="border-b">
+                            <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Addresses</h3>
                         </div>
+                        <form method="POST" action="{{ route('addresses.create') }}">
+                            @csrf
+                            <input type="hidden" id="MaKH" name="MaKH" value="{{ $MaKH }}">
+        
+                            <div class="col-span-1 md:col-span-4 mb-5">
+                                <label for="diachi" class="mb-2 block text-sm font-medium text-gray-900">Địa chỉ</label>
+                                <input 
+                                    type="text" 
+                                    id="diachi" 
+                                    name="Duong"  
+                                    placeholder="Nhập địa chỉ" 
+                                    required 
+                                    class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none"
+                                />
+                                <div id="diachiError" class="text-red-600 text-sm mt-1">
+                                    {{ $errors->first('Duong') }} 
+                                </div>
+                            </div>
+        
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-3 items-center justify-center">
+                                <div class="col-span-1">
+                                    <label for="tinh" class="mb-2 block text-sm font-medium text-gray-900">Tỉnh</label>
+                                    <select 
+                                        id="tinh" 
+                                        name="Tinh" 
+                                        class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none"
+                                    >
+                                        <option value="">Chọn tỉnh</option>
+                                        <!-- populate options with data from your database or API -->
+                                    </select>
+                                </div>
+        
+                                <div class="col-span-1">
+                                    <label for="quan" class="mb-2 block text-sm font-medium text-gray-900">Quận/Huyện</label>
+                                    <select 
+                                        id="quan" 
+                                        name="Huyen"  
+                                        class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none"
+                                    >
+                                        <option value="">Chọn quận/huyện</option>
+                                    </select>
+                                </div>
+        
+                                <div class="col-span-1">
+                                    <label for="phuong" class="mb-2 block text-sm font-medium text-gray-900">Phường/Xã</label>
+                                    <select 
+                                        id="phuong" 
+                                        name="Phuong" 
+                                        class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none"
+                                    >
+                                        <option value="">Chọn xã/phường</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+                           <div class="mt-5">
+                            <button type="submit" class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 transition duration-200 rounded-md shadow-md">Save</button>
+                                </form>
+                           </div>
                     </div>
-
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 items-center justify-center">
-                        <div class="col-span-1">
-                            <label for="tinh" class="mb-2 block text-sm font-medium text-gray-900">Tỉnh</label>
-                            <select 
-                                id="tinh" 
-                                name="Tinh" 
-                                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                            >
-                                <option value="">Chọn tỉnh</option>
-                                <!-- populate options with data from your database or API -->
-                            </select>
-                        </div>
-
-                        <div class="col-span-1">
-                            <label for="quan" class="mb-2 block text-sm font-medium text-gray-900">Quận/Huyện</label>
-                            <select 
-                                id="quan" 
-                                name="Huyen"  
-                                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                            >
-                                <option value="">Chọn quận/huyện</option>
-                            </select>
-                        </div>
-
-                        <div class="col-span-1">
-                            <label for="phuong" class="mb-2 block text-sm font-medium text-gray-900">Phường/Xã</label>
-                            <select 
-                                id="phuong" 
-                                name="Phuong" 
-                                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                            >
-                                <option value="">Chọn xã/phường</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="mt-4 bg-blue-500 text-white rounded-lg px-4 py-2">Thêm địa chỉ</button>
-                </form>
-
+                </div>
                 <!-- Hiển thị các địa chỉ đã thêm -->
                 @if($addresses->isNotEmpty())
                     <h2 class="mt-5">Danh sách địa chỉ</h2>
@@ -146,11 +155,12 @@
                                     @method('DELETE')
                                     <button type="submit" class="text-red-500">Xóa</button>
                                 </form>
+                                
                             </li>
                         @endforeach
                     </ul>
                 @else
-                    <p>Chưa có địa chỉ nào được thêm.</p>
+                    <p class="mb-5 px-7 font-medium text-blue-900">Chưa có địa chỉ nào được thêm.</p>
                 @endif
             </div>
        

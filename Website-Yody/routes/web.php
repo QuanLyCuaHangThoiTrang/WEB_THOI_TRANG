@@ -84,13 +84,12 @@ Route::delete('/account/delete/{MaKH}', [AccountController::class, 'deleteAccoun
 
 
 // Route for displaying addresses
-Route::get('/addresses/{MaKH}', [AddressController::class, 'showAddresses'])->name('account.settings.addresses');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/addresses/{MaKH}', [AddressController::class, 'showAddresses'])->name('account.settings.addresses');
+    Route::post('/addresses', [AddressController::class, 'createAddress'])->name('addresses.create');
+    Route::delete('/addresses/delete/{MaDC}', [AddressController::class, 'deleteAddress'])->name('addresses.delete');
+});
 
-// Route for creating a new address
-Route::post('/addresses', [AddressController::class, 'createAddress'])->name('addresses.create');
-
-// Route for deleting an address
-Route::delete('/addresses/{MaDC}', [AddressController::class, 'deleteAddress'])->name('addresses.delete');
 
 Route::post('/logout', function () {
     Auth::logout();
