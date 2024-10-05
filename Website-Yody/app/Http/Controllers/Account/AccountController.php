@@ -23,7 +23,6 @@ class AccountController extends Controller
     public function updatePassword(Request $request, $MaKH)
     {
         $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
-
         // Xác định xem người dùng có phải là tài khoản Google không
         $isGoogleAccount = $khachhang->Provider === 'google';
 
@@ -33,19 +32,12 @@ class AccountController extends Controller
         }
 
         $request->validate([
-            'current_password' => 'required',
             'new_password' => 'required|min:8|confirmed',
         ], [
-            'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
             'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
             'new_password.min' => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
             'new_password.confirmed' => 'Mật khẩu xác nhận không khớp.',
         ]);
-
-        // Kiểm tra mật khẩu hiện tại
-        if (!Hash::check($request->current_password, $khachhang->password)) {
-            return back()->with('error', 'Mật khẩu hiện tại không đúng.');
-        }
 
         // Cập nhật mật khẩu
         $khachhang->password = Hash::make($request->new_password);
@@ -73,14 +65,14 @@ class AccountController extends Controller
     $khachhang->save();
     return back()->with('success', 'Thông tin tài khoản đã được cập nhật thành công.');
 }
-public function deleteAccount(Request $request, $MaKH)
-{
-    $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
+// public function deleteAccount(Request $request, $MaKH)
+// {
+//     $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
 
-    // Xóa tài khoản
-    // $khachhang->delete();
+//     // Xóa tài khoản
+//     // $khachhang->delete();
 
-    return back()->with('success', 'Tài khoản đã được xóa thành công.');
-}
+//     return back()->with('success', 'Tài khoản đã được xóa thành công.');
+// }
 
 }

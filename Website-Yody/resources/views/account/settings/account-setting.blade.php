@@ -23,7 +23,7 @@
                             <a href="{{ url('/addresses/' . $khachhang->MaKH) }}">Address</a>
                         </li>
                         <li>
-                            <a href={{ url('/voucher/{MaKH}') }}">Voucher</a>
+                            <a href={{ url('/voucher/{MaKH}') }}>Voucher</a>
                         </li>
                         <li>
                             <a href="{{ url('/order-history/{MaKH}') }}">Order History</a>
@@ -57,7 +57,7 @@
                             </div>
                            
                             <!-- Save Changes Button -->
-                            <div class="mt-4">
+                            <div class="mt-4 flex justify-end">
                                 <button type="submit" class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 transition duration-200 rounded-md shadow-md">Save</button>
                             </div>
                         </form>
@@ -69,18 +69,18 @@
                             <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Change Password</h3>
                         </div>
                         @if(!$isGoogleAccount)
-                        <form action="{{ route('account.updateAccount', $khachhang->MaKH) }}" method="POST">
+                        <form action="{{ route('account.updatePassword', $khachhang->MaKH) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="mb-4">
                                 <label for="new_password" class="block text-sm font-medium py-2 text-gray-700">Mật khẩu mới</label>
-                                <input name="new_password" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none rounded-md" placeholder="Enter new password">
+                                <input name="new_password" type="text" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none rounded-md" placeholder="Enter new password">
                             </div>
                             <div class="mb-4">
                                 <label for="new_password_confirmation" class="block text-sm py-2 font-medium text-gray-700">Xác nhận mật khẩu mới</label>
                                 <input name="new_password_confirmation" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none rounded-md" placeholder="Confirm new password">
                             </div>
-                            <div class="mt-4">
+                            <div class="mt-4 flex justify-end">
                                 <button type="submit" class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 transition duration-200 rounded-md shadow-md">Save</button>
                             </div>
                         </form>
@@ -90,7 +90,7 @@
                         </div>
                         @endif
                     </div>
-                    <div class="bg-blue-950 w-full py-2 relative"></div>
+                    
                     <!-- Account Deletion Section -->
                     {{-- <div class="mb-10 px-7 mt-4">
                         <p class="py-2 text-xl  font-semibold">Delete Account</p>
@@ -111,10 +111,3 @@
         </div>
     </section>
 </main>
-<script>
-    document.querySelector('form').addEventListener('submit', function(e) {
-    if (!confirm('Bạn có chắc chắn muốn xóa tài khoản của mình không? Hành động này sẽ không thể khôi phục.')) {
-        e.preventDefault();
-    }
-});
-</script>

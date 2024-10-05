@@ -59,7 +59,7 @@
                     <div class="mt-4">
                         <label class="text-gray-800 text-xs block mb-2">Password</label>
                         <div class="relative flex items-center">
-                            <input name="password" type="password" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter password" />
+                            <input name="password" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter password" />
                         </div>
                         @error('password')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
