@@ -14,9 +14,7 @@ class KhachHang extends Authenticatable
     protected $primaryKey = 'MaKH'; // Khóa chính
     public $timestamps = false;
 
-    protected $fillable = [
-        'MaKH','HoTen', 'Email', 'SDT', 'LoaiKH', 'Username', 'Password'
-    ];
+    protected $fillable = ['MaKH', 'HoTen', 'Email', 'SDT', 'LoaiKH','Username','Password', 'Provider', 'Provider_ID', 'Provider_Token'];
     protected $casts = [
       
         'MaKH' => 'string',
