@@ -87,7 +87,8 @@ Route::delete('/account/delete/{MaKH}', [AccountController::class, 'deleteAccoun
 Route::middleware(['auth'])->group(function () {
     Route::get('/addresses/{MaKH}', [AddressController::class, 'showAddresses'])->name('account.settings.addresses');
     Route::post('/addresses', [AddressController::class, 'createAddress'])->name('addresses.create');
-    Route::delete('/addresses/delete/{MaDC}', [AddressController::class, 'deleteAddress'])->name('addresses.delete');
+    Route::delete('/addresses/{MaKH}', [AddressController::class, 'deleteAddress'])->name('addresses.delete');
+
 });
 
 

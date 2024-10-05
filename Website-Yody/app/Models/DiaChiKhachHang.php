@@ -12,6 +12,12 @@ class DiaChiKhachHang extends Model
     protected $table = 'diachikhachhang'; // Specify the table name if it doesn't follow Laravel's conventions
 
     protected $primaryKey = 'MaDC'; // Specify the primary key
+    
+    protected $casts = [
+      
+        'MaDC' => 'string',
+      
+    ];
 
     protected $fillable = [
         'MaDC',

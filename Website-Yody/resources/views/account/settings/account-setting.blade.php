@@ -71,11 +71,11 @@
                 </div>
             </form>
 
-            <div class="col-span-3 bg-gray-50 border-l">
-                <div class="bg-blue-950 w-full py-2 relative"></div>
+            <div class="col-span-3 bg-white border-l rounded-lg shadow-md">
+                <div class="bg-blue-950 w-full py-2 relative rounded-t-lg"></div>
                 <div class="flex-1 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
                     <!-- Account Details Section -->
-                    <div class="flex flex-col bg-gray-50 px-7 gap-4 md:gap-4 p-6 mb-6">
+                    <div class="flex flex-col  px-7 gap-4 md:gap-4 p-6 mb-6">
                         <div class="border-b">
                             <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Account Details</h3>
                         </div>
@@ -84,15 +84,15 @@
                             @method('PUT')
                             <div class="mb-4">
                                 <label for="full_name" class="block py-2 text-sm font-medium text-gray-700">Tên khách hàng</label>
-                                <input id="full_name" name="full_name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none" placeholder="Enter full name" />
+                                <input id="full_name" name="full_name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md" placeholder="Enter full name" />
                             </div>
                             <div class="mb-4">
                                 <label for="taikhoan" class="block text-sm py-2 font-medium text-gray-700">Tài khoản</label>
-                                <input id="taikoan" name="taikhoan" value="{{ Auth::check() ? Auth::user()->Username : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none" placeholder="Enter user name" />
+                                <input id="taikoan" name="taikhoan" value="{{ Auth::check() ? Auth::user()->Username : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md" placeholder="Enter user name" />
                             </div>
                             <div class="mb-4">
                                 <label for="email" class="block text-sm py-2 font-medium text-gray-700">Email</label>
-                                <input id="email" name="email" value="{{ Auth::check() ? Auth::user()->Email : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px]  py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none" placeholder="Enter email" />
+                                <input id="email" name="email" value="{{ Auth::check() ? Auth::user()->Email : '' }}" type="text" required class="w-full border-2 border-gray-300 border-l-[7px]  py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md" placeholder="Enter email" />
                             </div>
                            
                             <!-- Save Changes Button -->
@@ -113,11 +113,11 @@
                             @method('PUT')
                             <div class="mb-4">
                                 <label for="new_password" class="block text-sm font-medium py-2 text-gray-700">Mật khẩu mới</label>
-                                <input name="new_password" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none" placeholder="Enter new password">
+                                <input name="new_password" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none rounded-md" placeholder="Enter new password">
                             </div>
                             <div class="mb-4">
                                 <label for="new_password_confirmation" class="block text-sm py-2 font-medium text-gray-700">Xác nhận mật khẩu mới</label>
-                                <input name="new_password_confirmation" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none" placeholder="Confirm new password">
+                                <input name="new_password_confirmation" type="password" class="w-full border-2 border-gray-300 py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 border-l-[7px] focus:outline-none rounded-md" placeholder="Confirm new password">
                             </div>
                             <div class="mt-4">
                                 <button type="submit" class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 transition duration-200 rounded-md shadow-md">Save</button>

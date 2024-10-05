@@ -33,22 +33,25 @@ class AddressController extends Controller
         $address = new DiaChiKhachHang();
         $address->MaDC = uniqid(); // Tạo mã ngẫu nhiên cho MaDC nếu không dùng AUTO_INCREMENT
         $address->MaKH = $request->input('MaKH');
-        $address->Duong = $request->input('Duong');
-        $address->Phuong = $request->input('Phuong');
-        $address->Huyen = $request->input('Huyen');
-        $address->Tinh = $request->input('Tinh');
+        $address->Duong = $request->Duong;
+        $address->Tinh = $request->hidden_tinh; // Lưu tên tỉnh
+        $address->Huyen = $request->hidden_quan; // Lưu tên quận
+        $address->Phuong = $request->hidden_phuong; // Lưu tên phường
         $address->save();
     
         return back()->with('success', 'Địa chỉ đã được thêm thành công.');
     }
     // ALTER TABLE diachikhachhang MODIFY COLUMN MaDC VARCHAR(20);
-    
-
     public function deleteAddress($MaDC)
-{
-        $address = DiaChiKhachHang::findOrFail($MaDC);
-        $address->delete();
-        return back()->with('success', 'Địa chỉ đã được xóa thành công.');
-}
+{   
+    $address = DiaChiKhachHang::find($MaDC);
+
+    if (!$address) {
+        return back()->withErrors(['error' => 'Địa chỉ không tồn tại']);
+    }
     
+    $address->delete();
+    return back()->with('success', 'Địa chỉ đã được xoá thành công.');
+}
+
 }
