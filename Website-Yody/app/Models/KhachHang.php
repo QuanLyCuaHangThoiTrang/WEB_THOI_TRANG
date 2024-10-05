@@ -33,4 +33,5 @@ class KhachHang extends Authenticatable
     {
         return $this->Password; // Trả về trường Password từ bảng khachhang
     }
+   
 }

@@ -26,10 +26,10 @@
                             <a href="{{ url('/addresses/' . $khachhang->MaKH) }}">Địa chỉ</a>
                         </li>
                         <li>
-                            <a href={{ url('/voucher/{MaKH}') }}>Phiếu giảm giá</a>
+                            <a href="{{ url('/vouchers/' . $khachhang->MaKH) }}">Phiếu giảm giá</a>
                         </li>
                         <li>
-                            <a href="{{ url('/order-history/{MaKH}') }}">Lịch sử đơn hàng</a>
+                            <a href="{{ url('/order-history/' . $khachhang->MaKH) }}">Lịch sử đơn hàng</a>
                         </li>
                     </ul>
                 </div>
