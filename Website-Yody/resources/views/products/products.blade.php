@@ -155,7 +155,7 @@
                                             @foreach ($sanPham->chiTietSanPham as $chiTiet)
                                                 @if (isset($chiTiet->mauSac) && !in_array($chiTiet->mauSac->TenMau, $mauSacUnique))
                                                     <span
-                                                        class="font-semibold w-5 h-5 border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-105"
+                                                        class="font-semibold rounded-full w-5 h-5 border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-110"
                                                         style="background-color: {{ $chiTiet->mauSac->TenMau }}"></span>
                                                     @php
                                                         $mauSacUnique[] = $chiTiet->mauSac->TenMau; // Lưu màu đã hiển thị

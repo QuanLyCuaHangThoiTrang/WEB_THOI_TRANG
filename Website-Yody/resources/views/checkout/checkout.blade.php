@@ -12,15 +12,16 @@
                                     <form class="formabc" action="{{ route('checkout.applyVoucher') }}" method="POST">
                                         @csrf
                                         <div class="w-full">
-                                            <div class="relative flex flex-row">
-                                                <label  class="mb-2 block text-sm font-medium text-gray-900">Giảm giá</label>
-                                                <input 
-                                                    type="text"name="voucher_code"
-                                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-200 dark:bg-gray-100  dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                                                    placeholder="Enter full name" />
-                                                    <button type="submit" class="button bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Nhập mã</button>
+                                            <div class="flex items-center justify-between border-t border-gray-200 py-4">
+                                                <h3 class="text-lg font-bold text-gray-800">Giảm giá</h3>
+                                                <div class="flex border overflow-hidden max-w-sm rounded-md">
+                                                    <input type="text" name="voucher_code" placeholder="Nhập mã giảm giá"
+                                                        class="w-full outline-none bg-white text-gray-600 uppercase text-sm px-2 py-2.5" />
+                                                    <button type='submit' class="flex items-center justify-center bg-blue-800 px-5 text-sm text-white">
+                                                        Apply
+                                                    </button>
+                                                </div>
                                             </div>
-                                        
                                                 <!-- Hiển thị thông báo lỗi -->
                                                     @if ($errors->has('voucher_code'))
                                                         <div class="mt-2 text-red-600 text-sm">
@@ -33,7 +34,9 @@
                                     <form class="formabc" action="{{ route('voucher.cancel') }}" method="POST">
                                         @csrf
                                                         
-                                        <button type="submit" class="button bg-red-500 text-white px-4 py-2 rounded-lg">Hủy voucher</button>
+                                        <div class="flex justify-end">
+                                            <button type="submit" class="flex items-center justify-center bg-red-600 px-5 text-sm text-white">Hủy voucher</button>
+                                        </div>
                                                                
                                     </form>
                                     @endif
@@ -42,8 +45,7 @@
                         </div>      
                     </div>
                 </div>
-           
-           
+        
             <form class="formabc" action="{{ route('checkout.processDH') }}" method="POST">
                 @csrf
                 <div class="w-full max-w-7xl mx-auto relative z-10">
@@ -199,73 +201,74 @@
             </form>
         </section>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        document.querySelectorAll('.payment-radio').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const selectedPayment = this.value;
-                document.getElementById('selected_payment_method').value = selectedPayment;
-            });
+@endsection
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    document.querySelectorAll('.payment-radio').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const selectedPayment = this.value;
+            document.getElementById('selected_payment_method').value = selectedPayment;
         });
-        $(document).ready(function() {
-            //Lấy tỉnh thành
-            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function(data_tinh) {
-                if (data_tinh.error === 0) {
-                    $.each(data_tinh.data, function(key_tinh, val_tinh) {
-                        $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh
-                            .full_name + '</option>');
+    });
+    $(document).ready(function() {
+        //Lấy tỉnh thành
+        $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function(data_tinh) {
+            if (data_tinh.error === 0) {
+                $.each(data_tinh.data, function(key_tinh, val_tinh) {
+                    $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh
+                        .full_name + '</option>');
+                });
+                $("#tinh").change(function(e) {
+                    var idtinh = $(this).val();
+                    var tenTinh = $("#tinh option:selected").text(); // Lấy tên tỉnh được chọn
+                    $("#hidden_tinh").val(
+                        tenTinh
+                        ); // Đặt giá trị của trường ẩn để gửi tên tỉnh về server           
+                    //Lấy quận huyện
+                    $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function(
+                        data_quan) {
+                        if (data_quan.error === 0) {
+                            $("#quan").html('<option value="0">Quận Huyện</option>');
+                            $("#phuong").html('<option value="0">Phường Xã</option>');
+                            $.each(data_quan.data, function(key_quan, val_quan) {
+                                $("#quan").append('<option value="' + val_quan
+                                    .id + '">' + val_quan.full_name +
+                                    '</option>');
+                            });
+                        }
                     });
-                    $("#tinh").change(function(e) {
-                        var idtinh = $(this).val();
-                        var tenTinh = $("#tinh option:selected").text(); // Lấy tên tỉnh được chọn
-                        $("#hidden_tinh").val(
-                            tenTinh
-                            ); // Đặt giá trị của trường ẩn để gửi tên tỉnh về server           
-                        //Lấy quận huyện
-                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function(
-                            data_quan) {
-                            if (data_quan.error === 0) {
-                                $("#quan").html('<option value="0">Quận Huyện</option>');
-                                $("#phuong").html('<option value="0">Phường Xã</option>');
-                                $.each(data_quan.data, function(key_quan, val_quan) {
-                                    $("#quan").append('<option value="' + val_quan
-                                        .id + '">' + val_quan.full_name +
-                                        '</option>');
-                                });
-                            }
-                        });
+                });
+            }
+        });
+
+        //Lấy phường xã khi chọn quận huyện
+        $("#quan").change(function(e) {
+            var idquan = $(this).val();
+            var tenQuan = $("#quan option:selected").text(); // Lấy tên quận huyện được chọn
+            $("#hidden_quan").val(tenQuan); // Đặt giá trị của trường ẩn để gửi tên quận huyện về server
+
+            $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function(data_phuong) {
+                if (data_phuong.error === 0) {
+                    $("#phuong").html('<option value="0">Phường Xã</option>');
+                    $.each(data_phuong.data, function(key_phuong, val_phuong) {
+                        $("#phuong").append('<option value="' + val_phuong.id + '">' +
+                            val_phuong.full_name + '</option>');
                     });
                 }
             });
-
-            //Lấy phường xã khi chọn quận huyện
-            $("#quan").change(function(e) {
-                var idquan = $(this).val();
-                var tenQuan = $("#quan option:selected").text(); // Lấy tên quận huyện được chọn
-                $("#hidden_quan").val(tenQuan); // Đặt giá trị của trường ẩn để gửi tên quận huyện về server
-
-                $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function(data_phuong) {
-                    if (data_phuong.error === 0) {
-                        $("#phuong").html('<option value="0">Phường Xã</option>');
-                        $.each(data_phuong.data, function(key_phuong, val_phuong) {
-                            $("#phuong").append('<option value="' + val_phuong.id + '">' +
-                                val_phuong.full_name + '</option>');
-                        });
-                    }
-                });
-                console.log(tenQuan);
-            });
-            // Lấy phường xã khi chọn phường xã
-            $("#phuong").change(function(e) {
-                var tenPhuong = $("#phuong option:selected").text(); // Lấy tên phường xã được chọn
-                $("#hidden_phuong").val(
-                    tenPhuong); // Đặt giá trị của trường ẩn để gửi tên phường xã về server
-                console.log(tenPhuong);
-            });
-            $('form').submit(function(e) {
-                console.log('Hidden Tinh:', $('#hidden_tinh').val());
-                // Có thể thêm các kiểm tra giá trị tại đây
-            });
+            console.log(tenQuan);
         });
-    </script>
-@endsection
+        // Lấy phường xã khi chọn phường xã
+        $("#phuong").change(function(e) {
+            var tenPhuong = $("#phuong option:selected").text(); // Lấy tên phường xã được chọn
+            $("#hidden_phuong").val(
+                tenPhuong); // Đặt giá trị của trường ẩn để gửi tên phường xã về server
+            console.log(tenPhuong);
+        });
+        $('form').submit(function(e) {
+            console.log('Hidden Tinh:', $('#hidden_tinh').val());
+            // Có thể thêm các kiểm tra giá trị tại đây
+        });
+    });
+</script>

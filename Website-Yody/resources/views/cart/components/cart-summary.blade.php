@@ -14,16 +14,7 @@
                 <p class="leading-8 text-gray-600">Vận chuyển:</p>
                 <p class="leading-8 text-gray-600">{{ number_format(20000, 0, ',', '.') }} đ</p>
             </div>
-            <div class="flex items-center justify-between border-t border-gray-200 py-4">
-                <h3 class="text-lg font-bold text-gray-800">Giảm giá</h3>
-                <div class="flex border overflow-hidden max-w-sm rounded-md">
-                    <input type="text" id="voucherCode" placeholder="Nhập mã giảm giá"
-                        class="w-full outline-none bg-white text-gray-600 uppercase text-sm px-2 py-2.5" />
-                    <button id="applyVoucher" type='button' class="flex items-center justify-center bg-blue-800 px-5 text-sm text-white">
-                        Apply
-                    </button>
-                </div>
-            </div>
+           
 
 
             <div class="flex font-semibold items-center border-t border-gray-200 justify-between py-4">

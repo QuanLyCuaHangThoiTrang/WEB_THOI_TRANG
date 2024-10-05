@@ -7,6 +7,11 @@
     <main class="mx-auto max-w-7xl px-4 mt-14">
         <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
             <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Account Settings</h1>
+            @if(session('success'))
+            <div class="bg-green-100 font-semibold w-[350px] mr-auto text-lg text-green-700 px-4 py-5 absolute right-0 top-20 z-50 shadow-md" role="alert">
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
             <div class="flex items-center pt-4">
                 <button id="filter-button" class="ml-4 lg:hidden text-gray-700 hover:text-gray-900 transition duration-150">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -102,6 +107,7 @@
                         </div>
                     </div>
 
+                           
                             @if($addresses->isNotEmpty())
                                 <div class="col-span-3 bg-gray-50 border-l">
                                     <div class="bg-blue-950 w-full py-2 relative rounded-t-lg"></div>
@@ -119,7 +125,7 @@
                                                 <div class="col-span-1 border-b md:col-span-4 mb-5">
                                                     <label for="diachi" class="mb-2 block text-sm font-medium text-gray-900">Địa chỉ {{ $index + 1 }}</label> <!-- Hiển thị số thứ tự -->
                                                     <div class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black duration-500 focus:outline-none rounded-md">
-                                                        {{ $address->Duong }} - {{ $address->Phuong }}, {{ $address->Huyen }}, {{ $address->Tinh }}    
+                                                        {{ $address->Duong }}, {{ $address->Phuong }}, {{ $address->Huyen }}, {{ $address->Tinh }}    
                                                     </div>  
                                                     <div class="my-4 flex justify-end">
                                                         <button type="submit" class="button bg-red-800 px-10 py-2 text-white hover:bg-red-700 transition duration-200 rounded-md shadow-md">Delete</button>
@@ -133,9 +139,9 @@
                                 @else
                                 <p class="mb-5 px-7 font-medium text-blue-900">Chưa có địa chỉ nào được thêm.</p>
                                 @endif
-
+                                
                         </div>
-                   
+                       
             </div>
        
     </main>
