@@ -45,7 +45,7 @@
                             <label for="remember" class="ml-3 block text-sm text-gray-800">Remember me</label>
                         </div>
                         <div>
-                            <a href="javascript:void(0);" class="text-blue-600 font-semibold text-sm">
+                            <a href="{{ route('password.request') }}" class="text-blue-600 font-semibold text-sm">
                                 Forgot Password?
                             </a>
                         </div>

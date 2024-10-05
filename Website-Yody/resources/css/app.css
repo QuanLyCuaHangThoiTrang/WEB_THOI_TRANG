@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 
-html,body{
+html,
+body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-    
+
 }
 
 .menu li a {
@@ -17,15 +18,18 @@ html,body{
     text-decoration: none;
     color: inherit;
 }
+
 body {
     display: flex;
     flex-direction: column;
-    
+
 }
 
-.color-radio:checked + label {
-    border: 3px solid #613cf6; /* Viền màu vàng */
-    transform: scale(1.1); /* Phóng to nhẹ khi được chọn */
+.color-radio:checked+label {
+    border: 3px solid #613cf6;
+    /* Viền màu vàng */
+    transform: scale(1.1);
+    /* Phóng to nhẹ khi được chọn */
     transition: transform 0.2s ease-in-out, border 0.2s ease-in-out;
 }
 
@@ -34,18 +38,21 @@ body {
 }
 
 /* Show the mega menu on hover */
-#product-menu-toggle:hover + #product-mega-menu {
+#product-menu-toggle:hover+#product-mega-menu {
     display: block;
 }
 
 /* Mega menu styling */
 #product-mega-menu {
     position: relative;
-    left: 0; 
-    top: 100%; 
-    width: auto; /* Adjust width to fit content */
-    min-width: 100%; /* Ensure the mega menu is at least as wide as the parent */
-    z-index: 10; /* Ensure it appears above other elements */
+    left: 0;
+    top: 100%;
+    width: auto;
+    /* Adjust width to fit content */
+    min-width: 100%;
+    /* Ensure the mega menu is at least as wide as the parent */
+    z-index: 10;
+    /* Ensure it appears above other elements */
 }
 
 .menu li a::after {
@@ -57,9 +64,9 @@ body {
     bottom: 0;
     width: 0;
     height: 1px;
-    background-color:rgb(21, 62, 152);
+    background-color: rgb(21, 62, 152);
     /* background-color: black; */
-    transition: width 0.4s ease-in-out; 
+    transition: width 0.4s ease-in-out;
 }
 
 .menu li a:hover::after {
@@ -68,14 +75,16 @@ body {
 
 @keyframes scaleUp {
     0% {
-      transform: scale(1);
+        transform: scale(1);
     }
+
     100% {
-      transform: scale(1.2); /* Phóng to nhẹ background */
+        transform: scale(1.2);
+        /* Phóng to nhẹ background */
     }
-  }
-  .animate-scale {
+}
+
+.animate-scale {
     animation: scaleUp 20s linear infinite alternate;
     background-size: 100%;
-  }
-
+}

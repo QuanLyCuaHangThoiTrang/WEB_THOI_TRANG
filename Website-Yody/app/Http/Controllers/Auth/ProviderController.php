@@ -56,7 +56,6 @@ class ProviderController extends Controller
             $khachHang->LoaiKH = 'Thành viên';
             $khachHang->Provider = $provider; // Đặt provider thành 'google'
             $khachHang->Provider_ID = $user->getId();
-            $khachHang->Provider_Token = encrypt($user->token); // Mã hóa token trước khi lưu
             $khachHang->Username = $user->getNickname();
             
             // Lưu vào cơ sở dữ liệu

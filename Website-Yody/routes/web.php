@@ -20,7 +20,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Mail\WelcomeMail;
 use App\Models\KhachHang;
 use Illuminate\Support\Facades\Mail;
@@ -121,8 +122,14 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+
+Route::get('password/forgot', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('password/reset', [ResetPasswordController::class, 'resetPassword'])->name('password.reset');
+
+
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
-

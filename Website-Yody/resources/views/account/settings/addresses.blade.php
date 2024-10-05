@@ -1,12 +1,32 @@
 @extends('layouts.app')
 @section('content')
-<div class="min-h-screen bg-gray-100">
+<div class=" bg-white">
     <!-- Filter Dialog -->
-    @include('account.components.filters')
+    @include('account.components.notification')
 
     <main class="mx-auto max-w-7xl px-4 mt-14">
+        
+        @if(session('success'))
+        <div class="notification absolute z-30 top-24 right-10  bg-green-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="notification  absolute z-30 top-24 right-10  bg-red-500 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
+           
+           <div>
             <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Account Settings</h1>
+            
+           </div>
             <div class="flex items-center pt-4">
                 <button id="filter-button" class="ml-4 lg:hidden text-gray-700 hover:text-gray-900 transition duration-150">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -119,7 +139,7 @@
                                                 <div class="col-span-1 border-b md:col-span-4 mb-5">
                                                     <label for="diachi" class="mb-2 block text-sm font-medium text-gray-900">Địa chỉ {{ $index + 1 }}</label> <!-- Hiển thị số thứ tự -->
                                                     <div class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black duration-500 focus:outline-none rounded-md">
-                                                        {{ $address->Duong }} - {{ $address->Phuong }}, {{ $address->Huyen }}, {{ $address->Tinh }}    
+                                                        {{ $address->Duong }} {{ $address->Phuong }}, {{ $address->Huyen }}, {{ $address->Tinh }}    
                                                     </div>  
                                                     <div class="my-4 flex justify-end">
                                                         <button type="submit" class="button bg-red-800 px-10 py-2 text-white hover:bg-red-700 transition duration-200 rounded-md shadow-md">Delete</button>
@@ -140,9 +160,8 @@
        
     </main>
 </div>
-
-
 @endsection
+<script src="{{ asset('js/notifications.js') }}"></script>
 <script>
     document.querySelector('#filter-button').addEventListener('click', function() {
         document.querySelector('#canvas-filter').classList.toggle('hidden');

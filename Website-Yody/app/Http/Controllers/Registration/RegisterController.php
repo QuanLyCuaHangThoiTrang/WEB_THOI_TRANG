@@ -29,7 +29,7 @@ class RegisterController extends Controller
             'username' => [
                 'required',
                 'string',
-                'min:3', // Tên đăng nhập phải có ít nhất 5 ký tự
+                'min:3',
                 'regex:/^[a-zA-Z0-9_]+$/', // Không chứa ký tự đặc biệt, chỉ cho phép chữ cái, số và dấu gạch dưới
                 'unique:khachhang,Username',
             ],
