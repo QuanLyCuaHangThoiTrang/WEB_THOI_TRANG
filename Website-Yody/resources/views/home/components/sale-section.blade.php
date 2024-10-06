@@ -1,3 +1,10 @@
+@php
+    $commonData = [
+        'title' => 'SALE OF THE YEAR',
+        'buttonText' => 'Shop Now',
+    ];
+@endphp
+
 <script>
     let days = 2;    
     let hours = 5;   
@@ -39,57 +46,105 @@
     }, 1000);
 </script>
 
-<div class="text-center p-5 lg:px-24 mt-12">
-    <div class="mb-5">
-        <div class="bg-black p-5 rounded-lg">
-            <div class="countdown text-4xl text-white">
-                <div class="flex justify-center space-x-4">
+<div class="text-center p-16 mt-4 mb-4 ">
+    <div class="mb-4">
+        <div class="bg-black p-3 rounded-lg">
+            <div class="countdown text-2xl sm:text-3xl lg:text-4xl text-white">
+                <div class="flex justify-center space-x-2 sm:space-x-4">
                     <span class="flex flex-col items-center">
                         <span id="days">00</span>
-                        <span class="text-sm mt-1">Days</span>
+                        <span class="text-xs sm:text-sm mt-1">Days</span>
                     </span>
                     <span class="flex items-center">:</span>
                     <span class="flex flex-col items-center">
                         <span id="hours">00</span>
-                        <span class="text-sm mt-1">Hours</span>
+                        <span class="text-xs sm:text-sm mt-1">Hours</span>
                     </span>
                     <span class="flex items-center">:</span>
                     <span class="flex flex-col items-center">
                         <span id="minutes">10</span>
-                        <span class="text-sm mt-1">Minutes</span>
+                        <span class="text-xs sm:text-sm mt-1">Minutes</span>
                     </span>
                     <span class="flex items-center">:</span>
                     <span class="flex flex-col items-center">
                         <span id="seconds">24</span>
-                        <span class="text-sm mt-1">Seconds</span>
+                        <span class="text-xs sm:text-sm mt-1">Seconds</span>
                     </span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="space-y-2 px-8 lg:px-24">
+    <div class="space-y-3 p-3">
         <div class="flex flex-col items-center lg:flex-row lg:space-x-5 justify-center">
-            <h3 class="text-2xl lg:text-6xl uppercase font-bold">SALE OF THE YEAR</h3>
-            <a href="/products" class="bg-blue-900 text-white px-4 py-2 mt-5 lg:mt-0 rounded-full shadow-md hover:bg-blue-800 transition duration-200">Shop Now</a>
+            <h3 class="text-lg sm:text-2xl lg:text-4xl uppercase font-bold">{{ $commonData['title'] }}</h3>
+            <a href="/products" class="bg-blue-900 text-white px-3 py-2 mt-3 lg:mt-0 rounded-full shadow-md hover:bg-blue-800 transition duration-200 text-sm sm:text-base">{{ $commonData['buttonText'] }}</a>
         </div>
 
-        <div class="section-product grid gap-7 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-
-            @foreach ($chiTietSanPhams as $chiTietSanPham)  
-                <div class="border p-5 rounded cursor-pointer hover:border-2 duration-150 flex flex-col">
-                    <div>
-                        <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="" class="w-full h-auto min-w-screen">
-                    </div>
-                    <h4 class="font-bold flex-grow mt-3 truncate">{{ $chiTietSanPham->SanPham->TenSP }}</h4>
-                    <div class="flex flex-col">
-                        <div class="flex mt-1">
-                            <p class="text-lg">{{ $chiTietSanPham->SanPham->GiaBan }} VND</p> 
-                            <p class="text-white font-medium text-sm ml-auto border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">-10%</p>
+        <!-- Swiper Container -->
+        <swiper-container
+            class="saleSwiper"
+            space-between="30"
+            centered-slides="true"
+            slides-per-view="5"
+            loop="true"
+            autoplay-delay="1500"
+            effect="slide"
+            speed="1500"
+            autoplay-disable-on-interaction="true">
+            
+            
+            @foreach ($chiTietSanPhams as $chiTietSanPham)
+                <swiper-slide class="swiper-slide border p-3 rounded cursor-pointer hover:border-2 duration-150 flex flex-col" style="transition: opacity 0.5s, transform 0.5s;">
+                   <div class="container">
+                        <div class="flex flex-col">
+                            <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="" class="object-cover h-min">
+                            <h4 class="font-bold flex-grow mt-2 truncate text-sm sm:text-base">{{ $chiTietSanPham->SanPham->TenSP }}</h4>
+                            <div class="flex flex-col">
+                                <div class="flex mt-1">
+                                    <p class="text-base sm:text-lg">{{ $chiTietSanPham->SanPham->GiaBan }} VND</p> 
+                                    <p class="text-white font-medium text-xs sm:text-sm ml-auto border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">-10%</p>
+                                </div>
                         </div>
-                    </div>
-                </div>
+                        </div>
+                        
+                   </div>
+                </swiper-slide>
             @endforeach
-        </div>
+            
+        </swiper-container>
+       
     </div>
 </div>
+<style>
+    .saleSwiper{
+        margin: 0 auto;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .swiper-slide {
+        
+        opacity: 0.5;
+        transform: scale(0.8); 
+        transition: opacity 0.5s, transform 0.5s;
+    }
+
+
+    .swiper-slide-active {
+        opacity: 1; 
+        transform: scale(1.0); 
+        z-index: 2;
+    }
+    
+    .swiper-slide-next {
+        opacity: 0.7; 
+        transform: scale(0.9);
+    }
+    
+    .swiper-slide-prev {
+        opacity: 0.7; 
+        transform: scale(0.9); 
+    }
+    
+</style>

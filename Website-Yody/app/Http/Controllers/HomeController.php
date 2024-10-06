@@ -21,7 +21,7 @@ class HomeController extends Controller
                 ->from('chitietsanpham')
                 ->groupBy('MaSP');
         })
-        ->paginate(3); // Phân trang với 10 mục trên mỗi trang
+        ->paginate(12); // Phân trang với 10 mục trên mỗi trang
 
     // Truyền dữ liệu vào view
     return view('home.home', ['chiTietSanPhams' => $chiTietSanPhams]);

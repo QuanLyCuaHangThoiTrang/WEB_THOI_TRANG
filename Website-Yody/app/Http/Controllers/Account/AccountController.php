@@ -17,7 +17,7 @@ class AccountController extends Controller
         $isGoogleAccount = $khachhang->Provider === 'google';
 
         // Truyền biến khachhang và isGoogleAccount vào view
-        return view('account.accountpage', compact('khachhang', 'isGoogleAccount'));
+        return view('account.settings.account-setting', compact('khachhang', 'isGoogleAccount'));
     }
 
     public function updatePassword(Request $request, $MaKH)
