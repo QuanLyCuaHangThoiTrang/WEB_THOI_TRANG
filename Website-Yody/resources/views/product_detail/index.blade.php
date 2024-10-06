@@ -30,9 +30,11 @@
                         <p class="text-black text-medium">Kho: <span id="stock-quantity" class="soluongton">{{ $SoLuongTonKho }}</span></p>
                       </div>
                       <div class="flex flex-wrap gap-4 mt-4">
-                         
-                          <p class="text-blue-800 text-xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</p>
-                          {{-- <p class="text-gray-400 text-xl"><strike>$16</strike> <span class="text-sm ml-1.5">Tax included</span></p> --}}
+                        @if ($chiTietSanPham->SanPham->GiaGiam == 0)
+                            <p class="text-blue-800 text-xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</p>
+                        @else
+                            <p class="text-blue-800 text-xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</p>
+                        @endif    
                       </div>
                       <div class="flex space-x-2 mt-4">
                           <svg class="w-5 fill-yellow-400" viewBox="0 0 14 13" fill="none"

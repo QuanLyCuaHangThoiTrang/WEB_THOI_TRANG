@@ -177,15 +177,14 @@
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                        </div>
-                                        <!-- Sử dụng flex để căn chỉnh giá và nút chi tiết -->
-                                        <div class="flex justify-between items-center mt-2">
-                                            <h3 class="font-semibold">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ
-                                            </h3>
-                                            <!-- Nút Xem Chi Tiết -->
-                                            {{-- <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}" class="text-blue-600 hover:text-blue-800 font-medium text-sm">
-                            Chi Tiết
-                        </a> --}}
+                                        </div>                                    
+                                        <div class="flex justify-between items-center mt-2">                                         
+                                            @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
+                                                <h3 class="font-semibold">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3> 
+                                            @else
+                                            <h3 class="font-semibold line-through text-gray-500">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3> 
+                                            <h3 class="font-semibold">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3> 
+                                            @endif                   
                                         </div>
                                     </div>
                                 </a>

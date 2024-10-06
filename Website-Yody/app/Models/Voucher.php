@@ -16,5 +16,5 @@ class Voucher extends Model
         'MaVoucher' => 'string',
         'TenVoucher' => 'string',
     ];
-    protected $fillable = ['TenVoucher','PhanTramGiamGia','Active'];
+    protected $fillable = ['TenVoucher','PhanTramGiamGia','Active','NgayBD','NgayKT','MaKH'];
 }

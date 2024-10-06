@@ -70,7 +70,15 @@ class CartController extends Controller
                 ['MaMau', '=', $validated['selected_color']],
                 ['MaSize', '=', $validated['selected_size']],
             ])->first();
-           
+            $Gia = 0;
+            if($chiTietSanPham->SanPham->GiaGiam == 0 || $chiTietSanPham->SanPham->GiaGiam == null)
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaBan;
+            }
+            else
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaGiam;
+            }
             if (!$chiTietSanPham) {
                 return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
             }
@@ -90,14 +98,25 @@ class CartController extends Controller
                     'SoLuong' => $chiTietGioHang->SoLuong,
                     'ThanhTien' => $chiTietGioHang->ThanhTien
                 ]);
-            } else {
+            } 
+            else 
+            {
+                $Gia = 0;
+                if($chiTietSanPham->SanPham->GiaGiam == 0)
+                {
+                    $Gia = $chiTietSanPham->SanPham->GiaBan;
+                }
+                else
+                {
+                    $Gia = $chiTietSanPham->SanPham->GiaGiam;
+                }
                 // Nếu chưa có, tạo mới chi tiết giỏ hàng
                 ChiTietGioHang::create([
                     'MaGH' => $maGH,
                     'MaCTSP' => $chiTietSanPham->MaCTSP,
                     'SoLuong' => $validated['SoLuong'],
-                    'DonGia' => $chiTietSanPham->SanPham->GiaBan,
-                    'ThanhTien' => $validated['SoLuong'] * $chiTietSanPham->SanPham->GiaBan
+                    'DonGia' => $Gia,
+                    'ThanhTien' => $validated['SoLuong'] * $Gia
                 ]);
             }
             
@@ -115,12 +134,20 @@ class CartController extends Controller
                 ['MaMau', '=', $validated['selected_color']],
                 ['MaSize', '=', $validated['selected_size']],
             ])->first();
-
+            $Gia = 0;
+            if($chiTietSanPham->SanPham->GiaGiam == 0 || $chiTietSanPham->SanPham->GiaGiam == null)
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaBan;
+            }
+            else
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaGiam;
+            }
             if (!$chiTietSanPham) {
                 return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
             }
 
-            $donGia = $chiTietSanPham->SanPham->GiaBan;
+            $donGia = $Gia;
             $thanhTien = $validated['SoLuong'] * $donGia;
             $maCTSP = $chiTietSanPham->MaCTSP;
 
