@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                  > <div class="mb-4">
+                    <div class="mb-4">
                         <label class="text-gray-800 text-xs block mb-2">Email</label>
                         <input name="email" type="email" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none transition duration-200" placeholder="Nhập email" value="{{ $email }}">
                         <input name="email" type="hidden" value="{{ $email }}">

@@ -115,17 +115,24 @@
         </section>
     </main>
 </div>
-@endsection
 <script>
-    // Tự động gửi form khi người dùng nhập vào ô tìm kiếm
-    document.getElementById('search-input').addEventListener('input', function() {
-        document.getElementById('search-form').submit();
-    });
-
     // Tự động gửi form khi người dùng chọn một tùy chọn trong select
-    document.getElementById('sort-select').addEventListener('change', function() {
-        document.getElementById('search-form').submit();
-    });
+
+    // Tự động gửi form khi người dùng nhập vào ô tìm kiếm
+    document.getElementById('search-input').addEventListener('change', function() {
+    console.log('Submitting form with sort:', this.value); // Log giá trị được chọn
+    document.getElementById('search-form').submit();
+});
+
+
+// Tự động gửi form khi người dùng chọn một tùy chọn trong select
+document.getElementById('sort-select').addEventListener('change', function() {
+    console.log('Submitting form with sort:', this.value); // Log giá trị được chọn
+    document.getElementById('search-form').submit();
+});
+
 </script>
+@endsection
+
 <script src="{{ asset('js/notifications.js') }}"></script>
 
