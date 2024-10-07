@@ -22,6 +22,7 @@ use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Account\VoucherController;
 use App\Mail\WelcomeMail;
 use App\Models\KhachHang;
 use Illuminate\Support\Facades\Mail;
@@ -118,6 +119,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/addresses/{MaKH}', [AddressController::class, 'showAddresses'])->name('account.settings.addresses');
     Route::post('/addresses', [AddressController::class, 'createAddress'])->name('addresses.create');
     Route::delete('/addresses/{MaKH}', [AddressController::class, 'deleteAddress'])->name('addresses.delete');
+    Route::get('/vouchers/{MaKH}', [VoucherController::class, 'showCustomerVouchers'])->name('account.settings.vouchers');
 
 });
 

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="font-[sans-serif] bg-slate-200 py-2 mt-20">
-    <div class="flex flex-col items-center justify-center">
-        <div class="grid md:grid-cols-1 items-center bg-white gap-4 max-w-lg w-full p-4 m-4 shadow-lg rounded-lg">
+<div class="font-[sans-serif] min-h-screen bg-slate-200 py-2 mt-20">     @include('account.components.notification')
+    <div class="flex flex-col mx-auto items-center justify-center">
+        <div class="grid md:grid-cols-2 items-center bg-white gap-4 max-md:gap-8 max-w-5xl max-md:max-w-lg w-full p-4 m-4 shadow-md rounded-md">
             <div class="md:max-w-md w-full px-4">
                 <form action="{{ route('password.reset') }}" method="POST">
                     @csrf
@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <div class="mb-4">
+                  > <div class="mb-4">
                         <label class="text-gray-800 text-xs block mb-2">Email</label>
                         <input name="email" type="email" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none transition duration-200" placeholder="Nhập email" value="{{ $email }}">
                         <input name="email" type="hidden" value="{{ $email }}">
@@ -46,6 +46,9 @@
                         </button>
                     </div>
                 </form>
+            </div>
+            <div class="md:h-full bg-[#000842] rounded-xl lg:p-12 p-8">
+                <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-khoac-ni-the-thao-nu-yody-swn6010-tra-03.jpg" class="w-full h-full object-contain" alt="login-image" />
             </div>
         </div>
     </div>

@@ -29,7 +29,7 @@
                             <a href="{{ url('/vouchers/' . $khachhang->MaKH) }}">Phiếu giảm giá</a>
                         </li>
                         <li>
-                            <a href="{{ url('/order-history/' . $khachhang->MaKH) }}">Lịch sử đơn hàng</a>
+                            <a href="{{ url('/order/' . $khachhang->MaKH) }}">Lịch sử đơn hàng</a>
                         </li>
                     </ul>
                 </div>
