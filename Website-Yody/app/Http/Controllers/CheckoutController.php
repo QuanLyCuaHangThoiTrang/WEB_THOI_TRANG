@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ThanhToanThanhCongMail;
+use App\Mail\VoucherMail;
 use Illuminate\Http\Request;
 use App\Models\GioHang; // Giả sử bạn có model GioHang
 use App\Models\ChiTietGioHang; // Model chi tiết giỏ hàng
@@ -10,6 +12,8 @@ use App\Models\KhachHang;
 use App\Models\Voucher;
 use App\Models\ChiTietDonHang; // Model chi tiết đơn hàng
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail; // Import Mail facade
+use App\Mail\WelcomeMail; // Import the WelcomeMail class
 class CheckoutController extends Controller
 {
     public function index()
@@ -160,8 +164,14 @@ class CheckoutController extends Controller
                 ChiTietGioHang::where('MaGH', $gioHang->MaGH)->delete();
                 $gioHang->TongGiaTri = 0;
                 $gioHang->save();
-
+      
                 $this->ActiveVoucher(session()->get('MaVC'));
+                $voucher = $this->CreateVoucher($user);          
+                if($voucher != null)
+                {
+                    Mail::to($user->Email)->send(new VoucherMail($user,$voucher));
+                }
+                Mail::to($user->Email)->send(new ThanhToanThanhCongMail($user,$donHang));
                 return redirect()->route('thanhtoan.ThanhCong')->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
             }
         } else {
@@ -177,6 +187,7 @@ class CheckoutController extends Controller
         if (count($gioHangSession) > 0) 
         {          
             $maKH = 'KHVL' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+          
             $maDH = 'DH' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
             if($request->input('payment_method') == 'Thanh toán momo')
             {          
@@ -194,7 +205,7 @@ class CheckoutController extends Controller
                 
                 return $this->ThanhToanMomo($tongTien,$maDH,$diachi,$hoten,$email,$sodienthoai);
             }
-            KhachHang::create([
+            $khachhang = KhachHang::create([
                 'MaKH' => $maKH,
                 'HoTen' => $hoten,
                 'Email' => null,
@@ -229,6 +240,7 @@ class CheckoutController extends Controller
             }
             session()->forget('gioHang');
             $this->ActiveVoucher(session()->get('MaVC'));
+            Mail::to($email)->send(new ThanhToanThanhCongMail($khachhang,$donHang));
             return redirect()->route('thanhtoan.ThanhCong')->with('success', 'Đơn hàng của bạn đã được tạo thành công.');   
         } 
         else 
@@ -331,15 +343,22 @@ class CheckoutController extends Controller
             $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
             $this->updateDiemTichLuy($user);
             $this->saveChiTietDonHang($donHang, $gioHang->MaGH);
+            $voucher = $this->CreateVoucher($user);          
+            if($voucher != null)
+            {
+                Mail::to($user->Email)->send(new VoucherMail($user,$voucher));
+            }
+            Mail::to($user->Email)->send(new ThanhToanThanhCongMail($user,$donHang));
             $this->clearGioHang($gioHang);
             $this->clearTemporarySessionData();
         } else {
             $gioHangSession = session()->get('gioHang', []);
             $maKH = 'KHVL' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
-            $this->createKhachHang($maKH);
+            $kh = $this->createKhachHang($maKH);
             $ghichu = session()->get('email_tam') . ', ' . session()->get('SDT_tam');
             $donHang = $this->createDonHang($maDH, $maKH, $diachi, $tongGiaTri, 'Thanh toán momo',$ghichu);
             $this->saveChiTietDonHangFromSession($donHang, $gioHangSession);
+            Mail::to(session()->get('email_tam'))->send(new ThanhToanThanhCongMail($kh,$donHang));
             $this->clearTemporarySessionData();
             session()->forget('gioHang');
         }
@@ -402,7 +421,7 @@ class CheckoutController extends Controller
     }
     private function createKhachHang($maKH)
     {
-        KhachHang::create([
+        $khachHang = KhachHang::create([
             'MaKH' => $maKH,
             'HoTen' => session()->get('HoTenTam_tam'),
             'Email' => null,
@@ -411,6 +430,7 @@ class CheckoutController extends Controller
             'Username' => null,
             'Password' => null,
         ]);
+        return $khachHang;
     }
     public function ThanhToanThanhCong()
     {
@@ -457,15 +477,24 @@ class CheckoutController extends Controller
     }
     public function CreateVoucher($user)
     {
-        $maVC = 'VC' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
-        Voucher::create([
-            'MaVoucher' => $maVC,
-            'TenVoucher' => 'Giảm giá 20000đ',
-            'PhanTramGiamGia' => 20000,
-            'Active' => 1,       
-            'NgayDB' => now(),
-            'NgayKT' => now(),
-            'MaKH' => $user->MaKH
-        ]);
+        $khachHang = KhachHang::find($user->MaKH);
+        if($khachHang->DiemTichLuy >=5)
+        {
+            $maVC = 'VC' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            $vc = Voucher::create([
+                'MaVoucher' => $maVC,
+                'TenVoucher' => 'Giảm giá 20000đ',
+                'PhanTramGiamGia' => 20000,
+                'Active' => 1,       
+                'NgayBD' => now(),
+                'NgayKT' => now()->addDays(7),
+                'MaKH' => $user->MaKH
+            ]);
+            $khachHang->update(['DiemTichLuy' => 0]);
+            return $vc;
+        }
+        else {
+            return null;  // Trả về null nếu không đủ điều kiện tạo voucher
+        }
     }
 }

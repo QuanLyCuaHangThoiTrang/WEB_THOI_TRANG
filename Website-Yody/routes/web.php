@@ -60,7 +60,7 @@ Route::get('/home', [HomeController::class, 'home'])->name(name: 'home');
 
 // Sản phẩm
 Route::get('/products', [ShopController::class, 'index'])->name('products.index');
-Route::get('/products/{MaCTDM}', [ShopController::class, 'showProducts'])->name('products.show');
+Route::get('/productsDM/{MaCTDM}', [ShopController::class, 'showProducts'])->name('products.showDM');
 
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
