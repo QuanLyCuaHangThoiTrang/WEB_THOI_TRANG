@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-gray-100 px-10 pb-10 min-h-screen">
-    <section class="container mt-20 mx-auto py-2 lg:py-4 bg-gray-100">
+<div class=" px-10 pb-10 min-h-screen">
+    <section class="container mt-20 mx-auto py-2 lg:py-4">
        @include('cart.components.cart-list')
     </section>
 </div>

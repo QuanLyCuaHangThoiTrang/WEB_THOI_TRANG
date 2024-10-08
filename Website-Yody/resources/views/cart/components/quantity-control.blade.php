@@ -1,5 +1,5 @@
 <div class="relative flex items-center max-w-[8rem] border rounded-2xl">
-    <button type="button" class="decrement rounded-s-lg p-2 h-11 focus:outline-none" data-index="{{ $index }}">
+    <button type="button" class="decrement rounded-s-lg p-2 h-11 focus:outline-none"  data-index="{{ $index }}">
         <x-icons.icon name="decrement"/>
     </button>
     @if (Auth::check())
