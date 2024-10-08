@@ -11,7 +11,7 @@ class ChiTietSanPham extends Model
     protected $table = 'chitietsanpham';
     public $timestamps = false;
     protected $primaryKey = 'MaCTSP';
-    protected $fillable = ['MaSP', 'MaSize', 'MaMau','HinhAnh','SKU', 'SoLuongTonKho'];
+    protected $fillable = ['MaSP','MaCTSP','TenSP', 'MaSize', 'MaMau','HinhAnh','SKU', 'SoLuongTonKho'];
     protected $casts = [
         'MaCTSP' => 'string',
         'HinhAnh' => 'string',

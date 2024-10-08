@@ -71,7 +71,7 @@
                      <h3 class="text-lg font-semibold mb-4">{{ $danhmuc->TenDanhMuc }}</h3>
                      <ul class="space-y-2">
                          @foreach ($danhmuc->ChiTietDanhMuc as $ChiTietDM)
-                             <li><a href="{{  url('/products/' . $ChiTietDM->MaCTDM) }}" class="block text-base hover:bg-gray-100 py-1">{{ $ChiTietDM->TenCTDM }}</a></li>
+                             <li><a href="{{  url('/productsDM/' . $ChiTietDM->MaCTDM) }}" class="block text-base hover:bg-gray-100 py-1">{{ $ChiTietDM->TenCTDM }}</a></li>
                          @endforeach
                      </ul>
                  </div>     

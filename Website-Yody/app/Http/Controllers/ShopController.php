@@ -26,7 +26,7 @@ class ShopController extends Controller
         ->where('MaCTDM',$MaCTDM)
         ->where('TrangThai', 1) // Thêm điều kiện lấy trạng thái là 1
         ->has('chiTietSanPham')
-        ->paginate(8);;
+        ->paginate(perPage: 8);;
         $mauSac = MauSac::all();
         $size = KichThuoc::all();
         return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);

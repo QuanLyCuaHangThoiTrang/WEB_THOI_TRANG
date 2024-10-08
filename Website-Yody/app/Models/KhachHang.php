@@ -13,10 +13,9 @@ class KhachHang extends Authenticatable
     protected $table = 'khachhang'; // Tên bảng
     protected $primaryKey = 'MaKH'; // Khóa chính
     public $timestamps = false;
-
+    public $incrementing = false;
     protected $fillable = ['MaKH', 'HoTen', 'Email', 'SDT', 'LoaiKH','Username','Password', 'Provider', 'Provider_ID', 'Provider_Token','DiemTichLuy'];
-    protected $casts = [
-      
+    protected $casts = [ 
         'MaKH' => 'string',
     ];
 
@@ -33,5 +32,8 @@ class KhachHang extends Authenticatable
     {
         return $this->Password; // Trả về trường Password từ bảng khachhang
     }
-   
+    public function donHang()
+    {
+        return $this->hasMany(DonHang::class, 'MaKH', 'MaKH');
+    }
 }
