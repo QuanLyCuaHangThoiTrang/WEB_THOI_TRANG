@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Account\VoucherController;
+use App\Http\Controllers\Account\OrderController;
 use App\Mail\WelcomeMail;
 use App\Models\KhachHang;
 use Illuminate\Support\Facades\Mail;
@@ -130,6 +131,7 @@ Route::post('password/email', [ForgotPasswordController::class, 'sendResetLink']
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset.form');
 Route::post('password/reset', [ResetPasswordController::class, 'resetPassword'])->name('password.reset');
 
+Route::get('/order/{MaKH}', [OrderController::class, 'showOrders'])->name('account.settings.orders');
 
 Route::post('/logout', function () {
     Auth::logout();

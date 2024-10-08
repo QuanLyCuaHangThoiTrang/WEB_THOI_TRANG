@@ -95,7 +95,7 @@
             
             
             @foreach ($chiTietSanPhams as $chiTietSanPham)
-                <swiper-slide class="swiper-slide border p-3 rounded cursor-pointer hover:border-2 duration-150 flex flex-col" style="transition: opacity 0.5s, transform 0.5s;">
+                <swiper-slide class="swiper-slide border p-2 rounded cursor-pointer hover:border-2 duration-150 flex flex-col" style="transition: opacity 0.5s, transform 0.5s;">
                    <div class="container">
                         <div class="flex flex-col">
                             <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="" class="object-cover h-min">
@@ -116,35 +116,3 @@
        
     </div>
 </div>
-<style>
-    .saleSwiper{
-        margin: 0 auto;
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .swiper-slide {
-        
-        opacity: 0.5;
-        transform: scale(0.8); 
-        transition: opacity 0.5s, transform 0.5s;
-    }
-
-
-    .swiper-slide-active {
-        opacity: 1; 
-        transform: scale(1.0); 
-        z-index: 2;
-    }
-    
-    .swiper-slide-next {
-        opacity: 0.7; 
-        transform: scale(0.9);
-    }
-    
-    .swiper-slide-prev {
-        opacity: 0.7; 
-        transform: scale(0.9); 
-    }
-    
-</style>

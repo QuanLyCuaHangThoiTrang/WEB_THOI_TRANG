@@ -17,13 +17,7 @@
                     <hr class="border w-[200px] justify-center items-center mx-auto mt-2">
                   </div>
                   <!-- 3 hình căn giữa chỉ trên thiết bị di động -->
-                  <div class="flex flex-row justify-center items-center space-x-3 lg:hidden">
-                   
-                      <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-bra-the-thao-nu-STN7052-GHI%20(1).jpg" alt="Product1" class="w-1/4 cursor-pointer rounded-md" />
-                      <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-bra-the-thao-nu-STN7052-GHI%20(4).jpg" alt="Product3" class="w-1/4 cursor-pointer rounded-md" />
-                      <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/ao-bra-the-thao-nu-STN7052-GHI%20(5).jpg" alt="Product4" class="w-1/4 cursor-pointer rounded-md" />
-                  </div>
-
+                 
                   <div>
                       <h2 class="text-2xl font-bold text-yellow-600">{{ $chiTietSanPham->SanPham->TenSP }}</h2>
                       <div class="flex flex-wrap gap-4 mt-4">
@@ -35,33 +29,6 @@
                         @else
                             <p class="text-blue-800 text-xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</p>
                         @endif    
-                      </div>
-                      <div class="flex space-x-2 mt-4">
-                          <svg class="w-5 fill-yellow-400" viewBox="0 0 14 13" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                          </svg>
-                          <svg class="w-5 fill-yellow-400" viewBox="0 0 14 13" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                          </svg>
-                          <svg class="w-5 fill-yellow-400" viewBox="0 0 14 13" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                          </svg>
-                          <svg class="w-5 fill-yellow-400" viewBox="0 0 14 13" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                          </svg>
-                          <svg class="w-5 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
-                              xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-                          </svg>
                       </div>
 
                       <div class="mt-8">
@@ -112,21 +79,22 @@
                             </div>
                         </div>
                         <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-4 md:space-y-0 py-5">
+                           
                             <div>
                                <div class="flex items-center space-x-2 mt-4 mb-3">
-                              <button type="button" class="dec qtybutton w-10 h-10 bg-gray-200 flex items-center justify-center rounded-md hover:bg-gray-300" onclick="updateQuantity(-1)">
-                                  <span class="text-lg font-bold">-</span>
-                              </button>
-                              <input id="quantity" class="cart-plus-minus-box input-text qty text w-16 text-center border border-gray-300 rounded-md" name="SoLuong" value="1" readonly>
-                              @csrf
-                              <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->SanPham->MaSP }}">     
-                              <input type="hidden" name="DonGia" value="{{ $chiTietSanPham->SanPham->GiaBan }}">
-                              <input type="hidden" name="MaKH" value="KH001">                                                  
-                              <input type="hidden" name="MaSize" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
-                              <input type="hidden" name="MaMau" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
-                              <button type="button" class="inc qtybutton w-10 h-10 bg-gray-200 flex items-center justify-center rounded-md hover:bg-gray-300" onclick="updateQuantity(1)">
-                                  <span class="text-lg font-bold">+</span>
-                              </button>
+                                <button type="button" class="decrement rounded-s-lg p-2 h-11 focus:outline-none" onclick="updateQuantity(-1)">
+                                    <x-icons.icon name="decrement"/>
+                                </button>
+                              <input id="quantity" class="cart-plus-minus-box input-text qty text w-12 text-center border border-gray-300 rounded-md" name="SoLuong" value="1" readonly>
+                                @csrf
+                                <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->SanPham->MaSP }}">     
+                                <input type="hidden" name="DonGia" value="{{ $chiTietSanPham->SanPham->GiaBan }}">
+                                <input type="hidden" name="MaKH" value="KH001">                                                  
+                                <input type="hidden" name="MaSize" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
+                                <input type="hidden" name="MaMau" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
+                                <button type="button" class="increment rounded-e-lg p-2 h-11 focus:outline-none" onclick="updateQuantity(1)">
+                                    <x-icons.icon name="increment"/>
+                                </button>
                           </div>                       
                                 <button id="add-to-cart-btn" type="submit" class="w-full md:w-auto lg:w-[300px] min-w-[200px] bg-yellow-500 rounded-xl py-2 px-10 font-semibold text-lg text-white transition-all duration-500 hover:bg-yellow-400 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600">
                                     Thêm vào giỏ hàng

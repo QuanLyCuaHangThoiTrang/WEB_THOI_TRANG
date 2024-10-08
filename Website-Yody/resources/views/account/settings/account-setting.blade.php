@@ -100,3 +100,5 @@
 </main>
 @endsection
 <script src="{{ asset('js/notifications.js') }}"></script>
+
+

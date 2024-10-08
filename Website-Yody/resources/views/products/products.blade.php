@@ -89,7 +89,7 @@
 
     <main class="mx-auto max-w-7xl mt-14 px-4 sm:px-6 lg:px-4">
         <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
-            <h1 class="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
+            <h1 class="text-4xl font-bold tracking-tight text-gray-900">DANH SÁCH SẢN PHẨM</h1>
             <div class="flex items-center p-6">
                 <div class="relative inline-block text-left">
                     <div>
@@ -135,61 +135,45 @@
                 <div class="col-span-3">
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
                         @foreach ($sanPhams as $sanPham)
-                            <div class="group relative cursor-pointer product-item"
-                                data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
-                                data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
-                                <a href="{{ url('/product_detail/' . $sanPham->MaSP) }}">
-                                    <div
-                                        class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                                        <img src="{{ asset('images/products/' . $sanPham->chiTietSanPham->first()->HinhAnh) }}"
-                                            alt="Product Image"
-                                            class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                                    </div>
-                                    <div class="mt-4 pb-3">
-                                        <h3 class="text-base">{{ $sanPham->TenSP }}</h3>
-                                        <div class="flex space-x-2">
-                                            @php
-                                                $mauSacUnique = [];
-                                            @endphp
-
-                                            @foreach ($sanPham->chiTietSanPham as $chiTiet)
-                                                @if (isset($chiTiet->mauSac) && !in_array($chiTiet->mauSac->TenMau, $mauSacUnique))
-                                                    <span
-                                                        class="font-semibold rounded-full w-5 h-5 border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-110"
-                                                        style="background-color: {{ $chiTiet->mauSac->TenMau }}"></span>
-                                                    @php
-                                                        $mauSacUnique[] = $chiTiet->mauSac->TenMau; // Lưu màu đã hiển thị
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-
-                                        </div>
+                        <div class="group relative cursor-pointer product-item"
+                            data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
+                            data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
+                            <a href="{{ url('/product_detail/' . $sanPham->MaSP) }}">
+                                <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                    <img src="{{ asset('images/products/' . $sanPham->chiTietSanPham->first()->HinhAnh) }}"
+                                        alt="{{ $sanPham->TenSP }}"
+                                        class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                                </div>
+                                <div class="mt-4 pb-3">
+                                    <h3 class="text-base font-semibold truncate">{{ $sanPham->TenSP }}</h3>
+                                    <div class="flex space-x-2 mt-2">
                                         @php
-                                            $kichThuocUnique = [];
+                                            $mauSacUnique = [];
                                         @endphp
-                                        <div class="flex space-x-2" style="display:none;">
-                                            @foreach ($sanPham->chiTietSanPham as $chiTiet)
-                                                @if (isset($chiTiet->kichThuoc) && !in_array($chiTiet->kichThuoc->TenSize, $kichThuocUnique))
-                                                    <span style=""
-                                                        class="font-semibold">{{ $chiTiet->kichThuoc->TenSize }}</span>
-                                                    @php
-                                                        $kichThuocUnique[] = $chiTiet->kichThuoc->TenSize; // Lưu kích thước đã hiển thị
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                        </div>                                    
-                                        <div class="flex justify-between items-center mt-2">                                         
-                                            @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
-                                                <h3 class="font-semibold">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3> 
-                                            @else
-                                            <h3 class="font-semibold line-through text-gray-500">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3> 
-                                            <h3 class="font-semibold">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3> 
-                                            @endif                   
-                                        </div>
+            
+                                        @foreach ($sanPham->chiTietSanPham as $chiTiet)
+                                            @if (isset($chiTiet->mauSac) && !in_array($chiTiet->mauSac->TenMau, $mauSacUnique))
+                                                <span class="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-110"
+                                                    style="background-color: {{ $chiTiet->mauSac->TenMau }}"></span>
+                                                @php
+                                                    $mauSacUnique[] = $chiTiet->mauSac->TenMau;
+                                                @endphp
+                                            @endif
+                                        @endforeach
                                     </div>
-                                </a>
-                            </div>
-                        @endforeach
+            
+                                    <div class="flex justify-between items-center mt-4">
+                                        @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
+                                            <h3 class="font-semibold text-lg">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                        @else
+                                            <h3 class="font-semibold text-lg line-through text-red-500">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                            <h3 class="font-semibold text-lg">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
+                                        @endif
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                     </div>
                     <!-- Thêm các liên kết phân trang ở đây -->
                     <div class="mt-6">

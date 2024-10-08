@@ -50,7 +50,7 @@
                                 <a href="{{ url('/vouchers/' . $khachhang->MaKH) }}">Phiếu giảm giá</a>
                             </li>
                             <li>
-                                <a href="{{ url('/order-history/' . $khachhang->MaKH) }}">Lịch sử đơn hàng</a>
+                                <a href="{{ url('/order/' . $khachhang->MaKH) }}">Lịch sử đơn hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -62,45 +62,43 @@
                     <div class="flex-1 pb-2 w-full max-xl:max-w-3xl max-xl:mx-auto">
                         <div class="flex flex-col px-7 gap-4 p-4">
                             <div class="border-b">
-                                <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Vouchers</h3>
+                                <div class="gap-4 sm:flex sm:items-center sm:justify-between">
+                                    <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Vouchers</h3>
+                                    <div class="mt-6 gap-4 space-y-4 sm:mt-0 sm:flex sm:items-center sm:justify-end sm:space-y-0">
+                                        <form id="search-form" method="GET" action="{{ url('/vouchers/' . $khachhang->MaKH) }}" class="flex flex-col sm:flex-row justify-between items-center mb-4">
+                                            <div class="flex space-x-2">
+                                                
+                                                <div class="flex-shrink-0">
+                                                    <select name="sort" id="sort-select" class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 border-l-[7px] focus:outline-none rounded-md mt-2 sm:mt-0">
+                                                        <option value="default">Sắp xếp theo</option>
+                                                        <option value="percent_asc" {{ request()->get('sort') == 'percent_asc' ? 'selected' : '' }}>Giảm giá từ thấp đến cao</option>
+                                                        <option value="percent_desc" {{ request()->get('sort') == 'percent_desc' ? 'selected' : '' }}>Giảm giá từ cao đến thấp</option>
+                                                        <option value="date_asc" {{ request()->get('sort') == 'date_asc' ? 'selected' : '' }}>Ngày hết hạn từ sớm đến muộn</option>
+                                                        <option value="date_desc" {{ request()->get('sort') == 'date_desc' ? 'selected' : '' }}>Ngày hết hạn từ muộn đến sớm</option>
+                                                    </select>
+                                                </div>
+                                            </div> 
+                                        </form>
+                                    </div>
+                                  </div>
                             </div>
                             <div>
-                                <div class="container mx-auto">
+                                <div class=" container mx-auto">
                                     
-                                    <form id="search-form" method="GET" action="{{ url('/vouchers/' . $khachhang->MaKH) }}" class="flex flex-col sm:flex-row justify-between items-center mb-4">
-                                        <div class="flex space-x-2 w-full mb-5">
-                                            <div class=" flex-grow">
-                                                <label for="search" class="block py-2 text-sm font-medium text-gray-700">Tìm kiếm</label>
-                                                    <input type="text" name="search" id="search-input" placeholder="Tìm kiếm" class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 border-l-[7px] focus:outline-none rounded-lg w-52" value="{{ request()->get('search') }}">
-                                                   
-                                            </div>
-                                            <div class=" flex-shrink-0">
-                                                <label for="sort" class="block py-2 text-sm font-medium text-gray-700">Sắp xếp</label>
-                                                <select name="sort" id="sort-select" class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 border-l-[7px] focus:outline-none rounded-md mt-2 sm:mt-0">
-                                                    <option value="default">Sắp xếp theo</option>
-                                                    <option value="percent_asc" {{ request()->get('sort') == 'percent_asc' ? 'selected' : '' }}>Giảm giá từ thấp đến cao</option>
-                                                    <option value="percent_desc" {{ request()->get('sort') == 'percent_desc' ? 'selected' : '' }}>Giảm giá từ cao đến thấp</option>
-                                                    <option value="date_asc" {{ request()->get('sort') == 'date_asc' ? 'selected' : '' }}>Ngày hết hạn từ sớm đến muộn</option>
-                                                    <option value="date_desc" {{ request()->get('sort') == 'date_desc' ? 'selected' : '' }}>Ngày hết hạn từ muộn đến sớm</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        
-                                    </form>
-                                    <div class="border-t pt-5">
+                                    
+                                    <div class="pt-5">
                                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                             @foreach($vouchers as $voucher)
-                                            <div class="bg-gradient-to-br from-blue-950 to-blue-900 flex flex-col text-white text-center justify-center items-center px-6 rounded-lg relative w-full max-w-xs border-gray-300 shadow-lg">
-                                                <h3 class="text-xl font-semibold mb-4">{{ $voucher->TenVoucher }}<br><span class="font-light">dành cho hội viên</span></h3>
+                                            <div class="bg-gradient-to-br from-blue-950 to-blue-900 flex flex-col  text-center text-white justify-center items-center px-6 rounded-lg relative w-full max-w-xs border-gray-300 shadow-lg">
+                                                <h3 class="text-xl   font-bold mb-4">{{ $voucher->TenVoucher }}<br><span class="font-light ">dành cho hội viên</span></h3>
                                                 <div class="flex justify-end space-x-2 mb-2">
-                                                    <span id="cpnCode" class="bg-white text-blue-950 font-bold px-4 py-1 rounded-l">{{ $voucher->MaVoucher }}</span>
+                                                    <span id="cpnCode" class="bg-white  text-blue-950 font-bold px-4 py-1 rounded-l">{{ $voucher->MaVoucher }}</span>
                                                 </div>
-                                                <p class="text-sm">Valid Till: {{ $voucher->NgayKT }}</p>
+                                                <p class="text-sm">Hạn sử dụng: {{ $voucher->NgayKT }}</p>
                                                 <div class="w-12 h-12 bg-white rounded-full absolute top-1/2 transform -translate-y-1/2 left-0 -ml-6"></div>
                                                 <div class="w-12 h-12 bg-white rounded-full absolute top-1/2 transform -translate-y-1/2 right-0 -mr-6"></div>
                                             </div>
                                             @endforeach
-
                                             @if($vouchers->isEmpty())
                                             <p class="text-gray-600">Bạn không có voucher nào.</p>
                                             @endif
