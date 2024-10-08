@@ -26,7 +26,7 @@ body {
 }
 
 .color-radio:checked+label {
-    border: 3px solid #613cf6;
+    border: 2px solid #423f72;
     /* Viền màu vàng */
     transform: scale(1.1);
     /* Phóng to nhẹ khi được chọn */

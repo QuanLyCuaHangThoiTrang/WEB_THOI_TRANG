@@ -8,7 +8,7 @@
                     <!-- Chỉ hiện trên màn hình lớn -->
                     <div class="hidden sm:space-y-3 sm:block max-sm:hidden max-sm:mb-4">
                         @foreach ($hinhAnhList as $hinhAnh)
-                        <img src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" alt="Product1" class="w-full cursor-pointer mx-auto rounded-md outline product-thumbnail" data-image-src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" />
+                        <img src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" alt="Product1" class="w-full cursor-pointer mx-auto rounded-md hover:scale-110 duration-200 hover:shadow-sm product-thumbnail" data-image-src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" />
                         @endforeach
                     </div>
 
@@ -19,18 +19,34 @@
                   <!-- 3 hình căn giữa chỉ trên thiết bị di động -->
                  
                   <div>
-                      <h2 class="text-2xl font-bold text-yellow-600">{{ $chiTietSanPham->SanPham->TenSP }}</h2>
-                      <div class="flex flex-wrap gap-4 mt-4">
-                        <p class="text-black text-medium">Kho: <span id="stock-quantity" class="soluongton">{{ $SoLuongTonKho }}</span></p>
-                      </div>
+                      <h2 class="text-xl font-bold uppercase text-black">{{ $chiTietSanPham->SanPham->TenSP }}</h2>
+                      
+                      <div class="mt-4">
+                        <p class="text-black text-medium mt-2">
+                            Còn lại: <span id="stock-quantity" class="text-red-700 font-extrabold">{{ $SoLuongTonKho }}</span> sản phẩm
+                        </p>
+                        <div class="w-full bg-gray-200 rounded-full h-1">
+                            <div class="bg-green-500 h-1 rounded-full" id="stock-progress" style="width: 0%;"></div>
+                        </div>
+                        
+                    </div>
+                    
                       <div class="flex flex-wrap gap-4 mt-4">
                         @if ($chiTietSanPham->SanPham->GiaGiam == 0)
-                            <p class="text-blue-800 text-xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</p>
+                            <p class=" text-red-600 text-2xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</p>
                         @else
-                            <p class="text-blue-800 text-xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</p>
-                        @endif    
+                            <p class=" text-red-600 text-2xl font-bold">{{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</p>
+                        @endif  
+                        @if ($chiTietSanPham->SanPham->GiaGiam )
+                            <h3 class="font-medium text-gray-400 line-through text-xl">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                        @else
+                            <h3 class="font-semibold text-gray-400  text-lg line-through">{{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                           
+                        @endif
+                        
+                          
                       </div>
-
+                     
                       <div class="mt-8">
                             <h3 class="text-xl font-bold text-gray-800">Colors</h3>
                             <ul class="flex gap-4 mt-4">
@@ -59,7 +75,7 @@
                         </div>
                         <div class="mt-8">
                             <h3 class="text-xl font-bold text-gray-800">Sizes</h3>
-                            <div class="flex flex-wrap gap-4 mt-4 font-semibold text-sm ">
+                            <div class="flex flex-wrap gap-4 mt-4 font-semibold text-sm">
                                 <div class="flex gap-4 mt-4">
                                     <ul class="flex space-x-4">
                                         @foreach ($KichThuoc as $kt)
@@ -69,46 +85,71 @@
                                                     id="size_{{ $kt->MaSize }}" 
                                                     name="selected_size" 
                                                     value="{{ $kt->MaSize }}" 
-                                                    class="size-radio"
+                                                    class="hidden peer size-radio"
                                                 >
-                                                <label for="size_{{ $kt->MaSize }}" class="mt-1">{{ $kt->TenSize }}</label>
+                                                <label 
+                                                    for="size_{{ $kt->MaSize }}" 
+                                                    class="peer-checked:bg-blue-800 peer-checked:text-white  border border-gray-300 rounded-lg px-4 py-2 text-gray-800 cursor-pointer transition duration-300 hover:bg-blue-700 hover:text-white"
+                                                >
+                                                    {{ $kt->TenSize }}
+                                                </label>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>                                
                             </div>
                         </div>
+                        
                         <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-4 md:space-y-0 py-5">
                            
                             <div>
-                               <div class="flex items-center space-x-2 mt-4 mb-3">
-                                <button type="button" class="decrement rounded-s-lg p-2 h-11 focus:outline-none" onclick="updateQuantity(-1)">
-                                    <x-icons.icon name="decrement"/>
-                                </button>
-                              <input id="quantity" class="cart-plus-minus-box input-text qty text w-12 text-center border border-gray-300 rounded-md" name="SoLuong" value="1" readonly>
-                                @csrf
-                                <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->SanPham->MaSP }}">     
-                                <input type="hidden" name="DonGia" value="{{ $chiTietSanPham->SanPham->GiaBan }}">
-                                <input type="hidden" name="MaKH" value="KH001">                                                  
-                                <input type="hidden" name="MaSize" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
-                                <input type="hidden" name="MaMau" value=""> <!-- Sẽ được cập nhật bằng JavaScript -->
-                                <button type="button" class="increment rounded-e-lg p-2 h-11 focus:outline-none" onclick="updateQuantity(1)">
-                                    <x-icons.icon name="increment"/>
-                                </button>
-                          </div>                       
-                                <button id="add-to-cart-btn" type="submit" class="w-full md:w-auto lg:w-[300px] min-w-[200px] bg-yellow-500 rounded-xl py-2 px-10 font-semibold text-lg text-white transition-all duration-500 hover:bg-yellow-400 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600">
+                                <div class="flex border rounded-2xl items-center space-x-2 mt-4 mb-3">
+                                    <button 
+                                        type="button" 
+                                        class="decrement p-2 h-11 hover:scale-125 rounded-l-lg focus:outline-none transition duration-200"
+                                        onclick="updateQuantity(-1)">
+                                        <x-icons.icon name="decrement" />
+                                    </button>
+                            
+                                    <input 
+                                        id="quantity" 
+                                        class="w-10 text-center rounded-md text-gray-800 font-semibold" 
+                                        name="SoLuong" 
+                                        value="1" 
+                                        readonly
+                                    >
+                            
+                                    <button 
+                                        type="button" 
+                                        class="increment p-2 h-11 hover:scale-125 rounded-r-lg focus:outline-none  transition duration-200"
+                                        onclick="updateQuantity(1)">
+                                        <x-icons.icon name="increment" />
+                                    </button>
+                            
+                                    @csrf
+                                    <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->SanPham->MaSP }}">
+                                    <input type="hidden" name="DonGia" value="{{ $chiTietSanPham->SanPham->GiaBan }}">
+                                    <input type="hidden" name="MaKH" value="KH001">
+                                    <input type="hidden" name="MaSize" value="">
+                                    <input type="hidden" name="MaMau" value="">
+                                </div>
+                            </div>
+                            
+                                <button id="add-to-cart-btn" type="submit" class="w-full md:w-auto lg:w-[300px] min-w-[200px] bg-yellow-500 rounded-xl h-16 px-10 font-bold text-lg text-black  transition-all duration-500 hover:bg-yellow-600 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600">
                                     Thêm vào giỏ hàng
                                 </button>
                             </div>
+                            <div class="mt-8">
+                                <h3 class="text-xl font-bold text-gray-800">Chi tiết sản phẩm</h3>
+                                <ul class="space-y-3 list-disc mt-4  text-sm text-gray-800">
+                                   <p class="text-justify">Chất liệu cao cấp, co giãn tốt, thấm hút mồ hôi nhanh. Kiểu dệt interlock 2 mặt mềm mại, thoáng khí. Thiết kế ôm sát, che khuyết điểm, tôn dáng. Đệm ngực dày dặn, nâng đỡ tối ưu tạo cảm giác thoải mái khi vận động. Lựa chọn hoàn hảo cho các hoạt động thể thao yoga, gym, chạy bộ.</p>
+                                </ul>
+                              </div>
+                              @include('product_detail.review.review-section')
                         </div>
-                        <div class="mt-8">
-                          <h3 class="text-xl font-bold text-gray-800">About the item</h3>
-                          <ul class="space-y-3 list-disc mt-4  text-sm text-gray-800">
-                             <p class="text-justify">Chất liệu cao cấp, co giãn tốt, thấm hút mồ hôi nhanh. Kiểu dệt interlock 2 mặt mềm mại, thoáng khí. Thiết kế ôm sát, che khuyết điểm, tôn dáng. Đệm ngực dày dặn, nâng đỡ tối ưu tạo cảm giác thoải mái khi vận động. Lựa chọn hoàn hảo cho các hoạt động thể thao yoga, gym, chạy bộ.</p>
-                          </ul>
-                        </div>
+                       
 
-                     @include('product_detail.review.review-section')
+                   
                   </div>
               </div>
             </form>
@@ -127,7 +168,6 @@
         }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
         document.querySelectorAll('.color-radio').forEach(radio => {
             radio.addEventListener('change', function () {
@@ -282,5 +322,29 @@
             }
         });
     </script>   
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Số lượng tối đa trong kho (có thể điều chỉnh theo nhu cầu)
+    const maxStock = 100; // Ví dụ, giả định số lượng tối đa là 100
+    const stockQuantity = {{ $SoLuongTonKho }}; // Lấy số lượng tồn kho từ server
+
+    // Tính toán tỉ lệ phần trăm của tồn kho
+    const stockPercentage = (stockQuantity / maxStock) * 100;
+
+    // Cập nhật thanh progress bar
+    const stockProgressBar = document.getElementById('stock-progress');
+    stockProgressBar.style.width = `${stockPercentage}%`;
+
+    // Cập nhật màu sắc của progress bar dựa trên mức tồn kho
+    if (stockPercentage <= 20) {
+        stockProgressBar.classList.add('bg-red-500');
+        stockProgressBar.classList.remove('bg-green-500');
+    } else if (stockPercentage <= 40) {
+        stockProgressBar.classList.add('bg-yellow-500');
+        stockProgressBar.classList.remove('bg-green-500');
+    }
+});
+
+    </script>
     
 @endsection

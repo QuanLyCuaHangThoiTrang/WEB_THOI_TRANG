@@ -2,35 +2,16 @@
 @section('content')
 <div class=" bg-white">
     <!-- Filter Dialog -->
-    @include('account.components.notification')
+   
 
     <main class="mx-auto max-w-7xl px-4 mt-14">
+        @include('account.components.notification')
         
-        @if(session('success'))
-        <div class="notification absolute z-30 top-24 right-10  bg-green-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if($errors->any())
-        <div class="notification  absolute z-30 top-24 right-10  bg-red-500 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+      
         <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
            
            <div>
             <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Account Settings</h1>
-
-            @if(session('success'))
-            <div class="bg-green-100 font-semibold w-[350px] mr-auto text-lg text-green-700 px-4 py-5 absolute right-0 top-20 z-50 shadow-md" role="alert">
-                <span class="block sm:inline">{{ session('success') }}</span>
-            </div>
-        @endif
 
             
            </div>
