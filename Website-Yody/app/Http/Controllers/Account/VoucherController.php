@@ -19,7 +19,7 @@ class VoucherController extends Controller
         }
     
         // Lấy danh sách voucher của khách hàng
-        $vouchers = Voucher::where('MaKH', $MaKH);
+        $vouchers = Voucher::where('MaKH', $MaKH)->where('Active','1');
     
         // Tìm kiếm theo tên hoặc mã voucher
         if ($request->has('search') && $request->search != '') {
