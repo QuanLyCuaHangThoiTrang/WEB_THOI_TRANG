@@ -24,13 +24,14 @@
             </div>
 
             @csrf
-            @if ((Auth::check() && $tongGiaTri > 0) || (!Auth::check() && count($gioHangSession) > 0))
+            @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
                 <a href="{{ url('/checkout') }}">
-                    <div type="button"
+                    <div id="checkout-btn-{{ $index }}" type="button"
                         class="w-full bg-yellow-500 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-yellow-400 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600 text-center">
                         Hoàn tất kiểm tra</div>
                 </a>
             @else
+                <p class="text-center text-red-600">Số lượng sản phẩm vượt quá số lượng sản phẩm trong kho vui lòng cập nhật lại</p>
             @endif
 
             <div class="p-4 text-center mt-4">

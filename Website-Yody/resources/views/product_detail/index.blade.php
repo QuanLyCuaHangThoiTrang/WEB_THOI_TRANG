@@ -117,13 +117,19 @@
     <script>
         function updateQuantity(change) {
             const quantityInput = document.getElementById('quantity');
+            const stockQuantity = parseInt(document.getElementById('stock-quantity').textContent.trim());
             let currentValue = parseInt(quantityInput.value);
             currentValue += change;
             // Đảm bảo số lượng không âm
             if (currentValue < 1) {
                 currentValue = 1;
             }
+            if(currentValue > stockQuantity)
+            {
+                currentValue= stockQuantity;      
+            }
             quantityInput.value = currentValue;
+            
         }
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

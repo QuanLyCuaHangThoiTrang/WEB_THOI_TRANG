@@ -170,6 +170,7 @@ class CartController extends Controller
                     'TenSize' => $chiTietSanPham->KichThuoc->TenSize, // Thêm tên kích thước
                     'MaCTSP' => $chiTietSanPham->MaCTSP,
                     'HinhAnh' => $chiTietSanPham->HinhAnh,
+                    'SoLuongTonKho' => $chiTietSanPham->SoLuongTonKho,
                 ];
             }
             // Cập nhật giỏ hàng trong session

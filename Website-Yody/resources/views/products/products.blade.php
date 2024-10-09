@@ -133,7 +133,7 @@
                 @include('products.filter')
 
                 <div class="col-span-3">
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sanphams">
                         @foreach ($sanPhams as $sanPham)
                         <div class="group relative cursor-pointer product-item"
                             data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
@@ -164,10 +164,10 @@
             
                                     <div class="flex justify-between items-center mt-4">
                                         @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
-                                            <h3 class="font-semibold text-lg">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                            <h3 class="gia font-semibold text-lg">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
                                         @else
                                             <h3 class="font-semibold text-lg line-through text-red-500">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                                            <h3 class="font-semibold text-lg">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
+                                            <h3 class="gia font-semibold text-lg">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
                                         @endif
                                     </div>
                                 </div>
@@ -246,21 +246,22 @@
                 const productsArray = Array.from(products);
 
                 productsArray.sort((a, b) => {
-                    const priceA = parseFloat(a.querySelector('h3.font-semibold').innerText.replace('.', '')
+                    const priceA = parseFloat(a.querySelector('.gia').innerText.replace('.', '')
                         .replace(' đ', ''));
-                    const priceB = parseFloat(b.querySelector('h3.font-semibold').innerText.replace('.', '')
+                    const priceB = parseFloat(b.querySelector('.gia').innerText.replace('.', '')
                         .replace(' đ', ''));
 
                     return order === 'asc' ? priceA - priceB : priceB - priceA;
                 });
 
                 const productContainer = document.querySelector(
-                    '.grid.grid-cols-2.sm\\:grid-cols-3.lg\\:grid-cols-4');
+                    '.sanphams');
                 productContainer.innerHTML = ''; // Xóa tất cả sản phẩm hiện có
 
                 productsArray.forEach(product => {
                     productContainer.appendChild(product); // Thêm sản phẩm đã sắp xếp vào container
                 });
+                
             }
         });
     </script>

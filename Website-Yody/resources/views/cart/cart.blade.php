@@ -32,5 +32,25 @@
             });
         });
     </script>
+    <script>
+        // Hàm kiểm tra số lượng và ẩn nút checkout nếu cần
+        function checkQuantity(index) {
+            const quantityInput = document.getElementById(`quantity-input-${index}`);
+            const stockQuantity = parseInt(document.getElementById(`SoLuongKho-${index}-SoLuongTonKho`).innerText);
+            const checkoutButton = document.getElementById('checkout-button');
+            console.log(123);
+            // Lấy số lượng đã nhập
+            let enteredQuantity = parseInt(quantityInput.value);
+            
+            // Kiểm tra nếu số lượng nhập vượt quá số lượng kho
+            if (enteredQuantity > stockQuantity) {
+                // Ẩn nút "Hoàn tất kiểm tra"
+                checkoutButton.style.display = 'none';
+            } else {
+                // Hiển thị lại nút nếu số lượng hợp lệ
+                checkoutButton.style.display = 'block';
+            }
+        }
+    </script>
     @endsection
 @endsection

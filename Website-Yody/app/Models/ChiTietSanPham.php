@@ -15,6 +15,7 @@ class ChiTietSanPham extends Model
     protected $casts = [
         'MaCTSP' => 'string',
         'HinhAnh' => 'string',
+        'SoLuongTonKho'=> 'integer',
     ];
     // Thiết lập mối quan hệ với SanPham
     public function sanPham()
