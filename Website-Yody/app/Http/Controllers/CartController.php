@@ -82,6 +82,9 @@ class CartController extends Controller
             if (!$chiTietSanPham) {
                 return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
             }
+            if ($validated['SoLuong']> $chiTietSanPham->SoLuongTonKho) {
+                return redirect()->back()->with('error', 'Số lượng mua lớn hơn số lượng trong kho');
+            }
             // Tìm chi tiết giỏ hàng
             $chiTietGioHang = ChiTietGioHang::where([
                 ['MaGH', '=', $maGH],
@@ -146,7 +149,9 @@ class CartController extends Controller
             if (!$chiTietSanPham) {
                 return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
             }
-
+            if ($validated['SoLuong']> $chiTietSanPham->SoLuongTonKho) {
+                return redirect()->back()->with('error', 'Số lượng sản phẩm mua lớn hơn số lượng sản phẩm trong kho');
+            }
             $donGia = $Gia;
             $thanhTien = $validated['SoLuong'] * $donGia;
             $maCTSP = $chiTietSanPham->MaCTSP;
