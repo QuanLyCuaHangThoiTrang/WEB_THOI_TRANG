@@ -32,5 +32,7 @@ class ChiTietSanPham extends Model
     public function mauSac()
     {
         return $this->belongsTo(MauSac::class, 'MaMau', 'MaMau');
+        
     }
+    
 }

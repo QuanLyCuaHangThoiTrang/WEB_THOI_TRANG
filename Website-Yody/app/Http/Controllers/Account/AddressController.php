@@ -39,6 +39,7 @@ class AddressController extends Controller
         'Phuong.required' => 'Phường/Xã là bắt buộc.',
     ]);
 
+    
     // Kiểm tra giá trị của các trường ẩn
     if (empty($request->hidden_tinh) || empty($request->hidden_quan) || empty($request->hidden_phuong)) {
         return back()->withErrors(['error' => 'Vui lòng chọn đầy đủ thông tin về tỉnh, quận và phường.']);

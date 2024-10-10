@@ -85,7 +85,11 @@
 
 
 <div class="w-full max-w-9xl mx-auto">
-    <div class="flex flex-col lg:flex-row gap-4">
+    <div class=" py-5 border-b">
+        <p class="text-3xl font-bold ">GIỎ HÀNG</p>
+    </div>
+    <div class="flex mt-3 flex-col lg:flex-row gap-4">
+
         <!-- Product List -->
         <form action="{{ route('cart.update') }}" method="POST" class="w-full lg:w-2/3">
             @csrf
@@ -192,7 +196,7 @@
         <p class="text-xl leading-8">Tổng giá trị:</p>
         <p id="tongGiaTriSauGiamGia" class="text-xl leading-8 text-red-600">{{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
     </div>
-    @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout == false) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
+    @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
 
     <a href="{{ url('/checkout') }}">
         <div class="w-full bg-yellow-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-yellow-400 shadow-md text-center mt-4">
