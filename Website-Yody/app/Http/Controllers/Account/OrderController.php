@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Models\KhachHang;
+use App\Models\DanhGia;
 use App\Models\DonHang;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -79,25 +80,51 @@ class OrderController extends Controller
         return redirect()->back()->withErrors(['error' => 'Đơn hàng không thể hủy vì đã xác nhận']);
     }
     public function showOrderDetail($maKH, $maDH)
-{
-    // Lấy thông tin khách hàng
-    $khachhang = KhachHang::find($maKH);
-
-    // Kiểm tra xem khách hàng có tồn tại không
-    if (!$khachhang) {
-        return redirect()->back()->withErrors(['error' => 'Khách hàng không tồn tại']);
+    {
+        // Lấy thông tin khách hàng
+        $khachhang = KhachHang::find($maKH);
+    
+        // Kiểm tra xem khách hàng có tồn tại không
+        if (!$khachhang) {
+            return redirect()->back()->withErrors(['error' => 'Khách hàng không tồn tại']);
+        }
+        
+        // Lấy thông tin chi tiết đơn hàng bao gồm sản phẩm
+        $order = DonHang::with(['chiTietDonHang.chiTietSanPham.sanPham'])->find($maDH);
+    
+        // Kiểm tra xem đơn hàng có tồn tại không
+        if (!$order) {
+            return redirect()->back()->withErrors(['error' => 'Đơn hàng không tồn tại']);
+        }
+    
+        // Kiểm tra xem khách hàng có thể đánh giá hay không
+        $canRate = $order->TrangThai === 'Giao thành công';
+    
+        // Truyền biến $canRate đến view
+        return view('account.settings.order-detail', compact('order', 'khachhang', 'canRate'));
     }
     
-    // Lấy thông tin chi tiết đơn hàng bao gồm sản phẩm
-    $order = DonHang::with(['chiTietDonHang.chiTietSanPham.sanPham'])->find($maDH);
+public function rateProduct(Request $request, $maKH, $maCTSP)
+    {
+        // Xác thực dữ liệu đầu vào
+        $request->validate([
+            'DiemDanhGia' => 'required|integer|between:1,5',
+            'NoiDung' => 'nullable|string',
+        ]);
 
-    // Kiểm tra xem đơn hàng có tồn tại không
-    if (!$order) {
-        return redirect()->back()->withErrors(['error' => 'Đơn hàng không tồn tại']);
+        // Lưu đánh giá
+        $danhGia = new DanhGia();
+        $danhGia->MaKH = $maKH;
+        $danhGia->MaCTSP = $maCTSP;
+        $danhGia->DiemDanhGia = $request->DiemDanhGia;
+        $danhGia->NoiDung = $request->NoiDung;
+        $danhGia->NgayDanhGia = now(); // Ghi lại ngày đánh giá
+        $danhGia->save();
+
+        return redirect()->back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm!')->with('rated', true);
+
     }
-
-    return view('account.settings.order-detail', compact('order', 'khachhang'));
-}
+    
 
 
 }
