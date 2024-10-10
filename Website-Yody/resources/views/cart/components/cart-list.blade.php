@@ -117,6 +117,7 @@
                     <input type="hidden" name="items[{{ $index }}][DonGia]" value="{{ $chitiet->DonGia }}">
                     <input type="hidden" name="items[{{ $index }}][MaCTSP]" value="{{ $chitiet->MaCTSP }}">
                     <input type="hidden" name="items[{{ $index }}][MaGH]" value="{{ $chitiet->MaGH }}">
+                    
                     @if ($chitiet->SoLuong > $chitiet->ChiTietSanPham->SoLuongTonKho)
                         @php $canCheckout = false; @endphp
                     @endif
@@ -192,7 +193,7 @@
         <p class="text-xl leading-8">Tổng giá trị:</p>
         <p id="tongGiaTriSauGiamGia" class="text-xl leading-8 text-red-600">{{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
     </div>
-    @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout == false) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
+    @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
 
     <a href="{{ url('/checkout') }}">
         <div class="w-full bg-yellow-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-yellow-400 shadow-md text-center mt-4">
