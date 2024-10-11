@@ -29,7 +29,7 @@
                             <a href="{{ url('/vouchers/' . $khachhang->MaKH) }}">Phiếu giảm giá</a>
                         </li>
                         <li>
-                            <a href="{{ url('/order/' . $khachhang->MaKH) }}">Lịch sử đơn hàng</a>
+                            <a href="{{ url('/order/' . $khachhang->MaKH) }}">Đơn hàng</a>
                         </li>
                     </ul>
                 </div>
@@ -55,8 +55,8 @@
                                 <input id="taikoan" name="taikhoan" value="{{ Auth::check() ? Auth::user()->Username : '' }}" type="text" class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md" placeholder="Nhập tên đăng nhập" />
                             </div>
                             <div class="mb-4">
-                                <label for="email" class="block text-sm py-2 font-medium text-gray-700">Email</label>
-                                <input id="email" name="email" value="{{ Auth::check() ? Auth::user()->Email : '' }}" readonly  type="text" required class="w-full border-2 border-gray-300 border-l-[7px]  py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md" placeholder="Nhập email" />
+                                <label for="email" class="block text-sm py-2 font-medium  text-gray-700">Email</label>
+                                <input id="email" name="email" value="{{ Auth::check() ? Auth::user()->Email : '' }}" readonly  type="text" required class="w-full border-2 border-gray-300 border-l-[7px] bg-blue-100  py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md" placeholder="Nhập email" />
                             </div>
                            
                             <!-- Nút lưu thay đổi -->

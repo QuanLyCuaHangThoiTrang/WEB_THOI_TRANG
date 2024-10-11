@@ -62,13 +62,17 @@
                     <div class="flex-1 pb-2 w-full max-xl:max-w-3xl max-xl:mx-auto">
                         <div class="flex flex-col px-7 gap-4 p-4">
                             <div class="border-b">
+                                <div class="flex items-baseline justify-between border-b border-gray-200 py-5">
+                                    <div>
+                                        <p class="text-black font-semibold text-3xl">Điểm tích lũy: {{ $khachhang->DiemTichLuy }}</p>
+                                    </div>
+                                </div>
                                 <div class="gap-4 sm:flex sm:items-center sm:justify-between">
                                     <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">Vouchers</h3>
                                     <div class="mt-6 gap-4 space-y-4 sm:mt-0 sm:flex sm:items-center sm:justify-end sm:space-y-0">
                                         <form id="search-form" method="GET" action="{{ url('/vouchers/' . $khachhang->MaKH) }}" class="flex flex-col sm:flex-row justify-between items-center mb-4">
                                             <div class="flex space-x-2">
-                                                
-                                                <div class="flex-shrink-0">
+                                                <div class="flex-shrink-0 pt-3">
                                                     <select name="sort" id="sort-select" class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 border-l-[7px] focus:outline-none rounded-md mt-2 sm:mt-0">
                                                         <option value="default">Sắp xếp theo</option>
                                                         <option value="percent_asc" {{ request()->get('sort') == 'percent_asc' ? 'selected' : '' }}>Giảm giá từ thấp đến cao</option>
@@ -83,29 +87,31 @@
                                   </div>
                             </div>
                             <div>
-                                <div class=" container mx-auto">
-                                    
-                                    
+                                <div class="container mx-auto">
                                     <div class="pt-5">
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                            @foreach($vouchers as $voucher)
-                                            <div class="bg-gradient-to-br from-blue-950 to-blue-900 flex flex-col  text-center text-white justify-center items-center px-6 rounded-lg relative w-full max-w-xs border-gray-300 shadow-lg">
-                                                <h3 class="text-xl   font-bold mb-4">{{ $voucher->TenVoucher }}<br><span class="font-light ">dành cho hội viên</span></h3>
-                                                <div class="flex justify-end space-x-2 mb-2">
-                                                    <span id="cpnCode" class="bg-white  text-blue-950 font-bold px-4 py-1 rounded-l">{{ $voucher->MaVoucher }}</span>
-                                                </div>
-                                                <p class="text-sm">Hạn sử dụng: {{ $voucher->NgayKT }}</p>
-                                                <div class="w-12 h-12 bg-white rounded-full absolute top-1/2 transform -translate-y-1/2 left-0 -ml-6"></div>
-                                                <div class="w-12 h-12 bg-white rounded-full absolute top-1/2 transform -translate-y-1/2 right-0 -mr-6"></div>
+                                        @if($vouchers->isEmpty())
+                                            <img src="{{ asset('svg/empty.svg') }}" alt="No vouchers" class="mx-auto h-80 w-80">
+                                            <p class="text-gray-600 text-center">Bạn chưa có voucher nào.</p>
+                                        @else
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                                @foreach($vouchers as $voucher)
+                                                    <div class="bg-gradient-to-br from-blue-950 to-blue-900 flex flex-col text-center text-white justify-center items-center rounded-lg shadow-md p-4">
+                                                        <h3 class="text-lg font-bold">{{ $voucher->TenVoucher }}</h3>
+                                                        <p class="text-md">{{ $voucher->PhanTramGiamGia }}% Giảm giá</p>
+                                                        <p class="text-md">Hết hạn: {{ date('d-m-Y', strtotime($voucher->NgayKT)) }}</p>
+                                                    </div>
+                                                @endforeach
                                             </div>
-                                            @endforeach
-                                            @if($vouchers->isEmpty())
-                                            <p class="text-gray-600">Bạn không có voucher nào.</p>
-                                            @endif
-                                        </div>
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
+                            <!-- Pagination -->
+                            <div class="flex justify-center">
+                                {{ $vouchers->links() }}
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -113,24 +119,13 @@
         </section>
     </main>
 </div>
+<script src="{{ asset('js/notifications.js') }}"></script>
 <script>
-    // Tự động gửi form khi người dùng chọn một tùy chọn trong select
-
-    // Tự động gửi form khi người dùng nhập vào ô tìm kiếm
-    document.getElementById('search-input').addEventListener('change', function() {
-    console.log('Submitting form with sort:', this.value); // Log giá trị được chọn
-    document.getElementById('search-form').submit();
-});
-
-
-// Tự động gửi form khi người dùng chọn một tùy chọn trong select
-document.getElementById('sort-select').addEventListener('change', function() {
-    console.log('Submitting form with sort:', this.value); // Log giá trị được chọn
-    document.getElementById('search-form').submit();
-});
-
+    document.getElementById('sort-select').addEventListener('change', function() {
+        this.form.submit(); // Gửi form khi thay đổi lựa chọn
+    });
 </script>
 @endsection
 
-<script src="{{ asset('js/notifications.js') }}"></script>
+
 

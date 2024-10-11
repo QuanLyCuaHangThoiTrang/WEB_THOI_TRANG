@@ -5,15 +5,20 @@
    
 
     <main class="mx-auto max-w-7xl px-4 mt-14">
-        @include('account.components.notification')
-        
+<!-- resources/views/components/notification.blade.php -->
+        @if($errors->any())
+            <div class="notification absolute z-30 top-24 right-10 bg-red-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+
       
         <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
            
            <div>
             <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Account Settings</h1>
-
-            
            </div>
 
             <div class="flex items-center pt-4">
@@ -41,7 +46,7 @@
                                 <a href="{{ url('/vouchers/' . $khachhang->MaKH) }}">Phiếu giảm giá</a>
                             </li>
                             <li>
-                                <a href="{{ url('/order/' . $khachhang->MaKH) }}">Lịch sử đơn hàng</a>
+                                <a href="{{ url('/order/' . $khachhang->MaKH) }}">Đơn hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -58,7 +63,6 @@
                             <form method="POST" action="{{ route('addresses.create') }}">
                                 @csrf
                                 <input type="hidden" id="MaKH" name="MaKH" value="{{ $MaKH }}">
-            
                                 <div class="mb-3">
                                     <label for="diachi" class="mb-2 block text-sm font-medium text-gray-900">Địa chỉ</label>
                                     <input 
@@ -69,9 +73,7 @@
                                         required 
                                         class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md"
                                     />
-                                    <div id="diachiError" class="text-red-600 text-sm mt-1">
-                                        {{ $errors->first('Duong') }} 
-                                    </div>
+                                
                                 </div>
             
                                 <div class="grid grid-cols-1 gap-4 md:grid-cols-3 items-center justify-center">

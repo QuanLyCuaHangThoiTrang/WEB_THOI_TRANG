@@ -85,7 +85,11 @@
 
 
 <div class="w-full max-w-9xl mx-auto">
-    <div class="flex flex-col lg:flex-row gap-4">
+    <div class=" py-5 border-b">
+        <p class="text-3xl font-bold ">GIỎ HÀNG</p>
+    </div>
+    <div class="flex mt-3 flex-col lg:flex-row gap-4">
+
         <!-- Product List -->
         <form action="{{ route('cart.update') }}" method="POST" class="w-full lg:w-2/3">
             @csrf

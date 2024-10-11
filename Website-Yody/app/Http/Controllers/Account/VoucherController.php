@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Account;
+
 use App\Models\Voucher;
 use App\Models\KhachHang;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 class VoucherController extends Controller
 {
     // Hiển thị danh sách voucher của khách hàng
@@ -19,7 +21,7 @@ class VoucherController extends Controller
         }
     
         // Lấy danh sách voucher của khách hàng
-        $vouchers = Voucher::where('MaKH', $MaKH)->where('Active','1');
+        $vouchers = Voucher::where('MaKH', $MaKH)->where('Active', '1');
     
         // Tìm kiếm theo tên hoặc mã voucher
         if ($request->has('search') && $request->search != '') {
@@ -48,12 +50,10 @@ class VoucherController extends Controller
             }
         }
     
-        // Lấy dữ liệu
-        $vouchers = $vouchers->get();
+        // Lấy dữ liệu với phân trang
+        $vouchers = $vouchers->paginate(5);
     
         // Trả về view với danh sách voucher của khách hàng
         return view('account.settings.vouchers', compact('vouchers', 'khachhang'));
     }
-    
-
 }

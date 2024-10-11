@@ -12,7 +12,7 @@ class AccountController extends Controller
     public function showAccountForm($MaKH)
     {
         $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
-        
+
         // Xác định xem người dùng có phải là tài khoản Google không
         $isGoogleAccount = $khachhang->Provider === 'google';
 
@@ -47,32 +47,32 @@ class AccountController extends Controller
     }
 
     public function updateAccount(Request $request, $MaKH)
-{
-    $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
+    {
+        $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
 
-    // Xác thực dữ liệu đầu vào
-    $request->validate([
-        'full_name' => 'required|string|max:255',
-        // Thêm các trường khác nếu cần
-    ], [
-        'full_name.required' => 'Vui lòng nhập họ và tên.',
-    ]);
+        // Xác thực dữ liệu đầu vào
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            // Thêm các trường khác nếu cần
+        ], [
+            'full_name.required' => 'Vui lòng nhập họ và tên.',
+        ]);
 
-    // Cập nhật thông tin tài khoản
-    $khachhang->HoTen = $request->full_name;
-    $khachhang->Username = $request->taikhoan;
+        // Cập nhật thông tin tài khoản
+        $khachhang->HoTen = $request->full_name;
+        $khachhang->Username = $request->taikhoan;
 
-    $khachhang->save();
-    return back()->with('success', 'Thông tin tài khoản đã được cập nhật thành công.');
-}
-// public function deleteAccount(Request $request, $MaKH)
+        $khachhang->save();
+        return back()->with('success', 'Thông tin tài khoản đã được cập nhật thành công.');
+    }
+    // public function deleteAccount(Request $request, $MaKH)
 // {
 //     $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
 
-//     // Xóa tài khoản
+    //     // Xóa tài khoản
 //     // $khachhang->delete();
 
-//     return back()->with('success', 'Tài khoản đã được xóa thành công.');
+    //     return back()->with('success', 'Tài khoản đã được xóa thành công.');
 // }
 
 }
