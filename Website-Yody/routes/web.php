@@ -136,6 +136,8 @@ Route::delete('/orders/cancel/{maDH}', [OrderController::class, 'cancelOrder'])-
 Route::get('/order/{maKH}/{maDH}', [OrderController::class, 'showOrderDetail'])->name('orders.detail');
 Route::post('/orders/{maKH}/rate/{maCTSP}', [OrderController::class, 'rateProduct'])->name('orders.rate');
 
+use App\Http\Controllers\ReviewController;
+
 
 Route::post('/logout', function () {
     Auth::logout();

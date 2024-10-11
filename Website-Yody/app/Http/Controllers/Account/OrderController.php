@@ -121,6 +121,7 @@ public function rateProduct(Request $request, $maKH, $maCTSP)
         $danhGia->NgayDanhGia = now(); // Ghi lại ngày đánh giá
         $danhGia->save();
 
+        
         return redirect()->back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm!')->with('rated', true);
 
     }
