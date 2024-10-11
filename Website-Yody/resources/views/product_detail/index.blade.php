@@ -120,6 +120,10 @@
                                 class="w-full md:w-auto lg:w-[300px] min-w-[200px] bg-yellow-500 rounded-xl h-16 px-10 font-bold text-lg text-black  transition-all duration-500 hover:bg-yellow-600 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600">
                                 Thêm vào giỏ hàng
                             </button>
+                            
+                        </div>
+                        <div id="error-message" class="bg-red-500 text-white p-4 rounded-md text-center" style="display: none;">
+                            {{ session('error') }} <span id="countdown" class="font-bold"></span>
                         </div>
                         <div class="mt-8">
                             <h3 class="text-xl font-bold text-gray-800">Chi tiết sản phẩm</h3>

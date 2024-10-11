@@ -121,6 +121,7 @@
                     <input type="hidden" name="items[{{ $index }}][DonGia]" value="{{ $chitiet->DonGia }}">
                     <input type="hidden" name="items[{{ $index }}][MaCTSP]" value="{{ $chitiet->MaCTSP }}">
                     <input type="hidden" name="items[{{ $index }}][MaGH]" value="{{ $chitiet->MaGH }}">
+                    
                     @if ($chitiet->SoLuong > $chitiet->ChiTietSanPham->SoLuongTonKho)
                         @php $canCheckout = false; @endphp
                     @endif

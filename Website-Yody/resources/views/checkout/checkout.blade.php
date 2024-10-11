@@ -204,7 +204,25 @@
                                 <p class="text-sm sm:text-base mt-2 text-gray-500">Lựa chọn phương thức thanh toán phù hợp với bạn</p>
                                 
                         </div>
-                        
+                        <div
+                                class="flex flex-col text-md md:flex-row bg-white justify-center space-y-4 md:space-y-0 space-x-5 items-center py-5 border-b border-gray-200 gap-4">
+
+                                <input type="radio" id="payment_cash" name="payment_method" class="color-radio hidden"
+                                    value="Thanh toán tiền mặt">
+                                <label for="payment_cash"
+                                    class="h-48 w-full md:w-64 rounded-xl shadow hover:shadow-xl duration-150 hover:bg-white border flex flex-col items-center justify-center bg-gray-50 cursor-pointer">
+                                    <img src="{{ asset('/icons/money.png') }}" class="w-24 h-24" alt="">
+                                    <h1 class="mt-2 text-center">Thanh toán bằng tiền mặt</h1>
+                                </label>
+
+                                <input type="radio" id="payment_momo" name="payment_method" class="color-radio hidden"
+                                    value="Thanh toán momo">
+                                <label for="payment_momo"
+                                    class="h-48 w-full md:w-64 rounded-xl shadow hover:shadow-xl duration-150 hover:bg-white border flex flex-col items-center justify-center bg-gray-50 cursor-pointer">
+                                    <img src="{{ asset('/icons/momo.webp') }}" class="w-24 h-24" alt="">
+                                    <h1 class="mt-2 text-center">Thanh toán bằng Momo</h1>
+                                </label>
+                            </div>
                             <!-- Nút thanh toán -->
                             <button type="submit"
                                 class="w-full mt-6 bg-yellow-500 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-yellow-400 shadow-lg">

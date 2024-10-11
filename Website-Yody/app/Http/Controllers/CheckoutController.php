@@ -75,10 +75,10 @@ class CheckoutController extends Controller
     {
         // Xác thực dữ liệu đầu vào
         $request->validate([
-            'diachinha' => 'required|string|max:255',
-            'hidden_phuong' => 'required|string|max:255',
-            'hidden_quan' => 'required|string|max:255',
-            'hidden_tinh' => 'required|string|max:255',
+            'diachinha' => 'string|max:255',
+            'hidden_phuong' => 'string|max:255',
+            'hidden_quan' => 'string|max:255',
+            'hidden_tinh' => 'string|max:255',
             'email' => 'required|email|max:255',
             'phone_number' => 'required|string|max:15', // Thay đổi max theo nhu cầu
             'name' => 'required|string|max:255',
@@ -86,9 +86,9 @@ class CheckoutController extends Controller
             'diachinha.required' => 'Địa chỉ là bắt buộc.',
             'diachinha.string' => 'Địa chỉ phải là một chuỗi ký tự.',
             'diachinha.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
-            'hidden_tinh.required' => 'Tỉnh là bắt buộc.',
-            'hidden_quan.required' => 'Quận/Huyện là bắt buộc.',
-            'hidden_phuong.required' => 'Phường/Xã là bắt buộc.',
+            // 'hidden_tinh.required' => 'Tỉnh là bắt buộc.',
+            // 'hidden_quan.required' => 'Quận/Huyện là bắt buộc.',
+            // 'hidden_phuong.required' => 'Phường/Xã là bắt buộc.',
             'email.required' => 'Vui lòng nhập Email',
             'email.email' => 'Vui lòng nhập đúng định dạng Email.',
             'email.max' => 'Email không được vượt quá 255 ký tự.',
@@ -108,15 +108,15 @@ class CheckoutController extends Controller
         $sodienthoai = $request->input('phone_number');
         $hoten = $request->input('name');
     
-        if (empty($request->hidden_tinh)) {
-            return back()->withErrors(['error' => 'Vui lòng chọn Tỉnh']);
-        }
-        if (empty($request->hidden_quan)) {
-            return back()->withErrors(['error' => 'Vui lòng chọn Quận/Huyện']);
-        }
-        if (empty($request->hidden_phuong)) {
-            return back()->withErrors(['error' => 'Vui lòng chọn Phường']);
-        }
+        // if (empty($request->hidden_tinh)) {
+        //     return back()->withErrors(['error' => 'Vui lòng chọn Tỉnh']);
+        // }
+        // if (empty($request->hidden_quan)) {
+        //     return back()->withErrors(['error' => 'Vui lòng chọn Quận/Huyện']);
+        // }
+        // if (empty($request->hidden_phuong)) {
+        //     return back()->withErrors(['error' => 'Vui lòng chọn Phường']);
+        // }
         
         if(empty($request->email)){
             return back()->withErrors(['error' => 'Vui lòng nhập Email.']);
