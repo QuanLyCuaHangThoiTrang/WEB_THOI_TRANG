@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Account;
-
+use Illuminate\Support\Str;
 use App\Models\KhachHang;
 use App\Models\DanhGia;
 use App\Models\DonHang;
@@ -106,14 +106,21 @@ class OrderController extends Controller
     
 public function rateProduct(Request $request, $maKH, $maCTSP)
     {
+
+        
         // Xác thực dữ liệu đầu vào
         $request->validate([
             'DiemDanhGia' => 'required|integer|between:1,5',
             'NoiDung' => 'nullable|string',
         ]);
+        do {
+            $randomString = Str::random(6); // Generate a random string of length 6
+            $MaDG = 'DG' . $randomString; // Combine with 'KH' prefix
+        } while (DanhGia::where('MaDG', $MaDG)->exists()); 
 
         // Lưu đánh giá
         $danhGia = new DanhGia();
+        $danhGia->MaDG = $MaDG;
         $danhGia->MaKH = $maKH;
         $danhGia->MaCTSP = $maCTSP;
         $danhGia->DiemDanhGia = $request->DiemDanhGia;

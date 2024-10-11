@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<main class=" font-old-standard mx-auto max-w-7xl px-4 mt-14">
+<main class="  mx-auto max-w-7xl px-4 mt-14">
     @include('account.components.notification')
     <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
         <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Cài đặt tài khoản</h1>
