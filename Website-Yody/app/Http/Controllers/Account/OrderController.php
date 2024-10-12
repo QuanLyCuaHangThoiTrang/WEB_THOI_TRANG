@@ -53,7 +53,6 @@ class OrderController extends Controller
 
         // Phân trang đơn hàng
         $orders = $query->paginate(10);
-
         return view('account.settings.orders', compact('orders', 'khachhang'));
     }
 
@@ -103,36 +102,44 @@ class OrderController extends Controller
         // Truyền biến $canRate đến view
         return view('account.settings.order-detail', compact('order', 'khachhang', 'canRate'));
     }
-    
+
+
+
+
+
+
+//     public function showRateForm($maKH, $maCTSP)
+// {
+//     // Truyền mã khách hàng và mã sản phẩm đến view
+//     return view('account.settings.rate-form', compact('maKH', 'maCTSP'));
+// }
 public function rateProduct(Request $request, $maKH, $maCTSP)
-    {
+{
+    // Xác thực dữ liệu đầu vào
+    $request->validate([
+        'DiemDanhGia' => 'required|integer|between:1,5',
+        'NoiDung' => 'nullable|string',
+    ]);
 
-        
-        // Xác thực dữ liệu đầu vào
-        $request->validate([
-            'DiemDanhGia' => 'required|integer|between:1,5',
-            'NoiDung' => 'nullable|string',
-        ]);
-        do {
-            $randomString = Str::random(6); // Generate a random string of length 6
-            $MaDG = 'DG' . $randomString; // Combine with 'KH' prefix
-        } while (DanhGia::where('MaDG', $MaDG)->exists()); 
+    // Tạo mã đánh giá duy nhất
+    do {
+        $randomString = Str::random(6);
+        $MaDG = 'DG' . $randomString;
+    } while (DanhGia::where('MaDG', $MaDG)->exists());
 
-        // Lưu đánh giá
-        $danhGia = new DanhGia();
-        $danhGia->MaDG = $MaDG;
-        $danhGia->MaKH = $maKH;
-        $danhGia->MaCTSP = $maCTSP;
-        $danhGia->DiemDanhGia = $request->DiemDanhGia;
-        $danhGia->NoiDung = $request->NoiDung;
-        $danhGia->NgayDanhGia = now(); // Ghi lại ngày đánh giá
-        $danhGia->save();
+    // Lưu đánh giá
+    $danhGia = new DanhGia();
+    $danhGia->MaDG = $MaDG;
+    $danhGia->MaKH = $maKH;
+    $danhGia->MaCTSP = $maCTSP;
+    $danhGia->DiemDanhGia = $request->DiemDanhGia;
+    $danhGia->NoiDung = $request->NoiDung;
+    $danhGia->NgayDanhGia = now();
+    $danhGia->save();
 
-        
-        return redirect()->back()->with('success', 'Cảm ơn bạn đã đánh giá sản phẩm!')->with('rated', true);
-
-    }
+    // Chuyển hướng về trang đánh giá hoặc hiển thị thông báo
     
-
+    return redirect()->back()->with('success', 'Huy dep trai');
+}
 
 }

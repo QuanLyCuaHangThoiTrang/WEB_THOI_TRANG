@@ -135,15 +135,16 @@
                                                         @method('DELETE')
                                                     </form>
                                                     @endif
-                                                    {{-- @if($order->TrangThai == 'Giao thành công')
-                                                    <a href="{{ route('orders.rate.form', [$khachhang->MaKH, $sanPham->MaCTSP]) }}" class="w-full inline-flex justify-center rounded-lg border border-gray-200 bg-blue-900 py-2 text-sm font-medium text-white duration-300 hover:bg-blue-600 hover:text-primary-700">
-                                                        Đánh giá
-                                                    </a>
-                                                    @endif --}}
+                                                    @foreach($order->chiTietDonHang as $ct)
+                                                  
+                                                    @if($order->TrangThai == 'Giao thành công')
+                                                            <a href="{{ route('orders.rate', ['maKH' => $khachhang->MaKH, 'maCTSP' => $ct->MaCTSP]) }}">Đánh giá</a>
+                                                    @endif 
+                                                @endforeach
                                                 
-                                            
-                                                    <a href="{{ route('orders.detail', [$khachhang->MaKH, $order->MaDH]) }}" class=" w-full inline-flex justify-center rounded-lg border border-gray-200 bg-blue-900  py-2 text-sm font-medium text-white duration-300 hover:bg-blue-600 hover:text-primary-700">Xem chi tiết</a>
+                                                    <a href="{{ route('orders.detail', [$khachhang->MaKH, $order->MaDH]) }}" class="w-full inline-flex justify-center rounded-lg border border-gray-200 bg-blue-900 py-2 text-sm font-medium text-white duration-300 hover:bg-blue-600 hover:text-primary-700">Xem chi tiết</a>
                                                 </div>
+                                                
                                             </div>
                                             @endforeach
                                             
