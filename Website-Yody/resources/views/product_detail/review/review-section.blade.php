@@ -63,7 +63,7 @@
         <div class="border-t border-gray-300 mt-4 pt-4">
             <h4 class="text-lg font-bold">User Reviews:</h4>
             <div class="mt-2">
-                <p class="text-gray-800">"Great product! Highly recommend!" - User1</p>
+                <p class="text-gray-800">"Ơ - User1</p>
                 <p class="text-gray-800">"Good quality, but shipping took too long." - User2</p>
                 <p class="text-gray-800">"Not what I expected, but decent." - User3</p>
                 <!-- Thêm các bình luận chi tiết ở đây... -->

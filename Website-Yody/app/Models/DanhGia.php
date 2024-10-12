@@ -10,8 +10,14 @@ class DanhGia extends Model
     use HasFactory;
 
     protected $table = 'danhgia';
+    protected $primaryKey = 'MaDG';
+    
+    protected $casts = [
+        'MaDG' => 'string',
+    ];
 
     protected $fillable = [
+
         'MaKH',
         'MaCTSP',
         'DiemDanhGia',

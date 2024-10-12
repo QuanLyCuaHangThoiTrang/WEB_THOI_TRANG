@@ -3,7 +3,7 @@
     @method('PUT')
     @if(Auth::check())
             @foreach ($chiTietGioHang as $index => $chitiet)
-            <div id="confirmModal-{{ $index }}" class="font-old-standard fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 ease-in-out">
+            <div id="confirmModal-{{ $index }}" class=" fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 ease-in-out">
                 <div class="bg-white rounded-lg p-6 shadow-lg transform transition-transform duration-300 ease-in-out scale-90">
                     <p class="text-lg font-semibold mb-4 text-gray-800">Bạn có muốn xoá sản phẩm này không?</p>
                     <div class="flex justify-end gap-4">
@@ -17,7 +17,7 @@
         @endforeach
     @else
         @foreach ($gioHangSession as $index => $item)
-            <div id="confirmModal-{{ $index }}" class="font-old-standard fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 ease-in-out">
+            <div id="confirmModal-{{ $index }}" class=" fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 ease-in-out">
                 <div class="bg-white rounded-lg p-6 shadow-lg transform transition-transform duration-300 ease-in-out scale-90">
                     <p class="text-lg font-semibold mb-4 text-gray-800">Bạn có muốn xoá sản phẩm này không?</p>
                     <div class="flex justify-end gap-4">

@@ -146,9 +146,7 @@ Route::post('password/reset', [ResetPasswordController::class, 'resetPassword'])
 Route::get('/order/{MaKH}', [OrderController::class, 'showOrders'])->name('account.settings.orders');
 Route::delete('/orders/cancel/{maDH}', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
 Route::get('/order/{maKH}/{maDH}', [OrderController::class, 'showOrderDetail'])->name('orders.detail');
-Route::post('/orders/{maKH}/rate/{maCTSP}', [OrderController::class, 'rateProduct'])->name('orders.rate');
-
-
+Route::post('orders/rate/{maKH}/{maCTSP}', [OrderController::class, 'rateProduct'])->name('orders.rate');
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');

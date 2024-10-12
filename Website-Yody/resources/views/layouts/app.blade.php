@@ -14,7 +14,7 @@
 
 </head>
 <body>
-    <div>
+    <div class="font-old-standard">
         @include('layouts.header')
         @yield('content')
         @include('layouts.footer')

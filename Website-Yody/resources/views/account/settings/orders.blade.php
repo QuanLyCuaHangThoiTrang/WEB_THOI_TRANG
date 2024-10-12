@@ -135,8 +135,16 @@
                                                         @method('DELETE')
                                                     </form>
                                                     @endif
-                                                    <a href="{{ route('orders.detail', [$khachhang->MaKH, $order->MaDH]) }}" class=" w-full inline-flex justify-center rounded-lg border border-gray-200 bg-blue-900  py-2 text-sm font-medium text-white duration-300 hover:bg-blue-600 hover:text-primary-700">Xem chi tiết</a>
+                                                    @foreach($order->chiTietDonHang as $ct)
+                                                  
+                                                    @if($order->TrangThai == 'Giao thành công')
+                                                            <a href="{{ route('orders.rate', ['maKH' => $khachhang->MaKH, 'maCTSP' => $ct->MaCTSP]) }}">Đánh giá</a>
+                                                    @endif 
+                                                @endforeach
+                                                
+                                                    <a href="{{ route('orders.detail', [$khachhang->MaKH, $order->MaDH]) }}" class="w-full inline-flex justify-center rounded-lg border border-gray-200 bg-blue-900 py-2 text-sm font-medium text-white duration-300 hover:bg-blue-600 hover:text-primary-700">Xem chi tiết</a>
                                                 </div>
+                                                
                                             </div>
                                             @endforeach
                                             
@@ -155,7 +163,7 @@
         </section>
     </main>
 </div>
-
+<script src="{{ asset('js/notifications.js') }}"></script>
 <script>
 // Tự động submit form khi thay đổi sắp xếp
 document.getElementById('sort').addEventListener('change', function() {
