@@ -31,6 +31,10 @@ class ChiTietDonHang extends Model
         'DonGia' => 'decimal:2',  // Số thập phân với 2 chữ số sau dấu phẩy
         'ThanhTien' => 'decimal:2',
     ];
+    public function donHang()
+    {
+        return $this->belongsTo(DonHang::class, 'MaDH', 'MaDH');
+    }
     public function khachHang()
     {
         return $this->belongsTo(KhachHang::class, 'MaKH', 'MaKH');

@@ -27,4 +27,8 @@ class MauSac extends Model
     protected $casts = [
         'MaMau' => 'string',
     ];
+    public function chiTietSanPhams()
+    {
+        return $this->hasMany(ChiTietSanPham::class, 'MaMau', 'MaMau');
+    }
 }

@@ -17,4 +17,8 @@ class KichThuoc extends Model
     protected $casts = [
         'MaSize' => 'string',
     ];
+    public function chiTietSanPhams()
+    {
+        return $this->hasMany(ChiTietSanPham::class, 'MaSize', 'MaSize');
+    }
 }

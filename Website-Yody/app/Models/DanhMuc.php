@@ -15,7 +15,7 @@ class DanhMuc extends Model
         'MaDanhMuc' => 'string',
         'TenDanhMuc' => 'string',
     ];
-    protected $fillable = ['TenDanhMuc'];
+    protected $fillable = ['MaDanhMuc','TenDanhMuc'];
     public function chiTietDanhMuc()
     {
         return $this->hasMany(ChiTietDanhMuc::class, 'MaDanhMuc', 'MaDanhMuc');

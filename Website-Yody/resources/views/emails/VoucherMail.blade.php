@@ -66,7 +66,7 @@
         <ul>
             <li><strong>Mã voucher:</strong> {{ $voucher->MaVoucher }}</li>
             <li><strong>Tên voucher:</strong> {{ $voucher->TenVoucher }}</li>
-            <li><strong>Giá trị giảm:</strong> {{ number_format($voucher->PhanTramGiamGia) }}đ</li>
+            <li><strong>Giá trị giảm:</strong> {{ number_format($voucher->PhanTramGiamGia, 0, ',', '.') }}đ</li>
             <li><strong>Ngày bắt đầu:</strong> {{ $voucher->NgayBD->format('d-m-Y') }}</li>
             <li><strong>Ngày kết thúc:</strong> {{ $voucher->NgayKT->format('d-m-Y') }}</li>
         </ul>

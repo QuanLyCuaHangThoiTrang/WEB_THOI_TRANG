@@ -34,5 +34,8 @@ class ChiTietSanPham extends Model
         return $this->belongsTo(MauSac::class, 'MaMau', 'MaMau');
         
     }
-    
+    public function chiTietDonHangs()
+    {
+        return $this->hasMany(ChiTietDonHang::class, 'MaCTSP', 'MaCTSP');
+    }
 }

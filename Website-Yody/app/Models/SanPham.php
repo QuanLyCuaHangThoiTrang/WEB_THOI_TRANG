@@ -21,4 +21,8 @@ class SanPham extends Model
     {
         return $this->hasMany(ChiTietSanPham::class, 'MaSP', 'MaSP');
     }
+    public function chitietsanphams()
+    {
+        return $this->hasMany(ChiTietSanPham::class, 'MaSP', 'MaSP');
+    }
 }
