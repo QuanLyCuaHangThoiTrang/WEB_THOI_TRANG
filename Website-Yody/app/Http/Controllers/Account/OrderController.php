@@ -146,9 +146,4 @@ public function rateProduct(Request $request, $maKH)
     return redirect()->back()->with('success', 'Đánh giá đã được ghi nhận!');
 }
 
-
-
-
-
-
 }

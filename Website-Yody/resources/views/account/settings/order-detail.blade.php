@@ -39,7 +39,7 @@
                                 <span class="font-bold text-gray-800">{{ $chiTiet->chiTietSanPham->sanPham->TenSP }}</span>
                             </div>
                             <div class="flex-shrink-0 text-right mt-2 sm:mt-0"> 
-                                <span class="block text-gray-600">{{ number_format($chiTiet->ThanhTien, 0, ',', '.') }} VND x {{ $chiTiet->SoLuong }}</span>
+                                <span class="block text-gray-600">{{ number_format($chiTiet->DonGia, 0, ',', '.') }} VND x {{ $chiTiet->SoLuong }}</span>
                             </div>
                         </li>
                     @else
@@ -62,66 +62,63 @@
         <div class="bg-white p-4 lg:p-5 rounded-lg border shadow-lg mb-6">
             <h3 class="text-2xl lg:text-3xl text-center font-semibold text-blue-900 py-3 uppercase mb-4">Đánh giá sản phẩm</h3>
             
-            @php
-                $sanPham = $chiTiet->chiTietSanPham; // Lấy thông tin sản phẩm
-            @endphp
-            @if (!$allRated)
-           <form action="{{ route('orders.rate', ['maKH' => $khachhang->MaKH, 'maCTSP' => $sanPham->MaCTSP]) }}" method="POST" id="ratingForm">
-                @csrf
-                <div class="mb-4">
-                    <label for="productSelect" class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">Chọn sản phẩm:</label>
-                    <div class="relative">
-                        <select id="productSelect" name="MaCTSP" class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 appearance-none">
-                            <option value="">-- Chọn sản phẩm --</option>
-                            @foreach($order->chiTietDonHang as $chiTiet)
-                            @if($chiTiet->chiTietSanPham && !$chiTiet->DaDanhGia) <!-- Chỉ hiển thị sản phẩm chưa được đánh giá -->
-                                <option value="{{ $chiTiet->chiTietSanPham->MaCTSP }}">
-                                    {{ $chiTiet->chiTietSanPham->sanPham->TenSP }}
-                                </option>
-                            @endif
-                            @endforeach
-                        </select>
-                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                            </svg>
+            @if ($canRate && !$allRated)
+                <form action="{{ route('orders.rate', ['maKH' => $khachhang->MaKH, 'maCTSP' => $chiTiet->chiTietSanPham->MaCTSP]) }}" method="POST" id="ratingForm">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="productSelect" class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">Chọn sản phẩm:</label>
+                        <div class="relative">
+                            <select id="productSelect" name="MaCTSP" class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 appearance-none">
+                                <option value="">-- Chọn sản phẩm --</option>
+                                @foreach($order->chiTietDonHang as $chiTiet)
+                                    @if($chiTiet->chiTietSanPham && !$chiTiet->DaDanhGia) <!-- Chỉ hiển thị sản phẩm chưa được đánh giá -->
+                                        <option value="{{ $chiTiet->chiTietSanPham->MaCTSP }}">
+                                            {{ $chiTiet->chiTietSanPham->sanPham->TenSP }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
-                
-                   
-                </div>
-                
-
-                <div class="mb-4">
-                    <label class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">Điểm đánh giá:</label>
-                    <div class="flex items-center justify-center space-x-1" id="rating-stars">
-                        @for($i = 1; $i <= 5; $i++)
-                            <input type="radio" id="star{{ $i }}" name="DiemDanhGia" value="{{ $i }}" class="hidden peer" required>
-                            <label for="star{{ $i }}" class="cursor-pointer text-gray-400 transition duration-300 ease-in-out hover:text-yellow-400" onmouseover="highlightStars({{ $i }})" onmouseleave="resetStars()">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-8 h-8 sm:w-10 sm:h-10">
-                                    <path d="M12 .587l3.668 7.568 8.332 1.215-6.003 5.854 1.42 8.288L12 18.897l-7.417 3.897 1.42-8.288-6.003-5.854 8.332-1.215z"/>
-                                </svg>
-                            </label>
-                        @endfor
+                    
+                    <div class="mb-4">
+                        <label class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">Điểm đánh giá:</label>
+                        <div class="flex items-center justify-center space-x-1" id="rating-stars">
+                            @for($i = 1; $i <= 5; $i++)
+                                <input type="radio" id="star{{ $i }}" name="DiemDanhGia" value="{{ $i }}" class="hidden peer" required>
+                                <label for="star{{ $i }}" class="cursor-pointer text-gray-400 transition duration-300 ease-in-out hover:text-yellow-400" onmouseover="highlightStars({{ $i }})" onmouseleave="resetStars()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-8 h-8 sm:w-10 sm:h-10">
+                                        <path d="M12 .587l3.668 7.568 8.332 1.215-6.003 5.854 1.42 8.288L12 18.897l-7.417 3.897 1.42-8.288-6.003-5.854 8.332-1.215z"/>
+                                    </svg>
+                                </label>
+                            @endfor
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-4">
-                    <label for="NoiDung" class="block text-base lg:text-lg font-medium text-gray-700 mb-2">Nội dung:</label>
-                    <textarea name="NoiDung" id="NoiDung" class="mt-1 h-40 lg:h-[400px] block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2" rows="4" placeholder="Nhập nội dung đánh giá"></textarea>
-                </div>
+                    <div class="mb-4">
+                        <label for="NoiDung" class="block text-base lg:text-lg font-medium text-gray-700 mb-2">Nội dung:</label>
+                        <textarea name="NoiDung" id="NoiDung" class="mt-1 h-40 lg:h-[400px] block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2" rows="4" placeholder="Nhập nội dung đánh giá"></textarea>
+                    </div>
 
-                <div class="justify-center text-center">
-                    <button type="submit" class="bg-blue-700 text-white py-2 lg:py-3 px-4 rounded-md hover:bg-blue-600 transition duration-300 font-bold shadow-md transform hover:scale-105">Gửi đánh giá</button>
-                </div>
-            </form>
+                    <div class="justify-center text-center">
+                        <button type="submit" class="bg-blue-700 text-white py-2 lg:py-3 px-4 rounded-md hover:bg-blue-600 transition duration-300 font-bold shadow-md transform hover:scale-105">
+                            Gửi đánh giá
+                        </button>
+                    </div>
+                </form>
+            @elseif ($allRated)
+                <p class="text-lg text-green-600 text-center">Tất cả sản phẩm trong đơn hàng đã được đánh giá!</p>
             @else
-            <p>Tất cả sản phẩm trong đơn hàng đã được đánh giá!</p>
-        @endif
+                <p class="text-lg text-red-600 text-center">Không thể đánh giá đơn hàng này!</p>
+            @endif
         </div>
     </div>
 </div>
-
 <script>
     function highlightStars(rating) {
         const stars = document.querySelectorAll('#rating-stars label');
