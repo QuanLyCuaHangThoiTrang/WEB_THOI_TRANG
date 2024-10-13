@@ -85,20 +85,21 @@
 
 
 <div class="w-full max-w-9xl mx-auto">
-    <div class=" py-5 border-b">
-        <p class="text-3xl font-bold ">GIỎ HÀNG</p>
-    </div>
+  
     <div class="flex mt-3 flex-col lg:flex-row gap-4">
 
         <!-- Product List -->
         <form action="{{ route('cart.update') }}" method="POST" class="w-full lg:w-2/3">
             @csrf
-            @method('PUT')          
+            @method('PUT')     
+                
             @if(Auth::check())
+
                 @php
                     $canCheckout = true; // Biến kiểm tra xem có thể thanh toán hay không
                 @endphp   
                 @foreach ($chiTietGioHang as $index => $chitiet)
+                
                     <div class="flex flex-col md:flex-row bg-white p-3 border-b border-gray-200 gap-4 items-center">
                         <a href="{{ route('cart.remove', ['MaGH' => $chitiet->MaGH, 'MaCTSP' => $chitiet->MaCTSP]) }}" class="remove-item text-red-500 hover:text-red-700 flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
