@@ -166,7 +166,7 @@
                                         @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
                                             <h3 class="gia font-semibold text-lg">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
                                         @else
-                                            <h3 class="font-semibold text-lg line-through text-red-500">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                            <h3 class="font-semibold text-lg line-through text-red-400">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
                                             <h3 class="gia font-semibold text-lg">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
                                         @endif
                                     </div>

@@ -1,15 +1,30 @@
 <div class="mt-8">
-    <h3 class="text-xl font-bold text-gray-800">Reviews(10)</h3>
+    <h3 class="text-xl font-bold text-gray-800">Reviews ({{ $tongSoDanhGia }})</h3>
     <div class="space-y-3 mt-4">
+        @php
+            $tongSoDanhGia = $danhGias->count();
+            $danhGia5Sao = $danhGias->where('DiemDanhGia', 5)->count();
+            $danhGia4Sao = $danhGias->where('DiemDanhGia', 4)->count();
+            $danhGia3Sao = $danhGias->where('DiemDanhGia', 3)->count();
+            $danhGia2Sao = $danhGias->where('DiemDanhGia', 2)->count();
+            $danhGia1Sao = $danhGias->where('DiemDanhGia', 1)->count();
+
+            $phanTram5Sao = $tongSoDanhGia > 0 ? ($danhGia5Sao / $tongSoDanhGia) * 100 : 0;
+            $phanTram4Sao = $tongSoDanhGia > 0 ? ($danhGia4Sao / $tongSoDanhGia) * 100 : 0;
+            $phanTram3Sao = $tongSoDanhGia > 0 ? ($danhGia3Sao / $tongSoDanhGia) * 100 : 0;
+            $phanTram2Sao = $tongSoDanhGia > 0 ? ($danhGia2Sao / $tongSoDanhGia) * 100 : 0;
+            $phanTram1Sao = $tongSoDanhGia > 0 ? ($danhGia1Sao / $tongSoDanhGia) * 100 : 0;
+        @endphp
+
         <div class="flex items-center">
             <p class="text-sm text-gray-800 font-bold">5.0</p>
             <svg class="w-5 fill-yellow-500 ml-1.5" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
             <div class="bg-gray-300 rounded-md w-full h-2 ml-3">
-                <div class="w-2/3 h-full rounded-md bg-yellow-500"></div>
+                <div class="h-full rounded-md bg-yellow-500" style="width: {{ $phanTram5Sao }}%;"></div>
             </div>
-            <p class="text-sm text-gray-800 font-bold ml-3">66%</p>
+            <p class="text-sm text-gray-800 font-bold ml-3">{{ round($phanTram5Sao, 1) }}%</p>
         </div>
 
         <div class="flex items-center">
@@ -18,9 +33,9 @@
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
             <div class="bg-gray-300 rounded-md w-full h-2 ml-3">
-                <div class="w-1/3 h-full rounded-md bg-yellow-500"></div>
+                <div class="h-full rounded-md bg-yellow-500" style="width: {{ $phanTram4Sao }}%;"></div>
             </div>
-            <p class="text-sm text-gray-800 font-bold ml-3">33%</p>
+            <p class="text-sm text-gray-800 font-bold ml-3">{{ round($phanTram4Sao, 1) }}%</p>
         </div>
 
         <div class="flex items-center">
@@ -29,9 +44,9 @@
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
             <div class="bg-gray-300 rounded-md w-full h-2 ml-3">
-                <div class="w-1/6 h-full rounded-md bg-yellow-500"></div>
+                <div class="h-full rounded-md bg-yellow-500" style="width: {{ $phanTram3Sao }}%;"></div>
             </div>
-            <p class="text-sm text-gray-800 font-bold ml-3">16%</p>
+            <p class="text-sm text-gray-800 font-bold ml-3">{{ round($phanTram3Sao, 1) }}%</p>
         </div>
 
         <div class="flex items-center">
@@ -40,9 +55,9 @@
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
             <div class="bg-gray-300 rounded-md w-full h-2 ml-3">
-                <div class="w-1/12 h-full rounded-md bg-yellow-500"></div>
+                <div class="h-full rounded-md bg-yellow-500" style="width: {{ $phanTram2Sao }}%;"></div>
             </div>
-            <p class="text-sm text-gray-800 font-bold ml-3">8%</p>
+            <p class="text-sm text-gray-800 font-bold ml-3">{{ round($phanTram2Sao, 1) }}%</p>
         </div>
 
         <div class="flex items-center">
@@ -51,9 +66,9 @@
                 <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
             </svg>
             <div class="bg-gray-300 rounded-md w-full h-2 ml-3">
-                <div class="w-[6%] h-full rounded-md bg-yellow-500"></div>
+                <div class="h-full rounded-md bg-yellow-500" style="width: {{ $phanTram1Sao }}%;"></div>
             </div>
-            <p class="text-sm text-gray-800 font-bold ml-3">6%</p>
+            <p class="text-sm text-gray-800 font-bold ml-3">{{ round($phanTram1Sao, 1) }}%</p>
         </div>
     </div>
 
@@ -61,15 +76,35 @@
 
     <div id="reviewDetails" class="mt-4 hidden">
         <div class="border-t border-gray-300 mt-4 pt-4">
-            <h4 class="text-lg font-bold">User Reviews:</h4>
             <div class="mt-2">
-                @foreach ($danhGias as $danhgia)
-                    <p class="text-gray-800"><span class="font-bold">{{ $danhgia->khachHang->HoTen }}: </span> {{ $danhgia->NoiDung }}</p>
-                @endforeach            
+                @if ($danhGias->isEmpty())
+                    <p class="text-gray-600">Chưa có đánh giá nào cho sản phẩm này.</p>
+                @else
+                    @foreach ($danhGias as $danhGia)
+                        <div class="border-b border-gray-300 pb-4 space-y-2 mb-4">
+                            <p class="font-semibold text-gray-800">{{ $danhGia->khachHang->HoTen }}</p>
+                            <div class="flex items-center">
+                                
+                                <div class="flex items-center">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <svg class="w-4 h-4 {{ $i <= $danhGia->DiemDanhGia ? 'fill-yellow-500' : 'fill-gray-300' }}" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                                        </svg>
+                                    @endfor
+                                </div>
+                                
+                            </div>
+                            
+                            <p class="text-sm text-gray-600 mt-1">{{ $danhGia->NoiDung }}</p>
+                            <p class="text-xs text-gray-500 mt-1">Được đánh giá vào {{ $danhGia->NgayDanhGia }}</p>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     document.getElementById('toggleReviews').addEventListener('click', function() {

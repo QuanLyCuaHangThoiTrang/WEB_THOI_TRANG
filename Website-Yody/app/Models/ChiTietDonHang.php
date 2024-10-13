@@ -21,7 +21,7 @@ class ChiTietDonHang extends Model
     public $incrementing = false;
     
     // Khai báo các thuộc tính có thể gán
-    protected $fillable = ['MaDH', 'MaCTSP', 'SoLuong', 'DonGia', 'ThanhTien'];
+    protected $fillable = ['MaDH', 'MaCTSP', 'SoLuong', 'DonGia', 'ThanhTien','DaDanhGia'];
     
     // Định dạng thuộc tính kiểu dữ liệu
     protected $casts = [
@@ -30,6 +30,7 @@ class ChiTietDonHang extends Model
         'SoLuong' => 'integer',
         'DonGia' => 'decimal:2',  // Số thập phân với 2 chữ số sau dấu phẩy
         'ThanhTien' => 'decimal:2',
+        'DaDanhGia' => 'integer',
     ];
     public function donHang()
     {

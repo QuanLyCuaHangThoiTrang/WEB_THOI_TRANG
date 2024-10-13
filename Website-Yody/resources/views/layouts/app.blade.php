@@ -14,7 +14,7 @@
 
 </head>
 <body>
-    <div class="font-old-standard">
+    <div class=" font-sans">
         @include('layouts.header')
         @yield('content')
         @include('layouts.footer')

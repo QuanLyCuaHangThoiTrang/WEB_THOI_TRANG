@@ -2,20 +2,20 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="font-old-standard">
-    <div class="relative">
+<div class="">
+    <div class="relative font-old-standard">
         @include('home.components.swiper')
     </div>
-    <div class="relative">
+    <div class="relative font-old-standard">
       @include('home.components.sale-section')
     </div>
-    <div class="relative">
+    <div class="relative font-old-standard">
       @include('home.components.midbanner-section')
     </div>
     <div>
     @include('home.components.collection-section')
     </div>
-    <div class="relative">
+    <div class="relative font-sans">
       
       @include('home.components.feature-section')
     </div>

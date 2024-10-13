@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 use Illuminate\Support\Str;
 use App\Models\KhachHang;
+use App\Models\ChiTietDonHang;
 use App\Models\DanhGia;
 use App\Models\DonHang;
 use Illuminate\Http\Request;
@@ -82,7 +83,7 @@ class OrderController extends Controller
     {
         // Lấy thông tin khách hàng
         $khachhang = KhachHang::find($maKH);
-    
+        
         // Kiểm tra xem khách hàng có tồn tại không
         if (!$khachhang) {
             return redirect()->back()->withErrors(['error' => 'Khách hàng không tồn tại']);
@@ -90,35 +91,32 @@ class OrderController extends Controller
         
         // Lấy thông tin chi tiết đơn hàng bao gồm sản phẩm
         $order = DonHang::with(['chiTietDonHang.chiTietSanPham.sanPham'])->find($maDH);
-    
+        
         // Kiểm tra xem đơn hàng có tồn tại không
         if (!$order) {
             return redirect()->back()->withErrors(['error' => 'Đơn hàng không tồn tại']);
         }
-    
+        
         // Kiểm tra xem khách hàng có thể đánh giá hay không
         $canRate = $order->TrangThai === 'Giao thành công';
     
-        // Truyền biến $canRate đến view
-        return view('account.settings.order-detail', compact('order', 'khachhang', 'canRate'));
+        // Kiểm tra xem tất cả sản phẩm đã được đánh giá hay chưa
+        $allRated = $order->chiTietDonHang->every(function ($chiTiet) {
+            return $chiTiet->DaDanhGia; // Kiểm tra xem tất cả đã đánh giá hay chưa
+        });
+        
+        // Truyền biến $canRate và $allRated đến view
+        return view('account.settings.order-detail', compact('order', 'khachhang', 'canRate', 'allRated'));
     }
+    
 
-
-
-
-
-
-//     public function showRateForm($maKH, $maCTSP)
-// {
-//     // Truyền mã khách hàng và mã sản phẩm đến view
-//     return view('account.settings.rate-form', compact('maKH', 'maCTSP'));
-// }
-public function rateProduct(Request $request, $maKH, $maCTSP)
+public function rateProduct(Request $request, $maKH)
 {
     // Xác thực dữ liệu đầu vào
     $request->validate([
         'DiemDanhGia' => 'required|integer|between:1,5',
         'NoiDung' => 'nullable|string',
+        'MaCTSP' => 'required|string' // Thêm xác thực cho mã sản phẩm
     ]);
 
     // Tạo mã đánh giá duy nhất
@@ -127,19 +125,30 @@ public function rateProduct(Request $request, $maKH, $maCTSP)
         $MaDG = 'DG' . $randomString;
     } while (DanhGia::where('MaDG', $MaDG)->exists());
 
-    // Lưu đánh giá
+    // Lưu đánh giá vào bảng DanhGia
     $danhGia = new DanhGia();
     $danhGia->MaDG = $MaDG;
     $danhGia->MaKH = $maKH;
-    $danhGia->MaCTSP = $maCTSP;
+    $danhGia->MaCTSP = $request->MaCTSP; // Sử dụng mã sản phẩm từ request
     $danhGia->DiemDanhGia = $request->DiemDanhGia;
     $danhGia->NoiDung = $request->NoiDung;
     $danhGia->NgayDanhGia = now();
     $danhGia->save();
 
+    // Cập nhật trạng thái "DaDanhGia" cho sản phẩm đã được đánh giá
+    ChiTietDonHang::where('MaCTSP', $request->MaCTSP)
+                  ->whereHas('donHang', function ($query) use ($maKH) {
+                      $query->where('MaKH', $maKH);
+                  })
+                  ->update(['DaDanhGia' => true]);
+
     // Chuyển hướng về trang đánh giá hoặc hiển thị thông báo
-    
-    return redirect()->back()->with('success', 'Huy dep trai');
+    return redirect()->back()->with('success', 'Đánh giá đã được ghi nhận!');
 }
+
+
+
+
+
 
 }

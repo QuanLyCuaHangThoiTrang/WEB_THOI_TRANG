@@ -35,7 +35,9 @@ class ProductDetailController extends Controller
         $chiTietSanPhamList = ChiTietSanPham::where('MaSP', $MaSP)->get()->keyBy(function ($item) {
             return $item->MaMau . '-' . $item->MaSize; // Tạo key với mã màu và mã kích thước
         });   
-        $danhGias = $this->getDanhGiaByMaSP($MaSP);    
+        $danhGias = $this->getDanhGiaByMaSP($MaSP);   
+            // Tính tổng số lượng đánh giá
+        $tongSoDanhGia = $danhGias->count(); 
         // Truyền dữ liệu vào view
         return view('product_detail.index', [
             'chiTietSanPham' => $chiTietSanPham,
@@ -47,6 +49,7 @@ class ProductDetailController extends Controller
             'selectedSize' => $chiTietSanPham->MaSize,
             'hinhAnhList' => $hinhAnhList,
             'danhGias' => $danhGias,
+            'tongSoDanhGia' => $tongSoDanhGia,  // Truyền tổng số đánh giá vào view
         ]);
     }
 

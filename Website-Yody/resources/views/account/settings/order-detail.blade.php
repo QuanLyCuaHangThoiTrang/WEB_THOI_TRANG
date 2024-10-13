@@ -61,10 +61,12 @@
     <div class="">
         <div class="bg-white p-4 lg:p-5 rounded-lg border shadow-lg mb-6">
             <h3 class="text-2xl lg:text-3xl text-center font-semibold text-blue-900 py-3 uppercase mb-4">Đánh giá sản phẩm</h3>
+            
             @php
                 $sanPham = $chiTiet->chiTietSanPham; // Lấy thông tin sản phẩm
             @endphp
-            <form action="{{ route('orders.rate', ['maKH' => $khachhang->MaKH, 'maCTSP' => $sanPham->MaCTSP]) }}" method="POST" id="ratingForm">
+            @if (!$allRated)
+           <form action="{{ route('orders.rate', ['maKH' => $khachhang->MaKH, 'maCTSP' => $sanPham->MaCTSP]) }}" method="POST" id="ratingForm">
                 @csrf
                 <div class="mb-4">
                     <label for="productSelect" class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">Chọn sản phẩm:</label>
@@ -72,11 +74,11 @@
                         <select id="productSelect" name="MaCTSP" class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 appearance-none">
                             <option value="">-- Chọn sản phẩm --</option>
                             @foreach($order->chiTietDonHang as $chiTiet)
-                                @if($chiTiet->chiTietSanPham)
-                                    <option value="{{ $chiTiet->chiTietSanPham->MaCTSP }}">
-                                        {{ $chiTiet->chiTietSanPham->sanPham->TenSP }}
-                                    </option>
-                                @endif
+                            @if($chiTiet->chiTietSanPham && !$chiTiet->DaDanhGia) <!-- Chỉ hiển thị sản phẩm chưa được đánh giá -->
+                                <option value="{{ $chiTiet->chiTietSanPham->MaCTSP }}">
+                                    {{ $chiTiet->chiTietSanPham->sanPham->TenSP }}
+                                </option>
+                            @endif
                             @endforeach
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
@@ -113,6 +115,9 @@
                     <button type="submit" class="bg-blue-700 text-white py-2 lg:py-3 px-4 rounded-md hover:bg-blue-600 transition duration-300 font-bold shadow-md transform hover:scale-105">Gửi đánh giá</button>
                 </div>
             </form>
+            @else
+            <p>Tất cả sản phẩm trong đơn hàng đã được đánh giá!</p>
+        @endif
         </div>
     </div>
 </div>
