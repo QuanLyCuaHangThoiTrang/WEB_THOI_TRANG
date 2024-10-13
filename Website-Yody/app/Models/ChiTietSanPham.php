@@ -38,4 +38,8 @@ class ChiTietSanPham extends Model
     {
         return $this->hasMany(ChiTietDonHang::class, 'MaCTSP', 'MaCTSP');
     }
+    public function danhGias()
+    {
+        return $this->hasMany(DanhGia::class, 'MaCTSP', 'MaCTSP');
+    }
 }

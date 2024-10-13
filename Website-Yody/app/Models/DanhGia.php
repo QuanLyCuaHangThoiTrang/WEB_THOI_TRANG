@@ -14,10 +14,11 @@ class DanhGia extends Model
     
     protected $casts = [
         'MaDG' => 'string',
+        'NoiDung'=> 'string',
     ];
 
     protected $fillable = [
-
+        'MaDG',
         'MaKH',
         'MaCTSP',
         'DiemDanhGia',
@@ -26,4 +27,8 @@ class DanhGia extends Model
     ];
 
     public $timestamps = false;
+    public function khachHang()
+    {
+        return $this->belongsTo(KhachHang::class, 'MaKH', 'MaKH');
+    }
 }

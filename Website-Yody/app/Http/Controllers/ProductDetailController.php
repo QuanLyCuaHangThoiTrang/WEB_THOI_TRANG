@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ChiTietSanPham;
 use App\Models\KichThuoc;
+use App\Models\DanhGia;
+use App\Models\SanPham;
 use App\Models\MauSac;
 
 class ProductDetailController extends Controller
@@ -32,8 +34,8 @@ class ProductDetailController extends Controller
         // Lấy chi tiết sản phẩm cho từng mã màu và mã kích thước
         $chiTietSanPhamList = ChiTietSanPham::where('MaSP', $MaSP)->get()->keyBy(function ($item) {
             return $item->MaMau . '-' . $item->MaSize; // Tạo key với mã màu và mã kích thước
-        });
-
+        });   
+        $danhGias = $this->getDanhGiaByMaSP($MaSP);    
         // Truyền dữ liệu vào view
         return view('product_detail.index', [
             'chiTietSanPham' => $chiTietSanPham,
@@ -44,6 +46,7 @@ class ProductDetailController extends Controller
             'selectedColor' => $chiTietSanPham->MaMau,
             'selectedSize' => $chiTietSanPham->MaSize,
             'hinhAnhList' => $hinhAnhList,
+            'danhGias' => $danhGias,
         ]);
     }
 
@@ -86,5 +89,19 @@ class ProductDetailController extends Controller
         } else {
             return response()->json(['error' => 'Hình ảnh không tồn tại.'], 404);
         }
+    }
+    public function getDanhGiaByMaSP($MaSP)
+    {
+        $sanPham = SanPham::with(['chiTietSanPhams.danhGias'])
+                    ->where('MaSP', $MaSP)
+                    ->first();
+                 
+        $danhGias = collect();
+        if ($sanPham) {
+            foreach ($sanPham->chiTietSanPhams as $chiTiet) {
+                $danhGias = $danhGias->merge($chiTiet->danhGias);              
+            }
+        }
+        return $danhGias;
     }
 }
