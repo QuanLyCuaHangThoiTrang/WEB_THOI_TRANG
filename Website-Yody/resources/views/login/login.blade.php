@@ -44,6 +44,7 @@
                             <input id="remember" name="remember" type="checkbox" class="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
                             <label for="remember" class="ml-3 block text-sm text-gray-800">Remember me</label>
                         </div>
+                        
                         <div>
                             <a href="{{ route('password.request') }}" class="text-blue-600 font-semibold text-sm">
                                 Forgot Password?

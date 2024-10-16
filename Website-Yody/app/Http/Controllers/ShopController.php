@@ -15,7 +15,7 @@ class ShopController extends Controller
         $sanPhams = SanPham::with(['chiTietSanPham.mauSac', 'chiTietSanPham.kichThuoc'])
         ->where('TrangThai', 1) // Thêm điều kiện lấy trạng thái là 1
         ->has('chiTietSanPham')
-        ->paginate(12);;
+        ->paginate(12);
         $mauSac = MauSac::all();
         $size = KichThuoc::all();
         return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
