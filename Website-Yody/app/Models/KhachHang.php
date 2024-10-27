@@ -13,14 +13,10 @@ class KhachHang extends Authenticatable
     protected $table = 'khachhang'; // Tên bảng
     protected $primaryKey = 'MaKH'; // Khóa chính
     public $timestamps = false;
-
-    protected $fillable = [
-        'MaKH','HoTen', 'Email', 'SDT', 'LoaiKH', 'Username', 'Password',
-    ];
-    protected $casts = [
-      
+    public $incrementing = false;
+    protected $fillable = ['MaKH', 'HoTen', 'Email', 'SDT', 'LoaiKH','Username','Password', 'Provider', 'Provider_ID', 'Provider_Token','DiemTichLuy'];
+    protected $casts = [ 
         'MaKH' => 'string',
-      
     ];
 
     protected $hidden = [
@@ -35,5 +31,9 @@ class KhachHang extends Authenticatable
     public function getAuthPassword()
     {
         return $this->Password; // Trả về trường Password từ bảng khachhang
+    }
+    public function donHang()
+    {
+        return $this->hasMany(DonHang::class, 'MaKH', 'MaKH');
     }
 }

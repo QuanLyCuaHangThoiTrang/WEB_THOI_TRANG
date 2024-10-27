@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+        'driver' => 'session',
+        'provider' => 'nhanvien',
+        ],
     ],
 
     /*
@@ -63,6 +67,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\KhachHang::class,
+        ],
+        'nhanvien' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\NhanVien::class,
         ],
     ],
     

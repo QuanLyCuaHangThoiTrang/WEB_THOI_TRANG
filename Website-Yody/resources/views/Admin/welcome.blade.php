@@ -3,7 +3,9 @@
 <head>
     <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+
 <!-- Thêm Bootstrap CSS và JS (nếu chưa có) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -52,7 +54,6 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-  <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
 <!-- Bootstrap JS -->

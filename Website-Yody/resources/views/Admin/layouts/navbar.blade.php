@@ -7,7 +7,9 @@
           </button>
         </div>
         <div>
+
           <a class="navbar-brand brand-logo" href="/admin/dashboard">
+
             <!-- <img src="{{asset('images/logo.svg')}}" alt="logo" /> -->
              <h3 style="font-size: 30px;color:darkblue; font-weight: bold; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); letter-spacing: 2px; font-family: 'Arial', sans-serif;">Yody</h3>
           </a>

@@ -6,7 +6,7 @@
 <div >
     @if(session()->has('success'))
         <div class="alert alert-danger">{{session('success')}}</div>
-        
+
     @endif
 </div>
 <div>
@@ -95,7 +95,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+
 <script>
 
 $(document).ready(function() {
@@ -202,7 +202,9 @@ $(document).ready(function() {
 
     // Function to generate random MaCTDM (for new records)
     function generateRandomMaCTDM() {
+
         return 'CTDM' + Math.floor(Math.random() * 1000);
+
     }
 });
 </script>

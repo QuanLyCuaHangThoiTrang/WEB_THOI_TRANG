@@ -11,11 +11,18 @@ class SanPham extends Model
     protected $table = 'sanpham';
     public $timestamps = false;
     protected $primaryKey = 'MaSP';
-    protected $fillable = ['TenSP','TrangThai','GiaBan'];
+    protected $casts = [
+        'MaSP' => 'string',
+        'MaCTDM' => 'string',
+    ];
+    protected $fillable = ['TenSP','MaCTDM','TrangThai','GiaBan','GiaGiam'];
     // Thiết lập mối quan hệ với ChiTietSanPham
     public function chiTietSanPham()
     {
-        return $this->hasOne(ChiTietSanPham::class, 'MaSP', 'MaSP')
-        ->orderBy('MaCTSP'); // Sắp xếp để lấy chi tiết đầu tiên
+        return $this->hasMany(ChiTietSanPham::class, 'MaSP', 'MaSP');
+    }
+    public function chitietsanphams()
+    {
+        return $this->hasMany(ChiTietSanPham::class, 'MaSP', 'MaSP');
     }
 }

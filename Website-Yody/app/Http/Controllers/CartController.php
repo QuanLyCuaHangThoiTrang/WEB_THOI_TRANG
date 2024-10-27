@@ -8,6 +8,7 @@ use App\Models\ChiTietGioHang; // Model chi tiết giỏ hàng
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\ChiTietSanPham;
+use App\Models\Voucher;
 
 class CartController extends Controller
 {
@@ -69,9 +70,20 @@ class CartController extends Controller
                 ['MaMau', '=', $validated['selected_color']],
                 ['MaSize', '=', $validated['selected_size']],
             ])->first();
-           
+            $Gia = 0;
+            if($chiTietSanPham->SanPham->GiaGiam == 0 || $chiTietSanPham->SanPham->GiaGiam == null)
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaBan;
+            }
+            else
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaGiam;
+            }
             if (!$chiTietSanPham) {
                 return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+            }
+            if ($validated['SoLuong']> $chiTietSanPham->SoLuongTonKho) {
+                return redirect()->back()->with('error', 'Số lượng mua lớn hơn số lượng trong kho');
             }
             // Tìm chi tiết giỏ hàng
             $chiTietGioHang = ChiTietGioHang::where([
@@ -89,14 +101,25 @@ class CartController extends Controller
                     'SoLuong' => $chiTietGioHang->SoLuong,
                     'ThanhTien' => $chiTietGioHang->ThanhTien
                 ]);
-            } else {
+            } 
+            else 
+            {
+                $Gia = 0;
+                if($chiTietSanPham->SanPham->GiaGiam == 0)
+                {
+                    $Gia = $chiTietSanPham->SanPham->GiaBan;
+                }
+                else
+                {
+                    $Gia = $chiTietSanPham->SanPham->GiaGiam;
+                }
                 // Nếu chưa có, tạo mới chi tiết giỏ hàng
                 ChiTietGioHang::create([
                     'MaGH' => $maGH,
                     'MaCTSP' => $chiTietSanPham->MaCTSP,
                     'SoLuong' => $validated['SoLuong'],
-                    'DonGia' => $chiTietSanPham->SanPham->GiaBan,
-                    'ThanhTien' => $validated['SoLuong'] * $chiTietSanPham->SanPham->GiaBan
+                    'DonGia' => $Gia,
+                    'ThanhTien' => $validated['SoLuong'] * $Gia
                 ]);
             }
             
@@ -114,12 +137,22 @@ class CartController extends Controller
                 ['MaMau', '=', $validated['selected_color']],
                 ['MaSize', '=', $validated['selected_size']],
             ])->first();
-
+            $Gia = 0;
+            if($chiTietSanPham->SanPham->GiaGiam == 0 || $chiTietSanPham->SanPham->GiaGiam == null)
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaBan;
+            }
+            else
+            {
+                $Gia = $chiTietSanPham->SanPham->GiaGiam;
+            }
             if (!$chiTietSanPham) {
                 return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
             }
-
-            $donGia = $chiTietSanPham->SanPham->GiaBan;
+            if ($validated['SoLuong']> $chiTietSanPham->SoLuongTonKho) {
+                return redirect()->back()->with('error', 'Số lượng sản phẩm mua lớn hơn số lượng sản phẩm trong kho');
+            }
+            $donGia = $Gia;
             $thanhTien = $validated['SoLuong'] * $donGia;
             $maCTSP = $chiTietSanPham->MaCTSP;
 
@@ -141,6 +174,8 @@ class CartController extends Controller
                     'TenMau' => $chiTietSanPham->MauSac->TenMau, // Thêm tên màu
                     'TenSize' => $chiTietSanPham->KichThuoc->TenSize, // Thêm tên kích thước
                     'MaCTSP' => $chiTietSanPham->MaCTSP,
+                    'HinhAnh' => $chiTietSanPham->HinhAnh,
+                    'SoLuongTonKho' => $chiTietSanPham->SoLuongTonKho,
                 ];
             }
             // Cập nhật giỏ hàng trong session
@@ -176,7 +211,6 @@ class CartController extends Controller
             // Người dùng đã đăng nhập
             // Lấy mảng các sản phẩm cần cập nhật từ request
             $items = $request->items;
-    
             foreach ($items as $item) {
                 // Cập nhật số lượng và thành tiền cho từng sản phẩm
                 ChiTietGioHang::where([
@@ -249,6 +283,4 @@ class CartController extends Controller
             return redirect()->back()->with('success', 'Giỏ hàng đã được xóa thành công');
         }
     }
-
-    
 }

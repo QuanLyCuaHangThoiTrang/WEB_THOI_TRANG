@@ -43,6 +43,7 @@
                
             <div class="image-item">
                 <img src="{{ asset('images/products/' . $detail->HinhAnh) }}" alt="Image" width="150">
+
                 <!-- <button type="button" class="btn btn-danger btn-sm remove-image" data-id="{{ $detail->MaCTSP}}">X</button> -->
             </div>
                 

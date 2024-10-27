@@ -133,6 +133,7 @@ class ChiTietSanPhamController extends Controller
                 if (!file_exists(public_path('images/products/' . $filename))) {
                     // Nếu file chưa tồn tại, di chuyển file vào thư mục
                     $file->move(public_path('images/products'), $filename);
+
                 }
             }
 
@@ -206,7 +207,7 @@ class ChiTietSanPhamController extends Controller
             if (!file_exists(public_path('images/products/' . $imageName))) {
                 // Nếu chưa tồn tại, di chuyển file vào thư mục 'images'
                 $image->move(public_path('images/products'), $imageName);
-    
+
                 // Xóa ảnh cũ (nếu có) khi có ảnh mới được tải lên
                 // if ($detail->HinhAnh && file_exists(public_path('images/' . $detail->HinhAnh))) {
                 //     unlink(public_path('images/' . $detail->HinhAnh));

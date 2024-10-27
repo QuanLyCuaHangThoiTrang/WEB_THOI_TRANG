@@ -7,7 +7,6 @@ use App\Models\DanhMuc;
 use App\Models\ChiTietDanhMuc;
 use App\Models\SanPham;
 use Illuminate\Support\Facades\Auth;
-
 class DanhMucController extends Controller
 {
     private function generateUniqueMaDanhMuc()
@@ -160,7 +159,10 @@ class DanhMucController extends Controller
 
     private function generateRandomMaCTDM()
     {
+
         return 'CTDM' . strtoupper(substr(md5(uniqid(rand(), true)), 0, 8));
+
+    
     }
 
     

@@ -6,10 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-<<<<<<< Updated upstream
+
+        "illuminate/mail": "*",
+
         "laravel/framework": "^11.9",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9"
-=======
+
         "barryvdh/laravel-dompdf": "^3.0",
         "brian2694/laravel-toastr": "^5.59",
         "illuminate/mail": "*",
@@ -17,7 +20,7 @@
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
         "mpdf/mpdf": "^6.1"
->>>>>>> Stashed changes
+
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

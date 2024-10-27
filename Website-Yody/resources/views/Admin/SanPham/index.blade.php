@@ -44,6 +44,7 @@
                         <img src="{{ asset('images/products/' . $product->chitietsanphams->first()->HinhAnh) }}" alt="{{ $product->TenSP }}" style="width: 60px; height: auto;">
                     @else
                         <img src="{{ asset('images/products/default_img.jpg') }}" alt="No Image Available" style="width: 60px; height: auto;">
+
                     @endif
                     <td>{{$product->TenSP}}</td>
                     <!-- <td class="text-danger">{!! Str::limit($product->MoTa, 50) !!}</td> -->

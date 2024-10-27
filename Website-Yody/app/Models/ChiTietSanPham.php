@@ -11,9 +11,11 @@ class ChiTietSanPham extends Model
     protected $table = 'chitietsanpham';
     public $timestamps = false;
     protected $primaryKey = 'MaCTSP';
-    protected $fillable = ['MaSP', 'MaSize', 'MaMau', 'SKU', 'SoLuongTonKho'];
+    protected $fillable = ['MaSP','MaCTSP','TenSP', 'MaSize', 'MaMau','HinhAnh','SKU', 'SoLuongTonKho'];
     protected $casts = [
         'MaCTSP' => 'string',
+        'HinhAnh' => 'string',
+        'SoLuongTonKho'=> 'integer',
     ];
     // Thiết lập mối quan hệ với SanPham
     public function sanPham()
@@ -30,5 +32,14 @@ class ChiTietSanPham extends Model
     public function mauSac()
     {
         return $this->belongsTo(MauSac::class, 'MaMau', 'MaMau');
+        
+    }
+    public function chiTietDonHangs()
+    {
+        return $this->hasMany(ChiTietDonHang::class, 'MaCTSP', 'MaCTSP');
+    }
+    public function danhGias()
+    {
+        return $this->hasMany(DanhGia::class, 'MaCTSP', 'MaCTSP');
     }
 }

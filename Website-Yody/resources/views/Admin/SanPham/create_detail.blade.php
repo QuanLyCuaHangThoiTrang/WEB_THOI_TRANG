@@ -136,6 +136,7 @@
 
             <div class="form-group">
                 <label>File upload</label>
+
                 <input type="file" name="variants[${variantIndex}][img]" class="file-upload-default">
                 <div class="input-group col-xs-12">
                     <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">

@@ -2,7 +2,7 @@
 
 @section('content')
 <div">
-    <div class="relative pb-16 px-10 "> <!-- Increased padding-bottom -->
+    <div class="relative mt-32 pb-16 px-10 "> <!-- Increased padding-bottom -->
         <div id="yody-page-info-content" class="relative">
             <section class="relative mt-4 ">
                 <!-- Google Maps Background -->

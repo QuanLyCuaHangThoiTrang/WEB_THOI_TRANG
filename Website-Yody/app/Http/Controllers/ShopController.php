@@ -3,27 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChiTietSanPham;
+use App\Models\KichThuoc;
 use Illuminate\Http\Request;
 use App\Models\SanPham;
+use App\Models\MauSac;
 
 class ShopController extends Controller
 {
     public function index()
     {
-        $chiTietSanPhams = ChiTietSanPham::with(['sanPham', 'kichThuoc', 'mauSac'])
-        ->whereHas('sanPham', function($query) {
-            $query->where('TrangThai', 1); // Kiểm tra trạng thái của sản phẩm
-        })
-        ->whereIn('MaCTSP', function($query) {
-            // Truy vấn con để lấy MaCTSP đầu tiên cho mỗi MaSP
-            $query->selectRaw('MIN(MaCTSP)')
-                ->from('chitietsanpham')
-                ->groupBy('MaSP');
-        })
-        ->paginate(12); // Phân trang với 10 mục trên mỗi trang
-
-    // Truyền dữ liệu vào view
-    return view('products.products', ['chiTietSanPhams' => $chiTietSanPhams]);
+        $sanPhams = SanPham::with(['chiTietSanPham.mauSac', 'chiTietSanPham.kichThuoc'])
+        ->where('TrangThai', 1) // Thêm điều kiện lấy trạng thái là 1
+        ->has('chiTietSanPham')
+        ->paginate(12);;
+        $mauSac = MauSac::all();
+        $size = KichThuoc::all();
+        return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
     }  
-    
+    public function showProducts($MaCTDM)
+    {
+        $sanPhams = SanPham::with(['chiTietSanPham.mauSac', 'chiTietSanPham.kichThuoc'])
+        ->where('MaCTDM',$MaCTDM)
+        ->where('TrangThai', 1) // Thêm điều kiện lấy trạng thái là 1
+        ->has('chiTietSanPham')
+        ->paginate(perPage: 12);;
+        $mauSac = MauSac::all();
+        $size = KichThuoc::all();
+        return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
+    }
 }
