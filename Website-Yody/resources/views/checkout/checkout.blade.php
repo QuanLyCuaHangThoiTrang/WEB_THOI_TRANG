@@ -83,12 +83,12 @@
             <form class="formabc" action="{{ route('checkout.processDH') }}" method="POST">
                 @csrf
                 @if($errors->any())
-                <div class="notification absolute z-30 top-24 right-10 bg-red-500 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
-                    @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
+                    <div class="notification absolute z-30 top-24 right-10 bg-red-500 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="w-full mb-24 max-w-7xl mx-auto relative">
                     <div class="flex flex-col lg:flex-row gap-4">
                                
@@ -115,37 +115,51 @@
                                 </div>
                             
                                 <!-- Địa chỉ -->
-                                <div>
-                                    <label for="diachi" class="block text-sm font-medium text-gray-900">Địa chỉ</label>
-                                    <input type="text" id="diachi" name="diachinha" placeholder="Nhập địa chỉ" required
+                                <div>                                
+                                    <label for="diachi" class="block text-sm font-medium text-gray-900">Địa chỉ</label>                              
+                                    @if (Auth::check())
+                                    <div>
+                                        <select name="diachifull" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
+                                        title="Chọn Tỉnh Thành">
+                                            @foreach ($diaChiFulls as $diaChiFull)            
+                                                <option value="{{$diaChiFull->MaDC}}">{{ $diaChiFull->Duong }}, {{$diaChiFull->Phuong}}, {{$diaChiFull->Huyen}}, {{$diaChiFull->Tinh}}</option>                                     
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @else
+                                        <input type="text" id="diachi" name="diachinha" placeholder="Nhập địa chỉ" required
                                         class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500" />
-                                    <div id="diachiError" class="text-red-600 text-sm mt-1">
-                                        {{ $errors->first('diachi') }}
-                                    </div>
+                                        <div id="diachiError" class="text-red-600 text-sm mt-1">
+                                            {{ $errors->first('diachi') }}
+                                        </div>
+                                    @endif                                                        
                                 </div>
-                            
-                                <!-- Chọn tỉnh, quận, phường -->
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div>
-                                        <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
-                                            id="tinh" name="tinh" title="Chọn Tỉnh Thành">
-                                            <option value="0">Tỉnh Thành</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
-                                            id="quan" name="quan" title="Chọn Quận Huyện">
-                                            <option value="0">Quận Huyện</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
-                                            id="phuong" name="phuong" title="Chọn Phường Xã">
-                                            <option value="0">Phường Xã</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            
+                                @if (!Auth::check())
+                                     <!-- Chọn tỉnh, quận, phường -->
+                                    <input type="hidden" id="hidden_tinh" name="hidden_tinh" value="">
+                                    <input type="hidden" id="hidden_quan" name="hidden_quan" value="">
+                                    <input type="hidden" id="hidden_phuong" name="hidden_phuong" value="">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">                               
+                                        <div>
+                                            <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
+                                                id="tinh" name="tinh" title="Chọn Tỉnh Thành">
+                                                <option value="0">Tỉnh Thành</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
+                                                id="quan" name="quan" title="Chọn Quận Huyện">
+                                                <option value="0">Quận Huyện</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
+                                                id="phuong" name="phuong" title="Chọn Phường Xã">
+                                                <option value="0">Phường Xã</option>
+                                            </select>
+                                        </div>
+                                    </div>                              
+                                @endif 
                                 <!-- Số điện thoại -->
                                 <div>
                                     <label for="phone_number" class="block text-sm font-medium text-gray-900">Số điện thoại</label>
@@ -316,4 +330,5 @@
             // Có thể thêm các kiểm tra giá trị tại đây
         });
     });
+    
 </script>

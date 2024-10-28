@@ -14,6 +14,8 @@ use App\Models\ChiTietDonHang; // Model chi tiết đơn hàng
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail; // Import Mail facade
 use App\Mail\WelcomeMail; // Import the WelcomeMail class
+use App\Models\DiaChiKhachHang;
+
 class CheckoutController extends Controller
 {
     public function index()
@@ -35,6 +37,7 @@ class CheckoutController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
+            $diaChiFulls = DiaChiKhachHang::where('MaKH',$user->MaKH)->get();
             if ($gioHang) {
                 $chiTietGioHang = $gioHang->chiTietGioHang;
                 $giamGia = $PhanTramGiamGia;
@@ -51,7 +54,14 @@ class CheckoutController extends Controller
         }
 
         // Trả về view với chi tiết giỏ hàng và tổng tiền
-        return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia'));
+        if (Auth::check())
+        {
+            return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia','diaChiFulls'));
+        }
+        else
+        {
+            return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia'));
+        }
     }
     public function processCheckoutDH(Request $request)
     {
@@ -76,6 +86,7 @@ class CheckoutController extends Controller
         // Xác thực dữ liệu đầu vào
         $request->validate([
             'diachinha' => 'string|max:255',
+            'diachifull' => 'string|max:255',
             'hidden_phuong' => 'string|max:255',
             'hidden_quan' => 'string|max:255',
             'hidden_tinh' => 'string|max:255',
@@ -98,12 +109,20 @@ class CheckoutController extends Controller
             'name.string' => 'Họ và tên phải là một chu��i ký tự.',
             'name.max' => 'Họ và tên không được vượt quá 255 ký tự.'
         ]);
-    
-        $diachinha = $request->input('diachinha');
+        $maDC = $request->input('diachifull');   
+        $diaChiKH = DiaChiKhachHang::where('MaDC',$maDC)->first();
+        $diachinha = $request->input('diachinha');       
         $xa = $request->input('hidden_phuong');
         $huyen = $request->input('hidden_quan');
         $tinh = $request->input('hidden_tinh');
-        $diachi = $diachinha . ', ' . $xa . ', ' . $huyen . ', ' . $tinh;
+        if($diaChiKH && Auth::check())
+        {
+            $diachinha = $diaChiKH->Duong;
+            $xa = $diaChiKH->Phuong;
+            $huyen = $diaChiKH->Huyen;
+            $tinh = $diaChiKH->Tinh;
+        }        
+        $diachi = $diachinha . ', ' . $xa . ', ' . $huyen . ', ' . $tinh;      
         $email = $request->input('email');
         $sodienthoai = $request->input('phone_number');
         $hoten = $request->input('name');
@@ -375,8 +394,7 @@ class CheckoutController extends Controller
         $paymentStatus = $request->input('message');
         if ($paymentStatus != 'Successful.') {
             return redirect()->route('cart');
-        }
-    
+        } 
         $maDH = session()->get('maDH_tam');
         $diachi = session()->get('diachi_tam');
         $tongGiaTri = session()->get('tongTien_tam');
