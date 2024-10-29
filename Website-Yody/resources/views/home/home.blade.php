@@ -16,9 +16,10 @@
     @include('home.components.collection-section')
     </div>
     <div class="relative font-sans">
-      
       @include('home.components.feature-section')
     </div>
+   
 </div>
+
 
 @endsection

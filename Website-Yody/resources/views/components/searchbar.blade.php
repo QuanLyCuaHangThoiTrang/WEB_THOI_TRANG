@@ -22,7 +22,7 @@
                                 class="h-full w-full object-cover object-center">
                         </div>
                         <div class="mt-4">
-                            <h3 class="text-base font-semibold">{{ $sanPham->TenSP }}</h3>
+                            <h3 class="text-base flex-grow truncate font-semibold">{{ $sanPham->TenSP }}</h3>
                             <div class="flex space-x-2 mt-2">
                                 @php
                                     $mauSacUnique = [];

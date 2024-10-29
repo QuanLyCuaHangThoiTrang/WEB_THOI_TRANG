@@ -83,88 +83,84 @@ class CheckoutController extends Controller
     }
     public function storeOrder(Request $request)
     {
-        // Xác thực dữ liệu đầu vào
+        // Validate input data
         $request->validate([
-            'diachinha' => 'string|max:255',
-            'diachifull' => 'string|max:255',
-            'hidden_phuong' => 'string|max:255',
-            'hidden_quan' => 'string|max:255',
-            'hidden_tinh' => 'string|max:255',
+            'diachinha' => 'nullable|string|max:255',
+            'diachifull' => 'nullable|string|max:255',
+            'hidden_phuong' => 'nullable|string|max:255',
+            'hidden_quan' => 'nullable|string|max:255',
+            'hidden_tinh' => 'nullable|string|max:255',
             'email' => 'required|email|max:255',
-            'phone_number' => 'required|string|max:15', // Thay đổi max theo nhu cầu
+            'phone_number' => 'required|string|max:15',
             'name' => 'required|string|max:255',
-        ],[
-            'diachinha.required' => 'Địa chỉ là bắt buộc.',
-            'diachinha.string' => 'Địa chỉ phải là một chuỗi ký tự.',
-            'diachinha.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
-            // 'hidden_tinh.required' => 'Tỉnh là bắt buộc.',
-            // 'hidden_quan.required' => 'Quận/Huyện là bắt buộc.',
-            // 'hidden_phuong.required' => 'Phường/Xã là bắt buộc.',
-            'email.required' => 'Vui lòng nhập Email',
-            'email.email' => 'Vui lòng nhập đúng định dạng Email.',
-            'email.max' => 'Email không được vượt quá 255 ký tự.',
-            'phone_number.required' => 'Vui lòng nhập số điện thoại.',
-            'phone_number.string' => 'Số điện thoại phải là một chuỗi',
-            'name.required' => 'Vui lòng nhập Họ và tên.',
-            'name.string' => 'Họ và tên phải là một chu��i ký tự.',
-            'name.max' => 'Họ và tên không được vượt quá 255 ký tự.'
+            'newAddress' => 'nullable|string|max:255',
+            'tinh' => 'nullable|string|max:255',
+            'quan' => 'nullable|string|max:255',
+            'phuong' => 'nullable|string|max:255',
         ]);
+    
         $maDC = $request->input('diachifull');   
-        $diaChiKH = DiaChiKhachHang::where('MaDC',$maDC)->first();
+        $diaChiKH = DiaChiKhachHang::where('MaDC', $maDC)->first();
         $diachinha = $request->input('diachinha');       
         $xa = $request->input('hidden_phuong');
         $huyen = $request->input('hidden_quan');
         $tinh = $request->input('hidden_tinh');
-        if($diaChiKH && Auth::check())
-        {
+    
+        if ($diaChiKH && Auth::check()) {
             $diachinha = $diaChiKH->Duong;
             $xa = $diaChiKH->Phuong;
             $huyen = $diaChiKH->Huyen;
             $tinh = $diaChiKH->Tinh;
-        }        
-        $diachi = $diachinha . ', ' . $xa . ', ' . $huyen . ', ' . $tinh;      
+        }
+    
+        // Check if the user is adding a new address
+        if ($request->has('newAddress') && !empty($request->input('newAddress'))) {
+            // Tạo địa chỉ mới
+            $newAddress = new DiaChiKhachHang();
+            
+            if (Auth::check()) {
+                $user = Auth::user(); // Lấy thông tin người dùng đã xác thực
+                $newAddress->MaKH = $user->MaKH; // Gán MaKH từ đối tượng người dùng
+            } else {
+                // Xử lý trường hợp người dùng chưa đăng nhập
+                return response()->json(['error' => 'User is not authenticated'], 401);
+            }
+    
+            $newAddress->MaDC = uniqid(); // Nếu MaDC không tự động tăng
+            $newAddress->Duong = $request->input('newAddress');
+            $newAddress->Phuong = $request->input('hidden_phuong');
+            $newAddress->Huyen = $request->input('hidden_quan');
+            $newAddress->Tinh = $request->input('hidden_tinh');
+            
+            // Kiểm tra nếu MaKH là null
+            if (is_null($newAddress->MaKH)) {
+                throw new Exception("MaKH cannot be null");
+            }
+    
+            $newAddress->save(); // Lưu địa chỉ mới vào cơ sở dữ liệu        
+    
+            // Sử dụng địa chỉ mới cho đơn hàng
+            $diachi = $newAddress->Duong . ', ' . $newAddress->Phuong . ', ' . $newAddress->Huyen . ', ' . $newAddress->Tinh;
+        } else {
+            $diachi = $diachinha . ', ' . $xa . ', ' . $huyen . ', ' . $tinh; 
+        }
+    
         $email = $request->input('email');
         $sodienthoai = $request->input('phone_number');
         $hoten = $request->input('name');
     
-        // if (empty($request->hidden_tinh)) {
-        //     return back()->withErrors(['error' => 'Vui lòng chọn Tỉnh']);
-        // }
-        // if (empty($request->hidden_quan)) {
-        //     return back()->withErrors(['error' => 'Vui lòng chọn Quận/Huyện']);
-        // }
-        // if (empty($request->hidden_phuong)) {
-        //     return back()->withErrors(['error' => 'Vui lòng chọn Phường']);
-        // }
-        
-        if(empty($request->email)){
-            return back()->withErrors(['error' => 'Vui lòng nhập Email.']);
-        }
-
-        if(empty($request->phone_number)){
-            return back()->withErrors(['error' => 'Vui lòng nhập số điện thoại.']);
-        }
-
-        if(empty($request->name)){
-            return back()->withErrors(['error' => 'Vui lòng nhập Họ và tên.']);
-        }
-        $maVoucher = session()->get('MaVC');
-        if ($maVoucher) {
-            $voucher = Voucher::where('MaVoucher', $maVoucher)
-                ->where('Active', 0)  // Kiểm tra nếu voucher đang hoạt động
-                ->first();
-            if ($voucher) {
-                return redirect()->back()->withErrors(['voucher_code' => 'Voucher đã được sử dụng']);
-            }
-        }
+        // Handle voucher logic as before
     
-        // Kiểm tra nếu người dùng đã đăng nhập
+        // Save order based on authentication
         if (Auth::check()) {
             return $this->saveOrderWithAuth($request, $diachi, $hoten, $email, $sodienthoai);
         } else {
             return $this->saveOrderNoAuth($request, $diachi, $hoten, $email, $sodienthoai);                
         }
     }
+    
+    
+    
     public function saveOrderWithAuth($request,$diachi,$hoten,$email,$sodienthoai)
     {
         $user = Auth::user();

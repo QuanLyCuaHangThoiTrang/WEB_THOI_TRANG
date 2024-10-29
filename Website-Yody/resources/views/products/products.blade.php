@@ -1,6 +1,5 @@
 <!-- resources/views/homepage.blade.php -->
 @extends('layouts.app')
-
 @section('content')
     <div id="canvas-filter" class="fixed inset-0 z-50  lg:hidden hidden" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
@@ -87,7 +86,7 @@
         </div>
     </div>
 
-    <main class="mx-auto max-w-7xl mt-14 px-4 sm:px-6 lg:px-4">
+    <main class="mx-auto max-w-7xl mt-14 px-4 sm:px-6 lg:px-2">
         <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
             <h1 class="text-4xl font-bold tracking-tight text-gray-900">DANH SÁCH SẢN PHẨM</h1>
             <div class="flex items-center p-6">
@@ -128,7 +127,7 @@
 
         <section aria-labelledby="products-heading" class="pb-24 pt-6">
 
-            <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+            <div class="grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
                 @include('products.filter')
 
@@ -139,13 +138,13 @@
                             data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
                             data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
                             <a href="{{ url('/product_detail/' . $sanPham->MaSP) }}">
-                                <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-96">
                                     <img src="{{ asset('images/products/' . $sanPham->chiTietSanPham->first()->HinhAnh) }}"
                                         alt="{{ $sanPham->TenSP }}"
                                         class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                                 </div>
                                 <div class="mt-4 pb-3">
-                                    <h3 class="text-base font-semibold truncate">{{ $sanPham->TenSP }}</h3>
+                                    <h3 class="text-base font-normal truncate">{{ $sanPham->TenSP }}</h3>
                                     <div class="flex space-x-2 mt-2">
                                         @php
                                             $mauSacUnique = [];

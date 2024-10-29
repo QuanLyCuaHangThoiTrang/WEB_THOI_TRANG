@@ -69,9 +69,9 @@
                     </div>
                 </div>
                 @if (session('success'))
-                <div class="notification absolute z-30 top-24 right-10 bg-green-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
-                    {{ session('success') }}
-                </div>
+                    <div class="notification absolute z-30 top-24 right-10 bg-green-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
+                        {{ session('success') }}
+                    </div>
                  @endif
             <!-- Hiển thị thông báo lỗi -->
             @if ($errors->has('voucher_code'))
@@ -115,25 +115,87 @@
                                 </div>
                             
                                 <!-- Địa chỉ -->
-                                <div>                                
-                                    <label for="diachi" class="block text-sm font-medium text-gray-900">Địa chỉ</label>                              
-                                    @if (Auth::check())
-                                    <div>
-                                        <select name="diachifull" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900  outline-none"
-                                        title="Chọn Tỉnh Thành">
-                                            @foreach ($diaChiFulls as $diaChiFull)            
-                                                <option value="{{$diaChiFull->MaDC}}">{{ $diaChiFull->Duong }}, {{$diaChiFull->Phuong}}, {{$diaChiFull->Huyen}}, {{$diaChiFull->Tinh}}</option>                                     
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @else
-                                        <input type="text" id="diachi" name="diachinha" placeholder="Nhập địa chỉ" required
-                                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500" />
-                                        <div id="diachiError" class="text-red-600 text-sm mt-1">
-                                            {{ $errors->first('diachi') }}
-                                        </div>
-                                    @endif                                                        
-                                </div>
+                                <div>
+    <label for="diachi" class="block text-sm font-medium text-gray-900">Địa chỉ</label>
+    
+    @if (Auth::check())
+        <div>
+            <select id="existingAddress" name="diachifull" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 outline-none"
+                title="Chọn Tỉnh Thành">
+                @foreach ($diaChiFulls as $diaChiFull)            
+                    <option value="{{ $diaChiFull->MaDC }}">{{ $diaChiFull->Duong }}, {{ $diaChiFull->Phuong }}, {{ $diaChiFull->Huyen }}, {{ $diaChiFull->Tinh }}</option>                                     
+                @endforeach
+            </select>
+        </div>
+        <div class="mt-2">
+            <label for="addNewAddress" class="inline-flex items-center">
+                <input type="checkbox" id="addNewAddress" class="mr-2" onclick="toggleNewAddressInput()">
+                <span class="text-sm text-gray-700">Thêm địa chỉ mới</span>
+            </label>
+        </div>
+    @else
+        <input type="text" id="diachi" name="diachinha" placeholder="Nhập địa chỉ" required
+            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500" />
+        <div id="diachiError" class="text-red-600 text-sm mt-1">
+            {{ $errors->first('diachi') }}
+        </div>
+    @endif 
+
+   <div id="newAddressContainer" class="mt-2 hidden">
+    <input type="text" id="newAddress" name="newAddress" placeholder="Nhập địa chỉ mới"
+        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500" />
+        <div id="newAddressError" class="text-red-600 text-sm mt-1 mb-4"></div>
+
+
+    <input type="hidden" id="hidden_tinh" name="hidden_tinh" value="">
+    <input type="hidden" id="hidden_quan" name="hidden_quan" value="">
+    <input type="hidden" id="hidden_phuong" name="hidden_phuong" value="">
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">                               
+        <div>
+            <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 outline-none"
+                id="tinh" name="tinh" title="Chọn Tỉnh Thành" required>
+                <option value="0">Tỉnh Thành</option>
+            </select>
+        </div>
+        <div>
+            <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 outline-none"
+                id="quan" name="quan" title="Chọn Quận Huyện" required>
+                <option value="0">Quận Huyện</option>
+            </select>
+        </div>
+        <div>
+            <select class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 outline-none"
+                id="phuong" name="phuong" title="Chọn Phường Xã" required>
+                <option value="0">Phường Xã</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Nút lưu địa chỉ mới -->
+    <!-- <div class="mt-4">
+        <button type="submit" id="saveNewAddressButton" class="w-full rounded-lg bg-blue-600 text-white p-2.5 hover:bg-blue-700">
+            Lưu địa chỉ mới
+        </button>
+    </div> -->
+</div>
+
+</div>
+
+<script>
+function toggleNewAddressInput() {
+    const newAddressContainer = document.getElementById('newAddressContainer');
+    const existingAddressSelect = document.getElementById('existingAddress');
+    if (document.getElementById('addNewAddress').checked) {
+        newAddressContainer.classList.remove('hidden');
+        existingAddressSelect.value = ''; // Clear existing address selection
+    } else {
+        newAddressContainer.classList.add('hidden');
+    }
+}
+</script>
+
+
                                 @if (!Auth::check())
                                      <!-- Chọn tỉnh, quận, phường -->
                                     <input type="hidden" id="hidden_tinh" name="hidden_tinh" value="">
@@ -331,4 +393,18 @@
         });
     });
     
+</script>
+<script>
+    function toggleNewAddressInput() {
+        const checkbox = document.getElementById('addNewAddress');
+        const newAddressContainer = document.getElementById('newAddressContainer');
+        
+        if (checkbox.checked) {
+            newAddressContainer.classList.remove('hidden');
+            document.getElementById('existingAddress').value = ""; // Clear selected option
+        } else {
+            newAddressContainer.classList.add('hidden');
+            document.getElementById('newAddress').value = ""; // Clear new address input
+        }
+    }
 </script>
