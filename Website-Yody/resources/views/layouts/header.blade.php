@@ -60,10 +60,10 @@
             </div>
         </div>
         <div id="product-mega-menu" class="absolute left-0 top-full w-full bg-white shadow-xl hidden">
-            <div class="p-6 px-32 pb-10 flex gap-10 flex-wrap">
+            <div class="p-6 px-24 pb-10 flex gap-5 flex-wrap">
                 <!-- Column 1 -->
                 @foreach($danhmucs as $danhmuc)
-                <div class="w-full md:w-1/4 border-r-2 mb-4">
+                <div class="w-full md:w-1/5 border-r-2 mb-4">
                     <h3 class="text-lg font-semibold mb-4">{{ $danhmuc->TenDanhMuc }}</h3>
                     <ul class="space-y-2">
                         @foreach ($danhmuc->ChiTietDanhMuc as $ChiTietDM)
