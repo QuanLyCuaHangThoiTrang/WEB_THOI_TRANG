@@ -1,7 +1,6 @@
 import './bootstrap';
 // resources/js/app.js
 import Swiper from 'swiper';
-
 // Initialize Swiper
 document.addEventListener('DOMContentLoaded', function () {
     const swiper = new Swiper('.swiper-container', {
