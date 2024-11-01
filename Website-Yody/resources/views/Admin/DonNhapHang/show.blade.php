@@ -11,6 +11,9 @@
                 Chọn sản phẩm
             </button>
         </div>
+        <a href="{{ route('donnhaphang.print', $donnhaphang->MaNH) }}" class="btn btn-dark btn-sm">
+            <i class="ti-file"></i> In Đơn Nhập Hàng
+        </a>
     </div>
 
     @if(session('success'))
@@ -193,7 +196,7 @@
                             div.classList.add('mb-2');
                             div.innerHTML = `
                                 <label for="ctsp-${option.MaCTSP}">${option.MaCTSP} (${option.MaMau}, ${option.MaSize})</label>
-                                <input type="number" name="soLuongNhap[${option.MaCTSP}]" class="form-control" id="ctsp-${option.MaCTSP}" placeholder="Nhập số lượng">
+                                <input type="number" name="soLuongNhap[${option.MaCTSP}]" class="form-control" id="ctsp-${option.MaCTSP}" placeholder="Nhập số lượng" value="${option.SoLuongNhap || 0}">
                             `;
                             container.appendChild(div);
                         });

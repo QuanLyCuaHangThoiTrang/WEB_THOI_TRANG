@@ -53,6 +53,11 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item nav-category"><a href="{{ route('admin.logout') }}">Đăng xuất</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.logout') }}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Đăng xuất</span>
+            </a>
+          </li>
         </ul>
       </nav>

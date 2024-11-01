@@ -47,4 +47,9 @@ class ChiTietDonNhapHang extends Model
     {
         return $this->belongsTo(DonNhapHang::class, 'MaNH');
     }
+    public function chitietSanPhamNhap()
+    {
+        return $this->hasMany(ChiTietSanPhamNhap::class, 'MaNH', 'MaNH');
+    }
+    
 }

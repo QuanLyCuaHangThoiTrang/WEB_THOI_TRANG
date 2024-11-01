@@ -209,6 +209,7 @@ Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function 
     // Route::get('donnhaphang/{maNH}/chitiet/{MaCTSP}/edit', [ChiTietDonNhapHangController::class, 'edit'])->name('chitietdonnhaphang.edit');
     Route::post('donnhaphang/{maNH}/chitietsp', [ChiTietDonNhapHangController::class, 'update'])->name('chitietdonnhaphang.update');
     Route::delete('donnhaphang/{maNH}/chitiet/{MaCTSP}', [ChiTietDonNhapHangController::class, 'destroy'])->name('chitietdonnhaphang.destroy');
+    Route::get('donnhaphang/{maNH}/pdf', [DonNhapHangController::class, 'print'])->name('donnhaphang.print');
    
     //ChiTietSanPhamNhap
     Route::get('chitietsanphamnhap/{maSP}', [ChiTietDonNhapHangController::class, 'getMaCTSPOptions']);
@@ -225,4 +226,7 @@ Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function 
     Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
     Route::get('/orders-current-month', [DashboardController::class, 'getOrdersForCurrentMonth']);
     Route::resource('nhanvien', NhanVienController::class);
+
+   
+
 });
