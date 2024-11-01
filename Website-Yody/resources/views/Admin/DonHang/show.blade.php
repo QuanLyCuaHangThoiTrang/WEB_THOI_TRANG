@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="text-primary">Chi Tiết Đơn Hàng: {{ $donhang->MaDH }}</h2>
-        <a href="{{ route('donhang.print', $donhang->MaDH) }}" class="btn btn-dark btn-sm">
+        <a href="{{ route('donhang.print', $donhang->MaDH) }}" class="btn btn-dark">
             <i class="ti-file"></i> In Đơn Hàng
         </a>
     </div>

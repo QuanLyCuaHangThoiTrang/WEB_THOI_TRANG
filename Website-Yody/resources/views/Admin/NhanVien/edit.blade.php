@@ -83,7 +83,7 @@
                 </div>
                 
                 <div>
-                    <input type="submit" value="Lưu" class="btn btn-primary me-2" />
+                    <input type="submit" value="Update" class="btn btn-primary me-2" />
                 </div>
             </form>
         </div> 

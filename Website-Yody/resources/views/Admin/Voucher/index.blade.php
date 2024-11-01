@@ -17,7 +17,7 @@
     <div>
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Danh Sách Voucer</h4>
+            <h4 class="card-title">Danh Sách Voucher</h4>
             <div class="table-responsive">
             <table class="table table-hover">
             <thead>
@@ -28,6 +28,8 @@
                     <th>Ngày Bắt Đầu</th>
                     <th>Ngày Kết Thúc</th>
                     <th>Active</th>
+                    <th>Hành động</th>
+
                 </tr>
             </thead>
             <tbody>

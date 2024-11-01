@@ -13,7 +13,7 @@
 <div class="col-md-7 grid-margin stretch-card">
     <div class="card-body">
         <h3 class="text-black fw-bold" style="color:black; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            Detail of Product: {{ $product->TenSP }}
+          {{ $product->TenSP }}
         </h3>
 
         <form action="{{ route('product.variants.store', ['product' => $product->MaSP]) }}" class="forms-sample" method="POST" id="variantsForm" enctype="multipart/form-data">
@@ -74,13 +74,13 @@
                             @enderror
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Xóa</button>
+                    <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Delete</button>
                     <hr>
                 </div>
             </div>
 
-            <button type="button" onclick="addVariant()" class="btn btn-primary">Thêm</button>
-            <button type="submit" class="btn btn-success">Lưu tất cả</button>
+            <button type="button" onclick="addVariant()" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-success">Save All</button>
         </form>
     </div>
 </div>
@@ -149,7 +149,7 @@
                 @enderror
             </div>
 
-            <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Xóa</button>
+            <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Delete</button>
             <hr>
         `;
         

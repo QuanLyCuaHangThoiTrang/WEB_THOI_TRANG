@@ -16,7 +16,7 @@ class KhachHangController extends Controller
             return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
         }
         // Lấy tất cả khách hàng từ bảng khachhang
-        $khachHangs = KhachHang::paginate(2);
+        $khachHangs = KhachHang::paginate(5);
 
         // Trả về view và truyền danh sách khách hàng sang view
         return view('Admin.KhachHang.index', compact('khachHangs'));

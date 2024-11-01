@@ -58,7 +58,7 @@
                  @enderror
             <div id="newImagesPreview"></div>
         </div>
-            <button type="submit" class="btn btn-success">Cập nhật</button>
+            <button type="submit" class="btn btn-success">Update</button>
             <a href="{{ route('product.details', ['MaSP' => $detail->MaSP]) }}" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>

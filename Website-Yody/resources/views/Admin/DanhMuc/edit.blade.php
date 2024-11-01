@@ -18,7 +18,7 @@
 
        
 
-        <button type="submit" class="btn btn-primary" style="margin:10px">Cập nhật</button>
+        <button type="submit" class="btn btn-primary" style="margin:10px">Update</button>
     </form>
 </div>
 
