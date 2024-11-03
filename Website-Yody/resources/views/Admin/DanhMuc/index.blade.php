@@ -6,6 +6,7 @@
 <div >
     @if(session()->has('success'))
         <div class="alert alert-danger">{{session('success')}}</div>
+
     @endif
 </div>
 <div>
@@ -28,7 +29,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Mã CTDM</th>
                             <th>Tên Chi Tiết</th>
                             <th>Hành Động</th>
                         </tr>
@@ -37,11 +38,11 @@
                         <!-- Chi tiết sẽ được load vào đây bằng AJAX -->
                     </tbody>
                 </table>
-                <button id="createRowBtn" class="btn btn-primary">Tạo mới</button>
+                <button id="createRowBtn" class="btn btn-primary">Create</button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" id="saveBtn">Lưu tất cả</button>
+                <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveBtn">Save All</button>
             </div>
         </div>
     </div>
@@ -57,9 +58,9 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Action</th>
+                            <th>Mã Danh Mục</th>
+                            <th>Tên Danh Mục</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +81,7 @@
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-primary btn-sm btn-icon-text detail-btn" data-id="{{ $danhmuc->MaDanhMuc }}">
-                                    <i class="mdi mdi-library-books"></i> Chi tiết
+                                    <i class="mdi mdi-library-books"></i> Detail
                                 </button>
                             </td>
                         </tr>
@@ -94,6 +95,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
 
 $(document).ready(function() {
@@ -200,7 +202,9 @@ $(document).ready(function() {
 
     // Function to generate random MaCTDM (for new records)
     function generateRandomMaCTDM() {
-        return 'CT' + Math.floor(Math.random() * 1000);
+
+        return 'CTDM' + Math.floor(Math.random() * 1000);
+
     }
 });
 </script>

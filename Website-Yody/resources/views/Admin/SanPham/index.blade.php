@@ -18,8 +18,22 @@
     <div class="card">
         <div class="card-body">
             <div>
-            <a href="{{route('product.create')}}" class="btn btn-primary btn-icon-text">Create a Product</a>
+            <a href="{{route('product.create')}}" class="btn btn-primary btn-icon-text">Create Product</a>
+            
             </div>
+            <form method="GET" action="{{ route('product.index') }}" class="form-inline">
+                <input type="text" name="search" class="form-control mr-2" placeholder="Search by name" value="{{ request('search') }}">
+                
+                <select name="sort" class="form-control mr-2">
+                    <option value="">Sort by</option>
+                    <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+                    <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+                    <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
+                    <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
+                </select>
+
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </form>
             <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -27,12 +41,11 @@
                 <th>Mã SP</th>
                 <th>Hình Ảnh</th>
                 <th>Tên Sản Phẩm</th>
-                <!-- <th>Mô Tả</th> -->
                 <th>Mã Danh Mục</th>
                 <th>Tổng SL</th>
                 <th>Giá Bán</th>
                 <th>Trạng Thái</th>
-                <th>Action</th>
+                <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,15 +54,16 @@
                     <td>{{$product->MaSP}}</td>
                     <td>
                     @if($product->chitietsanphams->isNotEmpty())
-                        <img src="{{ asset('images/' . $product->chitietsanphams->first()->HinhAnh) }}" alt="{{ $product->TenSP }}" style="width: 60px; height: auto;">
+                        <img src="{{ asset('images/products/' . $product->chitietsanphams->first()->HinhAnh) }}" alt="{{ $product->TenSP }}" style="width: 60px; height: auto;">
                     @else
-                        <img src="{{ asset('images/default_img.jpg') }}" alt="No Image Available" style="width: 60px; height: auto;">
+                        <img src="{{ asset('images/products/default_img.jpg') }}" alt="No Image Available" style="width: 60px; height: auto;">
+
                     @endif
                     <td>{{$product->TenSP}}</td>
                     <!-- <td class="text-danger">{!! Str::limit($product->MoTa, 50) !!}</td> -->
                     <td><label class="badge badge-danger">{{$product->MaCTDM}}</label></td>
                     <td>{{$product->TongSL}}</td>
-                    <td>{{$product->GiaBan}}</td>
+                    <td>{{ number_format($product->GiaBan, 0, ',', '.')}}đ</td>
                     <td>
                     <span class="status-toggle" data-id="{{ $product->MaSP }}" style="cursor:pointer; display: flex; justify-content: center; align-items: center">
                         @if($product->TrangThai == 1)

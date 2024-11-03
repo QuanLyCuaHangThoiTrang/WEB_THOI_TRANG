@@ -8,6 +8,7 @@ use App\Models\DonNhapHang;
 use App\Models\NhaCungCap;
 use App\Models\SanPham;
 use App\Models\ChiTietSanPhamNhap;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -139,5 +140,23 @@ class DonNhapHangController extends Controller
 
         return redirect()->route('donnhaphang.index')
                          ->with('success', 'Đơn nhập hàng được xóa thành công.');
+    }
+    public function print($MaNH)
+    {
+        if (!Auth::guard('admin')->check()) {
+            return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+        }
+    
+        // Lấy thông tin đơn nhập hàng cùng với chi tiết và số lượng của sản phẩm
+        $donnhaphang = DonNhapHang::with('chitietdonnhaphangs.chitietSanPhamNhap')->findOrFail($MaNH);
+
+        // Lọc chi tiết sản phẩm nhập theo MaSP
+        foreach ($donnhaphang->chitietdonnhaphangs as $chitiet) {
+            $chitiet->chitietSanPhamNhap = $chitiet->chitietSanPhamNhap->where('MaSP', $chitiet->MaSP);
+        }
+        $pdf = PDF::loadView('Admin.DonNhapHang.print', compact('donnhaphang'));
+      
+        // Return the generated PDF to the browser
+        return $pdf->stream('don_nhap_hang_' . $donnhaphang->MaNH . '.pdf');
     }
 }

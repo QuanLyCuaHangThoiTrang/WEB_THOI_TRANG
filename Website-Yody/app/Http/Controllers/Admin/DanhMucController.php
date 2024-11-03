@@ -159,7 +159,10 @@ class DanhMucController extends Controller
 
     private function generateRandomMaCTDM()
     {
-        return 'CT' . strtoupper(substr(md5(uniqid(rand(), true)), 0, 8));
+
+        return 'CTDM' . strtoupper(substr(md5(uniqid(rand(), true)), 0, 8));
+
+    
     }
 
     

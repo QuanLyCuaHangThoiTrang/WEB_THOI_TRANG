@@ -31,4 +31,8 @@ class ChiTietSanPhamNhap extends Model
 
     // Đặt kiểu khóa chính là string
     protected $keyType = 'string';
+    public function chiTietSanPham()
+    {
+        return $this->belongsTo(ChiTietSanPham::class, 'MaCTSP', 'MaCTSP');
+    }
 }

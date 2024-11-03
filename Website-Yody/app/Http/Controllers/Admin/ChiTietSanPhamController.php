@@ -130,9 +130,10 @@ class ChiTietSanPhamController extends Controller
             if ($request->hasFile("variants.{$index}.img")) {
                 $file = $request->file("variants.{$index}.img");
                 $filename = $file->getClientOriginalName();
-                if (!file_exists(public_path('images/' . $filename))) {
+                if (!file_exists(public_path('images/products/' . $filename))) {
                     // Nếu file chưa tồn tại, di chuyển file vào thư mục
-                    $file->move(public_path('images'), $filename);
+                    $file->move(public_path('images/products'), $filename);
+
                 }
             }
 
@@ -203,10 +204,10 @@ class ChiTietSanPhamController extends Controller
             $imageName = $image->getClientOriginalName(); // Lấy tên gốc của ảnh
             
             // Kiểm tra xem file đã tồn tại trong thư mục 'images' chưa
-            if (!file_exists(public_path('images/' . $imageName))) {
+            if (!file_exists(public_path('images/products/' . $imageName))) {
                 // Nếu chưa tồn tại, di chuyển file vào thư mục 'images'
-                $image->move(public_path('images'), $imageName);
-    
+                $image->move(public_path('images/products'), $imageName);
+
                 // Xóa ảnh cũ (nếu có) khi có ảnh mới được tải lên
                 // if ($detail->HinhAnh && file_exists(public_path('images/' . $detail->HinhAnh))) {
                 //     unlink(public_path('images/' . $detail->HinhAnh));

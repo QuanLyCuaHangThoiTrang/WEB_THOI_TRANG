@@ -26,13 +26,48 @@ class SanPhamController extends Controller
         return $maSP;
     }
 
-    public function index(){
-        if (!Auth::guard('admin')->check()) {
-            return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
-        }
-        $products = SanPham::paginate(10);
-        return view('Admin.SanPham.index', ['products' => $products]);
+    // public function index(){
+    //     if (!Auth::guard('admin')->check()) {
+    //         return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+    //     }
+    //     $products = SanPham::paginate(10);
+    //     return view('Admin.SanPham.index', ['products' => $products]);
         
+    // }
+    public function index(Request $request)
+    { 
+        if (!Auth::guard('admin')->check()) {
+        return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+    }
+        $query = SanPham::query();
+
+        // Search by product name
+        if ($request->has('search') && $request->search != '') {
+            $query->where('TenSP', 'like', '%' . $request->search . '%');
+        }
+
+        // Sorting
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'price_asc':
+                    $query->orderBy('GiaBan', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('GiaBan', 'desc');
+                    break;
+                case 'name_asc':
+                    $query->orderBy('TenSP', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('TenSP', 'desc');
+                    break;
+            }
+        } 
+
+        // Paginate results
+        $products = $query->paginate(10);
+
+        return view('Admin.SanPham.index', compact('products'));
     }
     public function create(){
         if (!Auth::guard('admin')->check()) {

@@ -1,7 +1,7 @@
 @extends('Admin.welcome')
 
 @section('content')
-<div class="container">
+<div class="container" style="margin:10px">
     <h2>Chỉnh sửa khuyến mãi</h2>
 
     <form id="khuyenMaiForm" action="{{ route('khuyenmai.update', $khuyenMai->MaKM) }}" method="POST" enctype="multipart/form-data">
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
 

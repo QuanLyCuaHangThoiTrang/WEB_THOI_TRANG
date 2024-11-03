@@ -19,7 +19,7 @@
         </div>
         
         <div>
-            <input type="submit" value="Lưu" class="btn btn-primary me-2" />
+            <input type="submit" value="Save" class="btn btn-primary me-2" />
         </div>
     </form>
     </div> 

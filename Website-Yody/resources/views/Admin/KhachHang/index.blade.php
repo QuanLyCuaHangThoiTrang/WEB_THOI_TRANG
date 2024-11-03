@@ -27,6 +27,8 @@
                     <th>Email</th>
                     <th>SDT</th>
                     <th>Loại KH</th>
+                    <th>Điểm Tích Lũy</th>
+
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -38,6 +40,8 @@
                         <td>{{ $khachHang->Email }}</td>
                         <td>{{ $khachHang->SDT }}</td>
                         <td>{{ $khachHang->LoaiKH }}</td>
+                        <td>{{ $khachHang->DiemTichLuy }}</td>
+
                         <td>
                             <!-- Xóa khách hàng -->
                             <form action="{{ route('khachhang.destroy', $khachHang->MaKH) }}" method="POST">

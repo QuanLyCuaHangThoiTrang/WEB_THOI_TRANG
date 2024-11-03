@@ -40,9 +40,10 @@
                                 <td>{{$detail->MaCTSP}}</td>
                                 <td>
                                 @if($detail->HinhAnh)
-                                    <img src="{{ asset('images/' . $detail->HinhAnh) }}" alt="{{ $product->TenSP }}" style="width: 60px; height: auto;">
+                                    <img src="{{ asset('images/products/' . $detail->HinhAnh) }}" alt="{{ $product->TenSP }}" style="width: 60px; height: auto;">
                                 @else
-                                    <img src="{{ asset('images/default_img.jpg') }}" alt="No Image Available" style="width: 60px; height: auto;">
+                                    <img src="{{ asset('images/products/default_img.jpg') }}" alt="No Image Available" style="width: 60px; height: auto;">
+
                                 @endif
                                 <td>{{$detail->MaMau}}</td>
                                 <td>{{$detail->MaSize}}</td>
