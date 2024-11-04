@@ -53,7 +53,7 @@
                 </div>
 
                 <div>
-                    <input type="submit" value="Cập Nhật Đơn Nhập Hàng" class="btn btn-primary me-2" />
+                    <input type="submit" value="Update" class="btn btn-primary me-2" />
                 </div>
             </form>
         </div>

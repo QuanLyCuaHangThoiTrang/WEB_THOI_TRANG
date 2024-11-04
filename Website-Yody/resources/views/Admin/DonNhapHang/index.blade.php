@@ -29,7 +29,7 @@
                 <th>Mã NCC</th>
                 <th>Ngày Nhập Hàng</th>
                 <th>Tổng Giá trị</th>
-                <th>Action</th>
+                <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>

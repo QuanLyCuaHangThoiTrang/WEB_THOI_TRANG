@@ -23,7 +23,7 @@ class LoginController extends Controller
         $remember = $request->has('remember'); // Kiểm tra nếu người dùng chọn "Nhớ tôi"
         
         if (Auth::guard('admin')->attempt(['Username' => $request->taikhoan, 'password' => $request->matkhau], $remember)) {
-            return redirect()->intended(default: '/admin');
+            return redirect()->intended(default: '/admin/dashboard');
         }
         if (Auth::attempt(['Username' => $request->taikhoan, 'password' => $request->matkhau], $remember)) {
             // Đăng nhập thành công

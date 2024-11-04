@@ -3,7 +3,7 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.dashboard') }}">
               <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
+              <span class="menu-title">Trang Chủ</span>
             </a>
           </li>
           <li class="nav-item nav-category">Category</li>
@@ -42,7 +42,7 @@
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
-              <span class="menu-title">User Pages</span>
+              <span class="menu-title">Người Dùng</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
@@ -53,6 +53,11 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item nav-category"><a href="{{ route('admin.logout') }}">Đăng xuất</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.logout') }}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Đăng xuất</span>
+            </a>
+          </li>
         </ul>
       </nav>

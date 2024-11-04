@@ -31,7 +31,7 @@
                 <th>Phần Trăm</th>
                 <th>Bắt Đầu</th>
                 <th>Kết Thúc</th>
-                <th>Action</th>
+                <th>Hành Động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,7 +60,7 @@
                        
                         <a href="{{ route('khuyenmai.show', $khuyenMai->MaKM) }}" class="btn btn-primary btn-sm btn-icon-text">
                                     <i class="mdi mdi-library-books"></i>
-                                    Details
+                                    Detail
                         </a>
                         
                     </td>

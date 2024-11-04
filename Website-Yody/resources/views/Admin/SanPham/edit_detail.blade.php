@@ -42,7 +42,8 @@
             <div class="current-images">
                
             <div class="image-item">
-                <img src="{{ asset('images/' . $detail->HinhAnh) }}" alt="Image" width="150">
+                <img src="{{ asset('images/products/' . $detail->HinhAnh) }}" alt="Image" width="150">
+
                 <!-- <button type="button" class="btn btn-danger btn-sm remove-image" data-id="{{ $detail->MaCTSP}}">X</button> -->
             </div>
                 
@@ -57,7 +58,7 @@
                  @enderror
             <div id="newImagesPreview"></div>
         </div>
-            <button type="submit" class="btn btn-success">Cập nhật</button>
+            <button type="submit" class="btn btn-success">Update</button>
             <a href="{{ route('product.details', ['MaSP' => $detail->MaSP]) }}" class="btn btn-secondary">Quay lại</a>
         </form>
     </div>

@@ -17,7 +17,7 @@
     <div>
     <div class="card">
         <div class="card-body">
-             <a href="{{ route('nhanvien.create') }}" style ='margin:10px' class="btn btn-primary">Thêm Nhân Viên</a>
+             <a href="{{ route('nhanvien.create') }}" style ='margin:10px' class="btn btn-primary">Create</a>
             <h4 class="card-title">Danh Sách Nhân Viên</h4>
             <div class="table-responsive">
             <table class="table table-hover">

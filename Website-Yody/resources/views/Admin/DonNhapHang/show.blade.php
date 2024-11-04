@@ -10,7 +10,11 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal">
                 Chọn sản phẩm
             </button>
+            <a href="{{ route('donnhaphang.print', $donnhaphang->MaNH) }}" class="btn btn-dark">
+            <i class="ti-file"></i> In Đơn Nhập Hàng
+        </a>
         </div>
+       
     </div>
 
     @if(session('success'))
@@ -109,7 +113,7 @@
                             <th>Số Lượng</th>
                             <th>Giá Nhập</th>
                             <th>Thành Tiền</th>
-                            <th>Actions</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,7 +128,7 @@
                             </td>
                             <td class="total-price">{{ number_format($chitiet->ThanhTien, 0, ',', '.') }} đ</td>
                             <td>
-                                <button type="button" class="btn btn-dark btn-sm btn-icon-text save-btn">
+                                <button type="button" class="btn btn-primary btn-sm btn-icon-text save-btn">
                                     <i class="ti-save btn-icon-append"></i> Save
                                 </button>
                                 <button type="button" class="btn btn-dark btn-sm btn-icon-text add-ctsp-btn">
@@ -134,7 +138,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">
-                                        <i class="ti-trash btn-icon-append"></i> Xóa
+                                        <i class="ti-trash btn-icon-append"></i> Delete
                                     </button>
                                 </form>
                             </td>
@@ -143,7 +147,10 @@
                     </tbody>
                 </table>
             </div>
-            <a href="{{ route('donnhaphang.index') }}" class="btn btn-primary">Quay lại danh sách</a>
+            <div style="margin-top:10px">
+              <a href="{{ route('donnhaphang.index') }}" class="btn btn-primary">Quay lại danh sách</a>
+
+            </div>
         </div>
     </div>
 </div>
@@ -193,7 +200,7 @@
                             div.classList.add('mb-2');
                             div.innerHTML = `
                                 <label for="ctsp-${option.MaCTSP}">${option.MaCTSP} (${option.MaMau}, ${option.MaSize})</label>
-                                <input type="number" name="soLuongNhap[${option.MaCTSP}]" class="form-control" id="ctsp-${option.MaCTSP}" placeholder="Nhập số lượng">
+                                <input type="number" name="soLuongNhap[${option.MaCTSP}]" class="form-control" id="ctsp-${option.MaCTSP}" placeholder="Nhập số lượng" value="${option.SoLuongNhap || 0}">
                             `;
                             container.appendChild(div);
                         });
