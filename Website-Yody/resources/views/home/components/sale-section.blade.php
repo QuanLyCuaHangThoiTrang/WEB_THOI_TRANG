@@ -6,10 +6,10 @@
 @endphp
 
 <script>
-    let days = 2;    
-    let hours = 5;   
-    let minutes = 10; 
-    let seconds = 24; 
+    let days = 2;
+    let hours = 5;
+    let minutes = 10;
+    let seconds = 24;
 
     const countdownElement = document.querySelector('.countdown');
 
@@ -23,9 +23,9 @@
                         return;
                     }
                     days--;
-                    hours = 23; 
-                    minutes = 59; 
-                    seconds = 59; 
+                    hours = 23;
+                    minutes = 59;
+                    seconds = 59;
                 } else {
                     minutes--;
                     seconds = 59;
@@ -46,9 +46,9 @@
     }, 1000);
 </script>
 
-<div class="text-center p-16 mt-4 mb-4 ">
+<div class="text-center p-16 mt-4 mb-4 px-8 lg:px-24">
     <div class="mb-4">
-        <div class="bg-black p-3 rounded-lg">
+        <div class="bg-black p-3 rounded-t-lg">
             <div class="countdown text-2xl sm:text-3xl lg:text-4xl text-white">
                 <div class="flex justify-center space-x-2 sm:space-x-4">
                     <span class="flex flex-col items-center">
@@ -73,46 +73,49 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="space-y-3 p-3 shadow-lg">
+            <div class="flex flex-col mt-2 pb-4 items-center lg:flex-row lg:space-x-5 justify-center">
+                <h3 class="text-lg sm:text-2xl lg:text-4xl uppercase font-bold">{{ $commonData['title'] }}</h3>
+                <a href="/products"
+                    class="bg-blue-900 text-white px-3 py-2 mt-3 lg:mt-0 rounded-full shadow-md hover:bg-blue-800 transition duration-200 text-sm sm:text-base">{{ $commonData['buttonText'] }}</a>
+            </div>
 
-    <div class="space-y-3 p-3">
-        <div class="flex flex-col items-center lg:flex-row lg:space-x-5 justify-center">
-            <h3 class="text-lg sm:text-2xl lg:text-4xl uppercase font-bold">{{ $commonData['title'] }}</h3>
-            <a href="/products" class="bg-blue-900 text-white px-3 py-2 mt-3 lg:mt-0 rounded-full shadow-md hover:bg-blue-800 transition duration-200 text-sm sm:text-base">{{ $commonData['buttonText'] }}</a>
-        </div>
+            <!-- Swiper Container -->
+            <swiper-container class="saleSwiper" space-between="30" centered-slides="true" slides-per-view="5"
+                loop="true" autoplay-delay="1500" effect="slide" speed="1500"
+                autoplay-disable-on-interaction="true">
 
-        <!-- Swiper Container -->
-        <swiper-container
-            class="saleSwiper"
-            space-between="30"
-            centered-slides="true"
-            slides-per-view="5"
-            loop="true"
-            autoplay-delay="1500"
-            effect="slide"
-            speed="1500"
-            autoplay-disable-on-interaction="true">
-            
-            
-            @foreach ($chiTietSanPhams as $chiTietSanPham)
-                <swiper-slide class="swiper-slide font-sans border p-2 rounded cursor-pointer hover:border-2 duration-150 flex flex-col" style="transition: opacity 0.5s, transform 0.5s;">
-                   <div class="container">
-                        <div class="flex flex-col">
-                            <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="" class="object-cover h-min">
-                            <h4 class="font-bold flex-grow mt-2 truncate text-sm sm:text-base">{{ $chiTietSanPham->SanPham->TenSP }}</h4>
-                            <div class="flex flex-col">
-                                <div class="flex mt-1">
-                                    <p class="text-base sm:text-lg">{{ $chiTietSanPham->SanPham->GiaBan }} VND</p> 
-                                    <p class="text-white font-medium text-xs sm:text-sm ml-auto border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">-10%</p>
+
+                @foreach ($chiTietSanPhams as $chiTietSanPham)
+                    <swiper-slide class="swiper-slide rounded cursor-pointer duration-150 flex flex-col"
+                        style="transition: opacity 0.5s, transform 0.5s;">
+                        <div class="container">
+                            <div class="flex flex-col pb-2">
+                                <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
+                                    class="object-cover h-min">
+
+                                <div class="flex flex-col text-left"> <!-- Căn lề trái cho nội dung -->
+                                    <h4 class="flex-grow mt-2 truncate text-sm sm:text-base">
+                                        {{ $chiTietSanPham->SanPham->TenSP }}</h4>
+                                    <div class="flex mt-1 justify-between">
+                                        <!-- Sử dụng justify-between để căn chỉnh -->
+                                        <p class=" sm:text-lg font-medium">
+                                            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }}
+                                            VND</p>
+                                        <p
+                                            class="text-white font-medium text-xs sm:text-sm border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">
+                                            -10%</p>
+                                    </div>
                                 </div>
+                            </div>
                         </div>
-                        </div>
-                        
-                   </div>
-                </swiper-slide>
-            @endforeach
-            
-        </swiper-container>
-       
+
+                    </swiper-slide>
+                @endforeach
+
+            </swiper-container>
+
+        </div>
     </div>
+
 </div>
