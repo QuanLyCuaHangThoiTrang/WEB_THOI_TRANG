@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\DanhMuc;
 use App\Models\SanPham;
+use App\Models\KhuyenMai;
+use App\Models\Voucher;
+use Illuminate\Container\Attributes\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,5 +33,8 @@ class AppServiceProvider extends ServiceProvider
             ->get();
 
         view()->share('sanPhamTKs', $sanPhamTKs);
+
+        $KhuyenMais = KhuyenMai::get();
+        view()->share('KhuyenMais', $KhuyenMais);
     }
 }

@@ -169,7 +169,10 @@ class CheckoutController extends Controller
         $giamGia = 0;
         $phiship = 20000;
         if ($gioHang && $gioHang->TongGiaTri > 0) {
-            $maDH = 'DH' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            do {
+                $maDH = 'DH' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+                $maDHTrung = DonHang::where('MaDH', $maDH)->exists();
+            } while ($maDHTrung);
             if($request->input('payment_method') == 'Thanh toán momo')
             {
                 if(session()->get('MaVC'))
@@ -245,9 +248,16 @@ class CheckoutController extends Controller
         $phiship = 20000;
         if (count($gioHangSession) > 0) 
         {          
-            $maKH = 'KHVL' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
-          
-            $maDH = 'DH' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            do {
+                $maKH = 'KHVL' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+                $maKHTrung = KhachHang::where('MaKH', $maKH)->exists();
+            } while ($maKHTrung);
+            
+            // Tạo mã đơn hàng và kiểm tra trùng
+            do {
+                $maDH = 'DH' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+                $maDHTrung = DonHang::where('MaDH', $maDH)->exists();
+            } while ($maDHTrung);
             if($request->input('payment_method') == 'Thanh toán momo')
             {          
                 if(session()->get('MaVC'))

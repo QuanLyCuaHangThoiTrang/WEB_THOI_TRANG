@@ -10,14 +10,10 @@
             <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                 &times;
             </button>
-            <h2 class="text-2xl font-bold mb-4">Notifications</h2>
-            <p>thong bao thong bao</p>
-            <p>thong bao thong bao</p>
-            <p>thong bao thong bao</p>
-            <p>thong bao thong bao</p>
-            <p>thong bao thong bao</p>
-            <p>thong bao thong bao</p>
-            <p>thong bao thong bao</p>
+            <h2 class="text-2xl font-bold mb-4">Thông báo</h2>
+                @foreach ($KhuyenMais as $KhuyenMai)
+                    <p>{{ $KhuyenMai->TenKM }}</p>
+                @endforeach                    
         </div>
         <script>
           function openModal() {
