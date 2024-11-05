@@ -104,32 +104,32 @@
                     "spaceBetween": 20
                 }
             }'>
-                @foreach ($chiTietSanPhams as $chiTietSanPham)
+
+                @foreach ($SanPhamKhuyenMai as $SanPham)
                     <swiper-slide class="swiper-slide rounded cursor-pointer duration-150 flex flex-col"
                         style="transition: opacity 0.5s, transform 0.5s;">
                         <div class="container">
-                            <div class="flex flex-col pb-2">
-                                <!-- Hình ảnh sản phẩm -->
-                                <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
-                                    class="object-cover w-full max-w-screen">
-                                <div class="flex flex-col text-left mt-2">
-                                    <!-- Tên sản phẩm -->
-                                    <h4 class="text-sm sm:text-base md:text-lg lg:text-xl font-semibold truncate">
-                                        {{ $chiTietSanPham->SanPham->TenSP }}
-                                    </h4>
-                                    <div class="flex mt-2 justify-between items-center">
-                                        <!-- Giá sản phẩm -->
-                                        <p class="text-sm lg:text-lg truncate whitespace-nowrap font-medium">
-                                            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} VND
-                                        </p>
-                                        <!-- Khuyến mãi -->
-                                        <p
-                                            class="text-white font-medium text-xs sm:text-sm border rounded-3xl bg-red-500 hover:bg-red-600 hover:text-white px-2 py-1 transition duration-150">
-                                            -10%
-                                        </p>
+                            <a href="{{ url('/product_detail/' . $SanPham->MaSP) }}">
+                                <div class="flex flex-col pb-2">
+                                    <img src="{{ asset('images/products/' . $SanPham->ChiTietSanPham->first()->HinhAnh) }}"
+                                        alt="" class="object-cover w-full max-w-screen">
+
+                                    <div class="flex flex-col text-left mt-2">
+                                        <!-- Tên sản phẩm -->
+                                        <h4 class="text-sm sm:text-base md:text-lg lg:text-xl font-semibold truncate">
+                                            {{ $SanPham->TenSP }}</h4>
+                                        <div class="flex mt-2 justify-between items-center">
+                                            <!-- Giá sản phẩm -->
+                                            <p class="text-sm lg:text-lg truncate whitespace-nowrap font-medium">
+                                                {{ number_format($SanPham->GiaBan, 0, ',', '.') }}
+                                                VND</p>
+                                            <p
+                                                class="text-white font-medium text-xs sm:text-lg border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">
+                                                {{ number_format($SanPham->GiaGiam, 0, ',', '.') }} đ</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </swiper-slide>
                 @endforeach

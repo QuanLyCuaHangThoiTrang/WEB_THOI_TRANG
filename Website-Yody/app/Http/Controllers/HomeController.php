@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\ChiTietSanPham;
+use App\Models\SanPham;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,8 +24,13 @@ class HomeController extends Controller
         })
         ->paginate(12); // Phân trang với 10 mục trên mỗi trang
 
+        $SanPhamKhuyenMai = SanPham::whereIn('MaSP', function($query) {
+            $query->select('MaSP')
+                ->from('SanPhamKhuyenMai');
+        })->get();
+
     // Truyền dữ liệu vào view
-    return view('home.home', ['chiTietSanPhams' => $chiTietSanPhams]);
+    return view('home.home', ['chiTietSanPhams' => $chiTietSanPhams, 'SanPhamKhuyenMai' => $SanPhamKhuyenMai]);
     }  
     
 }
