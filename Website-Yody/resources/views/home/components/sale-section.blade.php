@@ -86,28 +86,30 @@
                 autoplay-disable-on-interaction="true">
 
 
-                @foreach ($chiTietSanPhams as $chiTietSanPham)
+                @foreach ($SanPhamKhuyenMai as $SanPham)
                     <swiper-slide class="swiper-slide rounded cursor-pointer duration-150 flex flex-col"
                         style="transition: opacity 0.5s, transform 0.5s;">
                         <div class="container">
-                            <div class="flex flex-col pb-2">
-                                <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
-                                    class="object-cover h-min">
+                            <a href="{{ url('/product_detail/' . $SanPham->MaSP) }}">
+                                <div class="flex flex-col pb-2">
+                                    <img src="{{ asset('images/products/' . $SanPham->ChiTietSanPham->first()->HinhAnh) }}" alt=""
+                                        class="object-cover h-min">
 
-                                <div class="flex flex-col text-left"> <!-- Căn lề trái cho nội dung -->
-                                    <h4 class="flex-grow mt-2 truncate text-sm sm:text-base">
-                                        {{ $chiTietSanPham->SanPham->TenSP }}</h4>
-                                    <div class="flex mt-1 justify-between">
-                                        <!-- Sử dụng justify-between để căn chỉnh -->
-                                        <p class=" sm:text-lg font-medium">
-                                            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }}
-                                            VND</p>
-                                        <p
-                                            class="text-white font-medium text-xs sm:text-sm border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">
-                                            -10%</p>
+                                    <div class="flex flex-col text-left"> <!-- Căn lề trái cho nội dung -->
+                                        <h4 class="flex-grow mt-2 truncate text-sm sm:text-base">
+                                            {{ $SanPham->TenSP }}</h4>
+                                        <div class="flex mt-1 justify-between">
+                                            <!-- Sử dụng justify-between để căn chỉnh -->
+                                            <p class=" sm:text-lg font-medium line-through">
+                                                {{ number_format($SanPham->GiaBan, 0, ',', '.') }}
+                                                VND</p>                                      
+                                            <p
+                                                class="text-white font-medium text-xs sm:text-lg border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">
+                                                {{ number_format($SanPham->GiaGiam, 0, ',', '.') }} đ</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
                     </swiper-slide>

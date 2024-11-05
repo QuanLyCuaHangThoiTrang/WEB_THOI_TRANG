@@ -4,6 +4,7 @@
     </div>
     <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
         @foreach ($chiTietSanPhams->take(5) as $chiTietSanPham)
+        <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}">
             <div class="rounded cursor-pointer duration-150 flex flex-col">
                 <div>
                     <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
@@ -39,11 +40,15 @@
                     @endif
                 </div>
             </div>
+        </a>
         @endforeach
     </div>
     <div class="flex items-center justify-center mt-10">
-        <p
+        <a href="{{ url('/products') }}">
+            <p
             class="text-center font-bold border mt-10 w-72 rounded-xl border-black p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
             Xem thêm</p>
+        </a>
+        
     </div>
 </div>
