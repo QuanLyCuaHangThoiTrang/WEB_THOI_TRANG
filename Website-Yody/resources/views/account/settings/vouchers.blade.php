@@ -120,7 +120,7 @@
                                                                 {{ $voucher->TenVoucher }}</h3>
                                                             <p class="text-md">{{ $voucher->PhanTramGiamGia }}% Giảm giá
                                                             </p>
-                                                            <p class="text-md">Hết hạn:
+                                                            <p class="text-md   ">Hết hạn:
                                                                 <span
                                                                     class="text-lg font-medium">{{ date('d-m-Y', strtotime($voucher->NgayKT)) }}</span>
                                                             </p>

@@ -139,9 +139,17 @@
                                                         <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                                                             <dt class="text-base font-medium text-gray-500">Trạng thái:</dt>
                                                             <dd
-                                                                class="mt-1.5 text-base font-semibold {{ $order->TrangThai == 'Giao thành công' ? 'text-green-600' : ($order->TrangThai == 'Đã hủy' ? 'text-red-600' : 'text-gray-900') }}">
+                                                                class="mt-1.5 text-base font-semibold 
+                                                            {{ $order->TrangThai == 'Giao thành công'
+                                                                ? 'text-green-600'
+                                                                : ($order->TrangThai == 'Đã hủy'
+                                                                    ? 'text-red-600'
+                                                                    : ($order->TrangThai == 'Chưa giao'
+                                                                        ? 'text-yellow-500'
+                                                                        : 'text-gray-900')) }}">
                                                                 {{ $order->TrangThai }}
                                                             </dd>
+
                                                         </dl>
 
                                                         <div
