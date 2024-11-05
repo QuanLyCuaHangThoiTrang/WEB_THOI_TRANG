@@ -1,7 +1,7 @@
 @php
     $commonData = [
-        'title' => 'SALE OF THE YEAR',
-        'buttonText' => 'Shop Now',
+        'title' => 'TITLE',
+        'buttonText' => 'MUA NGAY',
     ];
 @endphp
 
@@ -79,41 +79,62 @@
                 <a href="/products"
                     class="bg-blue-900 text-white px-3 py-2 mt-3 lg:mt-0 rounded-full shadow-md hover:bg-blue-800 transition duration-200 text-sm sm:text-base">{{ $commonData['buttonText'] }}</a>
             </div>
-
             <!-- Swiper Container -->
-            <swiper-container class="saleSwiper" space-between="30" centered-slides="true" slides-per-view="5"
-                loop="true" autoplay-delay="1500" effect="slide" speed="1500"
-                autoplay-disable-on-interaction="true">
-
-
+            <swiper-container class="saleSwiper" loop="true" autoplay-delay="1500" effect="slide" speed="1500"
+                autoplay-disable-on-interaction="true" centered-slides="true" space-between="20"
+                breakpoints='{
+                "320": {
+                    "slidesPerView": 2,
+                    "spaceBetween": 10
+                },
+                "480": {
+                    "slidesPerView": 2,
+                    "spaceBetween": 10
+                },
+                "768": {
+                    "slidesPerView": 3,
+                    "spaceBetween": 15
+                },
+                "1024": {
+                    "slidesPerView": 4,
+                    "spaceBetween": 20
+                },
+                "1280": {
+                    "slidesPerView": 5,
+                    "spaceBetween": 20
+                }
+            }'>
                 @foreach ($chiTietSanPhams as $chiTietSanPham)
                     <swiper-slide class="swiper-slide rounded cursor-pointer duration-150 flex flex-col"
                         style="transition: opacity 0.5s, transform 0.5s;">
                         <div class="container">
                             <div class="flex flex-col pb-2">
+                                <!-- Hình ảnh sản phẩm -->
                                 <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
-                                    class="object-cover h-min">
-
-                                <div class="flex flex-col text-left"> <!-- Căn lề trái cho nội dung -->
-                                    <h4 class="flex-grow mt-2 truncate text-sm sm:text-base">
-                                        {{ $chiTietSanPham->SanPham->TenSP }}</h4>
-                                    <div class="flex mt-1 justify-between">
-                                        <!-- Sử dụng justify-between để căn chỉnh -->
-                                        <p class=" sm:text-lg font-medium">
-                                            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }}
-                                            VND</p>
+                                    class="object-cover w-full max-w-screen">
+                                <div class="flex flex-col text-left mt-2">
+                                    <!-- Tên sản phẩm -->
+                                    <h4 class="text-sm sm:text-base md:text-lg lg:text-xl font-semibold truncate">
+                                        {{ $chiTietSanPham->SanPham->TenSP }}
+                                    </h4>
+                                    <div class="flex mt-2 justify-between items-center">
+                                        <!-- Giá sản phẩm -->
+                                        <p class="text-sm lg:text-lg truncate whitespace-nowrap font-medium">
+                                            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} VND
+                                        </p>
+                                        <!-- Khuyến mãi -->
                                         <p
-                                            class="text-white font-medium text-xs sm:text-sm border rounded-3xl bg-red-500 hover:text-white px-2 py-1 transition duration-150">
-                                            -10%</p>
+                                            class="text-white font-medium text-xs sm:text-sm border rounded-3xl bg-red-500 hover:bg-red-600 hover:text-white px-2 py-1 transition duration-150">
+                                            -10%
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </swiper-slide>
                 @endforeach
-
             </swiper-container>
+
 
         </div>
     </div>

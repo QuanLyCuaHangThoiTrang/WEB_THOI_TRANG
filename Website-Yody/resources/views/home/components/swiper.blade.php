@@ -24,18 +24,10 @@
                 <img src="{{ $slide['img'] }}" alt=""
                     class="w-full h-[80vh] lg:h-[100vh] object-cover animate-scale animate-bg">
                 <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-white">
-                    <h2 class="text-xl z-50 sm:text-xl md:text-2xl lg:text-4xl font-medium">{{ $commonData['title'] }}
+                    <h2 class="text-3xl z-50 sm:text-xl md:text-2xl lg:text-4xl font-medium">{{ $commonData['title'] }}
                     </h2>
-                    <p class="text-[25px] z-50 text-pretty sm:text-[40px] md:text-[40px] lg:text-[70px] font-bold">
+                    <p class="text-[25px] z-50 text-pretty sm:text-[40px] md:text-[40px] lg:text-[100px] font-bold">
                         {{ $commonData['subtitle'] }}</p>
-                    <div class="flex items-center gap-3 sm:gap-5 md:gap-7">
-                        <button
-                            class="bg-primary z-50 text-white px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2 rounded">{{ $commonData['buttonText'] }}</button>
-                        <button
-                            class="flex z-50 items-center gap-1 border-2 border-white hover:border-4 duration-150 bg-transparent text-white px-2 py-1 sm:px-3 sm:py-2 md:px-4 md:py-2 rounded">
-                            <a href="{{ $commonData['link'] }}" target="_blank">{{ $commonData['watchText'] }}</a>
-                        </button>
-                    </div>
                 </div>
             </swiper-slide>
         @endforeach

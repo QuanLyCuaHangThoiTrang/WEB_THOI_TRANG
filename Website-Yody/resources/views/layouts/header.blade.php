@@ -30,7 +30,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="flex items-center justify-center gap-3 ml-auto">
+            <div class="flex items-center  justify-center gap-3 ml-auto">
                 <button id="search-toggle">
                     <x-icons.icon name="search-toggle" />
                 </button>

@@ -1,9 +1,9 @@
 <div class="space-y-2 px-8 lg:px-24">
-    <div>
+    <div class="mt-4">
         <p class="font-bold text-4xl text-center py-10">SẢN PHẨM ƯA CHUỘNG</p>
     </div>
-    <div class="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
-        @foreach ($chiTietSanPhams->take(5) as $chiTietSanPham)
+    <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
+        @foreach ($chiTietSanPhams->take(10) as $chiTietSanPham)
             <div class="rounded cursor-pointer duration-150 flex flex-col">
                 <div>
                     <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
@@ -29,12 +29,12 @@
 
                 <div class="flex justify-between items-center mt-4">
                     @if ($chiTietSanPham->SanPham->GiaGiam == 0 || $chiTietSanPham->SanPham->GiaGiam == null)
-                        <h3 class="gia font-semibold text-lg">
+                        <h3 class="gia font-semibold lg:text-lg">
                             {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
                     @else
-                        <h3 class="font-semibold text-lg line-through text-red-500">
+                        <h3 class="font-semibold lg:text-lg line-through text-red-500">
                             {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                        <h3 class="gia font-semibold text-lg">
+                        <h3 class="gia font-semibold lg:text-lg">
                             {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</h3>
                     @endif
                 </div>
@@ -43,7 +43,7 @@
     </div>
     <div class="flex items-center justify-center mt-10">
         <p
-            class="text-center font-bold border mt-10 w-72 rounded-xl border-black p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
+            class="text-center font-bold border mt-10 w-72 rounded-xl border-gray-600 p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
             Xem thêm</p>
     </div>
 </div>
