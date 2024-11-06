@@ -27,10 +27,10 @@
 
                         <div class="mt-4">
                             <p class="text-black text-medium mt-2">
-                                Còn lại: <span id="stock-quantity"
+                                Còn lại: <span id="stock-quantity" data-quantity = "{{ $SoLuongTonKho }}"
                                     class="text-red-700 font-extrabold">{{ $SoLuongTonKho }}</span> sản phẩm
                             </p>
-                            <div class="w-full bg-gray-200 rounded-full h-1">
+                            <div class="w-full bg-gray-200 rounded-full h-1" id="stock-progress-container">
                                 <div class="bg-green-500 h-1 rounded-full" id="stock-progress" style="width: 0%;"></div>
                             </div>
 
@@ -234,8 +234,10 @@
             const addToCartBtn = document.getElementById('add-to-cart-btn');
             const mainProductImage = document.querySelector('.main-product-image');
             // Lấy tất cả các ảnh thu nhỏ (thumbnail)
-            const thumbnails = document.querySelectorAll('.product-thumbnail');
+            const thumbnails = document.querySelectorAll('.product-thumbnail');  
+            const stockProgressBar = document.getElementById('stock-progress');      
             let lastSelectedSize = null; // Biến để lưu kích thước đã chọn trước đó
+            const maxStock = 100;
             thumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function() {
                     // Thay đổi src của ảnh chính bằng giá trị của thuộc tính data-image-src
@@ -243,6 +245,23 @@
                 });
             });
 
+            function updateStockAndProgress() {
+            // Lấy số lượng tồn kho từ thuộc tính `data-quantity`
+            const stockQuantity = parseInt(stockQuantitySpan.dataset.quantity);
+            const stockPercentage = (stockQuantity / maxStock) * 100;
+
+            // Cập nhật thanh progress bar
+            stockProgressBar.style.width = `${stockPercentage}%`;
+            stockProgressBar.classList.remove('bg-red-500', 'bg-yellow-500', 'bg-green-500');
+
+            if (stockPercentage <= 20) {
+                stockProgressBar.classList.add('bg-red-500');
+            } else if (stockPercentage <= 40) {
+                stockProgressBar.classList.add('bg-yellow-500');
+            } else {
+                stockProgressBar.classList.add('bg-green-500');
+            }
+        }
             function updateStockAndSizes() {
                 const selectedColor = document.querySelector('input[name="selected_color"]:checked');
                 const selectedSize = document.querySelector('input[name="selected_size"]:checked');
@@ -258,7 +277,7 @@
                     if (selectedDetails) {
                         // Cập nhật số lượng tồn kho
                         stockQuantitySpan.textContent = `${selectedDetails.SoLuongTonKho}`;
-
+                        stockQuantitySpan.dataset.quantity = selectedDetails.SoLuongTonKho;
                         // Hiển thị nút "Thêm vào giỏ hàng"
                         addToCartBtn.style.display = selectedDetails.SoLuongTonKho > 0 ? 'inline' : 'none';
 
@@ -287,6 +306,7 @@
                                 'none';
                         }
                     }
+                    updateStockAndProgress();
                 }
             }
 
@@ -344,29 +364,6 @@
             if (colorRadios.length > 0) {
                 colorRadios[0].checked = true;
                 selectDefaultSizeForColor(colorRadios[0].value);
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Số lượng tối đa trong kho (có thể điều chỉnh theo nhu cầu)
-            const maxStock = 100; // Ví dụ, giả định số lượng tối đa là 100
-            const stockQuantity = {{ $SoLuongTonKho }}; // Lấy số lượng tồn kho từ server
-
-            // Tính toán tỉ lệ phần trăm của tồn kho
-            const stockPercentage = (stockQuantity / maxStock) * 100;
-
-            // Cập nhật thanh progress bar
-            const stockProgressBar = document.getElementById('stock-progress');
-            stockProgressBar.style.width = `${stockPercentage}%`;
-
-            // Cập nhật màu sắc của progress bar dựa trên mức tồn kho
-            if (stockPercentage <= 20) {
-                stockProgressBar.classList.add('bg-red-500');
-                stockProgressBar.classList.remove('bg-green-500');
-            } else if (stockPercentage <= 40) {
-                stockProgressBar.classList.add('bg-yellow-500');
-                stockProgressBar.classList.remove('bg-green-500');
             }
         });
     </script>

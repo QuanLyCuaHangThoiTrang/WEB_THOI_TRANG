@@ -548,7 +548,9 @@ class CheckoutController extends Controller
         $khachHang = KhachHang::find($user->MaKH);
         if($khachHang->DiemTichLuy >=5)
         {
-            $maVC = 'VC' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            do {
+                $maVC = 'VC' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+            } while (Voucher::where('MaVoucher', $maVC)->exists());       
             $vc = Voucher::create([
                 'MaVoucher' => $maVC,
                 'TenVoucher' => 'Giảm giá 20000đ',
