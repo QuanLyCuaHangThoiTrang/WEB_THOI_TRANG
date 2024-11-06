@@ -71,9 +71,12 @@
                                         class="block text-base hover:bg-gray-100 py-1">{{ $ChiTietDM->TenCTDM }}</a>
                                 </li>
                             @endforeach
+
                         </ul>
+
                     </div>
                 @endforeach
+                <img src="/images/slides/img-bg-1.png" alt="" class=" object-cover w-52 h-auto">
             </div>
         </div>
     </div>

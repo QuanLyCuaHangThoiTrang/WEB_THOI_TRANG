@@ -5,7 +5,8 @@
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
         @foreach ($chiTietSanPhams->take(10) as $chiTietSanPham)
             <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}">
-                <div class="rounded cursor-pointer duration-150 flex flex-col">
+                <div
+                    class="rounded cursor-pointer duration-150 flex flex-col fade-item opacity-0 transition-opacity duration-700">
                     <div>
                         <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
                             class="w-full h-full min-w-screen">
@@ -44,15 +45,38 @@
         @endforeach
     </div>
     <div class="flex items-center justify-center mt-10">
-        <<<<<<< HEAD <p
-            class="text-center font-bold border mt-10 w-72 rounded-xl border-gray-600 p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
-            =======
-            <a href="{{ url('/products') }}">
-                <p
-                    class="text-center font-bold border mt-10 w-72 rounded-xl border-black p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
-                    >>>>>>> f78379dc8b98e68baebbd0f56cfc57a3b2fbd9ba
-                    Xem thêm</p>
-            </a>
+
+        <a href="{{ url('/products') }}">
+            <p
+                class="text-center font-bold border mt-10 w-72 rounded-xl border-black p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
+                Xem thêm</p>
+        </a>
 
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Chọn tất cả các phần tử cần fade-in
+        const productItems = document.querySelectorAll('.fade-item');
+
+        // Khởi tạo IntersectionObserver
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100'); // Thêm lớp opacity để hiển thị
+                    observer.unobserve(entry
+                        .target); // Ngừng quan sát phần tử này sau khi nó đã xuất hiện
+                }
+            });
+        }, {
+            root: null, // Quan sát từ cửa sổ trình duyệt
+            rootMargin: '0px',
+            threshold: 0.1 // Phần tử sẽ bắt đầu fade-in khi 10% của nó xuất hiện trong viewport
+        });
+
+        // Quan sát các phần tử
+        productItems.forEach(item => {
+            observer.observe(item);
+        });
+    });
+</script>

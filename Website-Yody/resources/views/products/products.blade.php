@@ -86,13 +86,13 @@
         </div>
     </div>
 
-    <main class="mx-auto max-w-7xl mt-14 px-4 sm:px-6 lg:px-2">
+    <main class="mx-auto mt-14 px-4 lg:px-24">
         <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
-            <h1 class="text-4xl font-bold tracking-tight text-gray-900">DANH SÁCH SẢN PHẨM</h1>
+            <h1 class="text-4xl text-balance font-bold tracking-tight text-gray-900">DANH SÁCH SẢN PHẨM</h1>
             <div class="flex items-center p-6">
                 <div class="relative inline-block text-left">
                     <div>
-                        <div type="button"
+                        <button type="button"
                             class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                             id="menu-button" aria-expanded="false" aria-haspopup="true">
                             Sắp xếp
@@ -102,7 +102,7 @@
                                     d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                                     clip-rule="evenodd" />
                             </svg>
-                        </div>
+                        </button>
                     </div>
                     <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
                         id="dropdown-menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
@@ -115,8 +115,8 @@
                         </div>
                     </div>
                 </div>
-                <button id="filter-button" class="ml-4 lg:hidden text-gray-700 hover:text-gray-900"><svg
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                <button id="filter-button" class="ml-4 lg:hidden text-gray-700 hover:text-gray-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
@@ -126,59 +126,61 @@
         </div>
 
         <section aria-labelledby="products-heading" class="pb-24 pt-6">
-
             <div class="grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
                 @include('products.filter')
-
                 <div class="col-span-3">
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sanphams">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sanphams">
                         @foreach ($sanPhams as $sanPham)
-                        <div class="group relative cursor-pointer product-item"
-                            data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
-                            data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
-                            <a href="{{ url('/product_detail/' . $sanPham->MaSP) }}">
-                                <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-96">
-                                    <img src="{{ asset('images/products/' . $sanPham->chiTietSanPham->first()->HinhAnh) }}"
-                                        alt="{{ $sanPham->TenSP }}"
-                                        class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                                </div>
-                                <div class="mt-4 pb-3">
-                                    <h3 class="text-base font-normal truncate">{{ $sanPham->TenSP }}</h3>
-                                    <div class="flex space-x-2 mt-2">
-                                        @php
-                                            $mauSacUnique = [];
-                                        @endphp
-            
-                                        @foreach ($sanPham->chiTietSanPham as $chiTiet)
-                                            @if (isset($chiTiet->mauSac) && !in_array($chiTiet->mauSac->TenMau, $mauSacUnique))
-                                                <span class="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-110"
-                                                    style="background-color: {{ $chiTiet->mauSac->TenMau }}"></span>
-                                                @php
-                                                    $mauSacUnique[] = $chiTiet->mauSac->TenMau;
-                                                @endphp
+                            <div class="group relative cursor-pointer product-item"
+                                data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
+                                data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
+                                <a href="{{ url('/product_detail/' . $sanPham->MaSP) }}">
+                                    <div
+                                        class="w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-96">
+                                        <img src="{{ asset('images/products/' . $sanPham->chiTietSanPham->first()->HinhAnh) }}"
+                                            alt="{{ $sanPham->TenSP }}" class="object-cover w-full h-full">
+                                    </div>
+                                    <div class="mt-4 pb-3">
+                                        <h3 class="text-base font-normal truncate">{{ $sanPham->TenSP }}</h3>
+                                        <div class="flex space-x-2 mt-2">
+                                            @php
+                                                $mauSacUnique = [];
+                                            @endphp
+                                            @foreach ($sanPham->chiTietSanPham as $chiTiet)
+                                                @if (isset($chiTiet->mauSac) && !in_array($chiTiet->mauSac->TenMau, $mauSacUnique))
+                                                    <span
+                                                        class="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-110"
+                                                        style="background-color: {{ $chiTiet->mauSac->TenMau }}"></span>
+                                                    @php
+                                                        $mauSacUnique[] = $chiTiet->mauSac->TenMau;
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                        </div>
+
+                                        <div class="flex justify-between items-center mt-4">
+                                            @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
+                                                <h3 class="gia font-semibold text-lg">
+                                                    {{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                            @else
+                                                <h3 class="font-semibold text-lg line-through text-red-500">
+                                                    {{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                                <h3 class="gia font-semibold text-lg">
+                                                    {{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
                                             @endif
-                                        @endforeach
+                                        </div>
                                     </div>
-            
-                                    <div class="flex justify-between items-center mt-4">
-                                        @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
-                                            <h3 class="gia font-semibold text-lg">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                                        @else
-                                            <h3 class="font-semibold text-lg line-through text-red-400">{{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                                            <h3 class="gia font-semibold text-lg">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
-                                        @endif
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <!-- Thêm các liên kết phân trang ở đây -->
                     <div class="mt-6">
                         {{ $sanPhams->links() }}
                     </div>
                 </div>
+            </div>
         </section>
     </main>
 
@@ -203,9 +205,9 @@
 
                 products.forEach(product => {
                     const productColors = product.getAttribute('data-colors').split(
-                    ','); // Lấy danh sách màu từ thuộc tính data-colors
+                        ','); // Lấy danh sách màu từ thuộc tính data-colors
                     const productSizes = product.getAttribute('data-sizes').split(
-                    ','); // Lấy danh sách kích thước từ thuộc tính data-sizes
+                        ','); // Lấy danh sách kích thước từ thuộc tính data-sizes
 
                     // Kiểm tra nếu sản phẩm có màu và kích thước trong danh sách đã chọn
                     const colorMatch = selectedColors.length === 0 || selectedColors.some(color =>
@@ -260,58 +262,58 @@
                 productsArray.forEach(product => {
                     productContainer.appendChild(product); // Thêm sản phẩm đã sắp xếp vào container
                 });
-                
+
             }
         });
     </script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-          const buttons = document.querySelectorAll('button[aria-expanded]');
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('button[aria-expanded]');
 
-          buttons.forEach(button => {
-              button.addEventListener('click', () => {
-                  const expanded = button.getAttribute('aria-expanded') === 'true';
-                  const sectionId = button.getAttribute('aria-controls');
-                  const section = document.getElementById(sectionId);
-                  const expandIcon = button.querySelector('[id^="expand-icon-"]');
-                  const collapseIcon = button.querySelector('[id^="collapse-icon-"]');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const expanded = button.getAttribute('aria-expanded') === 'true';
+                    const sectionId = button.getAttribute('aria-controls');
+                    const section = document.getElementById(sectionId);
+                    const expandIcon = button.querySelector('[id^="expand-icon-"]');
+                    const collapseIcon = button.querySelector('[id^="collapse-icon-"]');
 
-                  button.setAttribute('aria-expanded', !expanded);
-                  section.classList.toggle('hidden');
-                  if (expandIcon) expandIcon.classList.toggle('hidden', !expanded);
-                  if (collapseIcon) collapseIcon.classList.toggle('hidden', expanded);
-              });
-          });
+                    button.setAttribute('aria-expanded', !expanded);
+                    section.classList.toggle('hidden');
+                    if (expandIcon) expandIcon.classList.toggle('hidden', !expanded);
+                    if (collapseIcon) collapseIcon.classList.toggle('hidden', expanded);
+                });
+            });
 
-          // Dropdown menu functionality
-          const menuButton = document.getElementById('menu-button');
-          const dropdownMenu = document.getElementById('dropdown-menu');
+            // Dropdown menu functionality
+            const menuButton = document.getElementById('menu-button');
+            const dropdownMenu = document.getElementById('dropdown-menu');
 
-          if (menuButton && dropdownMenu) {
-              menuButton.addEventListener('click', () => {
-                  dropdownMenu.classList.toggle('hidden');
-              });
+            if (menuButton && dropdownMenu) {
+                menuButton.addEventListener('click', () => {
+                    dropdownMenu.classList.toggle('hidden');
+                });
 
-              // Close dropdown when clicking outside of it
-              document.addEventListener('click', (event) => {
-                  if (!menuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                      dropdownMenu.classList.add('hidden');
-                  }
-              });
-          }
+                // Close dropdown when clicking outside of it
+                document.addEventListener('click', (event) => {
+                    if (!menuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
 
-          // Show/hide canvas filter
-          const filterButton = document.getElementById('filter-button');
-          const canvasFilter = document.getElementById('canvas-filter');
+            // Show/hide canvas filter
+            const filterButton = document.getElementById('filter-button');
+            const canvasFilter = document.getElementById('canvas-filter');
 
-          filterButton.addEventListener('click', () => {
-              canvasFilter.classList.toggle('hidden');
-          });
+            filterButton.addEventListener('click', () => {
+                canvasFilter.classList.toggle('hidden');
+            });
 
-          // Close canvas filter when clicking outside
-          document.getElementById('close-filter').addEventListener('click', () => {
-              canvasFilter.classList.add('hidden');
-          });
-      });
-  </script>
+            // Close canvas filter when clicking outside
+            document.getElementById('close-filter').addEventListener('click', () => {
+                canvasFilter.classList.add('hidden');
+            });
+        });
+    </script>
 @endsection

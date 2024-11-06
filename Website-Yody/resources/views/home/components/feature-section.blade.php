@@ -1,4 +1,4 @@
-<section class="relative mt-12 shadow-3xl p-24 bg-cover bg-center"
+<section class="relative mt-12 fade-item shadow-3xl p-24 bg-cover bg-center"
     style="background-image: url('images/slides/img-bg-1.png');">
     <div class="absolute inset-0 bg-black opacity-80"></div>
     <div class="relative z-10">
@@ -6,10 +6,9 @@
             class="mb-10  lg:mb-16 flex justify-center items-center flex-col gap-x-0 gap-y-6 lg:gap-y-0 lg:flex-row lg:justify-between max-md:max-w-lg max-md:mx-auto">
             <div class="relative w-full text-center lg:text-left lg:w-2/4">
                 <h2
-                    class="text-8xl font-extrabold text-blue-200 leading-[6.5rem] lg:mb-6 mx-auto max-w-max lg:max-w-md lg:mx-0">
+                    class="text-8xl font-extrabold text-white leading-[6.5rem] lg:mb-6 mx-auto max-w-max lg:max-w-md lg:mx-0 text-shadow-white">
                     TẬN HƯỞNG DỊCH VỤ
-                    </span></h2>
-                <div class="bg-blue-200 w-96 h-1"></div>
+                </h2>
             </div>
 
             <div class="relative w-full text-center lg:text-left lg:w-2/4">
@@ -23,7 +22,7 @@
             </div>
         </div>
         <div
-            class="flex opacity-90 justify-center items-center gap-x-5 gap-y-8 lg:gap-y-0 flex-wrap md:flex-wrap lg:flex-nowrap lg:flex-row lg:justify-between lg:gap-x-8">
+            class="flex justify-center items-center gap-x-5 gap-y-8 lg:gap-y-0 flex-wrap md:flex-wrap lg:flex-nowrap lg:flex-row lg:justify-between lg:gap-x-8">
             <div
                 class="group relative w-full cursor-pointer bg-gray-50 rounded-2xl p-4 transition-all duration-500 max-md:max-w-md max-md:mx-auto md:w-2/5 md:h-64 xl:p-7 xl:w-1/4 hover:bg-blue-800">
                 <div class="bg-white rounded-full flex justify-center items-center mb-5 w-14 h-14 ">

@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center h-[80vh] px-8 lg:px-24 mt-12">
+<div class="flex justify-center fade-item items-center h-[80vh] px-8 lg:px-24 mt-12">
     <div
         class="relative w-full h-full max-h-[500px] sm:max-h-[600px] lg:max-h-[700px] overflow-hidden rounded-full md:rounded-4xl">
         <img src="{{ asset('images/slides/img-mid-1.png') }}" alt="pattern"

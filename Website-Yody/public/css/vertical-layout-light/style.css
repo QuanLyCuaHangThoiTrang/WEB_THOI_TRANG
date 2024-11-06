@@ -30335,7 +30335,7 @@ div.tagsinput span.tag a {
 
 @media (min-width: 992px) {
   .boxed-layout .container-scroller {
-    background: #c6c8ca;
+    background-color: #0050e3;
     padding: 0 calc((100% - 1200px) / 2);
   }
   .boxed-layout .navbar.fixed-top {

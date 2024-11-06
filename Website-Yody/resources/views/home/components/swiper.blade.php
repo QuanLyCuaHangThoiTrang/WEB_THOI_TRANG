@@ -24,10 +24,14 @@
                 <img src="{{ $slide['img'] }}" alt=""
                     class="w-full h-[80vh] lg:h-[100vh] object-cover animate-scale animate-bg">
                 <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-white">
-                    <h2 class="text-3xl z-50 sm:text-xl md:text-2xl lg:text-4xl font-medium">{{ $commonData['title'] }}
-                    </h2>
-                    <p class="text-[25px] z-50 text-pretty sm:text-[40px] md:text-[40px] lg:text-[100px] font-bold">
-                        {{ $commonData['subtitle'] }}</p>
+                    <!-- Thêm lớp fade-in cho title -->
+                    <h2 class="text-3xl z-50 sm:text-xl md:text-2xl lg:text-4xl font-medium fade-in">
+                        {{ $commonData['title'] }}</h2>
+                    <!-- Thêm lớp fade-in cho subtitle -->
+                    <p
+                        class="text-[25px] z-50 text-pretty sm:text-[40px] md:text-[40px] lg:text-[100px] font-bold fade-in">
+                        {{ $commonData['subtitle'] }}
+                    </p>
                 </div>
             </swiper-slide>
         @endforeach
