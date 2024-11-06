@@ -40,12 +40,20 @@
         let currentInput = null;  // Input hiện tại đang được thao tác
         let currentModal = null; // Lưu modal hiện tại để hiển thị
 
+        function checkMaxQuantity(input) {
+            let value = parseInt(input.value, 10);
+            if (value > 100) {
+                input.value = 100; // Giới hạn số lượng tối đa là 100
+            }
+        }
+
         incrementButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const index = button.getAttribute('data-index');
                 const input = document.getElementById(`quantity-input-${index}`);
                 let value = parseInt(input.value, 10);
                 input.value = isNaN(value) ? 1 : value + 1;  // Đảm bảo giá trị tối thiểu là 1
+                checkMaxQuantity(input);
             });
         });
 

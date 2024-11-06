@@ -273,7 +273,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <p class="leading-8 text-gray-600">Vận chuyển:</p>
-                            <p class="leading-8 text-gray-600">{{ number_format(20000, 0, ',', '.') }} đ</p>
+                            <p class="leading-8 text-gray-600">{{ number_format($PhiShip, 0, ',', '.') }} đ</p>
                         </div>
                         <div class="flex font-semibold items-center border-t border-gray-200 justify-between py-4">
                             <p class="text-xl leading-8">Tổng giá trị:</p>

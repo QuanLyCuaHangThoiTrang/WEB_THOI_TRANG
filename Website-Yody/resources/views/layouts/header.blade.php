@@ -34,10 +34,38 @@
                 <button id="search-toggle">
                     <x-icons.icon name="search-toggle" />
                 </button>
-                <button id="cart-toggle">
+                <button id="cart-toggle" class="relative">
                     <a href="{{ url('/cart') }}">
                         <x-icons.icon name="cart" />
-                    </a>
+                    </a>    
+                    <span id="cart-quantity" class="absolute top-[-15px] right-[-10px] bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5">
+                        @if (Auth::check())  
+                            @php                                    
+                                $totalQuantity = 0;
+                                $gioHang = App\Models\GioHang::where('MaKH', Auth::user()->MaKH)->first(); 
+                                if($gioHang)          
+                                {
+                                    $ChiTietGioHang = App\Models\ChiTietGioHang::where('MaGH', $gioHang->MaGH)->get();
+                                    foreach ($ChiTietGioHang as $item) {
+                                        $totalQuantity = $totalQuantity + 1;                                     
+                                    }
+                                }   
+                                else 
+                                {
+                                    $totalQuantity = 0;
+                                }                    
+                            @endphp                     
+                            {{$totalQuantity}}     
+                        @else
+                            @php
+                                $totalQuantity = 0;
+                                foreach (session('gioHang', []) as $item) {
+                                    $totalQuantity = $totalQuantity + 1;
+                                }
+                            @endphp
+                            {{$totalQuantity}}
+                        @endif
+                    </span>               
                 </button>
 
                 @auth
