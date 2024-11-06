@@ -104,7 +104,6 @@
 
                     </div>
                 @endforeach
-                <img src="/images/slides/img-bg-1.png" alt="" class=" object-cover w-52 h-auto">
             </div>
         </div>
     </div>

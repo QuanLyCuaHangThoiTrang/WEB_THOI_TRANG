@@ -142,7 +142,7 @@
                                             alt="{{ $sanPham->TenSP }}" class="object-cover w-full h-full">
                                     </div>
                                     <div class="mt-4 pb-3">
-                                        <h3 class="text-base font-normal truncate">{{ $sanPham->TenSP }}</h3>
+                                        <h3 class="text-base font-medium truncate">{{ $sanPham->TenSP }}</h3>
                                         <div class="flex space-x-2 mt-2">
                                             @php
                                                 $mauSacUnique = [];

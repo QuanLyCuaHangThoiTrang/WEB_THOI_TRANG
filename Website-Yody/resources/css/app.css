@@ -153,3 +153,37 @@ input[type="search"]::-ms-clear {
     transform: translateY(0); /* Di chuyển phần tử lên vị trí ban đầu */
 }
 
+/* Tùy chỉnh checkbox */
+.custom-checkbox:checked + span {
+    background-color: #202020; /* Màu nền khi checkbox được chọn */
+    
+    color: #fff; /* Màu chữ khi checkbox được chọn */
+}
+
+/* Tạo hiệu ứng dấu tích khi checkbox được chọn */
+.custom-checkbox:checked + span::after {
+    content: "✔";
+    position: absolute;
+    color: white;
+    font-size: 15px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.custom-checkbox:checked + span::after {
+    content: ""; /* Không hiển thị dấu tích */
+}
+
+
+/* Ẩn checkbox */
+.custom-checkbox1 {
+    display: none;
+}
+
+/* Tùy chỉnh trạng thái checkbox khi được chọn */
+.custom-checkbox1:checked + label span {
+    border-color: #0b44ff; /* Màu viền khi checkbox được chọn */
+    border: 2px solid;
+}
+
+/* Thêm hiệu ứng khi hover */
