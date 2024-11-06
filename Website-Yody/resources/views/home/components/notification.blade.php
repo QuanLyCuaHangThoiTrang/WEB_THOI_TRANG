@@ -1,3 +1,4 @@
+<!-- Nút mở Modal -->
 <div class="fixed bottom-24 right-[35px] z-50">
     <button onclick="openModal()"
         class="bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition duration-200">
@@ -9,8 +10,9 @@
 </div>
 
 <!-- Modal Notification -->
-<div id="notificationModal" class="fixed top-1/4 right-0 z-50 mr-5 hidden">
-    <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+<div id="notificationModal"
+    class="fixed top-1/4 right-0 z-50 mr-5 hidden sm:w-80 md:w-96 transition-opacity opacity-0 transform translate-x-full">
+    <div class="bg-white rounded-lg shadow-lg p-6 relative">
         <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
             &times;
         </button>
@@ -27,14 +29,23 @@
     function openModal() {
         const modal = document.getElementById('notificationModal');
         modal.classList.remove('hidden');
-        closeModalTimeout = setTimeout(closeModal, 10000);
+        setTimeout(() => {
+            modal.classList.remove('opacity-0', 'translate-x-full');
+            modal.classList.add('opacity-100', 'translate-x-0');
+        }, 10); // Đảm bảo transition được kích hoạt
+        closeModalTimeout = setTimeout(closeModal, 10000); // Đóng modal sau 10s
     }
 
     function closeModal() {
         const modal = document.getElementById('notificationModal');
-        modal.classList.add('hidden');
+        modal.classList.add('opacity-0', 'translate-x-full');
+        modal.classList.remove('opacity-100', 'translate-x-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300); // Thời gian chờ để transition kết thúc
         clearTimeout(closeModalTimeout);
     }
+
     window.onclick = function(event) {
         const modal = document.getElementById('notificationModal');
         if (event.target === modal) {

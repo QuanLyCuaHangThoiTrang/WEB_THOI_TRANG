@@ -1,12 +1,11 @@
 @extends('layouts.app')
 @section('content')
-    <div class=" font-old-standard mt-24">
-        <div class="lg:max-w-6xl pt-10 pb-24 p-4 max-w-lg mx-auto">
+    <div class="mt-24">
+        <div class="  pt-10 pb-24 px-8 sm:px-16 md:px-32 mx-auto">
             <form action="{{ route('cart.add') }}" method="POST">
 
                 <div class="grid items-start grid-cols-1 lg:grid-cols-2 gap-4 max-lg:gap-12">
                     <div class="w-full lg:sticky top-0 sm:flex gap-4">
-                        <!-- Chỉ hiện trên màn hình lớn -->
                         <div class="hidden sm:space-y-3 sm:block max-sm:hidden max-sm:mb-4">
                             @foreach ($hinhAnhList as $hinhAnh)
                                 <img src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" alt="Product1"
@@ -14,8 +13,6 @@
                                     data-image-src="{{ asset('images/products/' . $hinhAnh->HinhAnh) }}" />
                             @endforeach
                         </div>
-                        <!-- 3 hình căn giữa chỉ trên thiết bị di động -->
-                        <!-- Chỉ hiện hình chính -->
                         <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt="Product"
                             class="main-product-image w-4/5 rounded-md object-cover mx-auto" />
                         <hr class="border w-[200px] justify-center items-center mx-auto mt-2">
@@ -23,12 +20,42 @@
                     <!-- 3 hình căn giữa chỉ trên thiết bị di động -->
 
                     <div>
-                        <h2 class="text-xl font-bold uppercase text-black">{{ $chiTietSanPham->SanPham->TenSP }}</h2>
+                        <h2 class="text-xl font-medium text-black">{{ $chiTietSanPham->SanPham->TenSP }}</h2>
 
-                        <div class="mt-4">
-                            <p class="text-black text-medium mt-2">
+
+                        <div class="flex flex-wrap gap-4 mt-4 items-center">
+                            @if ($chiTietSanPham->SanPham->GiaGiam == 0)
+                                <p class="text-red-500 text-2xl font-bold">
+                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
+                                </p>
+                            @else
+                                <p class="text-red-500 text-2xl font-bold">
+                                    {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ
+                                </p>
+                            @endif
+
+                            @if ($chiTietSanPham->SanPham->GiaGiam)
+                                <h3 class="font-normal text-gray-400 line-through text-xl">
+                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
+                                </h3>
+                            @else
+                                <h3 class="font-normal text-gray-400 text-lg line-through">
+                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
+                                </h3>
+                            @endif
+                            <div class="flex justify-center items-center">
+                                <div
+                                    class="text-red-500 font-medium text-sm lg:text-lg bg-red-100 rounded-2xl px-3 transition duration-150">
+                                    <span
+                                        class="text-xs sm:text-sm font-medium">{{ -round((($chiTietSanPham->SanPham->GiaBan - $chiTietSanPham->SanPham->GiaGiam) / $chiTietSanPham->SanPham->GiaBan) * 100) }}%</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mt-4 space-y-4">
+                            <p class="text-black text-medium  mt-2">
                                 Còn lại: <span id="stock-quantity" data-quantity = "{{ $SoLuongTonKho }}"
-                                    class="text-red-700 font-extrabold">{{ $SoLuongTonKho }}</span> sản phẩm
+                                    class="text-red-600 font-extrabold">{{ $SoLuongTonKho }}</span> sản phẩm
                             </p>
                             <div class="w-full bg-gray-200 rounded-full h-1" id="stock-progress-container">
                                 <div class="bg-green-500 h-1 rounded-full" id="stock-progress" style="width: 0%;"></div>
@@ -36,25 +63,10 @@
 
                         </div>
 
-                        <div class="flex flex-wrap gap-4 mt-4">
-                            @if ($chiTietSanPham->SanPham->GiaGiam == 0)
-                                <p class=" text-red-600 text-2xl font-bold">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</p>
-                            @else
-                                <p class=" text-red-600 text-2xl font-bold">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</p>
-                            @endif
-                            @if ($chiTietSanPham->SanPham->GiaGiam)
-                                <h3 class="font-medium text-gray-400 line-through text-xl">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                            @else
-                                <h3 class="font-semibold text-gray-400  text-lg line-through">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                            @endif
-                        </div>
+
 
                         <div class="mt-8">
-                            <h3 class="text-xl font-bold text-gray-800">Colors</h3>
+                            <h3 class="text-xl font-bold text-gray-800">Màu sắc:</h3>
                             <ul class="flex gap-4 mt-4">
                                 @foreach ($MauSac as $mauSac)
                                     <li class="flex flex-col items-center">
@@ -63,7 +75,7 @@
                                             data-ma-mau="{{ $mauSac->MaMau }}">
                                         <label for="color_{{ $mauSac->MaMau }}"
                                             style="background-color: {{ $mauSac->TenMau }};"
-                                            class="w-16 h-16 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-105"
+                                            class="w-14 h-14 rounded-full border border-gray-300 flex items-center justify-center cursor-pointer transition duration-200 ease-in-out transform hover:scale-105"
                                             title="{{ $mauSac->TenMau }}">
                                             <span class="hidden">{{ $mauSac->TenMau }}</span>
                                         </label>
@@ -73,16 +85,16 @@
                             </ul>
                         </div>
                         <div class="mt-8">
-                            <h3 class="text-xl font-bold text-gray-800">Sizes</h3>
+                            <h3 class="text-xl font-bold text-gray-800">Kích thước:</h3>
                             <div class="flex flex-wrap gap-4 mt-4 font-semibold text-sm">
-                                <div class="flex gap-4 mt-4">
+                                <div class="flex gap-4 mt-4 mb-10">
                                     <ul class="flex space-x-4">
                                         @foreach ($KichThuoc as $kt)
                                             <li class="flex flex-col items-center">
                                                 <input type="radio" id="size_{{ $kt->MaSize }}" name="selected_size"
-                                                    value="{{ $kt->MaSize }}" class="hidden peer size-radio">
+                                                    value="{{ $kt->MaSize }}" class="hidden peer size-radio ">
                                                 <label for="size_{{ $kt->MaSize }}"
-                                                    class="peer-checked:bg-blue-800 peer-checked:text-white  border border-gray-300 rounded-lg px-4 py-2 text-gray-800 cursor-pointer transition duration-300 hover:bg-blue-700 hover:text-white">
+                                                    class="peer-checked:border-black  peer-checked:text-black  border rounded-lg px-5 py-3 text-gray-800 cursor-pointer transition duration-300 hover:bg-gray-200 hover:text-white">
                                                     {{ $kt->TenSize }}
                                                 </label>
                                             </li>
@@ -92,37 +104,40 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col md:flex-row space-x-0 md:space-x-4 space-y-4 md:space-y-0 py-5">
-                            <div>
-                                <div class="flex border rounded-2xl items-center space-x-2 mt-4 mb-3">
-                                    <button type="button"
-                                        class="decrement p-2 h-11 hover:scale-125 rounded-l-lg focus:outline-none transition duration-200"
-                                        onclick="updateQuantity(-1)">
-                                        <x-icons.icon name="decrement" />
-                                    </button>
-                                    <input id="quantity" class="w-10 text-center rounded-md text-gray-800 font-semibold"
-                                        name="SoLuong" value="1" readonly>
-                                    <button type="button"
-                                        class="increment p-2 h-11 hover:scale-125 rounded-r-lg focus:outline-none  transition duration-200"
-                                        onclick="updateQuantity(1)">
-                                        <x-icons.icon name="increment" />
-                                    </button>
-                                    @csrf
-                                    <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->SanPham->MaSP }}">
-                                    <input type="hidden" name="DonGia" value="{{ $chiTietSanPham->SanPham->GiaBan }}">
-                                    <input type="hidden" name="MaKH" value="KH001">
-                                    <input type="hidden" name="MaSize" value="">
-                                    <input type="hidden" name="MaMau" value="">
-                                </div>
+                        <div class="flex items-center justify-start mt-4 mb-3 space-x-4">
+                            <!-- Chọn số lượng -->
+                            <div class="flex border rounded-2xl items-center space-x-2 w-full sm:w-auto">
+                                <button type="button"
+                                    class="decrement p-2 h-11 hover:scale-125 rounded-l-lg focus:outline-none transition duration-200"
+                                    onclick="updateQuantity(-1)">
+                                    <x-icons.icon name="decrement" />
+                                </button>
+                                <input id="quantity"
+                                    class="w-16 sm:w-24 text-center rounded-md text-gray-800 font-semibold" name="SoLuong"
+                                    value="1" readonly>
+                                <button type="button"
+                                    class="increment p-2 h-11 hover:scale-125 rounded-r-lg focus:outline-none transition duration-200"
+                                    onclick="updateQuantity(1)">
+                                    <x-icons.icon name="increment" />
+                                </button>
+                                @csrf
+                                <input type="hidden" name="MaSP" value="{{ $chiTietSanPham->SanPham->MaSP }}">
+                                <input type="hidden" name="DonGia" value="{{ $chiTietSanPham->SanPham->GiaBan }}">
+                                <input type="hidden" name="MaKH" value="KH001">
+                                <input type="hidden" name="MaSize" value="">
+                                <input type="hidden" name="MaMau" value="">
                             </div>
 
+                            <!-- Nút Thêm vào giỏ hàng -->
                             <button id="add-to-cart-btn" type="submit"
-                                class="w-full md:w-auto lg:w-[300px] min-w-[200px] bg-yellow-500 rounded-xl h-16 px-10 font-bold text-lg text-black  transition-all duration-500 hover:bg-yellow-600 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600">
+                                class="w-full sm:w-auto lg:w-[300px] min-w-[200px] bg-yellow-400 rounded-xl h-11 px-10 font-bold text-md text-gray-800 transition-all duration-500 hover:bg-yellow-500 shadow-sm border-b-2 border-b-yellow-500 shadow-yellow-300 whitespace-nowrap">
                                 Thêm vào giỏ hàng
                             </button>
-                            
+
                         </div>
-                        <div id="error-message" class="bg-red-500 text-white p-4 rounded-md text-center" style="display: none;">
+
+                        <div id="error-message" class="bg-red-500 text-white p-4 rounded-md text-center"
+                            style="display: none;">
                             {{ session('error') }} <span id="countdown" class="font-bold"></span>
                         </div>
                         <div class="mt-8">
@@ -234,8 +249,8 @@
             const addToCartBtn = document.getElementById('add-to-cart-btn');
             const mainProductImage = document.querySelector('.main-product-image');
             // Lấy tất cả các ảnh thu nhỏ (thumbnail)
-            const thumbnails = document.querySelectorAll('.product-thumbnail');  
-            const stockProgressBar = document.getElementById('stock-progress');      
+            const thumbnails = document.querySelectorAll('.product-thumbnail');
+            const stockProgressBar = document.getElementById('stock-progress');
             let lastSelectedSize = null; // Biến để lưu kích thước đã chọn trước đó
             const maxStock = 100;
             thumbnails.forEach(thumbnail => {
@@ -246,22 +261,23 @@
             });
 
             function updateStockAndProgress() {
-            // Lấy số lượng tồn kho từ thuộc tính `data-quantity`
-            const stockQuantity = parseInt(stockQuantitySpan.dataset.quantity);
-            const stockPercentage = (stockQuantity / maxStock) * 100;
+                // Lấy số lượng tồn kho từ thuộc tính `data-quantity`
+                const stockQuantity = parseInt(stockQuantitySpan.dataset.quantity);
+                const stockPercentage = (stockQuantity / maxStock) * 100;
 
-            // Cập nhật thanh progress bar
-            stockProgressBar.style.width = `${stockPercentage}%`;
-            stockProgressBar.classList.remove('bg-red-500', 'bg-yellow-500', 'bg-green-500');
+                // Cập nhật thanh progress bar
+                stockProgressBar.style.width = `${stockPercentage}%`;
+                stockProgressBar.classList.remove('bg-red-500', 'bg-yellow-500', 'bg-green-500');
 
-            if (stockPercentage <= 20) {
-                stockProgressBar.classList.add('bg-red-500');
-            } else if (stockPercentage <= 40) {
-                stockProgressBar.classList.add('bg-yellow-500');
-            } else {
-                stockProgressBar.classList.add('bg-green-500');
+                if (stockPercentage <= 20) {
+                    stockProgressBar.classList.add('bg-red-500');
+                } else if (stockPercentage <= 40) {
+                    stockProgressBar.classList.add('bg-yellow-500');
+                } else {
+                    stockProgressBar.classList.add('bg-green-500');
+                }
             }
-        }
+
             function updateStockAndSizes() {
                 const selectedColor = document.querySelector('input[name="selected_color"]:checked');
                 const selectedSize = document.querySelector('input[name="selected_size"]:checked');
