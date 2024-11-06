@@ -187,6 +187,10 @@ class CartController extends Controller
     public function removeFromCart($MaGH,$MaCTSP)
     {
         $chiTietGioHang = ChiTietGioHang::where('MaGH', $MaGH)->where('MaCTSP', $MaCTSP)->delete();
+        $tongGiaTri = ChiTietGioHang::where('MaGH', $MaGH)->sum('ThanhTien');
+        GioHang::where('MaGH', $MaGH)->update([
+            'TongGiaTri' => $tongGiaTri
+        ]);
         return redirect()->back()->with('success', 'Cart cleared successfully');
     }
     public function removeFromCartSS($MaCTSP)

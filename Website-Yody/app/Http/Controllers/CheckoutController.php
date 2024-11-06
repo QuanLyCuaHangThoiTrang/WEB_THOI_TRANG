@@ -25,6 +25,7 @@ class CheckoutController extends Controller
         $giamGia = 0; // Ví dụ, bạn có thể tính giảm giá từ thông tin giỏ hàng hoặc session
         $PhanTramGiamGia = 0;
         $tongGiaTri = 0;
+        $PhiShip = 20000;
         if(session()->get('MaVC'))
         {
             $PhanTramGiamGia =  session()->get('PhanTramGiamGia');
@@ -42,7 +43,11 @@ class CheckoutController extends Controller
                 $chiTietGioHang = $gioHang->chiTietGioHang;
                 $giamGia = $PhanTramGiamGia;
                 $tongGiaTri = $gioHang->TongGiaTri ;
-                $tongTien = $gioHang->TongGiaTri-$giamGia + 20000;  
+                $tongTien = $gioHang->TongGiaTri-$giamGia + $PhiShip;  
+                if($tongTien > 500000){
+                    $PhiShip = 0;
+                    $tongTien = $gioHang->TongGiaTri-$giamGia + $PhiShip; 
+                }
             }
         } else {
             // Nếu người dùng chưa đăng nhập, lấy giỏ hàng từ session
@@ -50,17 +55,21 @@ class CheckoutController extends Controller
             $chiTietGioHang = $gioHangSession;
             $tongGiaTri = array_sum(array_column($gioHangSession, 'ThanhTien'));
             $giamGia = $PhanTramGiamGia;
-            $tongTien = array_sum(array_column($gioHangSession, 'ThanhTien')) - $giamGia + 20000;
+            $tongTien = array_sum(array_column($gioHangSession, 'ThanhTien')) - $giamGia + $PhiShip;
+            if($tongTien > 500000){
+                $PhiShip = 0;
+                $tongTien = array_sum(array_column($gioHangSession, 'ThanhTien')) - $giamGia + $PhiShip;
+            }
         }
 
         // Trả về view với chi tiết giỏ hàng và tổng tiền
         if (Auth::check())
         {
-            return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia','diaChiFulls'));
+            return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia','diaChiFulls','PhiShip'));
         }
         else
         {
-            return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia'));
+            return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia','PhiShip'));
         }
     }
     public function processCheckoutDH(Request $request)
@@ -184,7 +193,12 @@ class CheckoutController extends Controller
                     $PhanTramGiamGia = 0;
                 }
                 $giamGia = $PhanTramGiamGia;
-                $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;     
+                $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;
+                if($tongTien > 500000)
+                {
+                    $phiship = 0;
+                    $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;   
+                }              
                 return $this->ThanhToanMomo($tongTien,$maDH,$diachi,$hoten,$email,$sodienthoai);
             }
             else
@@ -199,6 +213,11 @@ class CheckoutController extends Controller
                 }
                 $giamGia = (int) $PhanTramGiamGia;
                 $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;
+                if($tongTien > 500000)
+                {
+                    $phiship = 0;
+                    $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;   
+                }     
                 // Tạo đơn hàng mới
                 $donHang = DonHang::create([
                     'MaDH' => $maDH,
@@ -550,7 +569,7 @@ class CheckoutController extends Controller
         {
             do {
                 $maVC = 'VC' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
-            } while (Voucher::where('MaVoucher', $maVC)->exists());       
+            } while (Voucher::where('MaVoucher', $maVC)->exists());
             $vc = Voucher::create([
                 'MaVoucher' => $maVC,
                 'TenVoucher' => 'Giảm giá 20000đ',
