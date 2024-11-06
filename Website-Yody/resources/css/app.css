@@ -101,7 +101,20 @@ body {
     transform: scale(0.8);
     transition: opacity 0.5s, transform 0.5s;
 }
+.fade-in {
+    animation: fadeInAnimation 2s ease-in-out forwards;
+}
 
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 .swiper-slide-active {
     opacity: 1;
@@ -129,3 +142,14 @@ input[type="search"]::-ms-clear {
     width: 0;
     height: 0;
 }
+.fade-item {
+    opacity: 0;
+    transform: translateY(30px); /* Đẩy phần tử xuống dưới một chút */
+    transition: opacity 1s ease-out, transform 2s ease-out; /* Hiệu ứng mờ dần và di chuyển */
+}
+
+.fade-item.opacity-100 {
+    opacity: 1;
+    transform: translateY(0); /* Di chuyển phần tử lên vị trí ban đầu */
+}
+

@@ -36,7 +36,7 @@
                                     alt="Product Image" class="h-full w-full object-cover object-center">
                             </div>
                             <div class="mt-4">
-                                <h3 class="text-base flex-grow truncate font-semibold">{{ $sanPham->TenSP }}</h3>
+                                <h3 class="text-base flex-grow truncate ">{{ $sanPham->TenSP }}</h3>
                                 <div class="flex space-x-2 mt-2">
                                     @php
                                         $mauSacUnique = [];
@@ -54,14 +54,14 @@
                                 <div class="mt-2 flex justify-between items-center">
                                     @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
                                         <span
-                                            class="text-lg font-bold">{{ number_format($sanPham->GiaBan, 0, ',', '.') }}
+                                            class="text-lg font-semibold">{{ number_format($sanPham->GiaBan, 0, ',', '.') }}
                                             đ</span>
                                     @else
                                         <span
                                             class="line-through text-gray-500">{{ number_format($sanPham->GiaBan, 0, ',', '.') }}
                                             đ</span>
                                         <span
-                                            class="text-lg font-bold text-red-500">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }}
+                                            class="text-lg font-semibold text-red-500">{{ number_format($sanPham->GiaGiam, 0, ',', '.') }}
                                             đ</span>
                                     @endif
                                 </div>
