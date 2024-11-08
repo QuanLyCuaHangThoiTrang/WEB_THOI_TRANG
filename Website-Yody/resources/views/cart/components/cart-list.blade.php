@@ -115,7 +115,14 @@
                             <div class="flex items-center border bg-gray-100 rounded-3xl w-32 gap-2 mt-2">
                                 <span class="w-8 h-8 border border-gray-300 rounded-full" style="background-color: {{ $chitiet->chiTietSanPham->mauSac->TenMau }}"></span>
                                 <span class="font-semibold">Size: {{ $chitiet->chiTietSanPham->KichThuoc->TenSize }}</span>
-                            </div>
+                            </div>                        
+                            @if ($chitiet->chiTietSanPham->SoLuongTonKho == 0)
+                                <p class="text-red-600 font-bold">Sản phẩm đã hết hàng</p>
+                            @else
+                                @if ($chitiet->SoLuong > $chitiet->ChiTietSanPham->SoLuongTonKho)
+                                    <p class="text-red-600 font-bold">Sản phẩm vượt quá số lượng hiện có</p>
+                                @endif
+                            @endif
                         </div>
                         @include('cart.components.quantity-control')
                     </div>
@@ -147,7 +154,14 @@
                             <div class="flex items-center font-bold border rounded-3xl w-32 shadow-2xl backdrop-blur-lg gap-2 mt-2">
                                 <span class="w-8 h-8 border border-gray-300 rounded-full" style="background-color: {{ $item['TenMau'] }}"></span>
                                 <span class="font-semibold">Size: {{ $item['TenSize'] }}</span>
-                            </div>
+                            </div>  
+                           @if ($item['SoLuongTonKho'] == 0)
+                                <p class="text-red-600 font-bold">Sản phẩm đã hết hàng</p>
+                           @else
+                               @if ($item['SoLuong']> $item['SoLuongTonKho'])
+                                    <p class="text-red-600 font-bold">Sản phẩm vượt quá số lượng hiện có</p>
+                               @endif
+                           @endif                                                                                      
                         </div>
                         @include('cart.components.quantity-control')
                     </div>
@@ -198,16 +212,15 @@
         <p class="text-xl leading-8">Tổng giá trị:</p>
         <p id="tongGiaTriSauGiamGia" class="text-xl leading-8 text-red-600">{{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
     </div>
-    @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
-
-    <a href="{{ url('/checkout') }}">
-        <div class="w-full bg-yellow-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-yellow-400 shadow-md text-center mt-4">
-            Hoàn tất kiểm tra
-        </div>
-    </a>
+    @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1 && $KTSLKho))     
+        <a href="{{ url('/checkout') }}">
+            <div class="w-full bg-yellow-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-yellow-400 shadow-md text-center mt-4">
+                    Hoàn tất kiểm tra
+            </div>
+        </a>    
     @else
     <div class="w-full bg-red-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-red-400 shadow-md text-center mt-4">
-        Số lượng sản phẩm vượt quá số lượng sản phẩm trong kho vui lòng cập nhật lại
+        Vui lòng kiểm tra lại thông tin sản phẩm
     </div>
     @endif
 </div>

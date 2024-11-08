@@ -20,19 +20,32 @@ class CartController extends Controller
             $gioHang = GioHang::where('MaKH', $userId)->first();
             if ($gioHang) {
                 $chiTietGioHang = ChiTietGioHang::where('MaGH', $gioHang->MaGH)->get();
-                $tongGiaTri = $chiTietGioHang->sum('ThanhTien');
+                $tongGiaTri = $chiTietGioHang->sum('ThanhTien');             
             } else {
                 $chiTietGioHang = [];
                 $tongGiaTri = 0;
             }
-
             return view('cart.cart', compact('chiTietGioHang', 'tongGiaTri'));
         } else {
-            // Người dùng chưa đăng nhập
+            $KTSLKho = true;
             $gioHangSession = Session::get('gioHang', []); // Lấy giỏ hàng từ session
-            // Tính tổng giá trị giỏ hàng từ session
-            $tongGiaTri = array_sum(array_column($gioHangSession, 'ThanhTien'));
-            return view('cart.cart', compact('gioHangSession', 'tongGiaTri'));
+            $tongGiaTri = array_sum(array_column($gioHangSession, 'ThanhTien'));       
+            foreach($gioHangSession as &$item)
+            {
+                $ChiTietSanPham = ChiTietSanPham::where('MaSP',$item['MaSP'])
+                ->where('MaMau',$item['MaMau'])
+                ->where('MaSize',$item['MaSize'])->first();
+                if($ChiTietSanPham && $item['SoLuongTonKho'] != $ChiTietSanPham->SoLuongTonKho)
+                {
+                    $item['SoLuongTonKho'] = $ChiTietSanPham->SoLuongTonKho;
+                }
+                if($item['SoLuongTonKho'] == 0)
+                {
+                    $KTSLKho = false;
+                }
+            }       
+            Session::put('gioHang', $gioHangSession);
+            return view('cart.cart', compact('gioHangSession', 'tongGiaTri','KTSLKho'));
         }
     }
     public function addToCart(Request $request)

@@ -11,11 +11,12 @@ class ChiTietSanPham extends Model
     protected $table = 'chitietsanpham';
     public $timestamps = false;
     protected $primaryKey = 'MaCTSP';
-    protected $fillable = ['MaSP','MaCTSP','TenSP', 'MaSize', 'MaMau','HinhAnh','SKU', 'SoLuongTonKho'];
+    protected $fillable = ['MaSP','MaCTSP','TenSP', 'MaSize', 'MaMau','HinhAnh','SKU', 'SoLuongTonKho','NgayThem'];
     protected $casts = [
         'MaCTSP' => 'string',
         'HinhAnh' => 'string',
         'SoLuongTonKho'=> 'integer',
+        'NgayThem' => 'date',
     ];
     // Thiết lập mối quan hệ với SanPham
     public function sanPham()

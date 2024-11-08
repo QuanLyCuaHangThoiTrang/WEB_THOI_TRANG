@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail; // Import Mail facade
 use App\Mail\WelcomeMail; // Import the WelcomeMail class
 use App\Models\DiaChiKhachHang;
+use Illuminate\Support\Facades\Session;
+use App\Models\ChiTietSanPham;
 
 class CheckoutController extends Controller
 {
@@ -75,11 +77,19 @@ class CheckoutController extends Controller
     public function processCheckoutDH(Request $request)
     {
         if (Auth::check()) {
+            $kt = true;
             $user = Auth::user();          
             $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
             if ($gioHang && $gioHang->TongGiaTri > 0) {
+                $chiTietGioHang = ChiTietGioHang::where('MaGH', $gioHang->MaGH)->get();
+                foreach($chiTietGioHang as $item)
+                {
+                    if($item->ChiTietSanPham->SoLuongTonKho == 0 || $item->SoLuong > $item->ChiTietSanPham->SoLuongTonKho){
+                        return redirect()->route(route: 'cart')->withErrors('Sản phẩm bạn mua đã hết hàng');
+                    }
+                }
                 return $this->storeOrder($request);
-            } 
+            }         
             else 
             {
                 return redirect()->route(route: 'cart')->withErrors('Giỏ hàng của bạn trống.');
@@ -87,6 +97,18 @@ class CheckoutController extends Controller
         } 
         else 
         {
+            $gioHangSession = Session::get('gioHang', []); 
+            foreach($gioHangSession as $item)
+            {
+                $ChiTietSanPham = ChiTietSanPham::where('MaSP',$item['MaSP'])
+                ->where('MaMau',$item['MaMau'])
+                ->where('MaSize',$item['MaSize'])->first();
+                
+                if(($ChiTietSanPham && $ChiTietSanPham->SoLuongTonKho == 0) || $item['SoLuong'] > $ChiTietSanPham->SoLuongTonKho)
+                {              
+                    return redirect()->route(route: 'cart')->withErrors('Sản phẩm bạn mua đã hết hàng');
+                }
+            }
             return $this->storeOrder($request);   
         }
     }
