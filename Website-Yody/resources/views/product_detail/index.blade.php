@@ -143,10 +143,8 @@
                         <div class="mt-8">
                             <h3 class="text-xl font-bold text-gray-800">Chi tiết sản phẩm</h3>
                             <ul class="space-y-3 list-disc mt-4  text-sm text-gray-800">
-                                <p class="text-justify">Chất liệu cao cấp, co giãn tốt, thấm hút mồ hôi nhanh. Kiểu dệt
-                                    interlock 2 mặt mềm mại, thoáng khí. Thiết kế ôm sát, che khuyết điểm, tôn dáng. Đệm
-                                    ngực dày dặn, nâng đỡ tối ưu tạo cảm giác thoải mái khi vận động. Lựa chọn hoàn hảo cho
-                                    các hoạt động thể thao yoga, gym, chạy bộ.</p>
+                                <p class="text-justify">{{ $chiTietSanPham->SanPham->MoTa }}
+                                </p>
                             </ul>
                         </div>
                         @include('product_detail.review.review-section')

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class=" px-10 pb-10 min-h-screen">
-    <section class="container mt-20 mx-auto py-2 lg:py-4">
-       @include('cart.components.cart-list')
-    </section>
-</div>
-    @section('scripts')
+    <div class=" px-10  pb-10 min-h-screen">
+        <section class="container mt-20 mx-auto py-2 lg:py-4">
+            @include('cart.components.cart-list')
+        </section>
+    </div>
+@section('scripts')
     <script>
         document.querySelectorAll('.increment').forEach(button => {
             button.addEventListener('click', () => {
@@ -41,7 +41,7 @@
             console.log(123);
             // Lấy số lượng đã nhập
             let enteredQuantity = parseInt(quantityInput.value);
-            
+
             // Kiểm tra nếu số lượng nhập vượt quá số lượng kho
             if (enteredQuantity > stockQuantity) {
                 // Ẩn nút "Hoàn tất kiểm tra"
@@ -52,5 +52,5 @@
             }
         }
     </script>
-    @endsection
+@endsection
 @endsection

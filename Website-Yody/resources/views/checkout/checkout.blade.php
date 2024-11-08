@@ -44,7 +44,7 @@
 
         <section class="container z-50  mx-auto py-2">
             <div class=" py-5 border-b">
-                <p class="text-3xl font-bold ">CHECKOUT</p>
+                <p class="text-3xl font-bold ">THANH TOÁN</p>
             </div>
             <div class="w-full max-w-8xl mx-auto relative z-10">
                 <div class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden"
@@ -100,9 +100,9 @@
             <div class="flex flex-col lg:flex-row gap-4">
 
                 <!-- Product List -->
-                <div class="flex-1 border lg:pr-8 pb-3 lg:py-4 w-full max-xl:max-w-3xl max-xl:mx-auto">
-                    <div class="flex bg-white justify-between items-center py-4  rounded-md">
-                        <h1 class="font-bold text-2xl px-7">Người nhận</h1>
+                <div class="flex-1  lg:pr-8 pb-3 lg:py-4 w-full max-xl:max-w-3xl max-xl:mx-auto">
+                    <div class="flex bg-white border-b justify-between items-center py-4">
+                        <h1 class="font-bold text-2xl px-7">NGƯỜI NHẬN</h1>
                     </div>
                     <div class="flex flex-col bg-white px-7 py-5 border-b border-gray-200 gap-4 md:gap-6">
                         <!-- Họ và tên, Email -->
@@ -111,14 +111,14 @@
                                 <label for="full_name" class="block text-sm font-medium text-gray-900">Họ và tên</label>
                                 <input name="name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text"
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-                                    placeholder="Enter full name" />
+                                    placeholder="Nhập họ tên" />
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
                                 <input value="{{ Auth::check() ? Auth::user()->Email : '' }}" name="email" type="text"
                                     required
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-                                    placeholder="Enter email" />
+                                    placeholder="Nhập email" />
                             </div>
                         </div>
 
@@ -240,7 +240,7 @@
                             <input value="{{ Auth::check() ? Auth::user()->SDT : '' }}" name="phone_number"
                                 type="text" required
                                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-                                placeholder="Enter phone number" />
+                                placeholder="Nhập số điện thoại" />
                         </div>
 
                         <!-- Ghi chú -->
