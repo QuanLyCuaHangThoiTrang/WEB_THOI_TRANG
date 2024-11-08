@@ -37,25 +37,23 @@
                 <button id="cart-toggle" class="relative">
                     <a href="{{ url('/cart') }}">
                         <x-icons.icon name="cart" />
-                    </a>    
-                    <span id="cart-quantity" class="absolute top-[-15px] right-[-10px] bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5">
-                        @if (Auth::check())  
-                            @php                                    
+                    </a>
+                    <span id="cart-quantity"
+                        class="absolute top-[-15px] right-[-10px] bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5">
+                        @if (Auth::check())
+                            @php
                                 $totalQuantity = 0;
-                                $gioHang = App\Models\GioHang::where('MaKH', Auth::user()->MaKH)->first(); 
-                                if($gioHang)          
-                                {
+                                $gioHang = App\Models\GioHang::where('MaKH', Auth::user()->MaKH)->first();
+                                if ($gioHang) {
                                     $ChiTietGioHang = App\Models\ChiTietGioHang::where('MaGH', $gioHang->MaGH)->get();
                                     foreach ($ChiTietGioHang as $item) {
-                                        $totalQuantity = $totalQuantity + 1;                                     
+                                        $totalQuantity = $totalQuantity + 1;
                                     }
-                                }   
-                                else 
-                                {
+                                } else {
                                     $totalQuantity = 0;
-                                }                    
-                            @endphp                     
-                            {{$totalQuantity}}     
+                                }
+                            @endphp
+                            {{ $totalQuantity }}
                         @else
                             @php
                                 $totalQuantity = 0;
@@ -63,9 +61,9 @@
                                     $totalQuantity = $totalQuantity + 1;
                                 }
                             @endphp
-                            {{$totalQuantity}}
+                            {{ $totalQuantity }}
                         @endif
-                    </span>               
+                    </span>
                 </button>
 
                 @auth

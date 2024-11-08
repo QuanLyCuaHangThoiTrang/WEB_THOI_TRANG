@@ -27,7 +27,7 @@
                             <span
                                 class="inline-block hover:scale-110 duration-200 h-14 w-14 rounded-full mb-2 border border-gray-300"
                                 style="background-color: {{ $item->TenMau }};"></span>
-                            <p class="text-center text-xs">{{ $item->TenMau }}</p>
+
                         </label>
                     </div>
                 @endforeach
