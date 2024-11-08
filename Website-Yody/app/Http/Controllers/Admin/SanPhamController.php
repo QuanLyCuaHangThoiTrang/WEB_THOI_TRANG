@@ -106,7 +106,7 @@ class SanPhamController extends Controller
             'TrangThai' => $data['TrangThai'],
             'MoTa' =>$moTa,
         ]);
-
+        
         return redirect()->route('product.variants.create', ['product' => $data['MaSP']]);
     }
 
