@@ -3,7 +3,7 @@
         <p class="font-bold text-4xl text-center py-10">SẢN PHẨM ƯA CHUỘNG</p>
     </div>
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
-        @foreach ($chiTietSanPhams->take(10) as $chiTietSanPham)
+        @foreach ($SanPhamMoiNhat as $chiTietSanPham)
             <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}">
                 <div
                     class="rounded cursor-pointer duration-150 flex flex-col fade-item opacity-0 transition-opacity duration-700">

@@ -9,7 +9,7 @@
             </div>
 
             @csrf
-            @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout == false) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
+            @if ((Auth::check() && $tongGiaTri > 0 && $canCheckout == false) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))      
                 <a href="{{ url('/checkout') }}">
                     <div id="checkout-btn-{{ $index }}" type="button"
                         class="w-full bg-yellow-500 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-yellow-400 shadow-sm border-b-2 border-b-yellow-700 shadow-yellow-600 text-center">

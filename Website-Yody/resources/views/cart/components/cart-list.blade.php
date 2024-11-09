@@ -35,6 +35,13 @@
                                 <span class="font-semibold">Size:
                                     {{ $chitiet->chiTietSanPham->KichThuoc->TenSize }}</span>
                             </div>
+                            @if ($chitiet->chiTietSanPham->SoLuongTonKho == 0)
+                            <p class="text-red-600 font-bold">Sản phẩm đã hết hàng</p>
+                        @else
+                            @if ($chitiet->SoLuong > $chitiet->ChiTietSanPham->SoLuongTonKho)
+                                <p class="text-red-600 font-bold">Sản phẩm vượt quá số lượng hiện có</p>
+                            @endif
+                        @endif
                         </div>
                         @include('cart.components.quantity-control')
                     </div>
@@ -72,6 +79,13 @@
                                     style="background-color: {{ $item['TenMau'] }}"></span>
                                 <span class="font-semibold">Kích cỡ: {{ $item['TenSize'] }}</span>
                             </div>
+                            @if ($item['SoLuongTonKho'] == 0)
+                                <p class="text-red-600 font-bold">Sản phẩm đã hết hàng</p>
+                           @else
+                               @if ($item['SoLuong']> $item['SoLuongTonKho'])
+                                    <p class="text-red-600 font-bold">Sản phẩm vượt quá số lượng hiện có</p>
+                               @endif
+                           @endif            
                         </div>
                         @include('cart.components.quantity-control')
                     </div>
@@ -104,7 +118,6 @@
                             <span class="text-gray-800  ">Mã sản phẩm: <span
                                     class="font-semibold">{{ $chitiet->chiTietSanPham->sanPham->MaSP }}</span></span>
                             <div class="text-gray-600 flex items-center">
-
                                 <span>SL: <strong>{{ $chitiet->SoLuong }}</strong></span>
                             </div>
                         </div>
@@ -127,8 +140,7 @@
                         {{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
                 </div>
                 @if (
-                    (Auth::check() && $tongGiaTri > 0 && $canCheckout) ||
-                        (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1))
+                    (Auth::check() && $tongGiaTri > 0 && $canCheckout) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1 && $KTSLKho))
                     <a href="{{ url('/checkout') }}">
                         <div
                             class="w-full bg-yellow-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-yellow-400 shadow-md text-center mt-4">
@@ -138,7 +150,7 @@
                 @else
                     <div
                         class="w-full bg-red-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-red-400 shadow-md text-center mt-4">
-                        Số lượng sản phẩm vượt quá số lượng sản phẩm trong kho vui lòng cập nhật lại
+                        Vui lòng kiểm tra lại thông tin sản phẩm
                     </div>
                 @endif
             </div>
@@ -148,7 +160,6 @@
                 @include('cart.components.cart-empty')
             </div>
         @endif
-
         @include('cart.components.modal-quantity')
 
     </div>
