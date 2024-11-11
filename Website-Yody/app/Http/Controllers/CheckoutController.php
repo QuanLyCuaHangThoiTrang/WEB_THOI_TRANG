@@ -508,7 +508,7 @@ class CheckoutController extends Controller
     {
         // Cập nhật điểm tích lũy: tăng lên 1 điểm sau mỗi lần thanh toán thành công
         $khachHang = KhachHang::where('MaKH', $user->MaKH)->first();
-        $khachHang->DiemTichLuy += 1;  // Tăng 1 điểm
+        $khachHang->DiemTichLuy += 2000;  // Tăng 1 điểm
         $khachHang->save();
     }
     private function createDonHang($maDH, $maKH, $diachi, $tongGiaTri, $paymentMethod,$GhiChu)
@@ -617,7 +617,7 @@ class CheckoutController extends Controller
     public function CreateVoucher($user)
     {
         $khachHang = KhachHang::find($user->MaKH);
-        if($khachHang->DiemTichLuy >=5)
+        if($khachHang->DiemTichLuy >=20000)
         {
             do {
                 $maVC = 'VC' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
