@@ -179,11 +179,9 @@ input[type="search"]::-ms-clear {
 .custom-checkbox1 {
     display: none;
 }
-
 /* Tùy chỉnh trạng thái checkbox khi được chọn */
 .custom-checkbox1:checked + label span {
-    border-color: #0b44ff; /* Màu viền khi checkbox được chọn */
-    border: 2px solid;
+    border-color: #5b54db; /* Màu viền khi checkbox được chọn */
+    border: 3px solid;
 }
-
 /* Thêm hiệu ứng khi hover */
