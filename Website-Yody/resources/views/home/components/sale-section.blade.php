@@ -6,39 +6,43 @@
 @endphp
 
 <script>
-    // Kiểm tra nếu khuyenMai và NgayKetThuc tồn tại
-    @if (isset($khuyenMai) && $khuyenMai->NgayKetThuc)
-        // Lấy Ngày kết thúc từ controller và chuyển thành định dạng JavaScript
-        let endDate = new Date("{{ \Carbon\Carbon::parse($khuyenMai->NgayKetThuc)->toDateTimeString() }}");
+    document.addEventListener("DOMContentLoaded", function() {
+        // Kiểm tra nếu khuyenMai và NgayKetThuc tồn tại
+        @if (isset($khuyenMai) && $khuyenMai->NgayKetThuc)
+            // Lấy Ngày kết thúc từ controller và chuyển thành định dạng JavaScript
+            let endDate = new Date("{{ \Carbon\Carbon::parse($khuyenMai->NgayKetThuc)->toDateTimeString() }}");
 
-        let countdownElement = document.querySelector('.countdown');
+            let countdownElement = document.querySelector('.countdown');
 
-        const timer = setInterval(() => {
-            let now = new Date().getTime();
-            let timeLeft = endDate - now;
+            const timer = setInterval(() => {
+                let now = new Date().getTime();
+                let timeLeft = endDate - now;
 
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                countdownElement.innerHTML = "Time's up!";
-                return;
-            }
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    countdownElement.innerHTML = "<span class='font-bold uppercase'>SALE ĐÃ KẾT THÚC!</span>";
+                    return;
+                }
 
-            // Tính toán ngày, giờ, phút, giây còn lại
-            let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                // Tính toán ngày, giờ, phút, giây còn lại
+                let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            // Cập nhật hiển thị
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-        }, 1000);
-    @else
-        document.querySelector('.countdown').innerHTML = "Không có khuyến mãi hiện tại!";
-    @endif
+                // Cập nhật hiển thị
+                document.getElementById('days').innerText = String(days).padStart(2, '0');
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            }, 1000);
+        @else
+            // Hiển thị thông báo nếu không có khuyến mãi
+            document.querySelector('.countdown').innerHTML = "<span class='text-red-500'>Không có khuyến mãi hiện tại!</span>";
+        @endif
+    });
 </script>
+
 
 <div class="text-center fade-item p-16 mt-4 mb-4 px-8 lg:px-24">
     <div class="mb-4">
