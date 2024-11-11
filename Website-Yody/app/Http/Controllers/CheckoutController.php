@@ -247,7 +247,7 @@ class CheckoutController extends Controller
                     'DiaChiGiaoHang' => $diachi,
                     'NgayDatHang' => now(),
                     'TongGiaTri' => $tongTien ,
-                    'TrangThai' => 'Chưa giao', // Ví dụ trạng thái đơn hàng
+                    'TrangThai' => 'Chờ xác nhận', // Ví dụ trạng thái đơn hàng
                     'PhuongThucThanhToan' => $request->input('payment_method')
                 ]);
                 

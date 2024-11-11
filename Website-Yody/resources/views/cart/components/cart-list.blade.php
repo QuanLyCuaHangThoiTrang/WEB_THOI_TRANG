@@ -125,7 +125,7 @@
                 @else
                     @foreach ($gioHangSession as $item)
                         <div class="flex justify-between items-center border-b border-gray-200 py-2">
-                            <span class="text-gray-800 font-semibold">{{ $item['TenSP'] }}</span>
+                            <span class="text-gray-800 text-base truncate">{{ $item['TenSP'] }}</span>
                             <div class="text-gray-600 flex items-center">
 
                                 <span>SL: <strong>{{ $item['SoLuong'] }}</strong></span>

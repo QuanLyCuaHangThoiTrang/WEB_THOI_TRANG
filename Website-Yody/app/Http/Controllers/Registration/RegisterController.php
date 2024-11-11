@@ -20,8 +20,7 @@ class RegisterController extends Controller
         $request->validate([
             'full_name' => [
                 'required', 
-                'string', 
-                'regex:/^[a-zA-Z\s]+$/', // Chỉ chứa chữ cái và khoảng trắng
+                'string',
                 'max:255', 
                 'min:3', // Ít nhất 2 ký tự để tránh nhập ký tự đơn lẻ
                 'not_regex:/^\s*([a-zA-Z]\s*){1}$/', // Không cho phép chỉ nhập một ký tự

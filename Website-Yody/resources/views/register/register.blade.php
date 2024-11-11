@@ -7,37 +7,37 @@
                 <form action="{{ route('register') }}" method="POST">
                     @csrf
                     <div class="mb-12">
-                        <h3 class="text-gray-800 text-3xl font-extrabold">Create an account</h3>
-                        <p class="text-sm mt-4 text-gray-800">Have an account <a href="{{ url('/login') }}" class="text-yellow-600 font-semibold hover:underline ml-1 whitespace-nowrap">Login here</a></p>
+                        <h3 class="text-gray-800 text-3xl font-extrabold">Tạo tài khoản</h3>
+                        <p class="text-sm mt-4 text-gray-800">Đã có tài khoản? <a href="{{ url('/login') }}" class="text-yellow-600 font-semibold hover:underline ml-1 whitespace-nowrap">Đăng nhập tại đây</a></p>
                     </div>
 
-                    <!-- Full Name -->
+                    <!-- Họ và tên -->
                     <div class="mb-4">
-                        <label class="text-gray-800 text-xs block mb-2">Full Name</label>
+                        <label class="text-gray-800 text-xs block mb-2">Họ và tên</label>
                         <div class="relative flex items-center">
-                            <input name="full_name" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter full name" />
+                            <input name="full_name" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Nhập họ và tên" />
                         </div>
                         @error('full_name')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Username -->
+                    <!-- Tên người dùng -->
                     <div class="mb-4">
-                        <label class="text-gray-800 text-xs block mb-2">Username</label>
+                        <label class="text-gray-800 text-xs block mb-2">Tên người dùng</label>
                         <div class="relative flex items-center">
-                            <input name="username" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter username" />
+                            <input name="username" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Nhập tên người dùng" />
                         </div>
                         @error('username')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Phone Number -->
+                    <!-- Số điện thoại -->
                     <div class="mb-4">
-                        <label class="text-gray-800 text-xs block mb-2">Phone Number</label>
+                        <label class="text-gray-800 text-xs block mb-2">Số điện thoại</label>
                         <div class="relative flex items-center">
-                            <input name="phone_number" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter phone number" />
+                            <input name="phone_number" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Nhập số điện thoại" />
                         </div>
                         @error('phone_number')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
@@ -48,29 +48,29 @@
                     <div class="mb-4">
                         <label class="text-gray-800 text-xs block mb-2">Email</label>
                         <div class="relative flex items-center">
-                            <input name="email" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter email" />
+                            <input name="email" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Nhập email" />
                         </div>
                         @error('email')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Password -->
+                    <!-- Mật khẩu -->
                     <div class="mt-4">
-                        <label class="text-gray-800 text-xs block mb-2">Password</label>
+                        <label class="text-gray-800 text-xs block mb-2">Mật khẩu</label>
                         <div class="relative flex items-center">
-                            <input name="password" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter password" />
+                            <input name="password" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Nhập mật khẩu" />
                         </div>
                         @error('password')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
                         @enderror
                     </div>
                     
-                    <!-- Confirm Password -->
+                    <!-- Xác nhận mật khẩu -->
                     <div class="mt-4">
-                        <label class="text-gray-800 text-xs block mb-2">Confirm Password</label>
+                        <label class="text-gray-800 text-xs block mb-2">Xác nhận mật khẩu</label>
                         <div class="relative flex items-center">
-                            <input name="password_confirmation" type="password" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Confirm password" />
+                            <input name="password_confirmation" type="password" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Xác nhận mật khẩu" />
                         </div>
                         @error('password_confirmation')
                             <span class="text-red-500 text-xs">{{ $message }}</span>
@@ -79,7 +79,7 @@
 
                     <div class="mt-4">
                         <button type="submit" class="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-yellow-500 hover:bg-yellow-600 duration-150 focus:outline-none">
-                            Sign up
+                            Đăng ký
                         </button>
                     </div>
                 </form>

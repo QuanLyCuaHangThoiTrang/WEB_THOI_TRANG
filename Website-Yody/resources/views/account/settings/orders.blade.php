@@ -35,6 +35,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                         </svg>
+                        
                     </button>
                 </div>
             </div>
@@ -70,47 +71,55 @@
                                     <div class="gap-4 sm:flex sm:items-center sm:justify-between">
                                         <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">
                                             Đơn hàng</h3>
+
+                                        <!-- Button to go back to orders list -->
+                                       
+
                                         <div
                                             class="mt-6 gap-4 space-y-4 sm:mt-0 sm:flex sm:items-center sm:justify-end sm:space-y-0">
                                             <form method="GET" action="{{ url('/order/' . $khachhang->MaKH) }}"
-                                                class="flex flex-col sm:flex-row justify-between items-center mb-4">
-                                                <div class="flex space-x-2 w-full mb-5">
-                                                    <div class="flex-grow">
-                                                        <label for="search"
-                                                            class="block py-2 text-sm font-medium text-gray-700">Tìm
-                                                            kiếm</label>
-                                                        <input type="text" name="search" id="search"
-                                                            placeholder="Tìm kiếm"
-                                                            class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 rounded-lg w-full sm:w-52">
-                                                    </div>
-                                                    <div class="flex-shrink-0">
-                                                        <label for="sort"
-                                                            class="block py-2 text-sm font-medium text-gray-700">Sắp xếp
-                                                            theo</label>
-                                                        <select name="sort" id="sort"
-                                                            class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 rounded-md w-full sm:w-auto">
-                                                            <option value="default">Sắp xếp theo</option>
-                                                            <option value="chua_xac_nhan">Chưa xác nhận</option>
-                                                            <option value="da_xac_nhan">Đã xác nhận</option>
-                                                            <option value="chua_giao">Chưa giao</option>
-                                                            <option value="giao_thanh_cong">Giao thành công</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </form>
+    class="flex flex-col sm:flex-row justify-between items-center mb-4">
+    <div class="flex space-x-2 w-full mb-5">
+        <div class="flex-grow">
+            <label for="search"
+                class="block py-2 text-sm font-medium text-gray-700">Tìm kiếm</label>
+            <input type="text" name="search" id="search" placeholder="Tìm kiếm"
+                class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 rounded-lg w-full sm:w-52">
+        </div>
+        <div class="flex-shrink-0">
+            <label for="sort"
+                class="block py-2 text-sm font-medium text-gray-700">Sắp xếp theo</label>
+            <select name="sort" id="sort"
+                class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 rounded-md w-full sm:w-auto">
+                <option value="default">Sắp xếp theo</option>
+                <option value="tat_ca">Tất cả</option>
+                <option value="chua_xac_nhan">Chưa xác nhận</option>
+                <option value="da_xac_nhan">Đã xác nhận</option>
+                <option value="chua_giao">Chưa giao</option>
+                <option value="giao_thanh_cong">Giao thành công</option>
+            </select>
+        </div>
+    </div>
+</form>
 
                                         </div>
                                     </div>
-
                                 </div>
-
 
                                 <div>
                                     <div class="container mx-auto">
-                                        @if ($orders->isEmpty())
-                                            <img src="{{ asset('svg/empty.svg') }}" alt="No orders" class="mx-auto size-80">
-                                            <p class="text-gray-600 text-center">Bạn chưa có đơn hàng nào.</p>
-                                        @else
+                                    @if ($orders->isEmpty())
+    <div class="flex flex-col items-center justify-center">
+        <img src="{{ asset('svg/empty.svg') }}" alt="No orders" class="mx-auto size-80">
+        <div class="mt-6">
+            <a href="{{ url('/order/' . $khachhang->MaKH) }}"
+                class="inline-flex items-center justify-center rounded-md bg-gray-700 px-4 py-2 text-white text-sm font-medium hover:bg-gray-800">
+                Quay lại tất cả đơn hàng
+            </a>
+        </div>
+    </div>
+@else
+
                                             <div class="pt-5 space-y-6">
                                                 @foreach ($orders as $order)
                                                     <div class="flex border-b flex-wrap items-center gap-y-4 py-6">
@@ -154,11 +163,11 @@
 
                                                         <div
                                                             class="w-full grid sm:grid-cols-2 lg:flex lg:w-64 lg:items-center lg:justify-end gap-4">
-                                                            @if ($order->TrangThai == 'Chưa xác nhận')
+                                                            @if ($order->TrangThai == 'Chờ xác nhận')
                                                                 <button type="button"
-                                                                    class="w-full rounded-lg border border-red-700 px-3 py-2 text-center text-sm font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900 lg:w-auto"
+                                                                    class="w-full rounded-lg border truncate border-red-700 px-3 py-2 text-center text-sm font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900 lg:w-auto"
                                                                     onclick="event.preventDefault(); document.getElementById('cancel-form-{{ $order->MaDH }}').submit();">
-                                                                    Hủy đơn hàng
+                                                                    Hủy
                                                                 </button>
                                                                 <form id="cancel-form-{{ $order->MaDH }}"
                                                                     action="{{ route('orders.cancel', $order->MaDH) }}"
@@ -173,8 +182,6 @@
                                                         </div>
                                                     </div>
                                                 @endforeach
-
-
                                             </div>
                                             <div class="mt-6">
                                                 {{ $orders->links() }}
@@ -195,6 +202,13 @@
         document.getElementById('sort').addEventListener('change', function() {
             this.form.submit();
         });
-    </script>
+        document.getElementById('sort').addEventListener('change', function () {
+    if (this.value === 'default') {
+        window.location.href = "{{ url('/order/' . $khachhang->MaKH) }}";
+    } else {
+        this.form.submit();
+    }
+});
 
+    </script>
 @endsection
