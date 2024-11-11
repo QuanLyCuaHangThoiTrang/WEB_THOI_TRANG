@@ -13,6 +13,7 @@ class ChiTietSanPham extends Model
     protected $primaryKey = 'MaCTSP';
     protected $fillable = ['MaSP','MaCTSP','TenSP', 'MaSize', 'MaMau','HinhAnh','SKU', 'SoLuongTonKho','NgayThem'];
     protected $casts = [
+        'MaSP' => 'string',
         'MaCTSP' => 'string',
         'HinhAnh' => 'string',
         'SoLuongTonKho'=> 'integer',

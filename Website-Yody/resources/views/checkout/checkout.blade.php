@@ -1,47 +1,54 @@
 @extends('layouts.app')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const voucherModal = document.getElementById('voucherModal');
-        const openModalBtn = document.getElementById('openModalBtn');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const applyBtn = document.getElementById('applyBtn'); // Nút áp dụng
+    const voucherModal = document.getElementById('voucherModal');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const applyBtn = document.getElementById('applyBtn');
+    const voucherForm = document.querySelector('.formabc');
 
-        // Mở modal khi click vào nút "Nhập mã giảm giá"
-        openModalBtn.addEventListener('click', function() {
-            voucherModal.classList.remove('hidden');
-        });
+    // Mở modal khi click vào nút "Nhập mã giảm giá"
+    openModalBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        voucherModal.classList.remove('hidden');
 
-        // Đóng modal khi click vào nút "Đóng"
-        closeModalBtn.addEventListener('click', function() {
-            voucherModal.classList.add('hidden');
-        });
-
-        // Đóng modal khi click ra ngoài vùng modal
-        window.addEventListener('click', function(event) {
-            if (event.target === voucherModal) {
-                voucherModal.classList.add('hidden');
-
-            }
-        });
-        openModalBtn.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn chặn hành động mặc định
-            voucherModal.classList.remove('hidden');
-        });
-
-        // Kiểm tra xem có thông báo thành công hay không
-        @if (session('success'))
-            applyBtn.textContent = 'Hủy voucher'; // Chuyển đổi thành Hủy voucher
-            applyBtn.classList.add('bg-red-700'); // Thêm màu nền mới
-            applyBtn.classList.add('hover:bg-red-600'); // Thêm màu nền mới
-        @endif
+        // Kiểm tra trạng thái khi mở lại modal
+        if ({{ session('success') ? 'true' : 'false' }}) {
+            applyBtn.textContent = 'Hủy voucher';
+            applyBtn.classList.remove('bg-blue-800', 'hover:bg-blue-700');
+            applyBtn.classList.add('bg-red-700', 'hover:bg-red-600');
+            voucherForm.action = "{{ route('voucher.cancel') }}";
+        } else {
+            applyBtn.textContent = 'Áp dụng';
+            applyBtn.classList.remove('bg-red-700', 'hover:bg-red-600');
+            applyBtn.classList.add('bg-blue-800', 'hover:bg-blue-700');
+            voucherForm.action = "{{ route('checkout.applyVoucher') }}";
+        }
     });
+
+    // Đóng modal khi click vào nút "Đóng"
+    closeModalBtn.addEventListener('click', function() {
+        voucherModal.classList.add('hidden');
+    });
+
+    // Đóng modal khi click ra ngoài vùng modal
+    window.addEventListener('click', function(event) {
+        if (event.target === voucherModal) {
+            voucherModal.classList.add('hidden');
+        }
+    });
+});
 </script>
 
 
 
 @section('content')
+@if(session('updateInterface'))
+    <script>
+        window.location.reload();
+    </script>
+@endif
     <div class=" px-12 pb-5 mt-20">
-
         <section class="container z-50  mx-auto py-2">
             <div class=" py-5 border-b">
                 <p class="text-3xl font-bold ">THANH TOÁN</p>
@@ -51,7 +58,7 @@
                     id="voucherModal">
                     <div class="bg-white rounded-lg w-96 p-6">
                         <h2 class="text-lg font-bold text-gray-800 mb-4">Nhập mã giảm giá</h2>
-                        <form class="formabc" action="{{ route('checkout.applyVoucher') }}" method="POST">
+                        <form class="formabc" action="{{ session('success') ? route('voucher.cancel') : route('checkout.applyVoucher') }}" method="POST">
                             @csrf
                             <div class="w-full mb-4">
                                 <input type="text" name="voucher_code" placeholder="Nhập mã giảm giá"
@@ -111,12 +118,12 @@
                                 <label for="full_name" class="block text-sm font-medium text-gray-900">Họ và tên</label>
                                 <input name="name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text"
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-                                    placeholder="Nhập họ tên" />
+                                    placeholder="Nhập họ tên" />                                                   
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
                                 <input value="{{ Auth::check() ? Auth::user()->Email : '' }}" name="email" type="text"
-                                    required
+                                  
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
                                     placeholder="Nhập email" />
                             </div>
@@ -146,7 +153,7 @@
                                     </label>
                                 </div>
                             @else
-                                <input type="text" id="diachi" name="diachinha" placeholder="Nhập địa chỉ" required
+                                <input type="text" id="diachi" name="diachinha" placeholder="Nhập địa chỉ"
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500" />
                                 <div id="diachiError" class="text-red-600 text-sm mt-1">
                                     {{ $errors->first('diachi') }}
@@ -238,7 +245,7 @@
                             <label for="phone_number" class="block text-sm font-medium text-gray-900">Số điện
                                 thoại</label>
                             <input value="{{ Auth::check() ? Auth::user()->SDT : '' }}" name="phone_number"
-                                type="text" required
+                                type="text"
                                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
                                 placeholder="Nhập số điện thoại" />
                         </div>

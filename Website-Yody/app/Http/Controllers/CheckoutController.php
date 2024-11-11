@@ -103,8 +103,7 @@ class CheckoutController extends Controller
                 $ChiTietSanPham = ChiTietSanPham::where('MaSP',$item['MaSP'])
                 ->where('MaMau',$item['MaMau'])
                 ->where('MaSize',$item['MaSize'])->first();
-                
-                if(($ChiTietSanPham && $ChiTietSanPham->SoLuongTonKho == 0) || $item['SoLuong'] > $ChiTietSanPham->SoLuongTonKho)
+                if($ChiTietSanPham && ($item['SoLuongTonKho'] == 0 || $item['SoLuong'] > $ChiTietSanPham->SoLuongTonKho))
                 {              
                     return redirect()->route(route: 'cart')->withErrors('Sản phẩm bạn mua đã hết hàng');
                 }
@@ -120,31 +119,60 @@ class CheckoutController extends Controller
             'diachifull' => 'nullable|string|max:255',
             'hidden_phuong' => 'nullable|string|max:255',
             'hidden_quan' => 'nullable|string|max:255',
-            'hidden_tinh' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone_number' => 'required|string|max:15',
-            'name' => 'required|string|max:255',
+            'hidden_tinh' => 'nullable|string|max:255',              
             'newAddress' => 'nullable|string|max:255',
             'tinh' => 'nullable|string|max:255',
             'quan' => 'nullable|string|max:255',
             'phuong' => 'nullable|string|max:255',
         ]);
-    
+        $email = $request->input('email');
+        $hoten = $request->input('name');
         $maDC = $request->input('diachifull');   
         $diaChiKH = DiaChiKhachHang::where('MaDC', $maDC)->first();
         $diachinha = $request->input('diachinha');       
         $xa = $request->input('hidden_phuong');
         $huyen = $request->input('hidden_quan');
         $tinh = $request->input('hidden_tinh');
-    
+        $sdt = $request->input('phone_number');
+        //validate
+        if (empty($hoten)) {
+            return redirect()->back()->withErrors(['HoTen' => 'Họ tên không được để trống.']);
+        }     
+        if (empty($email)) {
+            return redirect()->back()->withErrors('Không được để trống email');
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return redirect()->back()->withErrors('Định dạng email không hợp lệ');
+        }        
+        if(!Auth::check())
+        {
+            if (empty($diachinha)) {
+                return redirect()->back()->withErrors('Không được để trống địa chỉ');
+            }
+            if (empty($xa) || empty($huyen) || empty($tinh))
+            {
+                return redirect()->back()->withErrors('Vui lòng chọn tỉnh, huyện, xã');
+            }
+        }    
+        if(empty($sdt) )
+        {
+            return redirect()->back()->withErrors('Vui lòng nhập số điện thoại');
+        }
+        
         if ($diaChiKH && Auth::check()) {
             $diachinha = $diaChiKH->Duong;
             $xa = $diaChiKH->Phuong;
             $huyen = $diaChiKH->Huyen;
             $tinh = $diaChiKH->Tinh;
-        }
-    
-        // Check if the user is adding a new address
+            if (empty($diachinha)) {
+                return redirect()->back()->withErrors('Không được để trống địa chỉ');
+            }
+            if (empty($xa) || empty($huyen) || empty($tinh))
+            {
+                return redirect()->back()->withErrors('Vui lòng chọn tỉnh, huyện, xã');
+            }
+        }     
+        // Thêm địa chỉ mới
         if ($request->has('newAddress') && !empty($request->input('newAddress'))) {
             // Tạo địa chỉ mới
             $newAddress = new DiaChiKhachHang();
@@ -156,16 +184,18 @@ class CheckoutController extends Controller
                 // Xử lý trường hợp người dùng chưa đăng nhập
                 return response()->json(['error' => 'User is not authenticated'], 401);
             }
-    
+            
             $newAddress->MaDC = uniqid(); // Nếu MaDC không tự động tăng
             $newAddress->Duong = $request->input('newAddress');
             $newAddress->Phuong = $request->input('hidden_phuong');
             $newAddress->Huyen = $request->input('hidden_quan');
             $newAddress->Tinh = $request->input('hidden_tinh');
-            
-            // Kiểm tra nếu MaKH là null
-            if (is_null($newAddress->MaKH)) {
-                throw new Exception("MaKH cannot be null");
+            if (empty($newAddress->Duong)) {
+                return redirect()->back()->withErrors('Không được để trống địa chỉ');
+            }
+            if (empty($newAddress->Phuong) || empty($newAddress->Huyen) || empty($newAddress->Tinh))
+            {
+                return redirect()->back()->withErrors('Vui lòng chọn tỉnh, huyện, xã');
             }
     
             $newAddress->save(); // Lưu địa chỉ mới vào cơ sở dữ liệu        
@@ -572,7 +602,7 @@ class CheckoutController extends Controller
     public function cancelVoucher(Request $request)
     {
         session()->forget(['MaVC', 'PhanTramGiamGia']);
-        return redirect()->back()->with('success', 'Voucher đã được hủy thành công.');
+        return redirect()->back()->with('success', 'Voucher đã được hủy thành công.')->with('updateInterface', true);
     }
     public function ActiveVoucher($maVoucher)
     {     
