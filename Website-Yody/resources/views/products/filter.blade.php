@@ -54,14 +54,14 @@
         </h3>
         <!-- Display the size filter section by default -->
         <div class="pt-6" id="filter-section-2">
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 @foreach ($KichThuocs as $item)
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-4">
                         <label for="filter-size-{{ $loop->index }}" class="flex items-center cursor-pointer space-x-2">
                             <input id="filter-size-{{ $loop->index }}" name="size[]" value="{{ $item->TenSize }}"
                                 type="checkbox" class="hidden custom-checkbox">
                             <span
-                                class="inline-flex items-center justify-center w-20 h-10 border hover:scale-110 duration-200 rounded-xl text-lg cursor-pointer">
+                                class="inline-flex items-center justify-center w-16 gap-4 space-x-4 space-y-4 h-10 border hover:scale-110 duration-200 rounded-xl text-lg cursor-pointer">
                                 {{ $item->TenSize }}
                             </span>
                         </label>

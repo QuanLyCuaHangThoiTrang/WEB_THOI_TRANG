@@ -24,34 +24,30 @@
 
 
                         <div class="flex flex-wrap gap-4 mt-4 items-center">
-                            @if ($chiTietSanPham->SanPham->GiaGiam == 0)
-                                <p class="text-red-500 text-2xl font-bold">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
-                                </p>
-                            @else
-                                <p class="text-red-500 text-2xl font-bold">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ
-                                </p>
-                            @endif
+    @if ($chiTietSanPham->SanPham->GiaGiam != 0 && $chiTietSanPham->SanPham->GiaGiam < $chiTietSanPham->SanPham->GiaBan)
+        <p class="text-red-500 text-2xl font-bold">
+            {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ
+        </p>
+        <h3 class="font-normal text-gray-400 line-through text-xl">
+            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
+        </h3>
+    @else
+        <p class="text-red-500 text-2xl font-bold">
+            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
+        </p>
+    @endif
 
-                            @if ($chiTietSanPham->SanPham->GiaGiam)
-                                <h3 class="font-normal text-gray-400 line-through text-xl">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
-                                </h3>
-                            @else
-                                <h3 class="font-normal text-gray-400 text-lg line-through">
-                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
-                                </h3>
-                            @endif
-                            <div class="flex justify-center items-center">
-                                <div
-                                    class="text-red-500 font-medium text-sm lg:text-lg bg-red-100 rounded-2xl px-3 transition duration-150">
-                                    <span
-                                        class="text-xs sm:text-sm font-medium">{{ -round((($chiTietSanPham->SanPham->GiaBan - $chiTietSanPham->SanPham->GiaGiam) / $chiTietSanPham->SanPham->GiaBan) * 100) }}%</span>
-                                </div>
-                            </div>
+    <div class="flex justify-center items-center">
+        @if ($chiTietSanPham->SanPham->GiaGiam != 0 && $chiTietSanPham->SanPham->GiaGiam < $chiTietSanPham->SanPham->GiaBan)
+            <div class="text-red-500 font-medium text-sm lg:text-lg bg-red-100 rounded-2xl px-3 transition duration-150">
+                <span class="text-xs sm:text-sm font-medium">
+                    {{ -round((($chiTietSanPham->SanPham->GiaBan - $chiTietSanPham->SanPham->GiaGiam) / $chiTietSanPham->SanPham->GiaBan) * 100) }}%
+                </span>
+            </div>
+        @endif
+    </div>
+</div>
 
-                        </div>
                         <div class="mt-4 space-y-4">
                             <p class="text-black text-medium  mt-2">
                                 Còn lại: <span id="stock-quantity" data-quantity = "{{ $SoLuongTonKho }}"

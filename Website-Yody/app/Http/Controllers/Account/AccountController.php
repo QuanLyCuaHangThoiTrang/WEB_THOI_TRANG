@@ -65,14 +65,5 @@ class AccountController extends Controller
         $khachhang->save();
         return back()->with('success', 'Thông tin tài khoản đã được cập nhật thành công.');
     }
-    // public function deleteAccount(Request $request, $MaKH)
-// {
-//     $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
-
-    //     // Xóa tài khoản
-//     // $khachhang->delete();
-
-    //     return back()->with('success', 'Tài khoản đã được xóa thành công.');
-// }
 
 }

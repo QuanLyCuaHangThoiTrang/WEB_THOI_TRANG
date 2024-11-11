@@ -37,13 +37,13 @@ class OrderController extends Controller
         if ($request->has('sort')) {
             switch ($request->sort) {
                 case 'chua_xac_nhan':
-                    $query->where('TrangThai', 'Chưa xác nhận');
+                    $query->where('TrangThai', 'Chờ xác nhận');
                     break;
                 case 'da_xac_nhan':
                     $query->where('TrangThai', 'Đã xác nhận');
                     break;
                 case 'chua_giao':
-                    $query->where('TrangThai', 'Chưa giao');
+                    $query->where('TrangThai', 'Đang giao');
                     break;
                 case 'giao_thanh_cong':
                     $query->where('TrangThai', 'Giao thành công');
@@ -69,7 +69,7 @@ class OrderController extends Controller
         }
 
         // Kiểm tra trạng thái đơn hàng
-        if ($donHang->TrangThai === 'Chưa xác nhận') {
+        if ($donHang->TrangThai === 'Chờ xác nhận') {
             // Cập nhật trạng thái đơn hàng thành 'Đã hủy'
             $donHang->TrangThai = 'Đã hủy';
             $donHang->save();
