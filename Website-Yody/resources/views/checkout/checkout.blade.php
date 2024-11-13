@@ -254,7 +254,7 @@
                         <!-- Ghi chú -->
                         <div>
                             <label for="Message" class="block text-sm font-medium text-gray-900">Ghi chú</label>
-                            <textarea placeholder="Message" rows="6"
+                            <textarea name="Message" placeholder="Message" rows="6"
                                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"></textarea>
                         </div>
 
@@ -307,7 +307,7 @@
                         class="flex flex-col text-md md:flex-row bg-white justify-center space-y-4 md:space-y-0 space-x-5 items-center py-5 border-b border-gray-200 gap-4">
 
                         <input type="radio" id="payment_cash" name="payment_method" class="color-radio hidden"
-                            value="Thanh toán tiền mặt">
+                            value="Thanh toán tiền mặt" checked>
                         <label for="payment_cash"
                             class="h-48 w-full md:w-64 rounded-xl shadow hover:shadow-xl duration-150 hover:bg-white border flex flex-col items-center justify-center bg-gray-50 cursor-pointer">
                             <img src="{{ asset('/icons/money.png') }}" class="w-24 h-24" alt="">

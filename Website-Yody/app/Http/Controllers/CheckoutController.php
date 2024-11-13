@@ -134,6 +134,7 @@ class CheckoutController extends Controller
         $huyen = $request->input('hidden_quan');
         $tinh = $request->input('hidden_tinh');
         $sdt = $request->input('phone_number');
+        $ghichu = $request->input('Message');
         //validate
         if (empty($hoten)) {
             return redirect()->back()->withErrors(['HoTen' => 'Họ tên không được để trống.']);
@@ -214,15 +215,15 @@ class CheckoutController extends Controller
     
         // Save order based on authentication
         if (Auth::check()) {
-            return $this->saveOrderWithAuth($request, $diachi, $hoten, $email, $sodienthoai);
+            return $this->saveOrderWithAuth($request, $diachi, $hoten, $email, $sodienthoai,$ghichu);
         } else {
-            return $this->saveOrderNoAuth($request, $diachi, $hoten, $email, $sodienthoai);                
+            return $this->saveOrderNoAuth($request, $diachi, $hoten, $email, $sodienthoai,$ghichu);                
         }
     }
     
     
     
-    public function saveOrderWithAuth($request,$diachi,$hoten,$email,$sodienthoai)
+    public function saveOrderWithAuth($request,$diachi,$hoten,$email,$sodienthoai,$ghichu)
     {
         $user = Auth::user();
         $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
@@ -251,7 +252,7 @@ class CheckoutController extends Controller
                     $phiship = 0;
                     $tongTien = (int) ($gioHang->TongGiaTri * 100/100) - $giamGia + $phiship;   
                 }              
-                return $this->ThanhToanMomo($tongTien,$maDH,$diachi,$hoten,$email,$sodienthoai);
+                return $this->ThanhToanMomo($tongTien,$maDH,$diachi,$hoten,$email,$sodienthoai,$ghichu);
             }
             else
             {
@@ -278,7 +279,8 @@ class CheckoutController extends Controller
                     'NgayDatHang' => now(),
                     'TongGiaTri' => $tongTien ,
                     'TrangThai' => 'Chờ xác nhận', // Ví dụ trạng thái đơn hàng
-                    'PhuongThucThanhToan' => $request->input('payment_method')
+                    'PhuongThucThanhToan' => $request->input('payment_method'),
+                    'GhiChu' => $ghichu
                 ]);
                 
                 // Lưu chi tiết đơn hàng
@@ -311,7 +313,7 @@ class CheckoutController extends Controller
             return redirect()->route('cart')->withErrors('Giỏ hàng của bạn trống.');
         }
     }
-    public function saveOrderNoAuth($request, $diachi,$hoten,$email,$sodienthoai)
+    public function saveOrderNoAuth($request, $diachi,$hoten,$email,$sodienthoai,$ghichu)
     {
         $gioHangSession = session()->get('gioHang', []);
         $PhanTramGiamGia = 0;
@@ -343,7 +345,7 @@ class CheckoutController extends Controller
                 $giamGia = (int) $PhanTramGiamGia;
                 $tongTien = $thanhtien - $giamGia + $phiship;      
                 
-                return $this->ThanhToanMomo($tongTien,$maDH,$diachi,$hoten,$email,$sodienthoai);
+                return $this->ThanhToanMomo($tongTien,$maDH,$diachi,$hoten,$email,$sodienthoai,$ghichu);
             }
             $khachhang = KhachHang::create([
                 'MaKH' => $maKH,
@@ -408,7 +410,7 @@ class CheckoutController extends Controller
        
         return $result;
     }
-    public function ThanhToanMomo($TongTien,$maDH,$diachi,$hoten,$email,$sdt)
+    public function ThanhToanMomo($TongTien,$maDH,$diachi,$hoten,$email,$sdt,$ghichu)
     {
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
         $partnerCode = 'MOMOBKUN20180529'; // Thay bằng mã của bạn khi dùng live
@@ -458,6 +460,7 @@ class CheckoutController extends Controller
             session()->put('HoTenTam_tam',$hoten);
             session()->put('email_tam',$email);
             session()->put('SDT_tam',$sdt);
+            session()->put('ghichu_tam',$ghichu);
             return redirect()->to($jsonResult['payUrl']);
         } 
          else {
@@ -475,10 +478,9 @@ class CheckoutController extends Controller
         $maDH = session()->get('maDH_tam');
         $diachi = session()->get('diachi_tam');
         $tongGiaTri = session()->get('tongTien_tam');
-    
         if (Auth::check()) {
             $user = Auth::user();
-            $donHang = $this->createDonHang($maDH, $user->MaKH, $diachi, $tongGiaTri, 'Thanh toán momo',null);
+            $donHang = $this->createDonHang($maDH, $user->MaKH, $diachi, $tongGiaTri, 'Thanh toán momo',$ghichu);
             $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
             $this->updateDiemTichLuy($user);
             $this->saveChiTietDonHang($donHang, $gioHang->MaGH);
@@ -494,7 +496,12 @@ class CheckoutController extends Controller
             $gioHangSession = session()->get('gioHang', []);
             $maKH = 'KHVL' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
             $kh = $this->createKhachHang($maKH);
-            $ghichu = session()->get('email_tam') . ', ' . session()->get('SDT_tam');
+            $ghichutam = session()->get('ghichu_tam');   
+            if($ghichutam || $ghichutam != '')
+            {
+                $ghichutam = ', ' . $ghichutam;
+            }   
+            $ghichu = session()->get('email_tam') . ', ' . session()->get('SDT_tam') .$ghichutam;
             $donHang = $this->createDonHang($maDH, $maKH, $diachi, $tongGiaTri, 'Thanh toán momo',$ghichu);
             $this->saveChiTietDonHangFromSession($donHang, $gioHangSession);
             Mail::to(session()->get('email_tam'))->send(new ThanhToanThanhCongMail($kh,$donHang));
@@ -556,7 +563,7 @@ class CheckoutController extends Controller
     }
     private function clearTemporarySessionData()
     {
-        session()->forget(['maDH_tam', 'diachi_tam', 'tongTien_tam', 'HoTenTam_tam', 'email_tam', 'SDT_tam']);
+        session()->forget(['maDH_tam', 'diachi_tam', 'tongTien_tam', 'HoTenTam_tam', 'email_tam', 'SDT_tam', 'ghichu_tam']);
     }
     private function createKhachHang($maKH)
     {
