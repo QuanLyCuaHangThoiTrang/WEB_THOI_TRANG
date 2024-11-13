@@ -20,24 +20,7 @@
             <section aria-labelledby="account-details-heading" class="pb-24 pt-6">
                 <div class="grid grid-cols-1 gap-y-10 lg:grid-cols-4">
                     <!-- Bộ lọc cho màn hình lớn -->
-                    <form class="hidden lg:block">
-                        <div>
-                            <ul role="list" class="space-y-4 border-gray-200 pb-6 text-xl font-medium text-gray-900">
-                                <li>
-                                    <a href="{{ url('/account/' . $khachhang->MaKH) }}">Tài khoản</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/addresses/' . $khachhang->MaKH) }}">Địa chỉ</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/vouchers/' . $khachhang->MaKH) }}">Phiếu giảm giá</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/order/' . $khachhang->MaKH) }}">Đơn hàng</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
+                    @include('account.components.filters')
 
                     <div class="col-span-3 bg-white border-l rounded-lg shadow-md">
                         <div class="bg-blue-950 w-full py-2 relative rounded-t-lg"></div>

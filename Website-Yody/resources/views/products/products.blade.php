@@ -1,9 +1,28 @@
 <!-- resources/views/homepage.blade.php -->
 @extends('layouts.app')
 @section('content')
-    <main class="mx-auto mt-14 px-4 lg:px-24">
-        <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
-            <h1 class="text-4xl text-balance font-bold tracking-tight text-gray-900">DANH SÁCH SẢN PHẨM</h1>
+    <main class="mx-auto font-plus-jakara mt-14 px-4 lg:px-24">
+        <div
+            class="bg-gradient-to-l mt-24 py-16 from-stone-50  via-blue-50 to-stone-50 p-4 text-center text-white font-bold">
+            <p class="text-4xl text-black font-medium">DANH SÁCH SẢN PHẨM</p>
+            <p class="text-md text-gray-400 font-normal pt-2 leading-relaxed">Phong cách cho chính mình</p>
+        </div>
+        <div class="flex  items-baseline justify-between border-b border-gray-200 pt-12">
+
+            <nav class="text-xl text-balance font-medium tracking-tight text-gray-900">
+                <ol class="list-none flex space-x-2">
+                    <li>
+                        <a href="{{ url('/') }}" class=" hover:text-blue-800 duration-200">Trang chủ</a>
+                    </li>
+                    <li>
+                        <span>&gt;</span> <!-- Dấu phân cách -->
+                    </li>
+                    <li>
+                        <a href="/products" class=" hover:text-blue-800 duration-200">Sản phẩm</a>
+                    </li>
+                </ol>
+            </nav>
+
             <div class="flex items-center p-6">
                 <div class="relative inline-block text-left">
                     <div>
@@ -23,10 +42,10 @@
                         id="dropdown-menu" role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                         tabindex="-1">
                         <div class="py-1" role="none">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem"
-                                tabindex="-1" id="menu-item-2" data-sort="asc">Giá: Tăng dần</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem"
-                                tabindex="-1" id="menu-item-3" data-sort="desc">Giá: Giảm dần</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1"
+                                id="menu-item-2" data-sort="asc">Giá: Tăng dần</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1"
+                                id="menu-item-3" data-sort="desc">Giá: Giảm dần</a>
                         </div>
                     </div>
                 </div>
@@ -45,7 +64,7 @@
                 <!-- Filters -->
                 @include('products.filter')
                 <div class="col-span-3">
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sanphams">
+                    <div class="fade-in grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sanphams">
                         @foreach ($sanPhams as $sanPham)
                             <div class="group relative cursor-pointer product-item"
                                 data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
@@ -92,8 +111,11 @@
                     </div>
                     <!-- Thêm các liên kết phân trang ở đây -->
                     <div class="mt-6">
-                        {{ $sanPhams->links() }}
+                        <div class="flex justify-center">
+                            {{ $sanPhams->links() }}
+                        </div>
                     </div>
+
                 </div>
             </div>
         </section>

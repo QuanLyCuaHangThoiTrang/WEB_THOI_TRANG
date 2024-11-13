@@ -86,27 +86,91 @@
                 @endauth
             </div>
         </div>
-        <div id="product-mega-menu" class="absolute left-0 top-full w-full bg-white shadow-xl hidden">
-            <div class="p-6 px-24 pb-10 flex gap-5 flex-wrap">
+        <div id="product-mega-menu" class="absolute left-0 top-full w-full bg-white shadow-lg hidden z-50 rounded-lg">
+            <div class="p-8 px-16 pb-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
                 @foreach ($danhmucs as $danhmuc)
-                    <div class="w-full md:w-1/5 border-r-2 mb-4">
-                        <h3 class="text-lg font-semibold mb-4">{{ $danhmuc->TenDanhMuc }}</h3>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                            {{ $danhmuc->TenDanhMuc }}</h3>
                         <ul class="space-y-2">
                             @foreach ($danhmuc->ChiTietDanhMuc as $ChiTietDM)
-                                <li><a href="{{ url('/productsDM/' . $ChiTietDM->MaCTDM) }}"
-                                        class="block text-base hover:bg-gray-100 py-1">{{ $ChiTietDM->TenCTDM }}</a>
+                                <li>
+                                    <a href="{{ url('/productsDM/' . $ChiTietDM->MaCTDM) }}"
+                                        class="block text-sm text-gray-800 hover:text-blue-950 hover:bg-gray-100 py-1 rounded  duration-300 hover:rounded-r-full transition-all ease-in-out">
+                                        {{ $ChiTietDM->TenCTDM }}
+                                    </a>
                                 </li>
                             @endforeach
-
                         </ul>
-
                     </div>
                 @endforeach
+                <img src="https://m.yodycdn.com/fit-in/filters:format(webp)/products/media/categories/menu_woman.webp"
+                    alt="Image for column 6" class="w-full h-full object-cover rounded-lg shadow-lg">
             </div>
         </div>
+
     </div>
 
     @include('components.searchbar')
     @include('layouts.offcanvas')
 </header>
-<script src="{{ asset('js/header.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const productMenuToggle = document.getElementById('product-menu-toggle');
+        const productMegaMenu = document.getElementById('product-mega-menu');
+
+        if (productMenuToggle) {
+            productMenuToggle.addEventListener('mouseover', () => {
+                productMegaMenu.style.display = 'block';
+            });
+
+            productMenuToggle.addEventListener('mouseleave', () => {
+                productMegaMenu.style.display = 'none';
+            });
+        }
+
+        // Thêm sự kiện mouseover và mouseleave cho mega menu
+        productMegaMenu.addEventListener('mouseover', () => {
+            productMegaMenu.style.display = 'block';
+        });
+
+        productMegaMenu.addEventListener('mouseleave', () => {
+            productMegaMenu.style.display = 'none';
+        });
+
+        // Ẩn mega menu nếu chuột không ở trong cả hai phần tử
+        document.addEventListener('mouseover', (event) => {
+            if (!productMenuToggle.contains(event.target) && !productMegaMenu.contains(event.target)) {
+                productMegaMenu.style.display = 'none';
+            }
+        });
+
+        // Toggle off-canvas menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const offcanvasMenu = document.getElementById('offcanvas-menu');
+        const offcanvasMenuContainer = document.getElementById('offcanvas-menu-container');
+
+        menuToggle.addEventListener('click', () => {
+            offcanvasMenu.classList.toggle('hidden');
+            offcanvasMenuContainer.classList.toggle('translate-x-0');
+            offcanvasMenuContainer.classList.toggle('-translate-x-full');
+        });
+
+        const offcanvasClose = document.getElementById('offcanvas-close');
+        if (offcanvasClose) {
+            offcanvasClose.addEventListener('click', () => {
+                offcanvasMenu.classList.add('hidden');
+                offcanvasMenuContainer.classList.add('-translate-x-full');
+                offcanvasMenuContainer.classList.remove('translate-x-0');
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!offcanvasMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                offcanvasMenu.classList.add('hidden');
+                offcanvasMenuContainer.classList.add('-translate-x-full');
+                offcanvasMenuContainer.classList.remove('translate-x-0');
+            }
+        });
+    });
+</script>

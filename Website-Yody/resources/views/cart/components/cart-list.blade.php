@@ -36,12 +36,12 @@
                                     {{ $chitiet->chiTietSanPham->KichThuoc->TenSize }}</span>
                             </div>
                             @if ($chitiet->chiTietSanPham->SoLuongTonKho == 0)
-                            <p class="text-red-600 font-bold">Sản phẩm đã hết hàng</p>
-                        @else
-                            @if ($chitiet->SoLuong > $chitiet->ChiTietSanPham->SoLuongTonKho)
-                                <p class="text-red-600 font-bold">Sản phẩm vượt quá số lượng hiện có</p>
+                                <p class="text-red-600 font-bold">Sản phẩm đã hết hàng</p>
+                            @else
+                                @if ($chitiet->SoLuong > $chitiet->ChiTietSanPham->SoLuongTonKho)
+                                    <p class="text-red-600 font-bold">Sản phẩm vượt quá số lượng hiện có</p>
+                                @endif
                             @endif
-                        @endif
                         </div>
                         @include('cart.components.quantity-control')
                     </div>
@@ -81,11 +81,11 @@
                             </div>
                             @if ($item['SoLuongTonKho'] == 0)
                                 <p class="text-red-600 font-bold">Sản phẩm đã hết hàng</p>
-                           @else
-                               @if ($item['SoLuong']> $item['SoLuongTonKho'])
+                            @else
+                                @if ($item['SoLuong'] > $item['SoLuongTonKho'])
                                     <p class="text-red-600 font-bold">Sản phẩm vượt quá số lượng hiện có</p>
-                               @endif
-                           @endif            
+                                @endif
+                            @endif
                         </div>
                         @include('cart.components.quantity-control')
                     </div>
@@ -140,7 +140,8 @@
                         {{ number_format($tongGiaTri, 0, ',', '.') }} đ</p>
                 </div>
                 @if (
-                    (Auth::check() && $tongGiaTri > 0 && $canCheckout) || (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1 && $KTSLKho))
+                    (Auth::check() && $tongGiaTri > 0 && $canCheckout) ||
+                        (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1 && $KTSLKho))
                     <a href="{{ url('/checkout') }}">
                         <div
                             class="w-full bg-yellow-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-yellow-400 shadow-md text-center mt-4">

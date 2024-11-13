@@ -9,6 +9,7 @@ export default {
     extend: {
       fontFamily: {
         'old-standard': ['Old Standard TT', 'serif'],
+        'plus-jakara':['Plus Jakarta Sans','san-serif'],
       },
     },
   },

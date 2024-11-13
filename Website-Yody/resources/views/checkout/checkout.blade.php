@@ -1,53 +1,53 @@
 @extends('layouts.app')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const voucherModal = document.getElementById('voucherModal');
-    const openModalBtn = document.getElementById('openModalBtn');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const applyBtn = document.getElementById('applyBtn');
-    const voucherForm = document.querySelector('.formabc');
+        const voucherModal = document.getElementById('voucherModal');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const applyBtn = document.getElementById('applyBtn');
+        const voucherForm = document.querySelector('.formabc');
 
-    // Mở modal khi click vào nút "Nhập mã giảm giá"
-    openModalBtn.addEventListener('click', function(event) {
-        event.preventDefault();
-        voucherModal.classList.remove('hidden');
+        // Mở modal khi click vào nút "Nhập mã giảm giá"
+        openModalBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            voucherModal.classList.remove('hidden');
 
-        // Kiểm tra trạng thái khi mở lại modal
-        if ({{ session('success') ? 'true' : 'false' }}) {
-            applyBtn.textContent = 'Hủy voucher';
-            applyBtn.classList.remove('bg-blue-800', 'hover:bg-blue-700');
-            applyBtn.classList.add('bg-red-700', 'hover:bg-red-600');
-            voucherForm.action = "{{ route('voucher.cancel') }}";
-        } else {
-            applyBtn.textContent = 'Áp dụng';
-            applyBtn.classList.remove('bg-red-700', 'hover:bg-red-600');
-            applyBtn.classList.add('bg-blue-800', 'hover:bg-blue-700');
-            voucherForm.action = "{{ route('checkout.applyVoucher') }}";
-        }
-    });
+            // Kiểm tra trạng thái khi mở lại modal
+            if ({{ session('success') ? 'true' : 'false' }}) {
+                applyBtn.textContent = 'Hủy voucher';
+                applyBtn.classList.remove('bg-blue-800', 'hover:bg-blue-700');
+                applyBtn.classList.add('bg-red-700', 'hover:bg-red-600');
+                voucherForm.action = "{{ route('voucher.cancel') }}";
+            } else {
+                applyBtn.textContent = 'Áp dụng';
+                applyBtn.classList.remove('bg-red-700', 'hover:bg-red-600');
+                applyBtn.classList.add('bg-blue-800', 'hover:bg-blue-700');
+                voucherForm.action = "{{ route('checkout.applyVoucher') }}";
+            }
+        });
 
-    // Đóng modal khi click vào nút "Đóng"
-    closeModalBtn.addEventListener('click', function() {
-        voucherModal.classList.add('hidden');
-    });
-
-    // Đóng modal khi click ra ngoài vùng modal
-    window.addEventListener('click', function(event) {
-        if (event.target === voucherModal) {
+        // Đóng modal khi click vào nút "Đóng"
+        closeModalBtn.addEventListener('click', function() {
             voucherModal.classList.add('hidden');
-        }
+        });
+
+        // Đóng modal khi click ra ngoài vùng modal
+        window.addEventListener('click', function(event) {
+            if (event.target === voucherModal) {
+                voucherModal.classList.add('hidden');
+            }
+        });
     });
-});
 </script>
 
 
 
 @section('content')
-@if(session('updateInterface'))
-    <script>
-        window.location.reload();
-    </script>
-@endif
+    @if (session('updateInterface'))
+        <script>
+            window.location.reload();
+        </script>
+    @endif
     <div class=" px-12 pb-5 mt-20">
         <section class="container z-50  mx-auto py-2">
             <div class=" py-5 border-b">
@@ -58,7 +58,9 @@
                     id="voucherModal">
                     <div class="bg-white rounded-lg w-96 p-6">
                         <h2 class="text-lg font-bold text-gray-800 mb-4">Nhập mã giảm giá</h2>
-                        <form class="formabc" action="{{ session('success') ? route('voucher.cancel') : route('checkout.applyVoucher') }}" method="POST">
+                        <form class="formabc"
+                            action="{{ session('success') ? route('voucher.cancel') : route('checkout.applyVoucher') }}"
+                            method="POST">
                             @csrf
                             <div class="w-full mb-4">
                                 <input type="text" name="voucher_code" placeholder="Nhập mã giảm giá"
@@ -118,12 +120,11 @@
                                 <label for="full_name" class="block text-sm font-medium text-gray-900">Họ và tên</label>
                                 <input name="name" value="{{ Auth::check() ? Auth::user()->HoTen : '' }}" type="text"
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
-                                    placeholder="Nhập họ tên" />                                                   
+                                    placeholder="Nhập họ tên" />
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
                                 <input value="{{ Auth::check() ? Auth::user()->Email : '' }}" name="email" type="text"
-                                  
                                     class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
                                     placeholder="Nhập email" />
                             </div>
@@ -326,17 +327,6 @@
                         class="w-full mt-6 bg-yellow-500 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-yellow-400 shadow-lg">
                         Thanh toán
                     </button>
-
-                    <!-- Biểu tượng thanh toán -->
-                    <div class="p-4 text-center mt-4">
-                        <div class="flex gap-2 items-center justify-center mb-3">
-                            @foreach (['zalopay', 'visa-card', 'master-card', 'vnpay-qr', 'momo'] as $icon)
-                                <img alt="{{ $icon }}" class="h-[1.5rem] object-contain"
-                                    src="https://yody.vn/icons/{{ $icon }}.png">
-                            @endforeach
-                        </div>
-                        <div class="font-medium text-gray-600">Đảm bảo thanh toán an toàn và bảo mật</div>
-                    </div>
                 </div>
 
             </div>
