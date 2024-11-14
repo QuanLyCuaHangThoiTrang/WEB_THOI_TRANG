@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\GioHang; // Giả sử bạn có model GioHang
-use App\Models\ChiTietGioHang; // Model chi tiết giỏ hàng
+use App\Models\GioHang;
+use App\Models\ChiTietGioHang; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\ChiTietSanPham;
@@ -49,8 +49,7 @@ class CartController extends Controller
         }
     }
     public function addToCart(Request $request)
-    {
-       
+    {      
         // Xác thực dữ liệu đầu vào
         $validated = $request->validate([
             'selected_color' => 'nullable|exists:mausac,MaMau',
@@ -63,7 +62,6 @@ class CartController extends Controller
             $maKH = Auth::user()->MaKH;        
             // Tìm giỏ hàng hiện có của khách hàng
             $gioHang = GioHang::where('MaKH', $maKH)->first();
-        
             // Nếu không có giỏ hàng, tạo giỏ hàng mới với MaGH ngẫu nhiên
             if (!$gioHang) {
                 $maGH = 'GH' . str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
@@ -74,7 +72,7 @@ class CartController extends Controller
                     'TongGiaTri' => 0
                 ]);
             } else {
-                $maGH = $gioHang->MaGH; // Đảm bảo sử dụng MaGH của giỏ hàng hiện tại
+                $maGH = $gioHang->MaGH;
             }
 
             // Tìm chi tiết sản phẩm
@@ -183,9 +181,9 @@ class CartController extends Controller
                     'SoLuong' => $validated['SoLuong'],
                     'DonGia' => $donGia,
                     'ThanhTien' => $thanhTien,
-                    'TenSP' => $chiTietSanPham->SanPham->TenSP, // Thêm tên sản phẩm
-                    'TenMau' => $chiTietSanPham->MauSac->TenMau, // Thêm tên màu
-                    'TenSize' => $chiTietSanPham->KichThuoc->TenSize, // Thêm tên kích thước
+                    'TenSP' => $chiTietSanPham->SanPham->TenSP,
+                    'TenMau' => $chiTietSanPham->MauSac->TenMau, 
+                    'TenSize' => $chiTietSanPham->KichThuoc->TenSize,
                     'MaCTSP' => $chiTietSanPham->MaCTSP,
                     'HinhAnh' => $chiTietSanPham->HinhAnh,
                     'SoLuongTonKho' => $chiTietSanPham->SoLuongTonKho,
@@ -210,23 +208,18 @@ class CartController extends Controller
     {
         // Lấy giỏ hàng từ session
         $gioHangSession = session()->get('gioHang', []);
-
         // Xóa sản phẩm khỏi giỏ hàng nếu tồn tại
         if (isset($gioHangSession[$MaCTSP])) {
             unset($gioHangSession[$MaCTSP]);
         }
-
         // Lưu lại giỏ hàng đã cập nhật vào session
         session()->put('gioHang', $gioHangSession);
-
         return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng');
     }
     public function update(Request $request)
     {
       
         if (Auth::check()) {
-            // Người dùng đã đăng nhập
-            // Lấy mảng các sản phẩm cần cập nhật từ request
             $items = $request->items;
             foreach ($items as $item) {
                 // Cập nhật số lượng và thành tiền cho từng sản phẩm
@@ -238,20 +231,15 @@ class CartController extends Controller
                     'ThanhTien' => $item['SoLuong'] * $item['DonGia']
                 ]);
             }
-    
             // Cập nhật tổng giá trị của giỏ hàng
             $tongGiaTri = ChiTietGioHang::where('MaGH', $items[0]['MaGH'])->sum('ThanhTien');
             GioHang::where('MaGH', $items[0]['MaGH'])->update(['TongGiaTri' => $tongGiaTri]);
     
             return redirect()->back()->with('success', 'Giỏ hàng đã được cập nhật');
         } else {
-            // Người dùng chưa đăng nhập
-            // Lấy mảng các sản phẩm cần cập nhật từ request
             $items = $request->items;
-    
             // Lấy giỏ hàng từ session
             $gioHangSession = session()->get('gioHang', []);
-    
             foreach ($items as $item) {
                 // Cập nhật số lượng và thành tiền cho từng sản phẩm
                 if (isset($gioHangSession[$item['MaCTSP']])) {
@@ -259,11 +247,9 @@ class CartController extends Controller
                     $gioHangSession[$item['MaCTSP']]['ThanhTien'] = $item['SoLuong'] * $item['DonGia'];
                 }
             }
-    
             // Cập nhật tổng giá trị của giỏ hàng
             $tongGiaTri = array_sum(array_column($gioHangSession, 'ThanhTien'));
             session()->put('gioHang', $gioHangSession);
-    
             return redirect()->back()->with('success', 'Giỏ hàng đã được cập nhật');
         }
     }
@@ -274,29 +260,21 @@ class CartController extends Controller
             // Người dùng đã đăng nhập
             $user = Auth::user();
             $maKH = $user->MaKH;
-    
             // Tìm MaGH dựa trên MaKH
             $gioHang = GioHang::where('MaKH', $maKH)->first();
-    
             if (!$gioHang) {
                 return redirect()->back()->withErrors('Không tìm thấy giỏ hàng của bạn.');
             }
-    
             $maGH = $gioHang->MaGH;
-    
             // Xóa tất cả chi tiết giỏ hàng của giỏ hàng được chỉ định
             ChiTietGioHang::where('MaGH', $maGH)->delete();
-    
             // Cập nhật tổng giá trị của giỏ hàng
             $gioHang->TongGiaTri = 0;
             $gioHang->save();
     
             return redirect()->back()->with('success', 'Giỏ hàng đã được xóa thành công');
         } else {
-            // Người dùng chưa đăng nhập
-            // Xóa toàn bộ giỏ hàng trong session
             session()->forget('gioHang');
-    
             return redirect()->back()->with('success', 'Giỏ hàng đã được xóa thành công');
         }
     }
