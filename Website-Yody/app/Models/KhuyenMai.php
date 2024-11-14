@@ -26,4 +26,8 @@ class KhuyenMai extends Model
     {
         return $this->hasMany(SanPhamKhuyenMai::class, 'MaKM', 'MaKM');
     }
+    public function sanPhams()
+    {
+        return $this->hasManyThrough(SanPham::class, SanPhamKhuyenMai::class, 'MaKM', 'MaSP', 'MaKM', 'MaSP');
+    }
 }

@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->share('sanPhamTKs', $sanPhamTKs);
 
-        $KhuyenMais = KhuyenMai::get();
+        $KhuyenMais = KhuyenMai::where('NgayKetThuc', '>', now())->get();
         view()->share('KhuyenMais', $KhuyenMais);
     }
 }

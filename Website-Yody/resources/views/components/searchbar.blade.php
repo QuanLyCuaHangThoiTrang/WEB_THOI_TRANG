@@ -6,26 +6,18 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
     </button>
-    <div class="p-4">
+    <div class="p-4 max-h-[calc(100vh-100px)] overflow-y-auto">
         <input type="search" name="query"
             class="w-full px-4 py-2 mb-4 text-sm border border-gray-300 rounded-3xl focus:outline-none focus:ring focus:ring-blue-500"
             placeholder="Tìm kiếm sản phẩm..." />
-
         <!-- Thông báo khi chưa nhập -->
         <p id="no-search-text" class="text-center text-gray-500 mt-8">Bạn chưa nhập nội dung tìm kiếm.</p>
-
         <div
             class="grid grid-cols-1 md:grid-cols-3 xmd:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 mx-auto px-12 gap-8 md:gap-x-3 md:gap-y-5 md:pt-12 md:pb-[4.5rem]">
             <div class="col-span-full w-full md:col-span-2 xmd:col-span-3 lg:col-span-4 xl:col-span-5">
                 <div
-                    class="grid gap-x-3 gap-y-5 px-4 md:px-0 md:gap-y-10 grid-cols-2 xmd:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mb-5 md:mb-4">
-                    @php
-                        $count = 0;
-                    @endphp
-                    @foreach ($sanPhamTKs as $sanPham)
-                        @if ($count >= 5)
-                        @break
-                    @endif
+                    class="grid gap-x-3 gap-y-5 px-4 md:px-0 md:gap-y-10 grid-cols-2 xmd:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mb-5 md:mb-4">        
+                    @foreach ($sanPhamTKs as $sanPham)                   
                     <div class="group relative cursor-pointer items-center justify-center product-item1 hidden"
                         data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
                         data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
@@ -69,9 +61,6 @@
                         </a>
                     </div>
 
-                    @php
-                        $count++;
-                    @endphp
                 @endforeach
             </div>
         </div>
