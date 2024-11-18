@@ -17,7 +17,7 @@
     <div>
     <div class="card">
         <div class="card-body">
-             <a href="{{ route('nhanvien.create') }}" style ='margin:10px' class="btn btn-primary">Create</a>
+             <a href="{{ route('nhanvien.create') }}" style ='margin:10px' class="btn btn-primary">Thêm Nhân Viên</a>
             <h4 class="card-title">Danh Sách Nhân Viên</h4>
             <div class="table-responsive">
             <table class="table table-hover">
@@ -41,7 +41,7 @@
                         <td>{{ $nhanVien->VaiTro }}</td>
                         <td><a href="{{ route('nhanvien.edit', $nhanVien->MaNV) }}" class="btn btn-dark btn-sm btn-icon-text">
                         <i class="ti-file btn-icon-append"></i>
-                          Edit
+                          Sửa
                                                     
                         </a>
                         <form action="{{ route('nhanvien.destroy', $nhanVien->MaNV) }}" method="POST" style="display:inline;">
@@ -50,7 +50,7 @@
                             <button type="submit" class="btn btn-danger btn-sm btn-icon-text" 
                                 onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
                                 <i class="ti-alert btn-icon-prepend"></i>                                                    
-                                    Delete
+                                    Xóa
                             </button>
                         </form>
                        

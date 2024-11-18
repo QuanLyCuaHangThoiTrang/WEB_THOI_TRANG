@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-body">
             <div style="margin-bottom:10px"> 
-            <a href="{{route('product.variants.create', $product->MaSP)}}" class="btn btn-primary btn-icon-text">Create Detail</a>
+            <a href="{{route('product.variants.create', $product->MaSP)}}" class="btn btn-primary btn-icon-text">Thêm Chi Tiết</a>
             </div>
       
             <h4 class="card-title" style="font-weight:bold; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Chi Tiết Sản Phẩm: {{$product->TenSP}}</h4>
@@ -26,12 +26,12 @@
                     <thead>
                         <tr>
                             <th>Mã Chi Tiết</th>
-                            <th>Image</th>
+                            <th>Hình Ảnh</th>
                             <th>Mã Màu</th>
                             <th>Mã Size</th>
-                            <th>Quantity</th>
+                            <th>Số Lượng</th>
                             <th>SKU</th>
-                            <th>Action</th>
+                            <th>Hành Động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +51,7 @@
                                 <td>{{$detail->SKU}}</td>
                                 <!-- <td>{{number_format($detail->GiaBan, 0, ',', '.')}}đ</td> -->
                                 <td><a href="{{ route('chitietsanpham.edit', $detail->MaCTSP) }}" class="btn btn-dark btn-sm btn-icon-text">
-                                Edit
+                                Sửa
                                 <i class="ti-file btn-icon-append"></i>                          
                                 </a>
                                 <form action="{{ route('chitietsanpham.destroy', $detail->MaCTSP) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa biến thể này?');" style="display:inline;">
@@ -59,7 +59,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm btn-icon-text">
                                         <i class="ti-alert btn-icon-prepend"></i>                                                    
-                                        Delete
+                                        Xóa
                                     </button>
                                 </form>
                                 </td>

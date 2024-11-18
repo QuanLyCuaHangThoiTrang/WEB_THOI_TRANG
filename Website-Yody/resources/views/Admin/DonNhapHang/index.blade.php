@@ -19,7 +19,7 @@
         <div class="card-body">
             <h4 class="card-title">Danh Sách Đơn Nhập Hàng</h4>
             <div>
-            <a href="{{route('donnhaphang.create')}}" class="btn btn-primary btn-icon-text">Create</a>
+            <a href="{{route('donnhaphang.create')}}" class="btn btn-primary btn-icon-text">Tạo Đơn Nhập Hàng</a>
             </div>
             <div class="table-responsive">
             <table class="table table-hover">
@@ -42,7 +42,7 @@
                   
                     <td><a href="{{ route('donnhaphang.edit', $donnhaphang->MaNH) }}" class="btn btn-dark btn-sm btn-icon-text">
                         <i class="ti-file btn-icon-append"></i>
-                          Edit
+                          Sửa
                                                     
                         </a>
                         <form action="{{ route('donnhaphang.destroy', $donnhaphang->MaNH) }}" method="POST" style="display:inline;">
@@ -51,13 +51,13 @@
                             <button type="submit" class="btn btn-danger btn-sm btn-icon-text" 
                                 onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
                                 <i class="ti-alert btn-icon-prepend"></i>                                                    
-                                    Delete
+                                    Xóa
                             </button>
                         </form>
                        
                         <a href="{{ route('donnhaphang.show', $donnhaphang->MaNH) }}" class="btn btn-primary btn-sm btn-icon-text">
                         <i class="mdi mdi-library-books"></i>                                                    
-                        Detail
+                        Chi Tiết
                     </a> 
                         
                     </td>

@@ -49,7 +49,7 @@
                                 <button type="submit" class="btn btn-danger btn-sm btn-icon-text" 
                                 onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
                                 <i class="ti-alert btn-icon-prepend"></i>                                                    
-                                    Delete
+                                    Xóa
                                  </button>
                             </form>
                         </td>

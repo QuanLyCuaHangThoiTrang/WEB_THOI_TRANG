@@ -15,12 +15,14 @@ class KhachHangController extends Controller
         if (!Auth::guard('admin')->check()) {
             return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
         }
-        // Lấy tất cả khách hàng từ bảng khachhang
-        $khachHangs = KhachHang::paginate(5);
-
+    
+        // Lấy tất cả khách hàng từ bảng khachhang, sắp xếp khách hàng thân thiết lên đầu
+        $khachHangs = KhachHang::orderByDesc('SoVoucher')->paginate(5);
+    
         // Trả về view và truyền danh sách khách hàng sang view
         return view('Admin.KhachHang.index', compact('khachHangs'));
     }
+    
 
     // Phương thức xóa một khách hàng (delete)
     public function destroy($id)

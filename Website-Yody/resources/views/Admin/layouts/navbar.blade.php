@@ -10,11 +10,11 @@
 
           <a class="navbar-brand brand-logo" href="/admin/dashboard">
 
-            <!-- <img src="{{asset('images/logo.svg')}}" alt="logo" /> -->
-             <h3 style="font-size: 30px;color:darkblue; font-weight: bold; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); letter-spacing: 2px; font-family: 'Arial', sans-serif;">Yody</h3>
+            <img src="{{asset('icons/logo.webp')}}" alt="logo"/>
+             <!-- <h3 style="font-size: 30px;color:darkblue; font-weight: bold; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); letter-spacing: 2px; font-family: 'Arial', sans-serif;">Yody</h3> -->
           </a>
-          <a class="navbar-brand brand-logo-mini" href="index.html">
-            <img src="{{asset('images/logo-mini.svg')}}" alt="logo" />
+          <a class="navbar-brand brand-logo-mini" href="/admin/dashboard">
+          <img src="{{asset('icons/logo.webp')}}" alt="logo" />
           </a>
         </div>
       </div>
