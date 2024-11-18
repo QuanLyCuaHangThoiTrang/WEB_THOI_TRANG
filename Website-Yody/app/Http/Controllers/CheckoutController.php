@@ -655,6 +655,7 @@ class CheckoutController extends Controller
                 'MaKH' => $user->MaKH
             ]);
             $khachHang->update(['DiemTichLuy' => 0]);
+            $khachHang->increment('SoVoucher', 1);
             return $vc;
         }
         else {

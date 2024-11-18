@@ -61,7 +61,7 @@
                             </td>
                             <td>{{$donhang->PhuongThucThanhToan}}</td>
                             <td>
-                                <a href="{{ route('donhang.show', $donhang->MaDH) }}" class="btn btn-primary btn-sm"><i class="mdi mdi-library-books"></i>Details</a>
+                                <a href="{{ route('donhang.show', $donhang->MaDH) }}" class="btn btn-primary btn-sm"><i class="mdi mdi-library-books"></i>Chi Tiết</a>
                             </td>
                         </tr>
                     @endforeach

@@ -19,7 +19,7 @@
         <div class="card-body">
             <h4 class="card-title">Danh Sách Khuyến Mãi</h4>
             <div>
-            <a href="{{route('khuyenmai.create')}}" class="btn btn-primary btn-icon-text">Create</a>
+            <a href="{{route('khuyenmai.create')}}" class="btn btn-primary btn-icon-text">Tạo Khuyến Mãi</a>
             </div>
             <div class="table-responsive">
             <table class="table table-hover">
@@ -45,7 +45,7 @@
                     <td>{{$khuyenMai->NgayKetThuc}}</td>
                     <td><a href="{{ route('khuyenmai.edit', $khuyenMai->MaKM) }}" class="btn btn-dark btn-sm btn-icon-text">
                         <i class="ti-file btn-icon-append"></i>
-                          Edit
+                          Sửa
                                                     
                         </a>
                         <form action="{{ route('khuyenmai.destroy', $khuyenMai->MaKM) }}" method="POST" style="display:inline;">
@@ -54,13 +54,13 @@
                             <button type="submit" class="btn btn-danger btn-sm btn-icon-text" 
                                 onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
                                 <i class="ti-alert btn-icon-prepend"></i>                                                    
-                                    Delete
+                                    Xóa
                             </button>
                         </form>
                        
                         <a href="{{ route('khuyenmai.show', $khuyenMai->MaKM) }}" class="btn btn-primary btn-sm btn-icon-text">
                                     <i class="mdi mdi-library-books"></i>
-                                    Detail
+                                    Chi Tiết
                         </a>
                         
                     </td>

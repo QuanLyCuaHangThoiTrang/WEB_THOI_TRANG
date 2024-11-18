@@ -33,7 +33,7 @@
             <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{ route('donnhaphang.index') }}">Đơn Nhập Hàng</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('donhang.dashboard') }}">Thống Kê</a></li>             
+                <!-- <li class="nav-item"> <a class="nav-link" href="{{ route('donhang.dashboard') }}">Thống Kê</a></li>              -->
                 <li class="nav-item"> <a class="nav-link" href="{{ route('donhang.index') }}">Đơn Hàng</a></li>
               </ul>
             </div>

@@ -74,13 +74,13 @@
                             @enderror
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="removeVariant(this)">Xóa</button>
                     <hr>
                 </div>
             </div>
 
-            <button type="button" onclick="addVariant()" class="btn btn-primary">Add</button>
-            <button type="submit" class="btn btn-success">Save All</button>
+            <button type="button" onclick="addVariant()" class="btn btn-primary">Thêm</button>
+            <button type="submit" class="btn btn-success">Lưu Tất Cả</button>
         </form>
     </div>
 </div>

@@ -83,7 +83,7 @@
                         <input type="hidden" name="maSP" value="">
                         <div id="ctsp-options-container"></div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-primary">Lưu</button>
                         </div>
                     </form>
@@ -129,16 +129,16 @@
                             <td class="total-price">{{ number_format($chitiet->ThanhTien, 0, ',', '.') }} đ</td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm btn-icon-text save-btn">
-                                    <i class="ti-save btn-icon-append"></i> Save
+                                    <i class="ti-save btn-icon-append"></i> Lưu
                                 </button>
                                 <button type="button" class="btn btn-dark btn-sm btn-icon-text add-ctsp-btn">
-                                    <i class="ti-plus btn-icon-append"></i> Add Detail
+                                    <i class="ti-plus btn-icon-append"></i> Thêm Chi Tiết
                                 </button>
                                 <form action="{{ route('chitietdonnhaphang.destroy',[$donnhaphang->MaNH, $chitiet->MaSP]) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">
-                                        <i class="ti-trash btn-icon-append"></i> Delete
+                                        <i class="ti-trash btn-icon-append"></i> Xóa
                                     </button>
                                 </form>
                             </td>

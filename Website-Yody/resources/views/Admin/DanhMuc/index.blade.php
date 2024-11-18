@@ -38,11 +38,11 @@
                         <!-- Chi tiết sẽ được load vào đây bằng AJAX -->
                     </tbody>
                 </table>
-                <button id="createRowBtn" class="btn btn-primary">Create</button>
+                <button id="createRowBtn" class="btn btn-primary">Tạo mới</button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveBtn">Save All</button>
+                <button type="button" class="btn btn-secondary close" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="saveBtn">Lưu Tất Cả</button>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="card">
         <div class="card-body">
             <div>
-                <a href="{{route('danhmuc.create')}}" class="btn btn-primary btn-icon-text">Create</a>
+                <a href="{{route('danhmuc.create')}}" class="btn btn-primary btn-icon-text">Tạo Danh Mục</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -70,18 +70,18 @@
                             <td>{{$danhmuc->TenDanhMuc}}</td>
                             <td>
                                 <a href="{{ route('danhmuc.edit', $danhmuc->MaDanhMuc) }}" class="btn btn-dark btn-sm btn-icon-text">
-                                    <i class="ti-file btn-icon-append"></i> Edit
+                                    <i class="ti-file btn-icon-append"></i> Sửa
                                 </a>
                                 <form action="{{ route('danhmuc.destroy', $danhmuc->MaDanhMuc) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm btn-icon-text" 
                                         onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
-                                        <i class="ti-alert btn-icon-prepend"></i> Delete
+                                        <i class="ti-alert btn-icon-prepend"></i> Xóa
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-primary btn-sm btn-icon-text detail-btn" data-id="{{ $danhmuc->MaDanhMuc }}">
-                                    <i class="mdi mdi-library-books"></i> Detail
+                                    <i class="mdi mdi-library-books"></i> Chi Tiết
                                 </button>
                             </td>
                         </tr>
