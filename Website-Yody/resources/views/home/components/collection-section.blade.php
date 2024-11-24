@@ -1,6 +1,6 @@
 <div class="space-y-2 px-8 lg:px-24">
     <div class="mt-4">
-        <p class="font-bold text-4xl text-center py-10">SẢN PHẨM ƯA CHUỘNG</p>
+        <p class="font-bold text-4xl text-center py-10">SẢN PHẨM MỚI NHẤT</p>
     </div>
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
         @foreach ($SanPhamMoiNhat as $chiTietSanPham)
