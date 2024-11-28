@@ -108,27 +108,6 @@ class ChiTietDonNhapHangController extends Controller
         return redirect()->route('donnhaphang.show', $maNH)->with('success', 'Chi tiết đơn nhập hàng đã được xóa!');
     }
 
-
-    // public function getMaCTSPOptions($maSP)
-    // {
-    //     if (!Auth::guard('admin')->check()) {
-    //         return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
-    //     }
-    //     $chitietsanphams = ChiTietSanPham::where('MaSP', $maSP)->get();
-
-    //     $options = $chitietsanphams->map(function ($item) {
-    //         return [
-    //             'MaCTSP' => $item->MaCTSP,
-    //             'MaMau' => $item->MaMau,
-    //             'MaSize' => $item->MaSize,
-    //         ];
-    //     });
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'maCTSPOptions' => $options
-    //     ]);
-    // }
     public function getMaCTSPOptions($maSP)
     {
         if (!Auth::guard('admin')->check()) {
@@ -156,17 +135,59 @@ class ChiTietDonNhapHangController extends Controller
         ]);
     }
 
-    public function store_CTSP(Request $request, $donnhaphang)
+//     public function store_CTSP(Request $request, $donnhaphang)
+// {
+//     if (!Auth::guard('admin')->check()) {
+//         return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+//     }
+    
+//     $maSP = $request->input('maSP');
+//    $data = $request->except('maSP'); // Loại bỏ maSP từ dữ liệu để dễ xử lý
+    
+//     foreach ($data['soLuongNhap'] as $maCTSP => $soLuongNhap) {
+//         if ($soLuongNhap >= 0) { // Cho phép số lượng nhập bằng 0 để có thể xóa bản ghi
+
+//             // Kiểm tra xem bản ghi đã tồn tại chưa
+//             $existingRecord = ChiTietSanPhamNhap::where('MaNH', $donnhaphang)
+//                                                  ->where('MaSP', $maSP)
+//                                                  ->where('MaCTSP', $maCTSP)
+//                                                  ->first();
+
+//             if ($existingRecord) { // Nếu bản ghi đã tồn tại, cập nhật
+//                 if ($soLuongNhap > 0) {
+//                     $existingRecord->update(['SoLuongNhap' => $soLuongNhap]);
+//                 } 
+//             } else { // Nếu chưa có bản ghi, tạo mới
+//                 if ($soLuongNhap > 0) {
+//                     ChiTietSanPhamNhap::create([
+//                         'MaNH' => $donnhaphang,
+//                         'MaSP' => $maSP,
+//                         'MaCTSP' => $maCTSP,
+//                         'SoLuongNhap' => $soLuongNhap,
+//                     ]);
+//                 }
+//             }
+//         }
+//     }
+    
+//     // Cập nhật tổng số lượng trong bảng chitietdonnhaphang
+//     $this->updateTotalQuantity($donnhaphang, $maSP);
+
+//     return response()->json(['success' => true]);
+// }
+public function store_CTSP(Request $request, $donnhaphang)
 {
+    // Kiểm tra nếu người dùng chưa đăng nhập
     if (!Auth::guard('admin')->check()) {
         return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
     }
-    
+
+    // Lấy dữ liệu từ request
     $maSP = $request->input('maSP');
-   $data = $request->except('maSP'); // Loại bỏ maSP từ dữ liệu để dễ xử lý
-    
+    $data = $request->except('maSP'); // Loại bỏ maSP khỏi dữ liệu để dễ xử lý
+
     foreach ($data['soLuongNhap'] as $maCTSP => $soLuongNhap) {
-        if ($soLuongNhap >= 0) { // Cho phép số lượng nhập bằng 0 để có thể xóa bản ghi
+        if ($soLuongNhap >= 0) { // Cho phép số lượng nhập bằng 0 để có thể xóa bản ghi nếu cần
 
             // Kiểm tra xem bản ghi đã tồn tại chưa
             $existingRecord = ChiTietSanPhamNhap::where('MaNH', $donnhaphang)
@@ -176,8 +197,12 @@ class ChiTietDonNhapHangController extends Controller
 
             if ($existingRecord) { // Nếu bản ghi đã tồn tại, cập nhật
                 if ($soLuongNhap > 0) {
+                    // Cập nhật số lượng nhập nếu số lượng lớn hơn 0
                     $existingRecord->update(['SoLuongNhap' => $soLuongNhap]);
-                } 
+                } else {
+                    // Nếu số lượng nhập bằng 0, xóa bản ghi
+                    $existingRecord->delete();
+                }
             } else { // Nếu chưa có bản ghi, tạo mới
                 if ($soLuongNhap > 0) {
                     ChiTietSanPhamNhap::create([
@@ -190,9 +215,6 @@ class ChiTietDonNhapHangController extends Controller
             }
         }
     }
-    
-    // Cập nhật tổng số lượng trong bảng chitietdonnhaphang
-    $this->updateTotalQuantity($donnhaphang, $maSP);
 
     return response()->json(['success' => true]);
 }

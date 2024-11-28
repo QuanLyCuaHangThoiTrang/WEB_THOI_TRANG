@@ -88,7 +88,7 @@
                 </th>
                 <th width="50%" colspan="2" class="text-end company-data">
                     <span>Invoice Id:  {{$donhang->MaDH}}</span> <br>
-                    <span>Date:  {{$donhang->NgayDatHang}}</span> <br>
+                    <span>Date:  {{ \Carbon\Carbon::parse($donhang->NgayDatHang)->format('d/m/Y') }}</span> <br>
                     <span>Address:  {{$donhang->DiaChiGiaoHang}}</span> <br>
                 </th>
             </tr>
@@ -113,7 +113,7 @@
             </tr>
             <tr>
                 <td>Ordered Date:</td>
-                <td>{{$donhang->NgayDatHang}}</td>
+                <td>{{ \Carbon\Carbon::parse($donhang->NgayDatHang)->format('d/m/Y') }}</td>
 
                 <td>Phone:</td>
                 <td>{{$donhang->khachHang->SDT}}</td>

@@ -223,7 +223,9 @@ Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function 
    
   
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/voucher', [VoucherController::class, 'index'])->name('voucher.index');
+    Route::get('/voucher', [VoucherController::class, 'index'])->name('vouchers.index');
+    Route::delete('/voucher/{MaVoucher}', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
+
     Route::get('/orders-current-month', [DashboardController::class, 'getOrdersForCurrentMonth']);
     Route::resource('nhanvien', NhanVienController::class);
 

@@ -46,13 +46,13 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="stockQuantity">Số lượng tồn kho:</label>
+                        <label for="stockQuantity">Số lượng:</label>
                         <input type="number" name="variants[0][stockQuantity]" class="form-control @error('variants.0.stockQuantity') is-invalid @enderror" required>
                         @error('variants.0.stockQuantity')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-
+                  
                     <div class="form-group row">
                         <label for="sku">SKU:</label>
                         <input type="text" name="variants[0][sku]" class="form-control @error('variants.0.sku') is-invalid @enderror">
@@ -124,8 +124,8 @@
                 @error('variants.${variantIndex}.stockQuantity')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
-            </div>
-
+            </div> 
+           
             <div class="form-group row">
                 <label for="sku">SKU:</label>
                 <input type="text" name="variants[${variantIndex}][sku]" class="form-control">

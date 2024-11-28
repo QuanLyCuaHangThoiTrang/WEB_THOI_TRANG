@@ -48,6 +48,6 @@ class KhachHangController extends Controller
         $khachHang->delete();
 
     
-            return redirect()->route('Admin.KhachHang.index')->with('success', 'Khách hàng đã được xóa thành công.');
+            return redirect()->route('khachhang.index')->with('success', 'Khách hàng đã được xóa thành công.');
         }
 }

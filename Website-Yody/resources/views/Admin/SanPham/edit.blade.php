@@ -30,7 +30,10 @@
             <textarea name="MoTa" id="MoTa" class="form-control">{{ old('MoTa', $product->MoTa) }}</textarea>
         </div>
 
-        
+        <div class="form-group">
+            <label for="GiaBan">Giá Bán:</label>
+            <input type="text" name="GiaBan" id="GiaBan" class="form-control" value="{{ old('GiaBan', $product->GiaBan) }}" required>
+        </div>
         <div class="form-group">
             <label for="TrangThai">Trạng thái:</label>
             <select name="TrangThai" id="TrangThai" class="form-select" required>

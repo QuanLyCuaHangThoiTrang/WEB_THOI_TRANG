@@ -3,16 +3,17 @@
 @section('title', 'Danh sách sản phẩm')
 
 @section('content')
-<div>
-    @if(session()->has('success'))
-        <div class="alert alert-success">{{session('success')}}</div>
+@if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
+@if(session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
 </div>
-<div>
-    @if(session()->has('error'))
-        <div class="alert alert-danger">{{session('error')}}</div>
-    @endif
-</div>
+@endif
+
 
 <div class="card">
     <div class="card-body">

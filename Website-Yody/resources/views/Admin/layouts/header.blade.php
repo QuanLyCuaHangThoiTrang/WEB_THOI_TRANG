@@ -18,7 +18,7 @@
                 <li class="nav-item"> <a class="nav-link" href="{{ route('product.index') }}">Sản Phẩm</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('danhmuc.index') }}">Danh Mục</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('khuyenmai.index') }}">Khuyến Mãi</a></li>
-                <li class="nav-item"> <a class="nav-link" href="{{ route('voucher.index') }}">Voucher</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('vouchers.index') }}">Voucher</a></li>
                 
               </ul>
             </div>

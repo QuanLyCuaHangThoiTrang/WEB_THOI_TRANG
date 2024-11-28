@@ -22,6 +22,11 @@
             {{ session('success') }}
         </div>
     @endif
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -68,7 +73,7 @@
 
 
     <!-- Modal chọn CTSP -->
-    <div class="modal fade" id="ctspModal" tabindex="-1" aria-labelledby="ctspModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ctspModal" tabindex="-1" aria-labelledby="ctspModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -77,16 +82,17 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="max-height:400px; overflow:auto">
                     <form id="ctspForm" action="{{ route('chitietsanphamnhap.store_CTSP', $donnhaphang->MaNH) }}" method="POST">
                         @csrf
                         <input type="hidden" name="maSP" value="">
                         <div id="ctsp-options-container"></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-primary">Lưu</button>
-                        </div>
                     </form>
+                </div>
+                <!-- Footer cố định nằm ngoài phần cuộn -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary" form="ctspForm">Lưu</button>
                 </div>
             </div>
         </div>
@@ -97,7 +103,7 @@
             <h4 class="card-title text-info">Thông Tin Đơn Nhập Hàng</h4>
             <p><strong>Mã Đơn Nhập Hàng:</strong> {{ $donnhaphang->MaNH }}</p>
             <p><strong>Nhà Cung Cấp:</strong> {{ $donnhaphang->nhacungcap->TenNCC }}</p>
-            <p><strong>Ngày Đặt Hàng:</strong> {{ $donnhaphang->NgayDatHang }}</p>
+            <p><strong>Ngày Đặt Hàng:</strong> {{ \Carbon\Carbon::parse($donnhaphang->NgayDatHang)->format('d/m/Y') }}</p>
             <p><strong>Tổng Giá Trị:</strong> <span class="text-danger">{{ number_format($donnhaphang->TongGiaTri, 0, ',', '.') }} đ</span></p>
         </div>
     </div>
@@ -121,7 +127,7 @@
                         <tr data-id="{{ $chitiet->MaSP }}">
                             <td>{{ $chitiet->sanPham->TenSP }}</td>
                             <td>
-                                <input type="number" name="TongSoLuong" min="1" value="{{ $chitiet->TongSoLuong }}" class="form-control quantity">
+                                <input type="number" name="TongSoLuong" min="1" value="{{ $chitiet->TongSoLuong }}" class="form-control quantity" readonly>
                             </td>
                             <td>
                                 <input type="number" name="GiaNhap" min="0" value="{{ $chitiet->GiaNhap }}" class="form-control price">
@@ -157,6 +163,14 @@
     <script>
         
     document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.close, .btn-secondary').forEach(function (button) {
+            button.addEventListener('click', function () {
+                const modal = button.closest('.modal');
+                if (modal) {
+                    $(modal).modal('hide'); // Sử dụng Bootstrap JS để đóng modal
+                }
+            });
+        });
         document.querySelectorAll('.product-checkbox').forEach(checkbox => {
         // Gán thuộc tính data-checked cho các checkbox đã được chọn
         if (checkbox.checked) {
@@ -184,16 +198,14 @@
             const row = this.closest('tr');
             const maSP = row.getAttribute('data-id');
             document.querySelector('#ctspForm input[name="maSP"]').value = maSP;
-            // Hiển thị modal
             $('#ctspModal').modal('show');
             
-            // Tải dữ liệu CTSP
             fetch(`/admin/chitietsanphamnhap/${maSP}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         const container = document.getElementById('ctsp-options-container');
-                        container.innerHTML = ''; // Xóa các tùy chọn hiện tại
+                        container.innerHTML = ''; 
                         
                         data.maCTSPOptions.forEach(option => {
                             const div = document.createElement('div');
@@ -212,7 +224,7 @@
         });
     });
         document.getElementById('ctspForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Ngăn chặn gửi form theo cách mặc định
+        event.preventDefault(); 
 
         const formData = new FormData(this);
 
@@ -225,10 +237,9 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                // Thực hiện các hành động sau khi lưu thành công, chẳng hạn như đóng modal và làm mới trang
+            if (data.success) {          
                 $('#ctspModal').modal('hide');
-                location.reload(); // Tải lại trang hoặc làm mới dữ liệu trên trang hiện tại
+                location.reload(); 
             } else {
                 console.error('Failed to save data');
             }
@@ -239,14 +250,12 @@
         const selectAllCheckbox = document.getElementById('select-all');
         const productCheckboxes = document.querySelectorAll('.product-checkbox');
 
-        // Chọn hoặc bỏ chọn tất cả sản phẩm khi checkbox "Select All" được thay đổi
         selectAllCheckbox.addEventListener('change', function() {
             productCheckboxes.forEach(checkbox => {
                 checkbox.checked = selectAllCheckbox.checked;
             });
         });
 
-        // Lưu thông tin khi nhấn nút "Save"
         const saveButtons = document.querySelectorAll('.save-btn');
         saveButtons.forEach(button => {
             button.addEventListener('click', function() {

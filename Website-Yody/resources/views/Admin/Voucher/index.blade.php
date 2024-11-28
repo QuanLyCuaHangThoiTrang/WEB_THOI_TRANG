@@ -4,16 +4,16 @@
 @section('title', 'Danh sách voucher')
 
 @section('content')
-<div >
-    @if(session()->has('success'))
-        <div class="alert alert-danger">{{session('success')}}</div>
+@if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
+@if(session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
 </div>
-<div>
-    @if(session()->has('error'))
-        <div class="alert alert-danger">{{session('error')}}</div>
-    @endif
-</div>
+@endif
     <div>
     <div class="card">
         <div class="card-body">
@@ -43,7 +43,7 @@
                         <td>{{ $voucher->Active }}</td>
                         <td>
                             <!-- Xóa khách hàng -->
-                            <form action="#" method="POST">
+                            <form action="{{ route('vouchers.destroy', $voucher->MaVoucher) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm btn-icon-text" 

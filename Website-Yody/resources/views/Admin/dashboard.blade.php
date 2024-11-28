@@ -90,7 +90,7 @@
                                 <td>{{ $order->MaDH }}</td>
                                 <td>{{ $order->khachHang->HoTen}}</td>
                                 <td>{{ number_format($order->TongGiaTri, 0, ',', '.') }} đ</td>
-                                <td>{{ $order->NgayDatHang }}</td>
+                                <td>{{ \Carbon\Carbon::parse($order->NgayDatHang)->format('d/m/Y') }}</td>
                                 <td>{{ $order->TrangThai }}</td>
                             </tr>
                             @endforeach
@@ -139,50 +139,10 @@
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<!-- Include Raphael.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
 
-<!-- Include Morris.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-<!-- <script type="text/javascript">
-    $(document).ready(function() {
-        // Hàm gọi AJAX để lấy dữ liệu và cập nhật biểu đồ
-        function chartByCurrentMonth() {
-            $.ajax({
-                url: "{{ url('/admin/orders-current-month') }}", // URL mới để lấy dữ liệu cho tháng hiện tại
-                method: "GET",
-                dataType: "json",
-                success: function(data) {
-                    if (data.length > 0) {
-                        chart.setData(data); // Cập nhật dữ liệu biểu đồ
-                    } else {
-                        // Thông báo nếu không có đơn hàng nào
-                        alert('Không có đơn hàng nào trong tháng hiện tại.');
-                        chart.setData([]); // Đặt lại dữ liệu biểu đồ thành rỗng
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
-                }
-            });
-        }
-
-        // Khởi tạo biểu đồ với Morris.js
-        var chart = Morris.Bar({
-            element: 'myfirstchart',
-            data: [],  // Dữ liệu ban đầu là rỗng
-            xkey: 'period',  // Hiển thị theo ngày trong tháng
-            ykeys: ['order'],  // Tổng số đơn hàng
-            labels: ['Số đơn hàng'],
-            hideHover: 'auto',
-            resize: true
-        });
-
-        // Gọi hàm hiển thị biểu đồ với dữ liệu của tháng hiện tại
-        chartByCurrentMonth();
-    });
-</script> -->
 
 <script type="text/javascript">
     $(document).ready(function() {

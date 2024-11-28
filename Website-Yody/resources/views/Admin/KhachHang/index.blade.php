@@ -3,16 +3,16 @@
 @section('title', 'Danh sách khách hàng')
 
 @section('content')
-    <div>
-        @if (session()->has('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+@if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
     </div>
-    <div>
-        @if (session()->has('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
-    </div>
+    @endif
 
     <div class="card">
         <div class="card-body">
@@ -27,6 +27,8 @@
                             <th>SDT</th>
                             <th>Loại KH</th>
                             <th>Điểm Tích Lũy</th>
+                            <th>Số Voucher</th>
+
                             <th>Hành động</th>
                         </tr>
                     </thead>
@@ -44,6 +46,8 @@
                                 <td>{{ $khachHang->SDT }}</td>
                                 <td>{{ $khachHang->LoaiKH }}</td>
                                 <td>{{ $khachHang->DiemTichLuy }}</td>
+                                <td>{{ $khachHang->SoVoucher }}</td>
+
                                 <td>
                                     <!-- Xóa khách hàng -->
                                     <form action="{{ route('khachhang.destroy', $khachHang->MaKH) }}" method="POST">

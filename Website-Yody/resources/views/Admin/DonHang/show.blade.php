@@ -27,7 +27,7 @@
                     <strong>Địa Chỉ Giao Hàng:</strong> {{ $donhang->DiaChiGiaoHang }}
                 </div>
                 <div class="col-md-6">
-                    <strong>Ngày Đặt Hàng:</strong> {{ $donhang->NgayDatHang }}
+                    <strong>Ngày Đặt Hàng:</strong> {{ \Carbon\Carbon::parse($donhang->NgayDatHang)->format('d/m/Y') }}
                 </div>
             </div>
             <div class="row mb-2">

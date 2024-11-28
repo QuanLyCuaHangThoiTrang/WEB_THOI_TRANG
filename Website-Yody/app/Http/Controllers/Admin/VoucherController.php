@@ -79,12 +79,13 @@ class VoucherController extends Controller
         return redirect()->route('vouchers.index')->with('success', 'Voucher updated successfully.');
     }
 
-    public function destroy(Voucher $voucher)
+    public function destroy($MaVoucher)
     {
         if (!Auth::guard('admin')->check()) {
             return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
         }
+        $voucher = Voucher::findOrFail($MaVoucher);
         $voucher->delete();
-        return redirect()->route('vouchers.index')->with('success', 'Voucher deleted successfully.');
+        return redirect()->route('vouchers.index')->with('success', 'Voucher đã được xóa thành công');
     }
 }

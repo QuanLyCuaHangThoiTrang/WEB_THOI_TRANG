@@ -48,7 +48,15 @@
             @enderror
             </div>
         </div>
-      
+        <div class="form-group row">
+            <label for="GiaBan">Giá Bán</label>
+            <div class="col-sm-9">
+            <textarea name="GiaBan" id="GiaBan" placeholder="Giá Bán" class="form-control @error('GiaBan') is-invalid @enderror"></textarea>
+            @error('GiaBan')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
+            </div>
+        </div>
         <div class="form-group row">
             <label for="TrangThai">Trạng Thái</label>
             <div class="col-sm-9">

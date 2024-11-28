@@ -59,10 +59,11 @@ class VoucherController extends Controller
         return redirect()->route('vouchers.index')->with('success', 'Voucher updated successfully.');
     }
 
-    public function destroy(Voucher $voucher)
+    public function destroy($MaVoucher)
     {
+        $voucher = Voucher::findOrFail($MaVoucher);
         $voucher->delete();
-        return redirect()->route('vouchers.index')->with('success', 'Voucher deleted successfully.');
+        return redirect()->route('vouchers.index')->with('success', 'Voucher đã được xóa thành công');
     }
     // Hiển thị danh sách voucher của khách hàng
     public function showCustomerVouchers(Request $request, $MaKH)

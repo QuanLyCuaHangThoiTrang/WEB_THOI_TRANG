@@ -3,17 +3,16 @@
 @section('title', 'Danh sách danh mục')
 
 @section('content')
-<div >
-    @if(session()->has('success'))
-        <div class="alert alert-danger">{{session('success')}}</div>
-
+@if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
-</div>
-<div>
-    @if(session()->has('error'))
-        <div class="alert alert-danger">{{session('error')}}</div>
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
     @endif
-</div>
 
 <!-- Modal for Detail -->
 <div class="modal fade" id="chiTietModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

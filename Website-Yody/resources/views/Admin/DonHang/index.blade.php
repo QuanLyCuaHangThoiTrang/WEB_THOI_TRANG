@@ -3,19 +3,16 @@
 @section('title', 'Danh sách đơn hàng')
 
 @section('content')
-    <div>
-        @if(Session::has('success'))
-            <script>
-                toastr.success("{{ Session::get('success') }}");
-            </script>
-        @endif
-
-        @if(Session::has('error'))
-            <script>
-                toastr.error("{{ Session::get('error') }}");
-            </script>
-        @endif
+@if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
     </div>
+    @endif
 
     <!-- Thanh lựa chọn hàng ngang -->
     <div class="btn-group mb-3" role="group" style="width:100%">
@@ -49,7 +46,7 @@
                             <td>{{$donhang->MaDH}}</td>
                             <td>{{$donhang->MaKH}}</td>
                             <td>{{$donhang->DiaChiGiaoHang}}</td>
-                            <td>{{$donhang->NgayDatHang}}</td>
+                            <td>{{ \Carbon\Carbon::parse($donhang->NgayDatHang)->format('d/m/Y') }}</td>
                             <td>{{ number_format($donhang->TongGiaTri, 0, ',', '.')}}đ</td>
                             <td>
                                 <select class="form-control status-select" data-id="{{ $donhang->MaDH }}">
@@ -67,6 +64,11 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+           
+        </div>
+        <div style="margin-top:10px" class="pagination-container d-flex justify-content-center">
+                {{ $donhangs->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>

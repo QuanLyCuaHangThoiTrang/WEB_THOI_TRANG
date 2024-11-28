@@ -89,7 +89,7 @@
                 <th width="50%" colspan="2" class="text-end company-data">
                     <span>Ma Nhap Hang: {{ $donnhaphang->MaNH }}</span> <br>
                     <span>Nha Cung Cap: {{ $donnhaphang->nhaCungCap->TenNCC }}</span> <br>
-                    <span>Ngay Nhap: {{ $donnhaphang->NgayDatHang }}</span> <br>
+                    <span>Ngay Nhap: {{ \Carbon\Carbon::parse($donnhaphang->NgayDatHang)->format('d/m/Y') }}</span> <br>
                     <span>Tong Gia Tri: {{ number_format($donnhaphang->TongGiaTri) }} VND</span> <br>
                 </th>
             </tr>

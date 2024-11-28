@@ -4,16 +4,17 @@
 @section('title', 'Danh sách danh mục')
 
 @section('content')
-<div >
-    @if(session()->has('success'))
-        <div class="alert alert-danger">{{session('success')}}</div>
+@if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
-</div>
-<div>
-    @if(session()->has('error'))
-        <div class="alert alert-danger">{{session('error')}}</div>
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
     @endif
-</div>
+
     <div>
     <div class="card">
         <div class="card-body">
@@ -41,8 +42,8 @@
                     <td>{{$khuyenMai->TenKM}}</td>
                     <td>{!!$khuyenMai->MoTa!!}</td>
                     <td>{{$khuyenMai->PhanTramGiamGia}}</td>
-                    <td>{{$khuyenMai->NgayBatDau}}</td>
-                    <td>{{$khuyenMai->NgayKetThuc}}</td>
+                    <td>{{ \Carbon\Carbon::parse($khuyenMai->NgayBatDau)->format('d/m/Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($khuyenMai->NgayKetThuc)->format('d/m/Y') }}</td>
                     <td><a href="{{ route('khuyenmai.edit', $khuyenMai->MaKM) }}" class="btn btn-dark btn-sm btn-icon-text">
                         <i class="ti-file btn-icon-append"></i>
                           Sửa

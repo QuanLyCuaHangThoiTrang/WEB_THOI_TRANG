@@ -15,7 +15,7 @@ class DonHangController extends Controller
         if (!Auth::guard('admin')->check()) {
             return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
         }
-        $donhangs = DonHang::all();
+        $donhangs = DonHang::orderBy('NgayDatHang', 'desc')->paginate(10);
         return view('Admin.DonHang.index', compact('donhangs'));
     }
 

@@ -4,16 +4,17 @@
 @section('title', 'Chi tiết sản phẩm')
 
 @section('content')
-<div >
-    @if(session()->has('success'))
-        <div class="alert alert-danger">{{session('success')}}</div>
+@if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
     @endif
-</div>
-<div>
-    @if(session()->has('error'))
-        <div class="alert alert-danger">{{session('error')}}</div>
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
     @endif
-</div>
+
     <div class="card">
         <div class="card-body">
             <div style="margin-bottom:10px"> 
