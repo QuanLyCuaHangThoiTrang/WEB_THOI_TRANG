@@ -66,20 +66,20 @@ class VoucherController extends Controller
         return redirect()->route('vouchers.index')->with('success', 'Voucher đã được xóa thành công');
     }
     // Hiển thị danh sách voucher của khách hàng
-    public function showCustomerVouchers(Request $request, $MaKH)
+    public function showCustomerVouchers(Request $request, $locale, $MaKH)
     {
-        // Lấy thông tin khách hàng
+        // Get the customer information
         $khachhang = KhachHang::find($MaKH);
     
-        // Kiểm tra nếu khách hàng không tồn tại
+        // Check if the customer exists
         if (!$khachhang) {
             return back()->withErrors(['error' => 'Khách hàng không tồn tại']);
         }
     
-        // Lấy danh sách voucher của khách hàng
-        $vouchers = Voucher::where('MaKH', $MaKH)->where('Active', '1');
+        // Fetch the vouchers for the customer
+        $vouchers = Voucher::where('MaKH', $MaKH)->where('Active', 1);
     
-        // Tìm kiếm theo tên hoặc mã voucher
+        // Apply search if available
         if ($request->has('search') && $request->search != '') {
             $searchTerm = $request->search;
             $vouchers = $vouchers->where(function ($query) use ($searchTerm) {
@@ -88,8 +88,9 @@ class VoucherController extends Controller
             });
         }
     
-        // Phân loại
-        if ($request->has('sort')) {
+        // Apply sorting if available
+        $validSorts = ['percent_asc', 'percent_desc', 'date_asc', 'date_desc'];
+        if ($request->has('sort') && in_array($request->sort, $validSorts)) {
             switch ($request->sort) {
                 case 'percent_asc':
                     $vouchers = $vouchers->orderBy('PhanTramGiamGia', 'asc');
@@ -106,10 +107,12 @@ class VoucherController extends Controller
             }
         }
     
-        // Lấy dữ liệu với phân trang
+        // Paginate the vouchers
         $vouchers = $vouchers->paginate(5);
     
-        // Trả về view với danh sách voucher của khách hàng
-        return view('account.settings.vouchers', compact('vouchers', 'khachhang'));
+        // Return the view with the data
+        return view('account.settings.vouchers', compact('vouchers', 'khachhang', 'locale'));
     }
+    
+
 }

@@ -29,11 +29,14 @@
                     class="bg-white rounded-lg p-6 shadow-lg transform transition-transform duration-300 ease-in-out scale-90">
                     <p class="text-lg font-semibold mb-4 text-gray-800">{{ $selectedData['delete'] }}</p>
                     <div class="flex justify-end gap-4">
-                        <a href="{{ route('cart.remove', ['MaGH' => $chitiet->MaGH, 'MaCTSP' => $chitiet->MaCTSP]) }}"
+                        <a href="{{ route('cart.remove', ['locale' => $locale, 'MaGH' => $chitiet->MaGH, 'MaCTSP' => $chitiet->MaCTSP]) }}"
                             class="remove-item">
                             <button type="button"
-                                class="confirmRemove bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200 ease-in-out">{{ $selectedData['yes'] }}</button>
+                                class="confirmRemove bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200 ease-in-out">
+                                {{ $selectedData['yes'] }}
+                            </button>
                         </a>
+
                         <button type="button"
                             class="cancelRemove bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition duration-200 ease-in-out">{{ $selectedData['no'] }}</button>
                     </div>
@@ -48,10 +51,14 @@
                     class="bg-white rounded-lg p-6 shadow-lg transform transition-transform duration-300 ease-in-out scale-90">
                     <p class="text-lg font-semibold mb-4 text-gray-800">{{ $selectedData['delete'] }}</p>
                     <div class="flex justify-end gap-4">
-                        <a href="{{ route('cart.removeSS', ['MaCTSP' => $item['MaCTSP']]) }}" class="remove-item">
+                        <a href="{{ route('cart.removeSS', ['locale' => $locale, 'MaCTSP' => $item['MaCTSP']]) }}"
+                            class="remove-item">
                             <button type="button"
-                                class="confirmRemove bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200 ease-in-out">{{ $selectedData['yes'] }}</button>
+                                class="confirmRemove bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200 ease-in-out">
+                                {{ $selectedData['yes'] }}
+                            </button>
                         </a>
+
                         <button type="button"
                             class="cancelRemove bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition duration-200 ease-in-out">{{ $selectedData['no'] }}</button>
                     </div>

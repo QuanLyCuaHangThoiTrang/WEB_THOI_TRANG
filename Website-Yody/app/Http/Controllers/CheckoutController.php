@@ -87,14 +87,15 @@ class CheckoutController extends Controller
                 foreach($chiTietGioHang as $item)
                 {
                     if($item->ChiTietSanPham->SoLuongTonKho == 0 || $item->SoLuong > $item->ChiTietSanPham->SoLuongTonKho){
-                        return redirect()->route(route: 'cart')->withErrors('Sản phẩm bạn mua đã hết hàng');
+                        return redirect()->route('cart', ['locale' => app()->getLocale()])->withErrors('Sản phẩm bạn mua đã hết hàng');
+
                     }
                 }
                 return $this->storeOrder($request);
             }         
             else 
             {
-                return redirect()->route(route: 'cart')->withErrors('Giỏ hàng của bạn trống.');
+                return redirect()->route('cart', ['locale' => app()->getLocale()])->withErrors('Giỏ hàng của bạn trống');
             }
         } 
         else 
@@ -105,7 +106,7 @@ class CheckoutController extends Controller
                 $ChiTietSanPham = $this->TimChiTietSanPham($item['MaSP'],$item['MaMau'],$item['MaSize']);        
                 if($ChiTietSanPham && ($item['SoLuongTonKho'] == 0 || $item['SoLuong'] > $ChiTietSanPham->SoLuongTonKho))
                 {              
-                    return redirect()->route(route: 'cart')->withErrors('Sản phẩm bạn mua đã hết hàng');
+                    return redirect()->route('cart', ['locale' => app()->getLocale()])->withErrors('Sản phẩm bạn mua đã hết hàng');
                 }
             }
             return $this->storeOrder($request);   
@@ -302,10 +303,12 @@ class CheckoutController extends Controller
                     Mail::to($user->Email)->send(new VoucherMail($user,$voucher));
                 }
                 Mail::to($user->Email)->send(new ThanhToanThanhCongMail($user,$donHang));
-                return redirect()->route('thanhtoan.ThanhCong')->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
+                
+                return redirect()->route('thanhtoan.ThanhCong', ['locale' => app()->getLocale()])->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
+
             }
         } else {
-            return redirect()->route('cart')->withErrors('Giỏ hàng của bạn trống.');
+            return redirect()->route('cart', ['locale' => app()->getLocale()])->withErrors('Giỏ hàng của bạn trống');
         }
     }
     public function saveOrderNoAuth($request, $diachi,$hoten,$email,$sodienthoai,$ghichu)
@@ -383,7 +386,8 @@ class CheckoutController extends Controller
             session()->forget('gioHang');
             $this->ActiveVoucher(session()->get('MaVC'));
             Mail::to($email)->send(new ThanhToanThanhCongMail($khachhang,$donHang));
-            return redirect()->route('thanhtoan.ThanhCong')->with('success', 'Đơn hàng của bạn đã được tạo thành công.');   
+            return redirect()->route('thanhtoan.ThanhCong', ['locale' => app()->getLocale()])->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
+
         } 
         else 
         {
@@ -518,7 +522,9 @@ class CheckoutController extends Controller
         }
 
         $this->ActiveVoucher(session()->get('MaVC'));
-        return redirect()->route('products.index')->with('success', 'Thanh toán thành công và đơn hàng của bạn đã được lưu.');
+        return redirect()->route('products.index', ['locale' => app()->getLocale()])
+        ->with('success', 'Thanh toán thành công và đơn hàng của bạn đã được lưu.');
+    
     }
     protected function updateDiemTichLuy($user)
     {

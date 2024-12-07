@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 class OrderController extends Controller
 {
     // Hiển thị danh sách đơn hàng của khách hàng
-    public function showOrders(Request $request, $maKH)
+    public function showOrders(Request $request, $locale, $maKH)
     {
         // Lấy thông tin khách hàng
         $khachhang = KhachHang::find($maKH);

@@ -1,9 +1,46 @@
+@php
+    // Define translations for both languages
+    $commonData = [
+        'en' => [
+            'address' => 'Address',
+            'placeholder_address' => 'Enter address',
+            'select_province' => 'Select Province',
+            'select_district' => 'Select District',
+            'select_ward' => 'Select Ward',
+            'save' => 'Save',
+            'address_customer' => 'Customer Address',
+            'address_list' => 'Address List',
+            'no_address' => 'No addresses have been added yet.',
+            'delete' => 'Delete',
+            'province' => 'Province',
+            'district' => 'District',
+            'ward' => 'Ward',
+        ],
+        'vi' => [
+            'address' => 'Địa chỉ',
+            'placeholder_address' => 'Nhập địa chỉ',
+            'select_province' => 'Chọn tỉnh',
+            'select_district' => 'Chọn quận/huyện',
+            'select_ward' => 'Chọn xã/phường',
+            'save' => 'Lưu',
+            'address_customer' => 'Địa chỉ khách hàng',
+            'address_list' => 'Danh sách địa chỉ',
+            'no_address' => 'Chưa có địa chỉ nào được thêm.',
+            'delete' => 'Xóa',
+            'province' => 'Tỉnh',
+            'district' => 'Quận/Huyện',
+            'ward' => 'Phường/Xã',
+        ],
+    ];
+    // Get the current language code
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
 @extends('layouts.app')
 @section('content')
     <div class=" bg-white">
-        <!-- Filter Dialog -->
-
-
         <main class="mx-auto px-24 mt-14">
             @include('account.components.notification')
             @if ($errors->any())
@@ -19,7 +56,7 @@
             <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
 
                 <div>
-                    <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Địa chỉ</h1>
+                    <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">{{ $selectedData['address'] }}</h1>
                 </div>
 
                 <div class="flex items-center pt-4">
@@ -47,16 +84,18 @@
                             <div class="flex flex-col px-7 gap-4 p-6">
                                 <div class="border-b">
                                     <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">
-                                        Địa chỉ khách hàng</h3>
+                                        {{ $selectedData['address_customer'] }}</h3>
                                 </div>
-                                <form method="POST" action="{{ route('addresses.create') }}">
+
+                                <form method="POST"
+                                    action="{{ route('addresses.create', ['locale' => app()->getLocale()]) }}">
                                     @csrf
                                     <input type="hidden" id="MaKH" name="MaKH" value="{{ $MaKH }}">
                                     <div class="mb-3">
-                                        <label for="diachi" class="mb-2 block text-sm font-medium text-gray-900">Địa
-                                            chỉ</label>
-                                        <input type="text" id="diachi" name="Duong" placeholder="Nhập địa chỉ"
-                                            required
+                                        <label for="diachi"
+                                            class="mb-2 block text-sm font-medium text-gray-900">{{ $selectedData['address'] }}</label>
+                                        <input type="text" id="diachi" name="Duong"
+                                            placeholder="{{ $selectedData['placeholder_address'] }}" required
                                             class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600  duration-500 focus:outline-none rounded-md" />
 
                                     </div>
@@ -64,30 +103,30 @@
                                     <div class="grid grid-cols-1 gap-4 md:grid-cols-3 items-center justify-center">
                                         <div class="col-span-1">
                                             <label for="tinh"
-                                                class="mb-2 block text-sm font-medium text-gray-900">Tỉnh</label>
+                                                class="mb-2 block text-sm font-medium text-gray-900">{{ $selectedData['province'] }}</label>
                                             <select id="tinh" name="Tinh"
                                                 class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 focus:outline-none rounded-md">
-                                                <option value="">Chọn tỉnh</option>
+                                                <option value="">{{ $selectedData['select_province'] }}</option>
                                             </select>
                                             <input type="hidden" id="hidden_tinh" name="hidden_tinh" value="">
                                         </div>
 
                                         <div class="col-span-1">
                                             <label for="quan"
-                                                class="mb-2 block text-sm font-medium text-gray-900">Quận/Huyện</label>
+                                                class="mb-2 block text-sm font-medium text-gray-900">{{ $selectedData['district'] }}</label>
                                             <select id="quan" name="Huyen"
                                                 class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 focus:outline-none rounded-md">
-                                                <option value="">Chọn quận/huyện</option>
+                                                <option value="">{{ $selectedData['select_district'] }}</option>
                                             </select>
                                             <input type="hidden" id="hidden_quan" name="hidden_quan" value="">
                                         </div>
 
                                         <div class="col-span-1">
                                             <label for="phuong"
-                                                class="mb-2 block text-sm font-medium text-gray-900">Phường/Xã</label>
+                                                class="mb-2 block text-sm font-medium text-gray-900">{{ $selectedData['ward'] }}</label>
                                             <select id="phuong" name="Phuong"
                                                 class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black  duration-500 focus:outline-none rounded-md">
-                                                <option value="">Chọn xã/phường</option>
+                                                <option value="">{{ $selectedData['select_ward'] }}</option>
                                             </select>
                                             <input type="hidden" id="hidden_phuong" name="hidden_phuong" value="">
                                         </div>
@@ -95,7 +134,7 @@
 
                                     <div class="my-4 flex justify-end">
                                         <button type="submit"
-                                            class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 focus:border-black transition duration-200 focus:outline-none  rounded-md shadow-md">Lưu</button>
+                                            class="button bg-blue-900 px-16 py-2 text-white hover:bg-blue-500 focus:border-black transition duration-200 focus:outline-none  rounded-md shadow-md">{{ $selectedData['save'] }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -109,30 +148,29 @@
                                     <div class="flex flex-col bg-gray-50 px-7 gap-4 md:gap-4 p-6">
                                         <div class="border-b">
                                             <h3 class="text-3xl font-semibold text-gray-900 mb-4"
-                                                id="account-details-heading">Danh sách địa chỉ</h3>
+                                                id="account-details-heading">{{ $selectedData['address_list'] }}</h3>
                                         </div>
                                         @foreach ($addresses as $index => $address)
                                             <!-- Sử dụng $index để đánh số thứ tự -->
-                                            <form action="{{ route('addresses.delete', $address->MaDC) }}" method="POST"
-                                                style="display:inline;">
+
+                                            <form
+                                                action="{{ route('addresses.delete', ['locale' => app()->getLocale(), 'MaKH' => $MaKH, 'MaDC' => $address->MaDC]) }}"
+                                                method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <input type="hidden" id="MaKH" name="MaKH"
-                                                    value="{{ $MaKH }}">
 
                                                 <div class="col-span-1 border-b md:col-span-4 mb-5">
                                                     <label for="diachi"
-                                                        class="mb-2 block text-sm font-medium text-gray-900">Địa chỉ
-                                                        {{ $index + 1 }}</label> <!-- Hiển thị số thứ tự -->
+                                                        class="mb-2 block text-sm font-medium text-gray-900">{{ $selectedData['address'] }}
+                                                        {{ $index + 1 }}</label>
                                                     <div
                                                         class="w-full border-2 border-gray-300 border-l-[7px] py-3 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black duration-500 focus:outline-none rounded-md">
-
                                                         {{ $address->Duong }}, {{ $address->Phuong }},
                                                         {{ $address->Huyen }}, {{ $address->Tinh }}
                                                     </div>
                                                     <div class="my-4 flex justify-end">
                                                         <button type="submit"
-                                                            class="button bg-red-800 px-10 py-2 text-white hover:bg-red-700 transition duration-200 rounded-md shadow-md">Xóa</button>
+                                                            class="button bg-red-800 px-10 py-2 text-white hover:bg-red-700 transition duration-200 rounded-md shadow-md">{{ $selectedData['delete'] }}</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -141,7 +179,7 @@
                                 </div>
                             </div>
                         @else
-                            <p class="mb-5 px-7 font-medium text-blue-900">Chưa có địa chỉ nào được thêm.</p>
+                            <p class="mb-5 px-7 font-medium text-blue-900">{{ $selectedData['no_address'] }}</p>
                         @endif
 
                     </div>

@@ -61,6 +61,7 @@
 
                                         <div
                                             class="mt-6 gap-4 space-y-4 sm:mt-0 sm:flex sm:items-center sm:justify-end sm:space-y-0">
+
                                             <form method="GET" action="{{ url('/order/' . $khachhang->MaKH) }}"
                                                 class="flex flex-col sm:flex-row justify-between items-center mb-4">
                                                 <!-- Tìm kiếm và Sắp xếp -->

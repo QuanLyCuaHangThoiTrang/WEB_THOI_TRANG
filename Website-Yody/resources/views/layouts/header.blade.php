@@ -98,9 +98,13 @@
                     @php
                         $customer = Auth::user();
                     @endphp
-                    <a href="{{ url('account/' . $customer->MaKH) }}" id="profile-toggle" class="flex items-center">
+                    <a href="{{ url("/{$locale}/account/{$customer->MaKH}") }}" id="profile-toggle"
+                        class="flex items-center">
                         <x-icons.icon name="profile" />
                     </a>
+
+
+
                     <form action="{{ route('logout', ['locale' => app()->getLocale()]) }}" method="POST"
                         class="flex items-center">
                         @csrf

@@ -33,7 +33,7 @@ class ProviderController extends Controller
             // Kiểm tra xem tài khoản có Provider là 'google' không
             if ($existingUser->Provider === $provider) {
                 Auth::login($existingUser); // Đăng nhập nếu Provider là 'google'
-                return redirect()->to('home'); // Điều hướng về trang chính
+                return redirect()->to('/'); // Điều hướng về trang chính
             } else {
                 // Nếu email đã tồn tại nhưng không có Provider là 'google'
                 return redirect()->to('/login')->withErrors(['error' => 'Email này đã được đăng ký trong hệ thống']);
@@ -69,7 +69,7 @@ class ProviderController extends Controller
            
             Auth::login($khachHang); 
             $khachHang->save();// Đăng nhập người dùng mới        
-            return redirect()->to('home'); // Điều hướng về trang chính
+            return redirect()->to('/'); // Điều hướng về trang chính
         }
     }
     

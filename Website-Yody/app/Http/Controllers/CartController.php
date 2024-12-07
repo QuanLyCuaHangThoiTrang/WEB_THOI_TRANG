@@ -192,7 +192,9 @@ class CartController extends Controller
             // Cập nhật giỏ hàng trong session
             Session::put('gioHang', $gioHang);
         }
-        return redirect()->route('cart')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng'); 
+        return redirect()->route('cart', ['locale' => app()->getLocale()])
+        ->with('success', 'Sản phẩm đã được thêm vào giỏ hàng');
+
         
     }
     public function removeFromCart($MaGH,$MaCTSP)

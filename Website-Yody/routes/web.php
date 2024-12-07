@@ -89,11 +89,11 @@ Route::get('/{locale}/test_endpointa/{MaSP}/{MaSize}/{MaMau}', [ProductDetailCon
 Route::get('/{locale}/get-image', [ProductDetailController::class, 'getImageByMaSPAndMaMau']);
 
 // Checkout Routes
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
-Route::post('/checkoutDH', [CheckoutController::class, 'processCheckoutDH'])->name('checkout.processDH');
-Route::post('/Voucher', [CheckoutController::class, 'applyVoucher'])->name('checkout.applyVoucher');
-Route::post('/voucher/cancel', [CheckoutController::class, 'cancelVoucher'])->name('voucher.cancel');
+Route::get('/{locale}/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/{locale}/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::post('/{locale}/checkoutDH', [CheckoutController::class, 'processCheckoutDH'])->name('checkout.processDH');
+Route::post('/{locale}/Voucher', [CheckoutController::class, 'applyVoucher'])->name('checkout.applyVoucher');
+Route::post('/{locale}/voucher/cancel', [CheckoutController::class, 'cancelVoucher'])->name('voucher.cancel');
 
 // Login and Registration Routes
 Route::get('/{locale}/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -107,30 +107,39 @@ Route::post('/{locale}/password/email', [ForgotPasswordController::class, 'sendR
 Route::get('/{locale}/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset.form');
 Route::post('/{locale}/password/reset', [ResetPasswordController::class, 'resetPassword'])->name('password.reset');
 
-// Account and Order Routes (Requires Authentication)
-Route::middleware('auth')->group(function () {
-    Route::get('account/{MaKH}', [AccountController::class, 'showAccountForm']);
-    Route::put('/account/{MaKH}/password', [AccountController::class, 'updatePassword'])->name('account.updatePassword');
-    Route::put('/account/{MaKH}/update-account', [AccountController::class, 'updateAccount'])->name('account.updateAccount');
-    Route::delete('/account/delete/{MaKH}', [AccountController::class, 'deleteAccount'])->name('account.delete');
-    
-    // Address Management
-    Route::prefix('addresses')->group(function () {
-        Route::get('{MaKH}', [AddressController::class, 'showAddresses'])->name('account.settings.addresses');
-        Route::post('/', [AddressController::class, 'createAddress'])->name('addresses.create');
-        Route::delete('{MaKH}', [AddressController::class, 'deleteAddress'])->name('addresses.delete');
-    });
-    
-    // Vouchers
+Route::prefix('{locale}')->where(['locale' => 'en|vi'])->group(function () {
     Route::get('/vouchers/{MaKH}', [VoucherController::class, 'showCustomerVouchers'])->name('account.settings.vouchers');
-    
-    // Orders and Ratings
-    Route::get('/order/{MaKH}', [OrderController::class, 'showOrders'])->name('account.settings.orders');
-    Route::delete('/orders/cancel/{maDH}', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
-    Route::get('/order/{maKH}/{maDH}', [OrderController::class, 'showOrderDetail'])->name('orders.detail');
-    Route::post('orders/rate/{maKH}/{maCTSP}', [OrderController::class, 'rateProduct'])->name('orders.rate');
 });
 
+
+
+
+// Account and Order Routes (Requires Authentication)
+Route::get('/{locale}/account/{MaKH}', [AccountController::class, 'showAccountForm'])
+    ->name('account') // This assigns the 'account' name to this route
+    ->middleware('auth');
+Route::put('/account/{MaKH}/password', [AccountController::class, 'updatePassword'])->name('account.updatePassword');
+Route::put('/account/{MaKH}/update-account', [AccountController::class, 'updateAccount'])->name('account.updateAccount');
+Route::delete('/account/delete/{MaKH}', [AccountController::class, 'deleteAccount'])->name('account.delete');
+
+
+Route::get('/{locale}/order/{MaKH}', [OrderController::class, 'showOrders'])->name('account.settings.orders');
+Route::delete('/orders/cancel/{maDH}', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
+Route::get('/order/{maKH}/{maDH}', [OrderController::class, 'showOrderDetail'])->name('orders.detail');
+Route::post('/orders/rate/{maKH}/{maCTSP}', [OrderController::class, 'rateProduct'])->name('orders.rate');
+
+
+Route::prefix('{locale}')->where(['locale' => 'en|vi'])->group(function () {
+    Route::get('/addresses/{MaKH}', [AddressController::class, 'showAddresses'])->name('account.settings.addresses');
+    Route::post('/addresses', [AddressController::class, 'createAddress'])->name('addresses.create');
+    Route::delete('/addresses/{MaKH}/{MaDC}', [AddressController::class, 'deleteAddress'])->name('addresses.delete');
+});
+
+
+
+    //payment
+    Route::get('/momo/response', [CheckoutController::class, 'handleMomoResponse'])->name('momo.response');
+    Route::get('/{locale}/ThanhToanThanhCong', [CheckoutController::class, 'ThanhToanThanhCong'])->name('thanhtoan.ThanhCong');
 // Logout Route
 Route::post('/{locale}/logout', function () {
     Auth::logout();

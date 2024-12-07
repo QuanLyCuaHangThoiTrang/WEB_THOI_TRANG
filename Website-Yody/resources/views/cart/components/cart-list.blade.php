@@ -47,7 +47,7 @@
                 @endphp
                 @foreach ($chiTietGioHang as $index => $chitiet)
                     <div class="flex flex-col md:flex-row bg-white p-3 border-b border-gray-200 gap-4 items-center">
-                        <a href="{{ route('cart.remove', ['MaGH' => $chitiet->MaGH, 'MaCTSP' => $chitiet->MaCTSP]) }} "
+                        <a href="{{ route('cart.remove', ['locale' => $locale, 'MaGH' => $chitiet->MaGH, 'MaCTSP' => $chitiet->MaCTSP]) }}"
                             class="remove-item text-red-500 hover:text-red-700 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-5 h-5">
@@ -65,7 +65,7 @@
                             <div class="flex items-center border bg-gray-100 rounded-3xl w-32 gap-2 mt-2">
                                 <span class="w-8 h-8 border border-gray-300 rounded-full"
                                     style="background-color: {{ $chitiet->chiTietSanPham->mauSac->TenMau }}"></span>
-                                <span class="font-semibold">{{ $selectedData['Size:'] }}
+                                <span class="font-semibold">
                                     {{ $chitiet->chiTietSanPham->KichThuoc->TenSize }}</span>
                             </div>
                             @if ($chitiet->chiTietSanPham->SoLuongTonKho == 0)
@@ -92,7 +92,7 @@
                 @endphp
                 @foreach ($gioHangSession as $index => $item)
                     <div class="flex flex-col md:flex-row bg-white p-4 border-b border-gray-200 gap-4 items-center">
-                        <a href="{{ route('cart.removeSS', ['MaCTSP' => $item['MaCTSP']]) }}"
+                        <a href="{{ route('cart.removeSS', ['locale' => $locale, 'MaCTSP' => $item['MaCTSP']]) }}"
                             class="remove-item text-red-500 hover:text-red-700 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -100,6 +100,7 @@
                                     d="M3 6h18M8 6V4a2 2 0 112 0v2m4-2a2 2 0 112 0v2m4 0v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6h16zM9 10v10m6-10v10" />
                             </svg>
                         </a>
+
                         <div class="w-full md:w-[150px]">
                             <img src="{{ asset('images/products/' . $item['HinhAnh']) }}" alt="product image"
                                 class="w-full h-auto rounded-xl object-cover">
@@ -110,7 +111,7 @@
                             <div class="flex items-center font-bold border rounded-3xl w-32 shadow-sm gap-2 mt-2">
                                 <span class="w-8 h-8 border border-gray-300 rounded-full"
                                     style="background-color: {{ $item['TenMau'] }}"></span>
-                                <span class="font-semibold">{{ $selectedData['Size:'] }} {{ $item['TenSize'] }}</span>
+                                <span class="font-semibold">{{ $item['TenSize'] }}</span>
                             </div>
                             @if ($item['SoLuongTonKho'] == 0)
                                 <p class="text-red-600 font-bold">{{ $selectedData['product_out_of_stock'] }}</p>
@@ -173,7 +174,7 @@
                 @if (
                     (Auth::check() && $tongGiaTri > 0 && $canCheckout) ||
                         (!Auth::check() && count($gioHangSession) > 0 && $canCheckout1 && $KTSLKho))
-                    <a href="{{ url('/checkout') }}">
+                    <a href="{{ url("/{$locale}/checkout") }}">
                         <div
                             class="w-full bg-yellow-500 rounded-lg py-3 px-6 font-semibold text-lg text-white transition-all duration-300 hover:bg-yellow-400 shadow-md text-center mt-4">
                             {{ $selectedData['complete_checkout'] }}

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
-    public function showAccountForm($MaKH)
+    public function showAccountForm($locale,$MaKH)
     {
         $khachhang = KhachHang::where('MaKH', $MaKH)->firstOrFail();
 

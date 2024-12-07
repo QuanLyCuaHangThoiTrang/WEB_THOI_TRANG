@@ -1,5 +1,16 @@
-@extends('layouts.app')
+@php
+    // Define translations for both languages
+    $commonData = [
+        'en' => [],
+        'vi' => [],
+    ];
+    // Get the current language code
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
 
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
+@extends('layouts.app')
 @section('content')
     <div class="bg-white">
         @include('account.components.notification')

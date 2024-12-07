@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 class AddressController extends Controller
 {
-    public function showAddresses($MaKH)
+    public function showAddresses($locale, $MaKH)
     {
         $addresses = DiaChiKhachHang::where('MaKH', $MaKH)->get(); // Lấy địa chỉ của khách hàng
         $khachhang = KhachHang::find($MaKH); // Lấy thông tin khách hàng
@@ -58,15 +58,21 @@ class AddressController extends Controller
 }
 
 
-    public function deleteAddress($MaDC)
-    {   
-        $address = DiaChiKhachHang::find($MaDC);
+public function deleteAddress($locale, $MaKH, $MaDC)
+{
+    // Find the address by MaDC
+    $address = DiaChiKhachHang::find($MaDC);
 
-        if (!$address) {
-            return back()->withErrors(['error' => 'Địa chỉ không tồn tại']);
-        }
-        
-        $address->delete();
-        return back()->with('success', 'Địa chỉ đã được xoá thành công');
+    // Check if the address exists and belongs to the customer
+    if (!$address || $address->MaKH != $MaKH) {
+        return back()->withErrors(['error' => 'Địa chỉ không tồn tại hoặc không thuộc khách hàng này']);
     }
+    
+    // Delete the address
+    $address->delete();
+
+    // Return success message
+    return back()->with('success', 'Địa chỉ đã được xoá thành công');
+}
+
 }
