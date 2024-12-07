@@ -1,3 +1,5 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 <header class=" font-meidum z-50 bg-white border-b border-gray-300 w-full fixed">
     <div class="w-full p-3 bg-transparent bg-opacity-100">
         <div class="mx-auto flex items-center h-full justify-between px-3 lg:px-5 relative flex-wrap">
@@ -84,6 +86,10 @@
                         <x-icons.icon name="profile" />
                     </a>
                 @endauth
+                <button id="language-toggle" class="relative">
+                    <x-icons.icon name="language" />
+                </button>
+
             </div>
         </div>
         <div id="product-mega-menu" class="absolute left-0 top-full w-full bg-white shadow-lg hidden z-50 rounded-lg">
@@ -114,6 +120,32 @@
     @include('components.searchbar')
     @include('layouts.offcanvas')
 </header>
+<div id="offcanvas-menu" class="fixed inset-0 z-40 hidden lg:hidden">
+    <div class="relative w-full h-full bg-white shadow-md transform -translate-x-full transition-transform duration-300 ease-in-out"
+        id="offcanvas-menu-container">
+        <div class="p-5 flex justify-between items-center">
+            <span class="text-xl font-bold">Menu</span>
+            <button id="offcanvas-close" class="focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile menu items go here -->
+        <ul class="menu p-5 space-y-2 text-sky-900">
+            <li><a href="{{ url('/') }}"
+                    class="inline-block px-3 py-4 text-lg md:text-xl lg:text-xl font-bold">TRANG CHỦ</a></li>
+            <li><a href="{{ url('/products') }}" class="inline-block px-3 py-4 text-base font-semibold">SẢN
+                    PHẨM</a></li>
+            <li><a href="{{ url('/contact-us') }}" class="inline-block px-3 py-4 text-base font-semibold">LIÊN
+                    HỆ</a></li>
+            <li><a href="{{ url('/about-us') }}" class="inline-block px-3 py-4 text-base font-semibold">VỀ CHÚNG
+                    TÔI</a>
+            <li>
+        </ul>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const productMenuToggle = document.getElementById('product-menu-toggle');
