@@ -1,17 +1,55 @@
-@extends('layouts.app')
+@php
+    // Define the translations for each language
+    $commonData = [
+        'en' => [
+            'login' => 'Login',
+            'placeholder_login' => 'Type account', // Add the missing key here
+            'placeholder_password' => 'Type password', // Add the missing key here
+            'register' => 'Register',
+            'password' => 'Password',
+            'forgot_password' => 'Forgot Password?',
+            'remember_me' => 'Remember Me?',
+            'sign_in' => 'Sign In',
+            'no_account' => "Don't have an account?",
+            'sign_up_here' => 'Sign up here',
+            'show' => 'Show',
+        ],
+        'vi' => [
+            'login' => 'Đăng nhập',
+            'placeholder_login' => 'Nhập tài khoản', // Add the missing key here
+            'placeholder_password' => 'Nhập mật khẩu', // Add the missing key here
+            'register' => 'Đăng ký',
+            'password' => 'Mật khẩu',
+            'forgot_password' => 'Quên mật khẩu?',
+            'remember_me' => 'Nhớ tôi?',
+            'sign_in' => 'Đăng nhập',
+            'no_account' => 'Bạn chưa có tài khoản?',
+            'sign_up_here' => 'Đăng ký tại đây',
+            'show' => 'Hiện',
+        ],
+    ];
 
+    // Get the language code from the URL
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
+
+@extends('layouts.app')
 @section('content')
     <div class=" bg-slate-200 py-2 mt-20">
         <div class="flex flex-col items-center justify-center">
             <div
                 class="grid md:grid-cols-2 items-center bg-white gap-4 max-md:gap-8 max-w-5xl max-md:max-w-lg w-full p-4 m-4 shadow-lg rounded-lg">
                 <div class="md:max-w-md w-full px-4">
-                    <form action="{{ route('login.postLogin') }}" method="POST">
+                    <form action="{{ route('login.postLogin', ['locale' => app()->getLocale()]) }}" method="POST">
                         @csrf
                         <div class="mb-12">
-                            <h3 class="text-gray-800 text-3xl font-bold">Đăng nhập</h3>
-                            <p class="text-sm mt-4 text-gray-600">Bạn chưa có tài khoản? <a href="{{ url('/register') }}"
-                                    class="text-yellow-600 font-semibold">Đăng ký tại đây</a></p>
+                            <h3 class="text-gray-800 text-3xl font-bold">{{ $selectedData['login'] }}</h3>
+                            <p class="text-sm mt-4 text-gray-600">{{ $selectedData['no_account'] }} <a
+                                    href="{{ url("/{$locale}/register") }}"
+                                    class="text-yellow-600 font-semibold">{{ $selectedData['sign_up_here'] }}</a></p>
                         </div>
 
                         @if ($errors->any())
@@ -27,21 +65,22 @@
                         @endif
 
                         <div class="mb-4">
-                            <label class="text-gray-800 text-xs block mb-2">Tài khoản</label>
+                            <label class="text-gray-800 text-xs block mb-2">{{ $selectedData['login'] }}</label>
                             <input name="taikhoan" type="text" required
                                 class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none transition duration-200"
-                                placeholder="Nhập tài khoản" />
+                                placeholder="{{ $selectedData['placeholder_login'] }}" />
                         </div>
 
                         <div class="mt-8">
-                            <label class="text-gray-800 text-xs block mb-2">Mật khẩu</label>
+                            <label class="text-gray-800 text-xs block mb-2">{{ $selectedData['password'] }}</label>
                             <div class="relative flex items-center">
                                 <input id="password" name="matkhau" type="password" required
                                     class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none transition duration-200"
-                                    placeholder="Nhập mật khẩu" autocomplete="current-password" />
+                                    placeholder="{{ $selectedData['placeholder_password'] }}"
+                                    autocomplete="current-password" />
                                 <button type="button" id="toggle-password"
                                     class="absolute right-0 top-0 mt-3 mr-2 text-blue-500">
-                                    <span id="password-text" class="text-sm">Hiện</span>
+                                    <span id="password-text" class="text-sm">{{ $selectedData['show'] }}</span>
                                 </button>
                             </div>
                         </div>
@@ -50,20 +89,26 @@
                             <div class="flex items-center">
                                 <input id="remember" name="remember" type="checkbox"
                                     class="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-                                <label for="remember" class="ml-3 block text-sm text-gray-800">Nhớ tôi?</label>
+                                <label for="remember"
+                                    class="ml-3 block text-sm text-gray-800">{{ $selectedData['remember_me'] }}</label>
                             </div>
 
                             <div>
-                                <a href="{{ route('password.request') }}" class="text-blue-600 font-semibold text-sm">
-                                    Quên mật khẩu?
+
+                                <a href="{{ url("/{$locale}/password/forgot") }}"
+                                    class="text-blue-600 font-semibold text-sm">
+                                    {{ $selectedData['forgot_password'] }}
                                 </a>
+
                             </div>
+
+
                         </div>
 
                         <div class="mt-12">
                             <button type="submit"
                                 class="w-full shadow-lg py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-yellow-500 duration-150 focus:outline-none transition-transform transform hover:scale-105">
-                                Đăng nhập
+                                {{ $selectedData['sign_in'] }}
                             </button>
                         </div>
 

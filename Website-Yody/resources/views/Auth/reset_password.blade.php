@@ -6,7 +6,7 @@
             <div
                 class="grid md:grid-cols-2 items-center bg-white gap-4 max-md:gap-8 max-w-5xl max-md:max-w-lg w-full p-4 m-4 shadow-md rounded-md">
                 <div class="md:max-w-md w-full px-4">
-                    <form action="{{ route('password.reset') }}" method="POST">
+                    <form action="{{ route('password.reset', ['locale' => app()->getLocale()]) }}" method="POST">
                         @csrf
                         <div class="mb-12">
                             <h3 class="text-gray-800 text-3xl font-bold">Đặt lại mật khẩu</h3>

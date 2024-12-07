@@ -15,24 +15,23 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-
         // Validate the form data
         $request->validate([
             'full_name' => [
                 'required', 
                 'string',
                 'max:255', 
-                'min:3', // Ít nhất 2 ký tự để tránh nhập ký tự đơn lẻ
-                'not_regex:/^\s*([a-zA-Z]\s*){1}$/', // Không cho phép chỉ nhập một ký tự
+                'min:3',
+                'not_regex:/^\s*([a-zA-Z]\s*){1}$/',
             ], 
             'username' => [
                 'required',
                 'string',
                 'min:3',
-                'regex:/^[a-zA-Z0-9_]+$/', // Không chứa ký tự đặc biệt, chỉ cho phép chữ cái, số và dấu gạch dưới
+                'regex:/^[a-zA-Z0-9_]+$/',
                 'unique:khachhang,Username',
             ],
-            'phone_number' => 'required|string|regex:/^(0[0-9]{9,10})$/', // Kiểm tra số điện thoại 10-11 số
+            'phone_number' => 'required|string|regex:/^(0[0-9]{9,10})$/',
             'email' => 'required|string|email|max:255|unique:khachhang,Email',
             'password' => 'required|string|min:8|confirmed',
         ], [
@@ -47,25 +46,27 @@ class RegisterController extends Controller
             'password.required' => 'Mật khẩu không được để trống.',
             'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
         ]);
-        
-
+    
+        // Generate a unique MaKH
         do {
-            $randomString = Str::random(6); // Generate a random string of length 6
-            $MaKH = 'KH' . $randomString; // Combine with 'KH' prefix
-        } while (Customer::where('MaKH', $MaKH)->exists()); 
-
-        // Create a new customer record
+            $randomString = Str::random(6);
+            $MaKH = 'KH' . $randomString;
+        } while (Customer::where('MaKH', $MaKH)->exists());
+    
+        // Create a new customer
         Customer::create([
             'MaKH' => $MaKH,
             'HoTen' => $request->full_name,
             'Email' => $request->email,
             'SDT' => $request->phone_number,
-            'LoaiKH' => 'Thành viên', // Default value
+            'LoaiKH' => 'Thành viên',
             'Username' => $request->username,
             'Password' => Hash::make($request->password),
         ]);
-
-        // Redirect to a desired page, such as the login page or customer dashboard
-        return redirect()->route('login')->with('success', 'Registration successful.');
+    
+        // Get the current locale and redirect to the login page with the locale parameter
+        $locale = app()->getLocale();
+        return redirect()->route('login', ['locale' => $locale])->with('success', 'Registration successful.');
     }
+    
 }

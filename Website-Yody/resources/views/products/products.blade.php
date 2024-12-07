@@ -1,3 +1,16 @@
+@php
+    // Define the translations for each language
+    $commonData = [
+        'en' => [],
+        'vi' => [],
+    ];
+
+    // Get the language code from the URL
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
 <!-- resources/views/homepage.blade.php -->
 <style>
     /* Custom styles for selected states */
@@ -25,7 +38,7 @@
             <nav class="text-xl text-balance font-medium tracking-tight text-gray-900">
                 <ol class="list-none flex space-x-2">
                     <li>
-                        <a href="{{ url('/') }}"
+                        <a href="{{ url("/{$locale}") }}"
                             class=" hover:text-blue-800 duration-200 lg:text-lg text-xs sm:text-sm ">Trang chủ</a>
                     </li>
                     <li>
@@ -95,9 +108,10 @@
                             <div class="group relative cursor-pointer product-item"
                                 data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
                                 data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
-                                <a href="{{ url('/product_detail/' . $sanPham->MaSP) }}">
+                                <a href="{{ route('product_detail', ['locale' => $locale, 'MaSP' => $sanPham->MaSP]) }}">
                                     <div
-                                        class="w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-96">
+                                        class="w-full
+                                    overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-96">
                                         <img src="{{ asset('images/products/' . $sanPham->chiTietSanPham->first()->HinhAnh) }}"
                                             alt="{{ $sanPham->TenSP }}" class="object-cover w-full h-full">
                                     </div>

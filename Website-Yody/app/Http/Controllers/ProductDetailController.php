@@ -11,7 +11,7 @@ use App\Models\MauSac;
 
 class ProductDetailController extends Controller
 {
-    public function index($MaSP)
+    public function index($locale,$MaSP)
     {
         // Lấy chi tiết sản phẩm đầu tiên theo MaSP
         $chiTietSanPham = ChiTietSanPham::where('MaSP', $MaSP)->first();

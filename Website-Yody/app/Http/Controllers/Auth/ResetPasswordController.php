@@ -34,8 +34,9 @@ public function resetPassword(Request $request)
     $khachHang->Provider_token = null; // Xóa token sau khi đã sử dụng (nếu có)
     $khachHang->save();
 
-    return redirect()->route('login')->with('status', 'Mật khẩu đã được đặt lại thành công.');
+    $locale = app()->getLocale();  // Lấy ngôn ngữ hiện tại
+
+    // Chuyển hướng tới route login với locale
+    return redirect()->route('login', ['locale' => $locale])->with('status', 'Mật khẩu đã được đặt lại thành công.');
 }
-
-
 }

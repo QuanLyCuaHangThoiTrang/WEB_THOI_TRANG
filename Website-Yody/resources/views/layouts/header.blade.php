@@ -1,4 +1,28 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+@php
+    // Define the translations for each language
+    $commonData = [
+        'en' => [
+            'home' => 'HOME',
+            'products' => 'PRODUCTS',
+            'contact' => 'CONTACT',
+            'about' => 'ABOUT US',
+        ],
+        'vi' => [
+            'home' => 'TRANG CHỦ',
+            'products' => 'SẢN PHẨM',
+            'contact' => 'LIÊN HỆ',
+            'about' => 'VỀ CHÚNG TÔI',
+        ],
+    ];
+
+    // Get the language code from the URL
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
+
 <header class=" font-meidum z-50 bg-white border-b border-gray-300 w-full fixed">
     <div class="w-full p-3 bg-transparent bg-opacity-100">
         <div class="mx-auto flex items-center h-full justify-between px-3 lg:px-5 relative flex-wrap">
@@ -9,24 +33,27 @@
                     </button>
                 </div>
                 <div class="logo w-[90px] md:w-[100px]">
-                    <a href="{{ url('/') }}">
+                    <a href="{{ url("/{$locale}") }}">
                         <img class="max-w-full h-auto" src="{{ asset('/icons/logo.webp') }}" alt="logo">
                     </a>
                 </div>
                 <div class="bg-white rounded-full px-6 mx-auto hidden lg:flex">
                     <ul class="menu flex text-blue-950 font-semibold text-xl text-center relative flex-grow">
                         <li>
-                            <a href="{{ url('/') }}" class="inline-block px-3 py-4">TRANG CHỦ</a>
+                            <a href="{{ url("/{$locale}") }}"
+                                class="inline-block px-3 py-4">{{ $selectedData['home'] }}</a>
                         </li>
                         <li class="relative flex">
-                            <a href="{{ url('/products') }}" id="product-menu-toggle" class="inline-block px-3 py-4">SẢN
-                                PHẨM</a>
+                            <a href="{{ url("/{$locale}/products") }}" id="product-menu-toggle"
+                                class="inline-block px-3 py-4">{{ $selectedData['products'] }}</a>
                         </li>
                         <li>
-                            <a href="{{ url('/contact-us') }}" class="inline-block px-3 py-4">LIÊN HỆ</a>
+                            <a href="{{ url("/{$locale}/contact-us") }}"
+                                class="inline-block px-3 py-4">{{ $selectedData['contact'] }}</a>
                         </li>
                         <li>
-                            <a href="{{ url('/about-us') }}" class="inline-block px-3 py-4">VỀ CHÚNG TÔI</a>
+                            <a href="{{ url("/{$locale}/about-us") }}"
+                                class="inline-block px-3 py-4">{{ $selectedData['about'] }}</a>
                         </li>
                     </ul>
                 </div>
@@ -36,7 +63,7 @@
                     <x-icons.icon name="search-toggle" />
                 </button>
                 <button id="cart-toggle" class="relative">
-                    <a href="{{ url('/cart') }}">
+                    <a href="{{ url("/{$locale}/cart") }}">
                         <x-icons.icon name="cart" />
                     </a>
                     <span id="cart-quantity"
@@ -74,18 +101,25 @@
                     <a href="{{ url('account/' . $customer->MaKH) }}" id="profile-toggle" class="flex items-center">
                         <x-icons.icon name="profile" />
                     </a>
-                    <form action="{{ route('logout') }}" method="POST" class="flex items-center">
+                    <form action="{{ route('logout', ['locale' => app()->getLocale()]) }}" method="POST"
+                        class="flex items-center">
                         @csrf
                         <button type="submit" class="flex items-center">
                             <x-icons.icon name="logout" />
                         </button>
                     </form>
                 @else
-                    <a href="{{ url('/login') }}" id="profile-toggle" class="flex items-center">
+                    <a href="{{ url("/{$locale}/login") }}" id="profile-toggle" class="flex items-center">
                         <x-icons.icon name="profile" />
                     </a>
                 @endauth
-
+                <div class="flex items-center justify-center gap-3 ml-auto">
+                    <!-- Chọn Ngôn Ngữ -->
+                    <div class="flex items-center gap-3">
+                        <a href="{{ url('/en') }}" class="text-blue-950">English</a> |
+                        <a href="{{ url('/vi') }}" class="text-blue-950">Tiếng Việt</a>
+                    </div>
+                </div>
 
             </div>
         </div>

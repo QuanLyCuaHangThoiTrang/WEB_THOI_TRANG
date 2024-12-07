@@ -1,6 +1,26 @@
+@php
+    // Define the translations for each language
+    $commonData = [
+        'en' => [
+            'newProductsTitle' => 'NEW PRODUCTS',
+            'viewMore' => 'See More',
+        ],
+        'vi' => [
+            'newProductsTitle' => 'SẢN PHẨM MỚI NHẤT',
+            'viewMore' => 'Xem thêm',
+        ],
+    ];
+
+    // Get the language code from the URL
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
+
 <div class="space-y-2 px-8 lg:px-24">
     <div class="mt-4">
-        <p class="font-bold text-4xl text-center py-10">SẢN PHẨM MỚI NHẤT</p>
+        <p class="font-bold text-4xl text-center py-10">{{ $selectedData['newProductsTitle'] }}</p>
     </div>
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
         @foreach ($SanPhamMoiNhat as $chiTietSanPham)
@@ -11,7 +31,7 @@
                             class="w-full h-full min-w-screen">
                     </div>
 
-                    <h4 class="font-meidum flex-grow mt-3 truncate">{{ $chiTietSanPham->SanPham->TenSP }}</h4>
+                    <h4 class="font-medium flex-grow mt-3 truncate">{{ $chiTietSanPham->SanPham->TenSP }}</h4>
 
                     <div class="flex space-x-2 mt-2">
                         @php
@@ -44,15 +64,14 @@
         @endforeach
     </div>
     <div class="flex items-center justify-center mt-10">
-
         <a href="{{ url('/products') }}">
             <p
                 class="text-center font-bold border mt-10 w-72 rounded-xl border-black p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
-                Xem thêm</p>
+                {{ $selectedData['viewMore'] }}</p>
         </a>
-
     </div>
 </div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Chọn tất cả các phần tử cần fade-in
@@ -64,7 +83,7 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('opacity-100'); // Thêm lớp opacity để hiển thị
                     observer.unobserve(entry
-                        .target); // Ngừng quan sát phần tử này sau khi nó đã xuất hiện
+                    .target); // Ngừng quan sát phần tử này sau khi nó đã xuất hiện
                 }
             });
         }, {

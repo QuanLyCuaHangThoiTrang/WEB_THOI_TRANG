@@ -1,8 +1,44 @@
+@php
+    // Define the translations for each language
+    $commonData = [
+        'en' => [
+            'product' => 'products',
+            'product_detail' => 'Product detail',
+            'product_left' => 'Remain',
+            'product_price' => 'Price',
+            'product_discount' => 'Discount',
+            'product_size' => 'Size',
+            'product_color' => 'Color',
+            'product_quantity' => 'Quantity available',
+            'add_to_cart' => 'Add to cart',
+            'product_description' => 'Product description',
+        ],
+        'vi' => [
+            'product' => 'sản phẩm',
+            'product_detail' => 'Chi tiết sản phẩm',
+            'product_left' => 'Còn lại',
+            'product_price' => 'Giá',
+            'product_discount' => 'Giảm giá',
+            'product_size' => 'Kích thước',
+            'product_color' => 'Màu sắc',
+            'product_quantity' => 'Số lượng còn lại',
+            'add_to_cart' => 'Thêm vào giỏ hàng',
+            'product_description' => 'Mô tả sản phẩm',
+        ],
+    ];
+
+    // Get the language code from the URL
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
+
 @extends('layouts.app')
 @section('content')
     <div class="mt-24">
         <div class="  pt-10 pb-24 px-8 sm:px-16 md:px-32 mx-auto">
-            <form action="{{ route('cart.add') }}" method="POST">
+            <form action="{{ route('cart.add', ['locale' => $locale]) }}" method="POST">
 
                 <div class="grid items-start grid-cols-1 lg:grid-cols-2 gap-4 max-lg:gap-12">
                     <div class="w-full lg:sticky top-0 sm:flex gap-4">
@@ -24,34 +60,37 @@
 
 
                         <div class="flex flex-wrap gap-4 mt-4 items-center">
-    @if ($chiTietSanPham->SanPham->GiaGiam != 0 && $chiTietSanPham->SanPham->GiaGiam < $chiTietSanPham->SanPham->GiaBan)
-        <p class="text-red-500 text-2xl font-bold">
-            {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ
-        </p>
-        <h3 class="font-normal text-gray-400 line-through text-xl">
-            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
-        </h3>
-    @else
-        <p class="text-red-500 text-2xl font-bold">
-            {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
-        </p>
-    @endif
+                            @if ($chiTietSanPham->SanPham->GiaGiam != 0 && $chiTietSanPham->SanPham->GiaGiam < $chiTietSanPham->SanPham->GiaBan)
+                                <p class="text-red-500 text-2xl font-bold">
+                                    {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ
+                                </p>
+                                <h3 class="font-normal text-gray-400 line-through text-xl">
+                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
+                                </h3>
+                            @else
+                                <p class="text-red-500 text-2xl font-bold">
+                                    {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ
+                                </p>
+                            @endif
 
-    <div class="flex justify-center items-center">
-        @if ($chiTietSanPham->SanPham->GiaGiam != 0 && $chiTietSanPham->SanPham->GiaGiam < $chiTietSanPham->SanPham->GiaBan)
-            <div class="text-red-500 font-medium text-sm lg:text-lg bg-red-100 rounded-2xl px-3 transition duration-150">
-                <span class="text-xs sm:text-sm font-medium">
-                    {{ -round((($chiTietSanPham->SanPham->GiaBan - $chiTietSanPham->SanPham->GiaGiam) / $chiTietSanPham->SanPham->GiaBan) * 100) }}%
-                </span>
-            </div>
-        @endif
-    </div>
-</div>
+                            <div class="flex justify-center items-center">
+                                @if ($chiTietSanPham->SanPham->GiaGiam != 0 && $chiTietSanPham->SanPham->GiaGiam < $chiTietSanPham->SanPham->GiaBan)
+                                    <div
+                                        class="text-red-500 font-medium text-sm lg:text-lg bg-red-100 rounded-2xl px-3 transition duration-150">
+                                        <span class="text-xs sm:text-sm font-medium">
+                                            {{ -round((($chiTietSanPham->SanPham->GiaBan - $chiTietSanPham->SanPham->GiaGiam) / $chiTietSanPham->SanPham->GiaBan) * 100) }}%
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="mt-4 space-y-4">
                             <p class="text-black text-medium  mt-2">
-                                Còn lại: <span id="stock-quantity" data-quantity = "{{ $SoLuongTonKho }}"
-                                    class="text-red-600 font-extrabold">{{ $SoLuongTonKho }}</span> sản phẩm
+                                {{ $selectedData['product_left'] }}: <span id="stock-quantity"
+                                    data-quantity = "{{ $SoLuongTonKho }}"
+                                    class="text-red-600 font-extrabold">{{ $SoLuongTonKho }}</span>
+                                {{ $selectedData['product'] }}
                             </p>
                             <div class="w-full bg-gray-200 rounded-full h-1" id="stock-progress-container">
                                 <div class="bg-green-500 h-1 rounded-full" id="stock-progress" style="width: 0%;"></div>
@@ -62,7 +101,7 @@
 
 
                         <div class="mt-8">
-                            <h3 class="text-xl font-bold text-gray-800">Màu sắc:</h3>
+                            <h3 class="text-xl font-bold text-gray-800">{{ $selectedData['product_color'] }}:</h3>
                             <ul class="flex gap-4 mt-4">
                                 @foreach ($MauSac as $mauSac)
                                     <li class="flex flex-col items-center">
@@ -81,7 +120,7 @@
                             </ul>
                         </div>
                         <div class="mt-8">
-                            <h3 class="text-xl font-bold text-gray-800">Kích thước:</h3>
+                            <h3 class="text-xl font-bold text-gray-800">{{ $selectedData['product_size'] }}:</h3>
                             <div class="flex flex-wrap gap-4 mt-4 font-semibold text-sm">
                                 <div class="flex gap-4 mt-4 mb-10">
                                     <ul class="flex space-x-4">
@@ -127,7 +166,7 @@
                             <!-- Nút Thêm vào giỏ hàng -->
                             <button id="add-to-cart-btn" type="submit"
                                 class="w-full sm:w-auto lg:w-[300px] min-w-[200px] bg-yellow-400 rounded-xl h-11 px-10 font-bold text-md text-gray-800 transition-all duration-500 hover:bg-yellow-500 shadow-sm border-b-2 border-b-yellow-500 shadow-yellow-300 whitespace-nowrap">
-                                Thêm vào giỏ hàng
+                                {{ $selectedData['add_to_cart'] }}
                             </button>
 
                         </div>
@@ -137,7 +176,7 @@
                             {{ session('error') }} <span id="countdown" class="font-bold"></span>
                         </div>
                         <div class="mt-8">
-                            <h3 class="text-xl font-bold text-gray-800">Chi tiết sản phẩm</h3>
+                            <h3 class="text-xl font-bold text-gray-800"> {{ $selectedData['product_detail'] }}</h3>
                             <ul class="space-y-3 list-disc mt-4  text-sm text-gray-800">
                                 <p class="text-justify">{{ $chiTietSanPham->SanPham->MoTa }}
                                 </p>

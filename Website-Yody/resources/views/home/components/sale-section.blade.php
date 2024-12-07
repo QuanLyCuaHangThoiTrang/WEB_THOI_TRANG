@@ -1,8 +1,22 @@
 @php
     $commonData = [
-        'title' => 'TITLE',
-        'buttonText' => 'MUA NGAY',
+        'en' => [
+            'day' => 'Day',
+            'hour' => 'Hours',
+            'min' => 'Minutes',
+            'sec' => 'Seconds',
+        ],
+        'vi' => [
+            'day' => 'Ngày',
+            'hour' => 'Giờ',
+            'min' => 'Phút',
+            'sec' => 'Giây',
+        ],
     ];
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
 @endphp
 
 <script>
@@ -17,9 +31,9 @@
             let saleSection = document.querySelector('.NdKhuyenMai');
             const timer = setInterval(() => {
                 let now = new Date().getTime();
-                let timeLeft =endDate - now;
+                let timeLeft = endDate - now;
 
-                
+
                 // Tính toán ngày, giờ, phút, giây còn lại
                 let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                 let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -34,7 +48,8 @@
             }, 1000);
         @else
             // Hiển thị thông báo nếu không có khuyến mãi
-            document.querySelector('.countdown').innerHTML = "<span class='text-red-500'>Không có khuyến mãi hiện tại!</span>";
+            document.querySelector('.countdown').innerHTML =
+                "<span class='text-red-500'>Không có khuyến mãi hiện tại!</span>";
         @endif
     });
 </script>
@@ -48,22 +63,22 @@
                     <div class="flex justify-center space-x-2 sm:space-x-4">
                         <span class="flex flex-col items-center">
                             <span id="days">00</span>
-                            <span class="text-xs sm:text-sm mt-1">Ngày</span>
+                            <span class="text-xs sm:text-sm mt-1">{{ $selectedData['day'] }}</span>
                         </span>
                         <span class="flex items-center">:</span>
                         <span class="flex flex-col items-center">
                             <span id="hours">00</span>
-                            <span class="text-xs sm:text-sm mt-1">Giờ</span>
+                            <span class="text-xs sm:text-sm mt-1">{{ $selectedData['hour'] }}</span>
                         </span>
                         <span class="flex items-center">:</span>
                         <span class="flex flex-col items-center">
                             <span id="minutes">00</span>
-                            <span class="text-xs sm:text-sm mt-1">Phút</span>
+                            <span class="text-xs sm:text-sm mt-1">{{ $selectedData['min'] }}</span>
                         </span>
                         <span class="flex items-center">:</span>
                         <span class="flex flex-col items-center">
                             <span id="seconds">00</span>
-                            <span class="text-xs sm:text-sm mt-1">Giây</span>
+                            <span class="text-xs sm:text-sm mt-1">{{ $selectedData['sec'] }}</span>
                         </span>
                     </div>
                 </div>
@@ -77,7 +92,8 @@
                         <div class="text-gray-500 text-center px-3 py-2 mt-2 text-sm sm:text-base">
                             {{ $KhuyenMai->MoTa }}
                         </div>
-                        <div style="display: none" class="text-gray-500 text-center px-3 py-2 mt-2 text-sm sm:text-base NgayKT">
+                        <div style="display: none"
+                            class="text-gray-500 text-center px-3 py-2 mt-2 text-sm sm:text-base NgayKT">
                             {{ $KhuyenMai->NgayKetThuc }}
                         </div>
                     </div>
@@ -111,8 +127,8 @@
                 }
             }'>
 
-                @foreach ($KhuyenMais as $KhuyenMai)    
-                    @foreach ($KhuyenMai->sanPhams as $SanPham)         
+                @foreach ($KhuyenMais as $KhuyenMai)
+                    @foreach ($KhuyenMai->sanPhams as $SanPham)
                         <swiper-slide class="swiper-slide rounded cursor-pointer duration-150 flex flex-col"
                             style="transition: opacity 0.5s, transform 0.5s;">
                             <div class="container">
@@ -128,7 +144,8 @@
 
                                         <div class="flex flex-col text-left mt-2">
                                             <!-- Tên sản phẩm -->
-                                            <h4 class="text-sm sm:text-base md:text-lg lg:text-xl font-semibold truncate">
+                                            <h4
+                                                class="text-sm sm:text-base md:text-lg lg:text-xl font-semibold truncate">
                                                 {{ $SanPham->TenSP }}</h4>
                                             <div class="flex mt-2 justify-between items-center">
                                                 <!-- Giá sản phẩm ban đầu -->

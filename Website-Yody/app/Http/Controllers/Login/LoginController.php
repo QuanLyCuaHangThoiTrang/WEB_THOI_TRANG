@@ -27,7 +27,8 @@ class LoginController extends Controller
         }
         if (Auth::attempt(['Username' => $request->taikhoan, 'password' => $request->matkhau], $remember)) {
             // Đăng nhập thành công
-            return redirect('home');
+            $locale = app()->getLocale(); // Lấy ngôn ngữ hiện tại
+            return redirect()->route('home', ['locale' => $locale]);
         }
     
         // Đăng nhập thất bại

@@ -1,3 +1,43 @@
+@php
+    // Define translations for both Vietnamese and English
+    $translations = [
+        'en' => [
+            'service_title' => 'ENJOY OUR SERVICES',
+            'service_description' =>
+                'We are always listening, understanding, and innovating. We continuously improve to bring real value to our customers, build sustainable relationships, and create differentiation. We are committed to providing creative and effective solutions to help you overcome challenges and achieve long-term success.',
+            'easy_payment' => 'Easy Payment',
+            'easy_payment_description' => 'We offer flexible payment methods.',
+            'fast_delivery' => 'Fast Delivery',
+            'fast_delivery_description' =>
+                'We aim to provide customers with the fastest possible delivery of products.',
+            'support_24_7' => '24/7 Support',
+            'support_24_7_description' => 'We are always available to assist customers with any questions about Yody.',
+            'warranty_return' => 'Warranty & Return',
+            'warranty_return_description' => 'We handle any product defects to improve the customer experience.',
+        ],
+        'vi' => [
+            'service_title' => 'TẬN HƯỞNG DỊCH VỤ',
+            'service_description' =>
+                'Chúng tôi luôn lắng nghe, thấu hiểu, đổi mới. Từng bước cải tiến để mang lại giá trị đích thực cho khách hàng, xây dựng mối quan hệ bền vững và tạo nên sự khác biệt. Chúng tôi cam kết cung cấp những giải pháp sáng tạo và hiệu quả, giúp bạn vượt qua mọi thử thách và đạt được thành công lâu dài.',
+            'easy_payment' => 'Thanh toán dễ dàng',
+            'easy_payment_description' =>
+                'Chúng tôi linh hoạt trong việc cung cấp nhiều phương thức thanh toán khác nhau.',
+            'fast_delivery' => 'Giao Nay Mai Nhận',
+            'fast_delivery_description' =>
+                'Chúng tôi luôn muốn khách hàng có thể mau chóng trải nghiệm sản phẩm một cách nhanh nhất có thể.',
+            'support_24_7' => 'Hỗ Trợ 24/7',
+            'support_24_7_description' => 'Luôn luôn hỗ trợ những thắc mắc của khách hàng về Yody.',
+            'warranty_return' => 'Bảo Hành Đổi Trả',
+            'warranty_return_description' =>
+                'Chúng tôi luôn xử lý bất cứ sai sót của sản phẩm để tăng trải nghiệm của khách hàng.',
+        ],
+    ];
+
+    // Get the selected language (default to 'vi')
+    $locale = request()->segment(1, 'vi');
+    $selectedTranslations = $translations[$locale] ?? $translations['vi'];
+@endphp
+
 <section class="relative mt-12 fade-item shadow-3xl p-6 lg:p-24 bg-cover bg-center"
     style="background-image: url('images/slides/img-bg-1.png');">
     <div class="absolute inset-0 bg-black opacity-80"></div>
@@ -7,19 +47,13 @@
             <div class="relative w-full text-center lg:text-left lg:w-2/4">
                 <h2
                     class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extrabold text-white leading-[4rem] sm:leading-[5rem] lg:leading-[7rem] mx-auto max-w-max lg:max-w-md lg:mx-0 text-shadow-white">
-                    TẬN HƯỞNG DỊCH VỤ
+                    {{ $selectedTranslations['service_title'] }}
                 </h2>
             </div>
 
             <div class="relative w-full text-center lg:text-left lg:w-2/4">
                 <p class="text-sm sm:text-base md:text-lg font-medium leading-relaxed text-gray-200 mb-5">
-                    Chúng tôi luôn lắng nghe, thấu hiểu, đổi mới. Từng bước cải tiến để mang lại giá trị đích thực cho
-                    khách
-                    hàng,
-                    xây dựng mối quan hệ bền vững và tạo nên sự khác biệt. Chúng tôi cam kết cung cấp những giải pháp
-                    sáng
-                    tạo
-                    và hiệu quả, giúp bạn vượt qua mọi thử thách và đạt được thành công lâu dài.
+                    {{ $selectedTranslations['service_description'] }}
                 </p>
             </div>
         </div>
@@ -37,11 +71,11 @@
                 </div>
                 <h4
                     class="text-lg sm:text-xl font-semibold text-gray-900 mb-3 capitalize transition-all duration-500 group-hover:text-white">
-                    Thanh toán dễ dàng
+                    {{ $selectedTranslations['easy_payment'] }}
                 </h4>
                 <p
                     class="text-xs sm:text-sm font-normal text-gray-500 transition-all duration-500 leading-5 group-hover:text-white">
-                    Chúng tôi linh hoạt trong việc cung cấp nhiều phương thức thanh toán khác nhau
+                    {{ $selectedTranslations['easy_payment_description'] }}
                 </p>
             </div>
             <div
@@ -55,11 +89,11 @@
                 </div>
                 <h4
                     class="text-lg sm:text-xl font-semibold text-gray-900 mb-3 capitalize transition-all duration-500 group-hover:text-white">
-                    Giao Nay Mai Nhận
+                    {{ $selectedTranslations['fast_delivery'] }}
                 </h4>
                 <p
                     class="text-xs sm:text-sm font-normal text-gray-500 transition-all duration-500 leading-5 group-hover:text-white">
-                    Chúng tôi luôn muốn khách hàng có thể mau chóng trải nghiệm sản phẩm 1 cách nhanh nhất có thể
+                    {{ $selectedTranslations['fast_delivery_description'] }}
                 </p>
             </div>
             <div
@@ -74,11 +108,11 @@
                 </div>
                 <h4
                     class="text-lg sm:text-xl font-semibold text-gray-900 mb-3 capitalize transition-all duration-500 group-hover:text-white">
-                    Hỗ Trợ 24/7
+                    {{ $selectedTranslations['support_24_7'] }}
                 </h4>
                 <p
                     class="text-xs sm:text-sm font-normal text-gray-500 transition-all duration-500 leading-5 group-hover:text-white">
-                    Luôn luôn hỗ trợ những thắc mắc của khách hàng về Yody
+                    {{ $selectedTranslations['support_24_7_description'] }}
                 </p>
             </div>
             <div
@@ -93,11 +127,11 @@
                 </div>
                 <h4
                     class="text-lg sm:text-xl font-semibold text-gray-900 mb-3 capitalize transition-all duration-500 group-hover:text-white">
-                    Bảo Hành Đổi Trả
+                    {{ $selectedTranslations['warranty_return'] }}
                 </h4>
                 <p
                     class="text-xs sm:text-sm font-normal text-gray-500 transition-all duration-500 leading-5 group-hover:text-white">
-                    Chúng tôi luôn xử lý bất cứ sai sót của sản phẩm để tăng trải nghiệm của khách hàng.
+                    {{ $selectedTranslations['warranty_return_description'] }}
                 </p>
             </div>
         </div>
