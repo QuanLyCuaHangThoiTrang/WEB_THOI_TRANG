@@ -24,7 +24,7 @@
     </div>
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
         @foreach ($SanPhamMoiNhat as $chiTietSanPham)
-            <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}">
+            <a href="{{ url("{$locale}/product_detail/" . $chiTietSanPham->MaSP) }}">
                 <div class="rounded cursor-pointer duration-150 flex flex-col fade-item opacity-0 transition-opacity">
                     <div>
                         <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
@@ -64,7 +64,7 @@
         @endforeach
     </div>
     <div class="flex items-center justify-center mt-10">
-        <a href="{{ url('/products') }}">
+        <a href="{{ url("{$locale}/products") }}">
             <p
                 class="text-center font-bold border mt-10 w-72 rounded-xl border-black p-3 cursor-pointer hover:bg-gray-100 transition duration-150">
                 {{ $selectedData['viewMore'] }}</p>
@@ -83,7 +83,7 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('opacity-100'); // Thêm lớp opacity để hiển thị
                     observer.unobserve(entry
-                    .target); // Ngừng quan sát phần tử này sau khi nó đã xuất hiện
+                        .target); // Ngừng quan sát phần tử này sau khi nó đã xuất hiện
                 }
             });
         }, {

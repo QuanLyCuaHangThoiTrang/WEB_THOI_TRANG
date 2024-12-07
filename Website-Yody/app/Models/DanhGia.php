@@ -28,7 +28,8 @@ class DanhGia extends Model
 
     public $timestamps = false;
     public function khachHang()
-    {
-        return $this->belongsTo(KhachHang::class, 'MaKH', 'MaKH');
-    }
+{
+    return $this->belongsTo(KhachHang::class, 'MaKH', 'MaKH');
+}
+
 }

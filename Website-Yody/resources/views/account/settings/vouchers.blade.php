@@ -1,15 +1,38 @@
 @php
-    // Define translations for both languages
     $commonData = [
-        'en' => [],
-        'vi' => [],
+        'en' => [
+            'voucher' => 'Voucher',
+            'no_voucher' => 'You don\'t have any vouchers.',
+            'sort_default' => 'Sort by',
+            'sort_percent_asc' => 'Discount: Low to High',
+            'sort_percent_desc' => 'Discount: High to Low',
+            'sort_date_asc' => 'Expiration: Soonest to Latest',
+            'sort_date_desc' => 'Expiration: Latest to Soonest',
+            'accumulated_points' => 'Accumulated Points',
+            'discount_code' => 'Discount Code',
+            'expired_date' => 'Expired Date',
+        ],
+        'vi' => [
+            'voucher' => 'Phiếu giảm giá',
+            'no_voucher' => 'Bạn chưa có voucher nào.',
+            'sort_default' => 'Sắp xếp theo',
+            'sort_percent_asc' => 'Giảm giá từ thấp đến cao',
+            'sort_percent_desc' => 'Giảm giá từ cao đến thấp',
+            'sort_date_asc' => 'Ngày hết hạn từ sớm đến muộn',
+            'sort_date_desc' => 'Ngày hết hạn từ muộn đến sớm',
+            'accumulated_points' => 'Điểm tích lũy',
+            'discount_code' => 'Mã giảm giá',
+            'expired_date' => 'Ngày hết hạn',
+        ],
     ];
-    // Get the current language code
-    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
 
-    // Get the translation data for the selected language
-    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+    // Lấy ngôn ngữ hiện tại từ URL
+    $locale = request()->segment(1, 'vi'); // Mặc định là 'vi' nếu không có ngôn ngữ trong URL
+
+    // Lấy dữ liệu theo ngôn ngữ hiện tại
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fallback về 'vi' nếu không tìm thấy
 @endphp
+
 @extends('layouts.app')
 @section('content')
     <div class="bg-white">
@@ -35,7 +58,7 @@
 
             <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
                 <div>
-                    <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Phiếu giảm giá</h1>
+                    <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">{{ $selectedData['voucher'] }}</h1>
                 </div>
 
             </div>
@@ -54,7 +77,8 @@
                                 <div class="border-b">
                                     <div class="flex items-baseline justify-between border-b border-gray-200 py-5">
                                         <div>
-                                            <p class="text-black font-medium text-3xl">Điểm tích lũy:
+                                            <p class="text-black font-medium text-3xl">
+                                                {{ $selectedData['accumulated_points'] }}:
                                                 {{ $khachhang->DiemTichLuy }}</p>
                                         </div>
                                     </div>
@@ -62,30 +86,31 @@
                                         class="gap-4 sm:flex sm:items-center sm:justify-between sm:space-y-0 flex flex-col sm:flex-row py-3 sm:space-x-4">
                                         <h3 class="text-3xl font-medium text-gray-900 mb-4 sm:mb-0"
                                             id="account-details-heading">
-                                            Mã giảm giá
+                                            {{ $selectedData['voucher'] }}
                                         </h3>
                                         <div
                                             class="mt-6 sm:mt-0 sm:flex sm:items-center sm:justify-end sm:space-x-4 space-y-4 sm:space-y-0 w-full sm:w-auto">
                                             <form id="search-form" method="GET"
-                                                action="{{ url('/vouchers/' . $khachhang->MaKH) }}"
+                                                action="{{ url("/{$locale}/vouchers/" . $khachhang->MaKH) }}"
                                                 class="w-full sm:w-auto flex flex-col sm:flex-row justify-between items-center">
                                                 <div class="flex space-x-2 w-full">
                                                     <div class="flex-shrink-0 w-full sm:w-auto">
                                                         <select name="sort" id="sort-select"
                                                             class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 focus:outline-none rounded-md mt-2 sm:mt-0 w-full sm:w-auto">
-                                                            <option value="default">Sắp xếp theo</option>
+                                                            <option value="default">{{ $selectedData['sort_default'] }}
+                                                            </option>
                                                             <option value="percent_asc"
                                                                 {{ request()->get('sort') == 'percent_asc' ? 'selected' : '' }}>
-                                                                Giảm giá từ thấp đến cao</option>
+                                                                {{ $selectedData['sort_percent_asc'] }}</option>
                                                             <option value="percent_desc"
                                                                 {{ request()->get('sort') == 'percent_desc' ? 'selected' : '' }}>
-                                                                Giảm giá từ cao đến thấp</option>
+                                                                {{ $selectedData['sort_percent_desc'] }}</option>
                                                             <option value="date_asc"
                                                                 {{ request()->get('sort') == 'date_asc' ? 'selected' : '' }}>
-                                                                Ngày hết hạn từ sớm đến muộn</option>
+                                                                {{ $selectedData['sort_date_asc'] }}</option>
                                                             <option value="date_desc"
                                                                 {{ request()->get('sort') == 'date_desc' ? 'selected' : '' }}>
-                                                                Ngày hết hạn từ muộn đến sớm</option>
+                                                                {{ $selectedData['sort_date_desc'] }}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -101,7 +126,7 @@
                                             @if ($vouchers->isEmpty())
                                                 <img src="{{ asset('svg/empty.svg') }}" alt="No vouchers"
                                                     class="mx-auto h-80 w-80">
-                                                <p class="text-gray-600 text-center">Bạn chưa có voucher nào.</p>
+                                                <p class="text-gray-600 text-center">{{ $selectedData['no_voucher'] }}</p>
                                             @else
                                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                                     @foreach ($vouchers as $voucher)
@@ -112,10 +137,11 @@
                                                                 {{ $voucher->MaVoucher }}
                                                             </h3>
                                                             <p class="text-xl font-medium text-blue-200 mb-4">
-                                                                Giảm giá {{ $voucher->PhanTramGiamGia }}%
+                                                                {{ $selectedData['discount_code'] }}
+                                                                {{ $voucher->PhanTramGiamGia }}%
                                                             </p>
                                                             <p class="text-md text-blue-100">
-                                                                Hết hạn: <span
+                                                                {{ $selectedData['expired_date'] }}: <span
                                                                     class="text-lg font-bold text-yellow-400">{{ date('d-m-Y', strtotime($voucher->NgayKT)) }}</span>
                                                             </p>
                                                         </div>

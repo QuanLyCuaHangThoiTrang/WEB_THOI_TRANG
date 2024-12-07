@@ -1,8 +1,22 @@
 @php
     // Define the translations for each language
     $commonData = [
-        'en' => [],
-        'vi' => [],
+        'en' => [
+            'product_list' => 'Product List',
+            'style' => 'Style yourself',
+            'home' => 'Home',
+            'product' => 'Products',
+            'color' => 'Color',
+            'size' => 'Size',
+        ],
+        'vi' => [
+            'product_list' => 'Danh sách sản phẩm',
+            'style' => 'Phong cách tôi',
+            'home' => 'Trang chủ',
+            'product' => 'Sản phẩm',
+            'color' => 'Màu',
+            'size' => 'Kích thước',
+        ],
     ];
 
     // Get the language code from the URL
@@ -30,8 +44,8 @@
     <main class="mx-auto font-plus-jakara mt-14 px-4 lg:px-24">
         <div
             class="bg-gradient-to-l mt-24 py-16 from-stone-50  via-blue-50 to-stone-50 p-4 text-center text-white font-bold">
-            <p class="text-4xl text-black font-medium">DANH SÁCH SẢN PHẨM</p>
-            <p class="text-md text-gray-400 font-normal pt-2 leading-relaxed">Phong cách cho chính mình</p>
+            <p class="text-4xl text-black font-medium">{{ $selectedData['product_list'] }}</p>
+            <p class="text-md text-gray-400 font-normal pt-2 leading-relaxed">{{ $selectedData['style'] }}</p>
         </div>
         <div class="flex  items-baseline justify-between border-b border-gray-200 pt-12">
 
@@ -39,14 +53,14 @@
                 <ol class="list-none flex space-x-2">
                     <li>
                         <a href="{{ url("/{$locale}") }}"
-                            class=" hover:text-blue-800 duration-200 lg:text-lg text-xs sm:text-sm ">Trang chủ</a>
+                            class=" hover:text-blue-800 duration-200 lg:text-lg text-xs sm:text-sm ">{{ $selectedData['home'] }}</a>
                     </li>
                     <li>
                         <span>&gt;</span> <!-- Dấu phân cách -->
                     </li>
                     <li>
-                        <a href="/products" class=" hover:text-blue-800 duration-200 lg:text-lg text-xs sm:text-sm ">Sản
-                            phẩm</a>
+                        <a href="{{ url("/{$locale}/products") }}"
+                            class=" hover:text-blue-800 duration-200 lg:text-lg text-xs sm:text-sm ">{{ $selectedData['product'] }}</a>
                     </li>
                 </ol>
             </nav>
@@ -109,14 +123,12 @@
                                 data-colors="{{ implode(',', $sanPham->chiTietSanPham->pluck('mauSac.TenMau')->toArray()) }}"
                                 data-sizes="{{ implode(',', $sanPham->chiTietSanPham->pluck('kichThuoc.TenSize')->toArray()) }}">
                                 <a href="{{ route('product_detail', ['locale' => $locale, 'MaSP' => $sanPham->MaSP]) }}">
-                                    <div
-                                        class="w-full
-                                    overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-96">
+                                    <div class="w-full overflow-hidden bg-gray-200  group-hover:opacity-75 lg:h-96">
                                         <img src="{{ asset('images/products/' . $sanPham->chiTietSanPham->first()->HinhAnh) }}"
-                                            alt="{{ $sanPham->TenSP }}" class="object-cover w-full h-full">
+                                            alt="{{ $sanPham->TenSP }}" class=" object-cover w-full h-64 lg:h-full">
                                     </div>
                                     <div class="mt-4 pb-3">
-                                        <h3 class="text-base font-medium truncate">{{ $sanPham->TenSP }}</h3>
+                                        <h3 class="font-medium flex-grow mt-3 truncate">{{ $sanPham->TenSP }}</h3>
                                         <div class="flex space-x-2 mt-2">
                                             @php
                                                 $mauSacUnique = [];
@@ -139,9 +151,9 @@
                                                     {{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
                                             @else
                                                 <h3
-                                                    class="font-semibold lg:text-lg text-xs sm:text-sm line-through text-red-500 truncate">
+                                                    class="font-semibold lg:text-lg text-xs sm:text-sm line-through text-red-500 ">
                                                     {{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                                                <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm truncate">
+                                                <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm ">
                                                     {{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
                                             @endif
                                         </div>

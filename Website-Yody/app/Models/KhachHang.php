@@ -36,4 +36,8 @@ class KhachHang extends Authenticatable
     {
         return $this->hasMany(DonHang::class, 'MaKH', 'MaKH');
     }
+    public function danhGias()
+    {
+        return $this->hasMany(DanhGia::class, 'MaKH', 'MaKH');
+    }
 }

@@ -1,11 +1,55 @@
-@extends('layouts.app')
+@php
+    $commonData = [
+        'en' => [
+            'order_details' => 'Order Details',
+            'order_info' => 'Order Information',
+            'order_date' => 'Order Date',
+            'total_value' => 'Total Value',
+            'status' => 'Status',
+            'payment_method' => 'Payment Method',
+            'product_list' => 'Product List',
+            'no_products' => 'No products in this order.',
+            'go_back' => 'Back to order list',
+            'rate_product' => 'Rate Product',
+            'select_product' => 'Select Product',
+            'rating_score' => 'Rating Score',
+            'rating_content' => 'Content',
+            'submit_rating' => 'Submit Rating',
+            'all_rated' => 'All products in this order have been rated!',
+            'cannot_rate' => 'Cannot rate this order!',
+        ],
+        'vi' => [
+            'order_details' => 'Chi tiết đơn hàng',
+            'order_info' => 'Thông tin đơn hàng',
+            'order_date' => 'Ngày đặt hàng',
+            'total_value' => 'Tổng giá trị',
+            'status' => 'Trạng thái',
+            'payment_method' => 'Phương thức thanh toán',
+            'product_list' => 'Danh sách sản phẩm',
+            'no_products' => 'Không có sản phẩm nào trong đơn hàng này.',
+            'go_back' => 'Trở về danh sách đơn hàng',
+            'rate_product' => 'Đánh giá sản phẩm',
+            'select_product' => 'Chọn sản phẩm',
+            'rating_score' => 'Điểm đánh giá',
+            'rating_content' => 'Nội dung',
+            'submit_rating' => 'Gửi đánh giá',
+            'all_rated' => 'Tất cả sản phẩm trong đơn hàng đã được đánh giá!',
+            'cannot_rate' => 'Không thể đánh giá đơn hàng này!',
+        ],
+    ];
 
+    // Lấy ngôn ngữ hiện tại từ URL
+    $locale = request()->segment(1, 'vi'); // Mặc định là 'vi'
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fallback về 'vi' nếu không tìm thấy
+@endphp
+@extends('layouts.app')
 @section('content')
     <div class="font-sans grid grid-cols-2 gap-16 mx-auto max-w-8xl p-6 lg:p-24 mt-14">
 
         {{-- Cột bên trái: Chi tiết đơn hàng --}}
         <div class="border">
-            <h1 class="text-2xl lg:text-4xl font-bold mb-6 p-5 bg-blue-900 text-white">Chi tiết đơn hàng #{{ $order->MaDH }}
+            <h1 class="text-2xl lg:text-4xl font-bold mb-6 p-5 bg-blue-900 text-white">
+                {{ $selectedData['order_details'] }} #{{ $order->MaDH }}
             </h1>
 
             {{-- Hiển thị thông báo thành công --}}
@@ -15,25 +59,27 @@
                 </div>
             @endif
 
-            <h2 class="text-xl lg:text-2xl font-semibold mb-4 border-b pb-2 px-5">Thông tin đơn hàng</h2>
+            <h2 class="text-xl lg:text-2xl font-semibold mb-4 border-b pb-2 px-5">{{ $selectedData['order_info'] }}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                 <div class="space-y-3 text-base lg:text-lg px-5">
-                    <p><strong class="text-gray-600 font-normal">Ngày đặt hàng:</strong><span class="font-semibold">
+                    <p><strong class="text-gray-600 font-normal">{{ $selectedData['order_date'] }}:</strong><span
+                            class="font-semibold">
                             {{ \Carbon\Carbon::parse($order->NgayDatHang)->format('d/m/Y') }}</span></p>
-                    <p><strong class="text-gray-600 font-normal">Tổng giá trị:</strong> <span
+                    <p><strong class="text-gray-600 font-normal">{{ $selectedData['total_value'] }}:</strong> <span
                             class="font-semibold">{{ number_format($order->TongGiaTri, 0, ',', '.') }} VND</span></p>
-                    <p><strong class="text-gray-600 font-normal">Trạng thái:</strong>
+                    <p><strong class="text-gray-600 font-normal">{{ $selectedData['status'] }}:</strong>
                         <span
                             class="font-semibold {{ $order->TrangThai == 'Giao thành công' ? 'text-green-600' : ($order->TrangThai == 'Đã hủy' ? 'text-red-600' : 'text-gray-900') }}">
                             {{ $order->TrangThai }}
                         </span>
                     </p>
-                    <p><strong>Phương thức thanh toán:</strong><span class="font-semibold">
+                    <p><strong>{{ $selectedData['payment_method'] }}:</strong><span class="font-semibold">
                             {{ $order->PhuongThucThanhToan }}</span></p>
                 </div>
             </div>
 
-            <h2 class="text-xl lg:text-2xl font-semibold mt-6 mb-4 border-b pb-2  px-5">Danh sách sản phẩm</h2>
+            <h2 class="text-xl lg:text-2xl font-semibold mt-6 mb-4 border-b pb-2  px-5">{{ $selectedData['product_list'] }}
+            </h2>
             <ul>
                 @if ($order->chiTietDonHang && $order->chiTietDonHang->isNotEmpty())
                     @foreach ($order->chiTietDonHang as $index => $chiTiet)
@@ -59,35 +105,35 @@
                         @endif
                     @endforeach
                 @else
-                    <p class="text-gray-600">Không có sản phẩm nào trong đơn hàng này.</p>
+                    <p class="text-gray-600">{{ $selectedData['no_product'] }}</p>
                 @endif
             </ul>
 
             <div class="mt-6 flex justify-end px-5">
-                <a href="{{ url('/order/' . $khachhang->MaKH) }}"
-                    class="inline-block bg-blue-900 mb-5 text-white py-2 px-4 lg:px-6 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md">Trở
-                    về danh sách đơn hàng</a>
+                <a href="{{ url("{$locale}/order/" . $khachhang->MaKH) }}"
+                    class="inline-block bg-blue-900 mb-5 text-white py-2 px-4 lg:px-6 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md">
+                    {{ $selectedData['go_back'] }}</a>
             </div>
         </div>
 
         {{-- Cột bên phải: Đánh giá sản phẩm --}}
         <div class="">
             <div class="bg-white p-4 lg:p-5 rounded-lg border shadow-lg mb-6">
-                <h3 class="text-2xl lg:text-3xl text-center font-semibold text-blue-900 py-3 uppercase mb-4">Đánh giá sản
-                    phẩm</h3>
+                <h3 class="text-2xl lg:text-3xl text-center font-semibold text-blue-900 py-3 uppercase mb-4">
+                    {{ $selectedData['rate_product'] }}</h3>
 
                 @if ($canRate && !$allRated)
                     <form
-                        action="{{ route('orders.rate', ['maKH' => $khachhang->MaKH, 'maCTSP' => $chiTiet->chiTietSanPham->MaCTSP]) }}"
+                        action="{{ route('orders.rate', ['locale' => $locale, 'maKH' => $khachhang->MaKH, 'maCTSP' => $chiTiet->chiTietSanPham->MaCTSP]) }}"
                         method="POST" id="ratingForm">
                         @csrf
                         <div class="mb-4">
-                            <label for="productSelect" class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">Chọn
-                                sản phẩm:</label>
+                            <label for="productSelect"
+                                class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">{{ $selectedData['select_product'] }}:</label>
                             <div class="relative">
                                 <select id="productSelect" name="MaCTSP"
                                     class="block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 appearance-none">
-                                    <option value="">-- Chọn sản phẩm --</option>
+                                    <option value="">-- {{ $selectedData['select_product'] }} --</option>
                                     @foreach ($order->chiTietDonHang as $chiTiet)
                                         @if ($chiTiet->chiTietSanPham && !$chiTiet->DaDanhGia)
                                             <!-- Chỉ hiển thị sản phẩm chưa được đánh giá -->
@@ -108,7 +154,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">Điểm đánh giá:</label>
+                            <label
+                                class="block text-lg lg:text-xl font-medium text-gray-700 mb-2">{{ $selectedData['rating_score'] }}:</label>
                             <div class="flex items-center justify-center space-x-1" id="rating-stars">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <input type="radio" id="star{{ $i }}" name="DiemDanhGia"
@@ -127,24 +174,24 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="NoiDung" class="block text-base lg:text-lg font-medium text-gray-700 mb-2">Nội
-                                dung:</label>
+                            <label for="NoiDung"
+                                class="block text-base lg:text-lg font-medium text-gray-700 mb-2">{{ $selectedData['rating_content'] }}:</label>
                             <textarea name="NoiDung" id="NoiDung"
                                 class="mt-1 h-40 lg:h-[400px] block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2"
-                                rows="4" placeholder="Nhập nội dung đánh giá"></textarea>
+                                rows="4" placeholder="{{ $selectedData['rating_content'] }}"></textarea>
                         </div>
 
                         <div class="justify-center text-center">
                             <button type="submit"
                                 class="bg-blue-700 text-white py-2 lg:py-3 px-4 rounded-md hover:bg-blue-600 transition duration-300 font-bold shadow-md transform hover:scale-105">
-                                Gửi đánh giá
+                                {{ $selectedData['submit_rating'] }}
                             </button>
                         </div>
                     </form>
                 @elseif ($allRated)
-                    <p class="text-lg text-green-600 text-center">Tất cả sản phẩm trong đơn hàng đã được đánh giá!</p>
+                    <p class="text-lg text-green-600 text-center">{{ $selectedData['all_rated'] }}</p>
                 @else
-                    <p class="text-lg text-red-600 text-center">Không thể đánh giá đơn hàng này!</p>
+                    <p class="text-lg text-red-600 text-center">{{ $selectedData['cannot_rate'] }}</p>
                 @endif
             </div>
         </div>

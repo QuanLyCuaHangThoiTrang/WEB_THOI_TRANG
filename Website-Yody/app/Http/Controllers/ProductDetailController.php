@@ -95,10 +95,10 @@ class ProductDetailController extends Controller
     }
     public function getDanhGiaByMaSP($MaSP)
     {
-        $sanPham = SanPham::with(['chiTietSanPhams.danhGias'])
-                    ->where('MaSP', $MaSP)
-                    ->first();
-                 
+        $sanPham = SanPham::with(['chiTietSanPhams.danhGias']) // Eager load khachHang
+                        ->where('MaSP', $MaSP)
+                        ->first();
+        
         $danhGias = collect();
         if ($sanPham) {
             foreach ($sanPham->chiTietSanPhams as $chiTiet) {
@@ -107,4 +107,6 @@ class ProductDetailController extends Controller
         }
         return $danhGias;
     }
+
+
 }

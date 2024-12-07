@@ -1,5 +1,53 @@
-@extends('layouts.app')
+@php
+    $commonData = [
+        'en' => [
+            'orders_title' => 'Orders',
+            'search_placeholder' => 'Search',
+            'sort_by' => 'Sort by',
+            'statuses' => [
+                'default' => 'Sort by',
+                'tat_ca' => 'All',
+                'chua_xac_nhan' => 'Pending',
+                'da_xac_nhan' => 'Confirmed',
+                'chua_giao' => 'Not Delivered',
+                'giao_thanh_cong' => 'Delivered Successfully',
+            ],
+            'cancel_order' => 'Cancel Order',
+            'view_details' => 'View Details',
+            'back' => 'Back',
+            'orderid' => 'Order ID',
+            'date' => 'Date',
+            'total' => 'Total',
+            'status' => 'Status',
+        ],
+        'vi' => [
+            'orders_title' => 'Đơn hàng',
+            'search_placeholder' => 'Tìm kiếm',
+            'sort_by' => 'Sắp xếp theo',
+            'statuses' => [
+                'default' => 'Sắp xếp theo',
+                'tat_ca' => 'Tất cả',
+                'chua_xac_nhan' => 'Chưa xác nhận',
+                'da_xac_nhan' => 'Đã xác nhận',
+                'chua_giao' => 'Chưa giao',
+                'giao_thanh_cong' => 'Giao thành công',
+            ],
+            'cancel_order' => 'Hủy đơn',
+            'view_details' => 'Xem chi tiết',
+            'back' => 'Quay lại',
+            'orderid' => 'Mã đơn hàng',
+            'date' => 'Ngày',
+            'total' => 'Tổng',
+            'status' => 'Trạng thái',
+        ],
+    ];
 
+    // Lấy ngôn ngữ hiện tại từ URL
+    $locale = request()->segment(1, 'vi'); // Mặc định là 'vi'
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fallback về 'vi' nếu không tìm thấy
+@endphp
+
+@extends('layouts.app')
 @section('content')
     <div class="bg-white">
         @include('account.components.notification')
@@ -25,7 +73,7 @@
 
             <div class="flex items-baseline justify-between border-b border-gray-200 pt-12">
                 <div>
-                    <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">Đơn hàng</h1>
+                    <h1 class="text-4xl pb-3 font-bold tracking-tight text-gray-900">{{ $selectedData['orders_title'] }}</h1>
                 </div>
                 <div class="flex items-center pt-4">
                     <button id="filter-button"
@@ -54,7 +102,7 @@
                                 <div class="border-b">
                                     <div class="gap-4 sm:flex sm:items-center sm:justify-between">
                                         <h3 class="text-3xl font-semibold text-gray-900 mb-4" id="account-details-heading">
-                                            Đơn hàng</h3>
+                                            {{ $selectedData['orders_title'] }}</h3>
 
                                         <!-- Button to go back to orders list -->
 
@@ -62,7 +110,8 @@
                                         <div
                                             class="mt-6 gap-4 space-y-4 sm:mt-0 sm:flex sm:items-center sm:justify-end sm:space-y-0">
 
-                                            <form method="GET" action="{{ url('/order/' . $khachhang->MaKH) }}"
+                                            <form id="search-form" method="GET"
+                                                action="{{ url("/{$locale}/order/" . $khachhang->MaKH) }}"
                                                 class="flex flex-col sm:flex-row justify-between items-center mb-4">
                                                 <!-- Tìm kiếm và Sắp xếp -->
                                                 <div
@@ -70,25 +119,30 @@
                                                     <div class="flex-grow">
                                                         <!-- Tìm kiếm -->
                                                         <label for="search"
-                                                            class="block text-sm font-medium text-gray-700">Tìm kiếm</label>
+                                                            class="block text-sm font-medium text-gray-700">{{ $selectedData['search_placeholder'] }}</label>
                                                         <input type="text" name="search" id="search"
-                                                            placeholder="Tìm kiếm"
+                                                            placeholder="{{ $selectedData['search_placeholder'] }}"
                                                             class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 rounded-lg w-full sm:w-52">
                                                     </div>
 
                                                     <div class="flex-shrink-0 w-full sm:w-auto">
                                                         <!-- Sắp xếp -->
                                                         <label for="sort"
-                                                            class="block text-sm font-medium text-gray-700">Sắp xếp
-                                                            theo</label>
+                                                            class="block text-sm font-medium text-gray-700">{{ $selectedData['sort_by'] }}</label>
                                                         <select name="sort" id="sort"
                                                             class="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:border-black hover:border-gray-600 duration-500 rounded-md w-full sm:w-auto">
-                                                            <option value="default">Sắp xếp theo</option>
-                                                            <option value="tat_ca">Tất cả</option>
-                                                            <option value="chua_xac_nhan">Chưa xác nhận</option>
-                                                            <option value="da_xac_nhan">Đã xác nhận</option>
-                                                            <option value="chua_giao">Chưa giao</option>
-                                                            <option value="giao_thanh_cong">Giao thành công</option>
+                                                            <option value="default">
+                                                                {{ $selectedData['statuses']['default'] }}</option>
+                                                            <option value="tat_ca">{{ $selectedData['statuses']['tat_ca'] }}
+                                                            </option>
+                                                            <option value="chua_xac_nhan">
+                                                                {{ $selectedData['statuses']['chua_xac_nhan'] }}</option>
+                                                            <option value="da_xac_nhan">
+                                                                {{ $selectedData['statuses']['da_xac_nhan'] }}</option>
+                                                            <option value="chua_giao">
+                                                                {{ $selectedData['statuses']['chua_giao'] }}</option>
+                                                            <option value="giao_thanh_cong">
+                                                                {{ $selectedData['statuses']['giao_thanh_cong'] }}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -108,9 +162,9 @@
                                                 <img src="{{ asset('svg/empty.svg') }}" alt="No orders"
                                                     class="mx-auto size-80">
                                                 <div class="mt-6">
-                                                    <a href="{{ url('/order/' . $khachhang->MaKH) }}"
+                                                    <a href="{{ url("{$locale}/order/" . $khachhang->MaKH) }}"
                                                         class="inline-flex items-center justify-center rounded-md bg-gray-700 px-4 py-2 text-white text-sm font-medium hover:bg-gray-800">
-                                                        Quay lại tất cả đơn hàng
+                                                        {{ $selectedData['back'] }}
                                                     </a>
                                                 </div>
                                             </div>
@@ -119,7 +173,8 @@
                                                 @foreach ($orders as $order)
                                                     <div class="flex border-b flex-wrap items-center gap-y-4 py-6">
                                                         <dl class="w-full sm:w-1/4 lg:w-auto lg:flex-1">
-                                                            <dt class="text-base font-medium text-gray-500">Mã đơn:</dt>
+                                                            <dt class="text-base font-medium text-gray-500">
+                                                                {{ $selectedData['orderid'] }}:</dt>
                                                             <dd class="mt-1.5 text-base font-medium text-gray-900">
                                                                 <a href="#"
                                                                     class="hover:underline text-gray-900">{{ $order->MaDH }}</a>
@@ -128,14 +183,16 @@
 
 
                                                         <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                                                            <dt class="text-base font-medium text-gray-500">Ngày:</dt>
+                                                            <dt class="text-base font-medium text-gray-500">
+                                                                {{ $selectedData['date'] }}:</dt>
                                                             <dd class="mt-1.5 text-base truncate font-medium text-gray-900">
                                                                 {{ \Carbon\Carbon::parse($order->NgayDatHang)->format('d/m/Y') }}
                                                             </dd>
                                                         </dl>
 
                                                         <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                                                            <dt class="text-base font-medium text-gray-500">Tổng:</dt>
+                                                            <dt class="text-base font-medium text-gray-500">
+                                                                {{ $selectedData['total'] }}:</dt>
                                                             <dd
                                                                 class="mt-1.5 whitespace-nowrap text-base font-medium text-gray-900">
                                                                 {{ number_format($order->TongGiaTri, 0, ',', '.') }} VND
@@ -145,7 +202,7 @@
                                                         <dl class="w-1/3 sm:w-1/4 lg:w-auto lg:flex-1">
                                                             <dt
                                                                 class="text-base font-medium  whitespace-nowrap text-gray-500">
-                                                                Trạng thái:</dt>
+                                                                {{ $selectedData['status'] }}:</dt>
                                                             <dd
                                                                 class="mt-1.5 text-base whitespace-nowrap font-medium 
                                                             {{ $order->TrangThai == 'Giao thành công'
@@ -166,9 +223,8 @@
                                                                 <button type="button"
                                                                     class="w-full rounded-lg border border-red-700 px-3 py-2 duration-200 text-center text-sm font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 lg:w-auto whitespace-nowrap"
                                                                     onclick="event.preventDefault(); document.getElementById('cancel-form-{{ $order->MaDH }}').submit();">
-                                                                    Hủy đơn
+                                                                    {{ $selectedData['cancel_order'] }}
                                                                 </button>
-
                                                                 <form id="cancel-form-{{ $order->MaDH }}"
                                                                     action="{{ route('orders.cancel', $order->MaDH) }}"
                                                                     method="POST" style="display: none;">
@@ -176,9 +232,11 @@
                                                                     @method('DELETE')
                                                                 </form>
                                                             @endif
-                                                            <a href="{{ route('orders.detail', [$khachhang->MaKH, $order->MaDH]) }}"
-                                                                class=" w-full inline-flex justify-center rounded-lg border border-gray-200 bg-blue-900  py-2 text-sm font-medium text-white duration-300 hover:bg-blue-600 hover:text-primary-700">Xem
-                                                                chi tiết</a>
+                                                            <a href="{{ route('orders.detail', [$locale, $khachhang->MaKH, $order->MaDH]) }}"
+                                                                class="w-full inline-flex justify-center rounded-lg border border-gray-200 bg-blue-900 py-2 text-sm font-medium text-white duration-300 hover:bg-blue-600 hover:text-primary-700">
+                                                                {{ $selectedData['view_details'] }}
+                                                            </a>
+
                                                         </div>
                                                     </div>
                                                 @endforeach

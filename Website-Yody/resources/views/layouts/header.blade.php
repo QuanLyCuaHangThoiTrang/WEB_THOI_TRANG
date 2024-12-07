@@ -117,13 +117,11 @@
                         <x-icons.icon name="profile" />
                     </a>
                 @endauth
-                <div class="flex items-center justify-center gap-3 ml-auto">
-                    <!-- Chọn Ngôn Ngữ -->
-                    <div class="flex items-center gap-3">
-                        <a href="{{ url('/en') }}" class="text-blue-950">English</a> |
-                        <a href="{{ url('/vi') }}" class="text-blue-950">Tiếng Việt</a>
-                    </div>
+                <div class=" items-center gap-2 hidden lg:flex">
+                    <a href="{{ url('/en') }}" class="text-blue-950">en</a> |
+                    <a href="{{ url('/vi') }}" class="text-blue-950">vi</a>
                 </div>
+
 
             </div>
         </div>
@@ -168,16 +166,26 @@
         </div>
         <!-- Mobile menu items go here -->
         <ul class="menu p-5 space-y-2 text-sky-900">
-            <li><a href="{{ url('/') }}"
+
+            <li><a href="{{ url("/{$locale}") }}"
                     class="inline-block px-3 py-4 text-lg md:text-xl lg:text-xl font-bold">TRANG CHỦ</a></li>
-            <li><a href="{{ url('/products') }}" class="inline-block px-3 py-4 text-base font-semibold">SẢN
+            <li><a href="{{ url("/{$locale}/products") }}" class="inline-block px-3 py-4 text-base font-semibold">SẢN
                     PHẨM</a></li>
-            <li><a href="{{ url('/contact-us') }}" class="inline-block px-3 py-4 text-base font-semibold">LIÊN
+            <li><a href="{{ url("/{$locale}/contact-us") }}"
+                    class="inline-block px-3 py-4 text-base font-semibold">LIÊN
                     HỆ</a></li>
-            <li><a href="{{ url('/about-us') }}" class="inline-block px-3 py-4 text-base font-semibold">VỀ CHÚNG
+            <li><a href="{{ url("/{$locale}/about-us") }}" class="inline-block px-3 py-4 text-base font-semibold">VỀ
+                    CHÚNG
                     TÔI</a>
             <li>
+                <div class="flex items-center gap-2 ">
+                    <a href="{{ url('/vi') }}" class="text-blue-950">vi</a>|
+                    <a href="{{ url('/en') }}" class="text-blue-950">en</a>
+
+                </div>
+
         </ul>
+
     </div>
 </div>
 <script>

@@ -79,7 +79,7 @@ class OrderController extends Controller
 
         return redirect()->back()->withErrors(['error' => 'Đơn hàng không thể hủy vì đã xác nhận']);
     }
-    public function showOrderDetail($maKH, $maDH)
+    public function showOrderDetail($locale,$maKH, $maDH)
     {
         // Lấy thông tin khách hàng
         $khachhang = KhachHang::find($maKH);

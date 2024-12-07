@@ -59,13 +59,14 @@ Route::get('/{locale}/contact-us', [ContactUsController::class, 'contact'])->nam
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [ProviderController::class, 'callback']);
 
+Route::get('remove/{MaGH}/{MaCTSP}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 // Cart Routes
 Route::prefix('{locale}/cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart');
     Route::post('/', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::get('remove/{MaGH}/{MaCTSP}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('remove/{MaCTSP}', [CartController::class, 'removeFromCartSS'])->name('cart.removeSS');
+    
     Route::get('removeall', [CartController::class, 'removeAllart'])->name('cart.removeAll');
     
     // Include {locale} in the update route
@@ -125,7 +126,7 @@ Route::delete('/account/delete/{MaKH}', [AccountController::class, 'deleteAccoun
 
 Route::get('/{locale}/order/{MaKH}', [OrderController::class, 'showOrders'])->name('account.settings.orders');
 Route::delete('/orders/cancel/{maDH}', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
-Route::get('/order/{maKH}/{maDH}', [OrderController::class, 'showOrderDetail'])->name('orders.detail');
+Route::get('{locale}/order/{maKH}/{maDH}', [OrderController::class, 'showOrderDetail'])->name('orders.detail');
 Route::post('/orders/rate/{maKH}/{maCTSP}', [OrderController::class, 'rateProduct'])->name('orders.rate');
 
 
@@ -147,42 +148,83 @@ Route::post('/{locale}/logout', function () {
 })->name('logout');
 
 
-// Admin Routes
-Route::prefix('admin')->middleware('auth:admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/logout', function () {
-        Auth::guard('admin')->logout();
-        return redirect('/login');
+//ADMIN
+Route::get('/admin', function () {
+    if (!Auth::guard('admin')->check()) {
+        return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+    }
+    return view('Admin.welcome'); // Trả về view nếu đã đăng nhập
+});
+Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function ()  {
+    Route::get('/admin/logout', function () {
+        Auth::guard('admin')->logout(); // Đăng xuất admin
+        return redirect('/login'); // Chuyển hướng về trang đăng nhập
     })->name('admin.logout');
-    
-    // Product Routes
-    Route::resource('product', SanPhamController::class);
+    //San pham
+    Route::get('/product', [SanPhamController::class, 'index'])->name('product.index');
+    Route::get('/product/create', [SanPhamController::class, 'create'])->name('product.create');
+    Route::post('/product', [SanPhamController::class, 'store'])->name('product.store');
+    Route::get('/product/{MaSP}/edit', [SanPhamController::class, 'edit'])->name('product.edit');
+    Route::put('/product/{MaSP}', [SanPhamController::class, 'update'])->name('product.update');
+    Route::delete('/product/{MaSP}', [SanPhamController::class, 'destroy'])->name('product.destroy');
+
+
+    //ChiTietSanPham
     Route::get('/product/{product}/details/create', [ChiTietSanPhamController::class, 'create'])->name('product.variants.create');
     Route::post('/product/{product}/detail', [ChiTietSanPhamController::class, 'store'])->name('product.variants.store');
-    
-    // Category Routes
+    Route::get('/product/{MaSP}/details', [ChiTietSanPhamController::class, 'show'])->name('product.details');
+    Route::get('chitietsanpham/{MaCTSP}/edit', [ChiTietSanPhamController::class, 'edit'])->name('chitietsanpham.edit');
+    Route::put('chitietsanpham/{MaCTSP}', [ChiTietSanPhamController::class, 'update'])->name('chitietsanpham.update');
+    Route::delete('chitietsanpham/{MaCTSP}', [ChiTietSanPhamController::class, 'destroy'])->name('chitietsanpham.destroy');
+
+    //DanhMuc
     Route::resource('danhmuc', DanhMucController::class);
-    
-    // Promotion Routes
+    Route::get('danhmuc/{id}/chitiet', [DanhMucController::class, 'getChiTiet']);
+    Route::post('danhmuc/chitiet/save', 'DanhMucController@saveChitiet')->name('danhmuc.chitiet.save');
+    Route::delete('danhmuc/chitiet/{id}/delete', [DanhMucController::class, 'deleteChiTiet']);
+
+    //KhuyenMai
     Route::resource('khuyenmai', KhuyenMaiController::class);
-    
-    // Order Management Routes
+    // Route::resource('sanphamkhuyenmai', SanPhamKhuyenMaiController::class);
+
+    //SanPhamKhuyenMai
+    Route::get('khuyenmai/{maKM}/sanpham/create', [KhuyenMaiController::class, 'create_SPKM'])->name('sanphamkhuyenmai.create');
+    Route::post('khuyenmai/{maKM}/sanpham', [KhuyenMaiController::class, 'store_SPKM'])->name('sanphamkhuyenmai.store');
+    Route::delete('khuyenmai/{maKM}/chitiet/{MaCTSP}', [KhuyenMaiController::class, 'destroy_SPKM'])->name('sanphamkhuyenmai.destroy');
+   
+    //DonHang
     Route::resource('donhang', DonHangController::class);
-    Route::get('/donhang/{id}/pdf', [DonHangController::class, 'print'])->name('donhang.print');
+    Route::get('/thongke', [DonHangController::class, 'showDashboard'])->name('donhang.dashboard');
+    Route::get('donhang/{id}/pdf', [DonHangController::class, 'print'])->name('donhang.print');
     Route::post('/donhang/updateStatus', [DonHangController::class, 'updateStatus'])->name('donhang.updateStatus');
-    
-    // Employee Routes
-    Route::resource('nhanvien', NhanVienController::class);
-    
-    // Customer Management Routes
+
+    //DonNhapHang
+    Route::resource('donnhaphang', DonNhapHangController::class);
+    // Route::get('donnhaphang/{maNH}/chitiet/create', [ChiTietDonNhapHangController::class, 'create'])->name('chitietdonnhaphang.create');
+    Route::post('donnhaphang/{maNH}/chitiet', [ChiTietDonNhapHangController::class, 'store'])->name('chitietdonnhaphang.store');
+    // Route::get('donnhaphang/{maNH}/chitiet/{MaCTSP}/edit', [ChiTietDonNhapHangController::class, 'edit'])->name('chitietdonnhaphang.edit');
+    Route::post('donnhaphang/{maNH}/chitietsp', [ChiTietDonNhapHangController::class, 'update'])->name('chitietdonnhaphang.update');
+    Route::delete('donnhaphang/{maNH}/chitiet/{MaCTSP}', [ChiTietDonNhapHangController::class, 'destroy'])->name('chitietdonnhaphang.destroy');
+    Route::get('donnhaphang/{maNH}/pdf', [DonNhapHangController::class, 'print'])->name('donnhaphang.print');
+   
+    //ChiTietSanPhamNhap
+    Route::get('chitietsanphamnhap/{maSP}', [ChiTietDonNhapHangController::class, 'getMaCTSPOptions']);
+    Route::post('/chitietsanphamnhap/{donnhaphang}', [ChiTietDonNhapHangController::class, 'store_CTSP'])->name('chitietsanphamnhap.store_CTSP');
+
+
+    Route::get('/filter-by-date', [DonHangController::class, 'filterByDate']);
+    //Khach Hang
     Route::get('/khachhang', [KhachHangController::class, 'index'])->name('khachhang.index');
     Route::delete('/khachhang/{id}', [KhachHangController::class, 'destroy'])->name('khachhang.destroy');
-    
-    // Dashboard and Reports
-    Route::get('/thongke', [DonHangController::class, 'showDashboard'])->name('donhang.dashboard');
+   
+  
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/voucher', [VoucherController::class, 'index'])->name('vouchers.index');
+    Route::delete('/voucher/{MaVoucher}', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
+
     Route::get('/orders-current-month', [DashboardController::class, 'getOrdersForCurrentMonth']);
-    
-    
-    
-    
+    Route::resource('nhanvien', NhanVienController::class);
+
+   
+
 });

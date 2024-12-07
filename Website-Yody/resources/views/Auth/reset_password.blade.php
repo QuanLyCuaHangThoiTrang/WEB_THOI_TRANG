@@ -1,3 +1,26 @@
+@php
+    // Define translations for both languages
+    $commonData = [
+        'en' => [
+            'reset_password' => 'Reset Password',
+            'new_password' => 'New Password',
+            'confirm_password' => 'Confirm Password',
+            'conpletion' => 'Confirmation',
+        ],
+        'vi' => [
+            'reset_password' => 'Đặt lại mật khẩu',
+            'new_password' => 'Mật khẩu mới',
+            'confirm_password' => 'Xác nhận mật khẩu',
+            'reset_password_success' => 'Mật khẩu đã được đặt lại thành công',
+            'completion' => 'Hoàn tất',
+        ],
+    ];
+    // Get the current language code
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
 @extends('layouts.app')
 @section('content')
     <div class=" min-h-screen bg-slate-200 py-2 mt-20">
@@ -9,7 +32,7 @@
                     <form action="{{ route('password.reset', ['locale' => app()->getLocale()]) }}" method="POST">
                         @csrf
                         <div class="mb-12">
-                            <h3 class="text-gray-800 text-3xl font-bold">Đặt lại mật khẩu</h3>
+                            <h3 class="text-gray-800 text-3xl font-bold">{{ $selectedData['reset_password'] }}</h3>
                         </div>
 
                         @if ($errors->any())
@@ -33,14 +56,14 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="text-gray-800 text-xs block mb-2">Mật khẩu mới</label>
+                            <label class="text-gray-800 text-xs block mb-2">{{ $selectedData['new_password'] }}</label>
                             <input name="password" type="password" required
                                 class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none transition duration-200"
                                 placeholder="Nhập mật khẩu mới" />
                         </div>
 
                         <div class="mb-4">
-                            <label class="text-gray-800 text-xs block mb-2">Xác nhận mật khẩu</label>
+                            <label class="text-gray-800 text-xs block mb-2">{{ $selectedData['confirm_password'] }}</label>
                             <input name="password_confirmation" type="password" required
                                 class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none transition duration-200"
                                 placeholder="Xác nhận mật khẩu mới" />
@@ -50,7 +73,7 @@
                         <div class="mt-12">
                             <button type="submit"
                                 class="w-full shadow-lg py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-yellow-500 duration-150 focus:outline-none transition-transform transform hover:scale-105">
-                                Đặt lại mật khẩu
+                                {{ $selectedData['completion'] }}
                             </button>
                         </div>
                     </form>
