@@ -1,5 +1,4 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
 <header class=" font-meidum z-50 bg-white border-b border-gray-300 w-full fixed">
     <div class="w-full p-3 bg-transparent bg-opacity-100">
         <div class="mx-auto flex items-center h-full justify-between px-3 lg:px-5 relative flex-wrap">
@@ -86,9 +85,7 @@
                         <x-icons.icon name="profile" />
                     </a>
                 @endauth
-                <button id="language-toggle" class="relative">
-                    <x-icons.icon name="language" />
-                </button>
+
 
             </div>
         </div>
@@ -118,7 +115,6 @@
     </div>
 
     @include('components.searchbar')
-    @include('layouts.offcanvas')
 </header>
 <div id="offcanvas-menu" class="fixed inset-0 z-40 hidden lg:hidden">
     <div class="relative w-full h-full bg-white shadow-md transform -translate-x-full transition-transform duration-300 ease-in-out"

@@ -5,8 +5,7 @@
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
         @foreach ($SanPhamMoiNhat as $chiTietSanPham)
             <a href="{{ url('/product_detail/' . $chiTietSanPham->MaSP) }}">
-                <div
-                    class="rounded cursor-pointer duration-150 flex flex-col fade-item opacity-0 transition-opacity duration-700">
+                <div class="rounded cursor-pointer duration-150 flex flex-col fade-item opacity-0 transition-opacity">
                     <div>
                         <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
                             class="w-full h-full min-w-screen">
@@ -31,12 +30,12 @@
 
                     <div class="flex justify-between items-center mt-4">
                         @if ($chiTietSanPham->SanPham->GiaGiam == 0 || $chiTietSanPham->SanPham->GiaGiam == null)
-                            <h3 class="gia font-semibold lg:text-lg">
+                            <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm whitespace-nowrap">
                                 {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
                         @else
-                            <h3 class="font-semibold lg:text-lg line-through text-red-500">
+                            <h3 class="font-semibold lg:text-lg text-xs sm:text-sm line-through text-red-500 truncate">
                                 {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                            <h3 class="gia font-semibold lg:text-lg">
+                            <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm truncate">
                                 {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</h3>
                         @endif
                     </div>

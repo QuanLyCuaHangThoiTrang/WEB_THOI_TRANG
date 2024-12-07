@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        
         $danhmucs = DanhMuc::with('chiTietDanhMuc')->get();
         view()->share('danhmucs', $danhmucs);
 

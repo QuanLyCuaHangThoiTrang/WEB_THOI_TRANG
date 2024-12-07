@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\AboutUsController;
 use App\Http\Controllers\Home\ContactUsController;
 
+use Illuminate\Support\Facades\App;
 
 use App\Http\Controllers\Registration\RegisterController;
 use App\Http\Controllers\Login\LoginController;

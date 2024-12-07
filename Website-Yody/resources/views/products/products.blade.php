@@ -1,4 +1,17 @@
 <!-- resources/views/homepage.blade.php -->
+<style>
+    /* Custom styles for selected states */
+    .custom-checkbox1:checked+label>span,
+    .custom-checkbox:checked+label>span {
+        border: 2px solid #1d4ed8;
+        /* Highlight border */
+        box-shadow: 0 0 5px #1d4ed8;
+        /* Glow effect */
+        transform: scale(1.1);
+        /* Slightly increase size */
+        transition: all 0.3s ease;
+    }
+</style>
 @extends('layouts.app')
 @section('content')
     <main class="mx-auto font-plus-jakara mt-14 px-4 lg:px-24">
@@ -12,13 +25,15 @@
             <nav class="text-xl text-balance font-medium tracking-tight text-gray-900">
                 <ol class="list-none flex space-x-2">
                     <li>
-                        <a href="{{ url('/') }}" class=" hover:text-blue-800 duration-200">Trang chủ</a>
+                        <a href="{{ url('/') }}"
+                            class=" hover:text-blue-800 duration-200 lg:text-lg text-xs sm:text-sm ">Trang chủ</a>
                     </li>
                     <li>
                         <span>&gt;</span> <!-- Dấu phân cách -->
                     </li>
                     <li>
-                        <a href="/products" class=" hover:text-blue-800 duration-200">Sản phẩm</a>
+                        <a href="/products" class=" hover:text-blue-800 duration-200 lg:text-lg text-xs sm:text-sm ">Sản
+                            phẩm</a>
                     </li>
                 </ol>
             </nav>
@@ -61,8 +76,19 @@
 
         <section aria-labelledby="products-heading" class="pb-24 pt-6">
             <div class="grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-4">
-                <!-- Filters -->
                 @include('products.filter')
+                <!-- Filters -->
+                <div id="offcanvas-filter" class="fixed inset-0 bg-gray-800 bg-opacity-50 z-50 hidden">
+                    <div class="absolute right-0 top-0 w-80 max-w-full h-full bg-white">
+                        <button id="close-filter" class="absolute top-4 right-4 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        {{-- Cứu Duy chỗ này i, làm cái lọc sản phẩm á --}}
+                    </div>
+                </div>
                 <div class="col-span-3">
                     <div class="fade-in grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sanphams">
                         @foreach ($sanPhams as $sanPham)
@@ -95,12 +121,13 @@
 
                                         <div class="flex justify-between items-center mt-4">
                                             @if ($sanPham->GiaGiam == 0 || $sanPham->GiaGiam == null)
-                                                <h3 class="gia font-semibold text-lg">
+                                                <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm">
                                                     {{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
                                             @else
-                                                <h3 class="font-semibold text-lg line-through text-red-500">
+                                                <h3
+                                                    class="font-semibold lg:text-lg text-xs sm:text-sm line-through text-red-500 truncate">
                                                     {{ number_format($sanPham->GiaBan, 0, ',', '.') }} đ</h3>
-                                                <h3 class="gia font-semibold text-lg">
+                                                <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm truncate">
                                                     {{ number_format($sanPham->GiaGiam, 0, ',', '.') }} đ</h3>
                                             @endif
                                         </div>
@@ -238,18 +265,19 @@
                     }
                 });
             }
+        });
 
-            // Show/hide canvas filter
+        document.addEventListener('DOMContentLoaded', () => {
             const filterButton = document.getElementById('filter-button');
-            const canvasFilter = document.getElementById('canvas-filter');
+            const offcanvasFilter = document.getElementById('offcanvas-filter');
+            const closeFilterButton = document.getElementById('close-filter');
 
             filterButton.addEventListener('click', () => {
-                canvasFilter.classList.toggle('hidden');
+                offcanvasFilter.classList.remove('hidden');
             });
 
-            // Close canvas filter when clicking outside
-            document.getElementById('close-filter').addEventListener('click', () => {
-                canvasFilter.classList.add('hidden');
+            closeFilterButton.addEventListener('click', () => {
+                offcanvasFilter.classList.add('hidden');
             });
         });
     </script>
