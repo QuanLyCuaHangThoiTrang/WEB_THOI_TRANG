@@ -89,25 +89,6 @@
                 <button id="language-toggle" class="relative">
                     <x-icons.icon name="language" />
                 </button>
-                <div class="flex items-center gap-3 ml-auto">
-                    <!-- Nút chuyển đổi ngôn ngữ -->
-                    <button id="language-toggle" class="relative">
-                        <i class="fas fa-globe text-xl"></i> <!-- Icon Globe -->
-                    </button>
-                    <div id="language-menu" class="hidden absolute right-0 bg-white shadow-lg rounded-lg">
-                        <ul class="menu p-2 text-sky-900">
-                            <li><a href="" class="block px-4 py-2">
-                                    <i class="fas fa-flag-vi text-lg"></i> <!-- Icon Cờ Việt Nam -->
-                                    Tiếng Việt
-                                </a></li>
-                            <li><a href="" class="block px-4 py-2">
-                                    <i class="fas fa-flag-us text-lg"></i> <!-- Icon Cờ Mỹ -->
-                                    English
-                                </a></li>
-                            {{-- {{ route('change.language', ['lang' => 'en']) }} --}}
-                        </ul>
-                    </div>
-                </div>
 
             </div>
         </div>
