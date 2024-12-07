@@ -17,7 +17,7 @@
                 <div class="bg-white rounded-full px-6 mx-auto hidden lg:flex">
                     <ul class="menu flex text-blue-950 font-semibold text-xl text-center relative flex-grow">
                         <li>
-                            <a href="{{ url('/') }}" class="inline-block px-3 py-4">{{ __('messages.home') }}</a>
+                            <a href="{{ url('/') }}" class="inline-block px-3 py-4">TRANG CHỦ</a>
                         </li>
                         <li class="relative flex">
                             <a href="{{ url('/products') }}" id="product-menu-toggle" class="inline-block px-3 py-4">SẢN
