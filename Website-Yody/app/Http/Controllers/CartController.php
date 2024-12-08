@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\GioHang;
 use App\Models\ChiTietGioHang; 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Models\ChiTietSanPham;
-use App\Models\Voucher;
+use Illuminate\Support\Facades\App;
 
 class CartController extends Controller
 {
@@ -50,9 +49,11 @@ class CartController extends Controller
             return view('cart.cart', compact('gioHangSession', 'tongGiaTri','KTSLKho'));
         }
     }
-    public function addToCart(Request $request, $locale)
+
+    public function addToCart(Request $request,$locale)
     {      
         App::setLocale($locale);
+        // Xác thực dữ liệu đầu vào
         $validated = $request->validate([
             'selected_color' => 'nullable|exists:mausac,MaMau',
             'selected_size' => 'nullable|exists:kichthuoc,MaSize',

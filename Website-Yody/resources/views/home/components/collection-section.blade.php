@@ -6,7 +6,7 @@
             'viewMore' => 'See More',
         ],
         'vi' => [
-            'newProductsTitle' => 'SẢN PHẨM MỚI NHẤT',
+            'newProductsTitle' => 'SẢN PHẨM ƯA CHUỘNG',
             'viewMore' => 'Xem thêm',
         ],
     ];
@@ -23,40 +23,25 @@
         <p class="font-bold text-4xl text-center py-10">{{ $selectedData['newProductsTitle'] }}</p>
     </div>
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
-        @foreach ($SanPhamMoiNhat as $chiTietSanPham)
-            <a href="{{ url("{$locale}/product_detail/" . $chiTietSanPham->MaSP) }}">
+        @foreach ($SanPhamUaChuongs as $SanPhamUaChuong)         
+            <a href="{{ url("{$locale}/product_detail/" . $SanPhamUaChuong->MaSP) }}">
                 <div class="rounded cursor-pointer duration-150 flex flex-col fade-item opacity-0 transition-opacity">
                     <div>
-                        <img src="{{ asset('images/products/' . $chiTietSanPham->HinhAnh) }}" alt=""
+                        <img src="{{ asset('images/products/' . $SanPhamUaChuong->HinhAnh) }}" alt=""
                             class="w-full h-full min-w-screen">
                     </div>
 
-                    <h4 class="font-medium flex-grow mt-3 truncate">{{ $chiTietSanPham->SanPham->TenSP }}</h4>
-
-                    <div class="flex space-x-2 mt-2">
-                        @php
-                            $mauSacUnique = [];
-                        @endphp
-                        @foreach ($chiTietSanPham->SanPham->chiTietSanPhams as $chiTiet)
-                            @if (isset($chiTiet->mauSac) && !in_array($chiTiet->mauSac->TenMau, $mauSacUnique))
-                                <span class="inline-block w-5 h-5 rounded-full border border-gray-300"
-                                    style="background-color: {{ $chiTiet->mauSac->TenMau }}"></span>
-                                @php
-                                    $mauSacUnique[] = $chiTiet->mauSac->TenMau;
-                                @endphp
-                            @endif
-                        @endforeach
-                    </div>
+                    <h4 class="font-medium flex-grow mt-3 truncate">{{ $SanPhamUaChuong->TenSP }}</h4>
 
                     <div class="flex justify-between items-center mt-4">
-                        @if ($chiTietSanPham->SanPham->GiaGiam == 0 || $chiTietSanPham->SanPham->GiaGiam == null)
+                        @if ($SanPhamUaChuong->GiaGiam == 0 ||$SanPhamUaChuong->GiaGiam == null)
                             <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm whitespace-nowrap">
-                                {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                {{ number_format($SanPhamUaChuong->GiaBan, 0, ',', '.') }} đ</h3>
                         @else
                             <h3 class="font-semibold lg:text-lg text-xs sm:text-sm line-through text-red-500 truncate">
-                                {{ number_format($chiTietSanPham->SanPham->GiaBan, 0, ',', '.') }} đ</h3>
+                                {{ number_format($SanPhamUaChuong->GiaBan, 0, ',', '.') }} đ</h3>
                             <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm truncate">
-                                {{ number_format($chiTietSanPham->SanPham->GiaGiam, 0, ',', '.') }} đ</h3>
+                                {{ number_format($SanPhamUaChuong->GiaGiam, 0, ',', '.') }} đ</h3>
                         @endif
                     </div>
                 </div>

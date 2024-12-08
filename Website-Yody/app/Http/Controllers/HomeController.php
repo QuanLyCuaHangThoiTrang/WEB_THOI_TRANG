@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ChiTietSanPham;
 use App\Models\KhuyenMai;
 use App\Models\SanPham;
+use App\Models\ChiTietDonHang;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -22,15 +23,32 @@ class HomeController extends Controller
                     ->groupBy('MaSP');
             })
             ->paginate(12); // Phân trang với 12 mục trên mỗi trang
+
         $SanPhamKhuyenMai = SanPham::whereIn('MaSP', function($query) {
             $query->select('MaSP')
                 ->from('SanPhamKhuyenMai');
         })->get();
-        // Lấy khuyến mãi, nếu không có thì trả về null
+         // Lấy khuyến mãi, nếu không có thì trả về null
         $khuyenMai = KhuyenMai::first();
 
-        $SanPhamMoiNhat = ChiTietSanPham::orderBy('NgayThem', 'desc') // Sắp xếp theo cột NgayThem giảm dần
-        ->limit(10) // Giới hạn số lượng sản phẩm trả về là 10
+        $SanPhamUaChuongs = ChiTietDonHang::selectRaw(
+            'SanPham.MaSP,
+                        SanPham.TenSP,
+                        SanPham.GiaGiam,
+                        SanPham.GiaBan, 
+                        SUM(ChiTietDonHang.SoLuong) as total_sold,
+                        (SELECT ChiTietSanPham.HinhAnh 
+                        FROM ChiTietSanPham 
+                        WHERE ChiTietSanPham.MaSP = SanPham.MaSP 
+                        ORDER BY ChiTietSanPham.MaCTSP ASC 
+                        LIMIT 1
+                        ) as HinhAnh'
+        )
+        ->join('ChiTietSanPham', 'ChiTietDonHang.MaCTSP', '=', 'ChiTietSanPham.MaCTSP') // Kết nối bảng ChiTietSanPham
+        ->join('SanPham', 'ChiTietSanPham.MaSP', '=', 'SanPham.MaSP') // Kết nối bảng SanPham
+        ->groupBy('SanPham.MaSP', 'SanPham.TenSP','SanPham.GiaGiam','SanPham.GiaBan') // Nhóm theo MaSP và TenSP
+        ->orderBy('total_sold', 'desc') // Sắp xếp giảm dần theo số lượng bán
+        ->take(5) // Lấy 5 sản phẩm được mua nhiều nhất
         ->get();
 
         // Truyền dữ liệu vào view
@@ -38,7 +56,7 @@ class HomeController extends Controller
             'chiTietSanPhams' => $chiTietSanPhams,
             'SanPhamKhuyenMai' => $SanPhamKhuyenMai,
             'khuyenMai' => $khuyenMai,
-            'SanPhamMoiNhat' => $SanPhamMoiNhat,
+            'SanPhamUaChuongs' => $SanPhamUaChuongs
         ]);
     }
 }
