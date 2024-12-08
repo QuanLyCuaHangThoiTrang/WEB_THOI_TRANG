@@ -14,6 +14,7 @@ class CartController extends Controller
 {
     public function index()
     {
+
         if (Auth::check()) {
             // Người dùng đã đăng nhập
             $userId = Auth::user()->MaKH;
@@ -48,6 +49,7 @@ class CartController extends Controller
             return view('cart.cart', compact('gioHangSession', 'tongGiaTri','KTSLKho'));
         }
     }
+
     public function addToCart(Request $request,$locale)
     {      
         App::setLocale($locale);
@@ -195,6 +197,7 @@ class CartController extends Controller
         }
         return redirect()->route('cart', ['locale' => $locale])
         ->with('success', 'Sản phẩm đã được thêm vào giỏ hàng');
+    
 
         
     }
@@ -205,9 +208,11 @@ class CartController extends Controller
         GioHang::where('MaGH', $MaGH)->update([
             'TongGiaTri' => $tongGiaTri
         ]);
-        return redirect()->back()->with('success', 'Cart cleared successfully');
+        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng');
     }
-    public function removeFromCartSS($locale,$MaCTSP)
+
+    public function removeFromCartSS($locale, $MaCTSP)
+
     {
         App::setLocale($locale);
         // Lấy giỏ hàng từ session

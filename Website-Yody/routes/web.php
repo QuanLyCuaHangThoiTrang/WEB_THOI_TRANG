@@ -65,9 +65,7 @@ Route::prefix('{locale}/cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart');
     Route::post('/', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('remove/{MaCTSP}', [CartController::class, 'removeFromCartSS'])->name('cart.removeSS');
-    
     Route::get('removeall', [CartController::class, 'removeAllart'])->name('cart.removeAll');
-    
     // Include {locale} in the update route
     Route::put('update', [CartController::class, 'update'])->name('cart.update');
 });

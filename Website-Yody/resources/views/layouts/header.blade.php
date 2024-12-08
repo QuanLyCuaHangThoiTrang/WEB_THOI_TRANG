@@ -134,7 +134,7 @@
                         <ul class="space-y-2">
                             @foreach ($danhmuc->ChiTietDanhMuc as $ChiTietDM)
                                 <li>
-                                    <a href="{{ url(app()->getLocale() . '/productsDM/' . $ChiTietDM->MaCTDM) }}"
+                                    <a href="{{ url("/{$locale}/productsDM/{$ChiTietDM->MaCTDM}") }}"
                                         class="block text-sm text-gray-800 hover:text-blue-950 hover:bg-gray-100 py-1 rounded  duration-300 hover:rounded-r-full transition-all ease-in-out">
                                         {{ $ChiTietDM->TenCTDM }}
                                     </a>
