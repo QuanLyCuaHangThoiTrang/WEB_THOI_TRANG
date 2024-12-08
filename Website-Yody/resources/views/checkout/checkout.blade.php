@@ -94,13 +94,13 @@
 
             // Kiểm tra trạng thái khi mở lại modal
             if ({{ session('success') ? 'true' : 'false' }}) {
-                applyBtn.textContent = {{ $selectedData['cancel'] }};
+                applyBtn.textContent = '{{ $selectedData['cancel'] }}';
                 applyBtn.classList.remove('bg-blue-800', 'hover:bg-blue-700');
                 applyBtn.classList.add('bg-red-700', 'hover:bg-red-600');
                 voucherForm.action = "{{ route('voucher.cancel', ['locale' => app()->getLocale()]) }}";
 
             } else {
-                applyBtn.textContent = {{ $selectedData['apply'] }};
+                applyBtn.textContent = '{{ $selectedData['apply'] }}';
                 applyBtn.classList.remove('bg-red-700', 'hover:bg-red-600');
                 applyBtn.classList.add('bg-blue-800', 'hover:bg-blue-700');
                 voucherForm.action =
