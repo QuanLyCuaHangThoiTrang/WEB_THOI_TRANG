@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\GioHang;
 use App\Models\ChiTietGioHang; 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Models\ChiTietSanPham;
 use App\Models\Voucher;
@@ -14,6 +15,7 @@ class CartController extends Controller
 {
     public function index()
     {
+
         if (Auth::check()) {
             // Người dùng đã đăng nhập
             $userId = Auth::user()->MaKH;
@@ -48,9 +50,9 @@ class CartController extends Controller
             return view('cart.cart', compact('gioHangSession', 'tongGiaTri','KTSLKho'));
         }
     }
-    public function addToCart(Request $request)
+    public function addToCart(Request $request, $locale)
     {      
-        // Xác thực dữ liệu đầu vào
+        App::setLocale($locale);
         $validated = $request->validate([
             'selected_color' => 'nullable|exists:mausac,MaMau',
             'selected_size' => 'nullable|exists:kichthuoc,MaSize',
@@ -192,8 +194,9 @@ class CartController extends Controller
             // Cập nhật giỏ hàng trong session
             Session::put('gioHang', $gioHang);
         }
-        return redirect()->route('cart', ['locale' => app()->getLocale()])
+        return redirect()->route('cart', ['locale' => $locale])
         ->with('success', 'Sản phẩm đã được thêm vào giỏ hàng');
+    
 
         
     }
@@ -204,10 +207,11 @@ class CartController extends Controller
         GioHang::where('MaGH', $MaGH)->update([
             'TongGiaTri' => $tongGiaTri
         ]);
-        return redirect()->back()->with('success', 'Cart cleared successfully');
+        return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng');
     }
-    public function removeFromCartSS($MaCTSP)
+    public function removeFromCartSS($locale, $MaCTSP)
     {
+        App::setLocale($locale);
         // Lấy giỏ hàng từ session
         $gioHangSession = session()->get('gioHang', []);
         // Xóa sản phẩm khỏi giỏ hàng nếu tồn tại

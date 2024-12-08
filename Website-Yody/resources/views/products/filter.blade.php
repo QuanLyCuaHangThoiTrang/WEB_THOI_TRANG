@@ -1,3 +1,22 @@
+@php
+    // Define the translations for each language
+    $commonData = [
+        'en' => [
+            'color' => 'Color',
+            'size' => 'Size',
+        ],
+        'vi' => [
+            'color' => 'Màu sắc',
+            'size' => 'Kích cỡ',
+        ],
+    ];
+
+    // Get the language code from the URL
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
 <form class="hidden lg:block">
     <!-- Color Filter Section -->
     <div class="border-b border-gray-200 py-6">
@@ -5,7 +24,7 @@
             <button type="button"
                 class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
                 aria-controls="filter-section-0" aria-expanded="true">
-                <span class="font-medium text-xl text-gray-900">Màu sắc</span>
+                <span class="font-medium text-xl text-gray-900">{{ $selectedData['color'] }}</span>
                 <span class="ml-6 flex items-center">
                     <span class="text-xl hidden" id="expand-icon-0">+</span>
                     <span class="text-xl" id="collapse-icon-0">-</span>
@@ -20,7 +39,6 @@
                         <!-- Ẩn checkbox nhưng vẫn để nó nhận giá trị khi người dùng chọn -->
                         <input id="filter-color-{{ $loop->index }}" name="color[]" value="{{ $item->TenMau }}"
                             type="checkbox" class="hidden custom-checkbox1">
-
                         <!-- Hộp màu mà người dùng sẽ nhấp vào -->
                         <label for="filter-color-{{ $loop->index }}"
                             class="ml-3 text-sm text-gray-600 flex flex-col items-center cursor-pointer">
@@ -45,7 +63,7 @@
             <button type="button"
                 class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
                 aria-controls="filter-section-2" aria-expanded="true">
-                <span class="font-medium text-xl text-gray-900">Kích cỡ</span>
+                <span class="font-medium text-xl text-gray-900">{{ $selectedData['size'] }}</span>
                 <span class="ml-6 flex items-center">
                     <span class="text-xl hidden" id="expand-icon-2">+</span>
                     <span class="text-xl" id="collapse-icon-2">-</span>

@@ -20,7 +20,7 @@ class ShopController extends Controller
         $size = KichThuoc::all();
         return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
     }  
-    public function showProducts($locale,$MaCTDM)
+    public function showProducts($locale, $MaCTDM)
     {
         $sanPhams = SanPham::with(['chiTietSanPham.mauSac', 'chiTietSanPham.kichThuoc'])
         ->where('MaCTDM',$MaCTDM)   
