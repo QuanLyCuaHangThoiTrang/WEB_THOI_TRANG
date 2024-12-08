@@ -58,7 +58,6 @@ Route::get('/{locale}/contact-us', [ContactUsController::class, 'contact'])->nam
 // Authentication Routes
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [ProviderController::class, 'callback']);
-
 Route::get('remove/{MaGH}/{MaCTSP}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 // Cart Routes

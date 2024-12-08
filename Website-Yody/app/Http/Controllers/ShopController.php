@@ -20,13 +20,13 @@ class ShopController extends Controller
         $size = KichThuoc::all();
         return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
     }  
-    public function showProducts($MaCTDM)
+    public function showProducts($locale,$MaCTDM)
     {
         $sanPhams = SanPham::with(['chiTietSanPham.mauSac', 'chiTietSanPham.kichThuoc'])
-        ->where('MaCTDM',$MaCTDM)
+        ->where('MaCTDM',$MaCTDM)   
         ->where('TrangThai', 1) // Thêm điều kiện lấy trạng thái là 1
         ->has('chiTietSanPham')
-        ->paginate(perPage: 12);;
+        ->paginate(perPage: 12);
         $mauSac = MauSac::all();
         $size = KichThuoc::all();
         return view('products.products', ['sanPhams' => $sanPhams,'MauSacs' => $mauSac,'KichThuocs' => $size]);
