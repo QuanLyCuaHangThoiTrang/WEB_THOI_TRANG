@@ -2,7 +2,7 @@
     // Define the translations for each language
     $commonData = [
         'en' => [
-            'newProductsTitle' => 'NEW PRODUCTS',
+            'newProductsTitle' => 'BEST-SELLING PRODUCTS',
             'viewMore' => 'See More',
         ],
         'vi' => [
@@ -23,7 +23,7 @@
         <p class="font-bold text-4xl text-center py-10">{{ $selectedData['newProductsTitle'] }}</p>
     </div>
     <div class="grid gap-3 grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
-        @foreach ($SanPhamUaChuongs as $SanPhamUaChuong)         
+        @foreach ($SanPhamUaChuongs as $SanPhamUaChuong)
             <a href="{{ url("{$locale}/product_detail/" . $SanPhamUaChuong->MaSP) }}">
                 <div class="rounded cursor-pointer duration-150 flex flex-col fade-item opacity-0 transition-opacity">
                     <div>
@@ -34,7 +34,7 @@
                     <h4 class="font-medium flex-grow mt-3 truncate">{{ $SanPhamUaChuong->TenSP }}</h4>
 
                     <div class="flex justify-between items-center mt-4">
-                        @if ($SanPhamUaChuong->GiaGiam == 0 ||$SanPhamUaChuong->GiaGiam == null)
+                        @if ($SanPhamUaChuong->GiaGiam == 0 || $SanPhamUaChuong->GiaGiam == null)
                             <h3 class="gia font-semibold lg:text-lg text-xs sm:text-sm whitespace-nowrap">
                                 {{ number_format($SanPhamUaChuong->GiaBan, 0, ',', '.') }} đ</h3>
                         @else

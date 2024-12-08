@@ -207,8 +207,9 @@ class CartController extends Controller
         ]);
         return redirect()->back()->with('success', 'Cart cleared successfully');
     }
-    public function removeFromCartSS($MaCTSP)
+    public function removeFromCartSS($locale,$MaCTSP)
     {
+        App::setLocale($locale);
         // Lấy giỏ hàng từ session
         $gioHangSession = session()->get('gioHang', []);
         // Xóa sản phẩm khỏi giỏ hàng nếu tồn tại

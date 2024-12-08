@@ -93,12 +93,11 @@
             voucherModal.classList.remove('hidden');
 
             // Kiểm tra trạng thái khi mở lại modal
-            if ({{ session('success') ? 'true' : 'false' }}) {
+            if ({{ session('MaVC') ? 'true' : 'false' }}) {
                 applyBtn.textContent = '{{ $selectedData['cancel'] }}';
                 applyBtn.classList.remove('bg-blue-800', 'hover:bg-blue-700');
                 applyBtn.classList.add('bg-red-700', 'hover:bg-red-600');
                 voucherForm.action = "{{ route('voucher.cancel', ['locale' => app()->getLocale()]) }}";
-
             } else {
                 applyBtn.textContent = '{{ $selectedData['apply'] }}';
                 applyBtn.classList.remove('bg-red-700', 'hover:bg-red-600');
@@ -127,13 +126,25 @@
 @section('content')
     @if (session('updateInterface'))
         <script>
-            window.location.reload();
+            window.location.reload(); // This will reload the page to update the UI if necessary
         </script>
     @endif
-    <div class=" px-12 pb-5 mt-20">
-        <section class="container z-50  mx-auto py-2">
-            <div class=" py-5 border-b">
-                <p class="text-3xl font-bold ">{{ $selectedData['checkout'] }}</p>
+    @if (session('success'))
+        <div
+            class="notification absolute z-30 top-24 right-10 bg-green-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if ($errors->has('voucher_code'))
+        <div
+            class="notification absolute z-30 top-24 right-10 bg-red-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
+            {{ $errors->first('voucher_code') }}
+        </div>
+    @endif
+    <div class="px-12 pb-5 mt-20">
+        <section class="container z-50 mx-auto py-2">
+            <div class="py-5 border-b">
+                <p class="text-3xl font-bold">{{ $selectedData['checkout'] }}</p>
             </div>
             <div class="w-full max-w-8xl mx-auto relative z-10">
                 <div class="modal fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden"
@@ -155,26 +166,17 @@
                             </button>
                         </form>
 
-                        <button class=" w-full bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"
+                        <button class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"
                             id="closeModalBtn">{{ $selectedData['close'] }}</button>
                     </div>
                 </div>
-
             </div>
+        </section>
     </div>
-    @if (session('success'))
-        <div
-            class="notification absolute z-30 top-24 right-10 bg-green-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
-            {{ session('success') }}
-        </div>
-    @endif
+
     <!-- Hiển thị thông báo lỗi -->
-    @if ($errors->has('voucher_code'))
-        <div
-            class="notification absolute z-30 top-24 right-10 bg-red-400 text-white p-4 rounded-md mb-4 shadow-md transition-opacity duration-500">
-            {{ $errors->first('voucher_code') }}
-        </div>
-    @endif
+
+
 
     <form class="formabc" action="{{ route('checkout.processDH', ['locale' => app()->getLocale()]) }}" method="POST">
         @csrf
