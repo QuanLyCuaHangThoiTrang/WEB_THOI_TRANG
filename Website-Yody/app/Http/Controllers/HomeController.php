@@ -33,12 +33,23 @@ class HomeController extends Controller
         ->limit(10) // Giới hạn số lượng sản phẩm trả về là 10
         ->get();
 
+        $sanPhamUaChuong = ChiTietSanPham::join('chitietdonhang', 'chitietsanpham.MaCTSP', '=', 'chitietdonhang.MaCTSP')
+        ->join('sanpham', 'chitietsanpham.MaSP', '=', 'sanpham.MaSP') // Kết nối với bảng `sanpham`
+        ->select('chitietsanpham.MaCTSP', 'sanpham.TenSP') // Lấy tên sản phẩm từ bảng `sanpham`
+        ->selectRaw('SUM(chitietdonhang.SoLuong) as tongSoLuong')
+        ->groupBy('chitietsanpham.MaCTSP', 'sanpham.TenSP') // Nhóm theo các cột cần thiết
+        ->orderBy('tongSoLuong', 'desc')
+        ->limit(10)
+        ->get();
+       
+        
         // Truyền dữ liệu vào view
         return view('home.home', [
             'chiTietSanPhams' => $chiTietSanPhams,
             'SanPhamKhuyenMai' => $SanPhamKhuyenMai,
             'khuyenMai' => $khuyenMai,
             'SanPhamMoiNhat' => $SanPhamMoiNhat,
+            'sanPhamUaChuong' => $sanPhamUaChuong
         ]);
     }
 }
