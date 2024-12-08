@@ -8,7 +8,7 @@ use App\Models\ChiTietGioHang;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\ChiTietSanPham;
-use App\Models\Voucher;
+use Illuminate\Support\Facades\App;
 
 class CartController extends Controller
 {
@@ -48,8 +48,9 @@ class CartController extends Controller
             return view('cart.cart', compact('gioHangSession', 'tongGiaTri','KTSLKho'));
         }
     }
-    public function addToCart(Request $request)
+    public function addToCart(Request $request,$locale)
     {      
+        App::setLocale($locale);
         // Xác thực dữ liệu đầu vào
         $validated = $request->validate([
             'selected_color' => 'nullable|exists:mausac,MaMau',
@@ -192,7 +193,7 @@ class CartController extends Controller
             // Cập nhật giỏ hàng trong session
             Session::put('gioHang', $gioHang);
         }
-        return redirect()->route('cart', ['locale' => app()->getLocale()])
+        return redirect()->route('cart', ['locale' => $locale])
         ->with('success', 'Sản phẩm đã được thêm vào giỏ hàng');
 
         

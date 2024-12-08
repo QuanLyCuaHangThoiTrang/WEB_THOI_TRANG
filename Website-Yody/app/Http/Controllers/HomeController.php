@@ -50,7 +50,7 @@ class HomeController extends Controller
         ->orderBy('total_sold', 'desc') // Sắp xếp giảm dần theo số lượng bán
         ->take(5) // Lấy 5 sản phẩm được mua nhiều nhất
         ->get();
- 
+
         // Truyền dữ liệu vào view
         return view('home.home', [
             'chiTietSanPhams' => $chiTietSanPhams,

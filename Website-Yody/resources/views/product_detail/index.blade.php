@@ -39,7 +39,7 @@
     <div class="mt-24">
         <div class="  pt-10 pb-24 px-8 sm:px-16 md:px-32 mx-auto">
             <form action="{{ route('cart.add', ['locale' => $locale]) }}" method="POST">
-
+    
                 <div class="grid items-start grid-cols-1 lg:grid-cols-2 gap-4 max-lg:gap-12">
                     <div class="w-full lg:sticky top-0 sm:flex gap-4">
                         <div class="hidden sm:space-y-3 sm:block max-sm:hidden max-sm:mb-4">
