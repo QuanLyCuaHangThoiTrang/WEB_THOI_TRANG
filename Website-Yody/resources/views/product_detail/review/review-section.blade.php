@@ -1,5 +1,25 @@
+@php
+    $commonData = [
+        'en' => [
+            'none' => 'None rating',
+            'read' => 'Read all ratings',
+            'total_ratings' => 'Total ratings',
+            'ratingin' => 'Rating in',
+        ],
+        'vi' => [
+            'none' => 'Không đánh giá',
+            'read' => 'Xem tất cả đánh giá',
+            'total_ratings' => 'Tổng số đánh giá',
+            'ratingat' => 'Đánh giá tại',
+        ],
+    ];
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
 <div class="mt-8">
-    <h3 class="text-xl font-bold text-gray-800">Tổng số đánh giá ({{ $tongSoDanhGia }})</h3>
+    <h3 class="text-xl font-bold text-gray-800"> {{ $selectedData['total_ratings'] }} ({{ $tongSoDanhGia }})</h3>
     <div class="space-y-3 mt-4">
         @php
             $tongSoDanhGia = $danhGias->count();
@@ -82,14 +102,14 @@
     </div>
 
     <button id="toggleReviews" type="button"
-        class="w-full mt-8 px-6 py-2.5 border border-yellow-600 bg-transparent text-gray-800 text-sm font-semibold rounded-md">Đọc
-        các đánh giá</button>
+        class="w-full mt-8 px-6 py-2.5 border border-yellow-600 bg-transparent text-gray-800 text-sm font-semibold rounded-md">
+        {{ $selectedData['read'] }}</button>
 
     <div id="reviewDetails" class="mt-4 hidden transition-all duration-500 transform opacity-0 translate-y-4">
         <div class="border-t border-gray-300 mt-4 pt-4">
             <div class="mt-2">
                 @if ($danhGias->isEmpty())
-                    <p class="text-gray-600">Chưa có đánh giá nào cho sản phẩm này.</p>
+                    <p class="text-gray-600"> {{ $selectedData['none'] }}</p>
                 @else
                     @foreach ($danhGias as $danhGia)
                         <div class="border-b border-gray-300 pb-4 space-y-2 mb-4">
@@ -106,7 +126,8 @@
                                 </div>
                             </div>
                             <p class="text-sm text-gray-600 mt-1">{{ $danhGia->NoiDung }}</p>
-                            <p class="text-xs text-gray-500 mt-1">Được đánh giá vào {{ $danhGia->NgayDanhGia }}</p>
+                            <p class="text-xs text-gray-500 mt-1"> {{ $selectedData['ratingin'] }}
+                                {{ $danhGia->NgayDanhGia }}</p>
                         </div>
                     @endforeach
                 @endif

@@ -8,6 +8,9 @@
             'product' => 'Products',
             'color' => 'Color',
             'size' => 'Size',
+            'sapxepA' => 'Price: Acsending',
+            'sapxepZ' => 'Price: Descending',
+            'arrange' => 'Sort',
         ],
         'vi' => [
             'product_list' => 'Danh sách sản phẩm',
@@ -16,6 +19,9 @@
             'product' => 'Sản phẩm',
             'color' => 'Màu',
             'size' => 'Kích thước',
+            'sapxepA' => 'Giá: Tăng dần',
+            'sapxepZ' => 'Giá: Giảm dần',
+            'arrange' => 'Sắp xếp',
         ],
     ];
 
@@ -71,7 +77,7 @@
                         <button type="button"
                             class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                             id="menu-button" aria-expanded="false" aria-haspopup="true">
-                            Sắp xếp
+                            {{ $selectedData['arrange'] }}
                             <svg class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                 viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd"
@@ -85,9 +91,9 @@
                         tabindex="-1">
                         <div class="py-1" role="none">
                             <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1"
-                                id="menu-item-2" data-sort="asc">Giá: Tăng dần</a>
+                                id="menu-item-2" data-sort="asc">{{ $selectedData['sapxepA'] }}</a>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1"
-                                id="menu-item-3" data-sort="desc">Giá: Giảm dần</a>
+                                id="menu-item-3" data-sort="desc">{{ $selectedData['sapxepZ'] }}</a>
                         </div>
                     </div>
                 </div>
