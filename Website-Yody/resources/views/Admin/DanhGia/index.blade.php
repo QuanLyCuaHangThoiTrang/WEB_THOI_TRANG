@@ -101,6 +101,9 @@
             @endforelse
         </tbody>
     </table>
+    <div style="margin-top:10px" class="pagination-container d-flex justify-content-center">
+                {{ $danhGia->links('pagination::bootstrap-4') }}
+            </div>
 </div>
 </div>
 @endsection

@@ -17,7 +17,7 @@ class DanhGiaController extends Controller
             $danhGiaQuery->where('MaCTSP', $maCTSP);
         }
 
-        $danhGia = $danhGiaQuery->with('khachHang')->get();
+        $danhGia = $danhGiaQuery->with('khachHang')->paginate(5);;
         $soSaoTrungBinh = $maCTSP
             ? DanhGia::where('MaCTSP', $maCTSP)->avg('DiemDanhGia')
             : null;

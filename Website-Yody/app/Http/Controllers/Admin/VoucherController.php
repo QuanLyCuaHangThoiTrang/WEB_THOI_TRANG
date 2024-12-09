@@ -16,7 +16,7 @@ class VoucherController extends Controller
         if (!Auth::guard('admin')->check()) {
             return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
         }
-        $vouchers = Voucher::all();
+        $vouchers = Voucher::paginate(5);
         return view('Admin.Voucher.index', compact('vouchers'));
     }
 
