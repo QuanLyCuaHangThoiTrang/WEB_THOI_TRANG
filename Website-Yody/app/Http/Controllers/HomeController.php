@@ -26,29 +26,29 @@ class HomeController extends Controller
 
         $SanPhamKhuyenMai = SanPham::whereIn('MaSP', function($query) {
             $query->select('MaSP')
-                ->from('SanPhamKhuyenMai');
+                ->from('sanphamkhuyenmai');
         })->get();
          // Lấy khuyến mãi, nếu không có thì trả về null
         $khuyenMai = KhuyenMai::first();
 
         $SanPhamUaChuongs = ChiTietDonHang::selectRaw(
-            'SanPham.MaSP,
-                        SanPham.TenSP,
-                        SanPham.GiaGiam,
-                        SanPham.GiaBan, 
-                        SUM(ChiTietDonHang.SoLuong) as total_sold,
-                        (SELECT ChiTietSanPham.HinhAnh 
-                        FROM ChiTietSanPham 
-                        WHERE ChiTietSanPham.MaSP = SanPham.MaSP 
-                        ORDER BY ChiTietSanPham.MaCTSP ASC 
-                        LIMIT 1
-                        ) as HinhAnh'
+            'sanpham.MaSP,
+             sanpham.TenSP,
+             sanpham.GiaGiam,
+             sanpham.GiaBan,
+             SUM(chitietdonhang.SoLuong) as total_sold,
+             (SELECT chitietsanpham.HinhAnh
+              FROM chitietsanpham
+              WHERE chitietsanpham.MaSP = sanpham.MaSP
+              ORDER BY chitietsanpham.MaCTSP ASC
+              LIMIT 1
+             ) as HinhAnh'
         )
-        ->join('ChiTietSanPham', 'ChiTietDonHang.MaCTSP', '=', 'ChiTietSanPham.MaCTSP') // Kết nối bảng ChiTietSanPham
-        ->join('SanPham', 'ChiTietSanPham.MaSP', '=', 'SanPham.MaSP') // Kết nối bảng SanPham
-        ->groupBy('SanPham.MaSP', 'SanPham.TenSP','SanPham.GiaGiam','SanPham.GiaBan') // Nhóm theo MaSP và TenSP
-        ->orderBy('total_sold', 'desc') // Sắp xếp giảm dần theo số lượng bán
-        ->take(5) // Lấy 5 sản phẩm được mua nhiều nhất
+        ->join('chitietsanpham', 'chitietdonhang.MaCTSP', '=', 'chitietsanpham.MaCTSP')
+        ->join('sanpham', 'chitietsanpham.MaSP', '=', 'sanpham.MaSP')
+        ->groupBy('sanpham.MaSP', 'sanpham.TenSP', 'sanpham.GiaGiam', 'sanpham.GiaBan')
+        ->orderBy('total_sold', 'desc')
+        ->take(5)
         ->get();
 
         // Truyền dữ liệu vào view

@@ -630,13 +630,9 @@ class CheckoutController extends Controller
     }
     public function cancelVoucher(Request $request)
     {
-        session()->forget(['MaVC', 'PhanTramGiamGia']);  // Remove the applied voucher data from the session
-        return redirect()->back()->with('success', 'Voucher đã được hủy thành công.');
+        session()->forget(['MaVC', 'PhanTramGiamGia']);
+        return redirect()->back()->with('success', 'Voucher đã được hủy thành công.')->with('updateInterface', true);
     }
-    
-    
-    
-    
     public function ActiveVoucher($maVoucher)
     {     
         $voucher = Voucher::find($maVoucher);
