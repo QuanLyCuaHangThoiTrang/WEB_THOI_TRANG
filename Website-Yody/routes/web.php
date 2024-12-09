@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\DonNhapHangController;
 use App\Http\Controllers\Admin\ChiTietDonNhapHangController;
 use App\Http\Controllers\Admin\KhachHangController;
 use App\Http\Controllers\Admin\NhanVienController;
+use App\Http\Controllers\Admin\DanhGiaController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -222,6 +223,6 @@ Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function 
     Route::get('/orders-current-month', [DashboardController::class, 'getOrdersForCurrentMonth']);
     Route::resource('nhanvien', NhanVienController::class);
 
-   
-
+    Route::get('/danhgia', [DanhGiaController::class, 'index'])->name('danhgia.index');
+    Route::delete('/danhgia/{id}', [DanhGiaController::class, 'destroy'])->name('danhgia.destroy');
 });
