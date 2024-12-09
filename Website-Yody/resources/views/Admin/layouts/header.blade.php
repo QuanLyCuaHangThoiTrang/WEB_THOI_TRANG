@@ -19,6 +19,8 @@
                 <li class="nav-item"> <a class="nav-link" href="{{ route('danhmuc.index') }}">Danh Mục</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('khuyenmai.index') }}">Khuyến Mãi</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('vouchers.index') }}">Voucher</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('danhgia.index') }}">Đánh Giá</a></li>
+
                 
               </ul>
             </div>

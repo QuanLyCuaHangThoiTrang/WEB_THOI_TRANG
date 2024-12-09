@@ -47,7 +47,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm btn-icon-text" 
-                                onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
+                                onclick="return confirm('Bạn có chắc chắn muốn xóa voucher này không?');">
                                 <i class="ti-alert btn-icon-prepend"></i>                                                    
                                     Xóa
                                  </button>
