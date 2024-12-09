@@ -1,19 +1,23 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews
-    </IfModule>
-
     RewriteEngine On
 
-    # Redirect HTTP to HTTPS
-    RewriteCond %{HTTPS} off
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    # Điều hướng các thư mục cần thêm "public/"
+    RewriteCond %{REQUEST_URI} ^/(build|css|fonts|icons|images|js|svg|vendors) [NC]
+    RewriteRule ^(.*)$ public/$1 [L]
 
-    # Redirect Trailing Slashes...
-    RewriteRule ^(.*)/$ /public/$1 [L,R=301]
+    # Điều hướng các file cần thêm "public/"
+    RewriteCond %{REQUEST_URI} ^/(favicon\.ico|robots\.txt)$ [NC]
+    RewriteRule ^(.*)$ public/$1 [L]
 
-    # Handle Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # Điều hướng các yêu cầu khác tới public/index.php
+    RewriteCond %{REQUEST_URI} !^/public/
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ public/index.php [L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/index.php [L]
 </IfModule>
+
+# Bảo mật: Chặn truy cập file nhạy cảm
+<FilesMatch "^(\.env|\.htaccess|composer\.(json|lock)|artisan|server\.php|package\.json|webpack\.mix\.js|vite\.config\.js|error_log|\.DS_Store)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

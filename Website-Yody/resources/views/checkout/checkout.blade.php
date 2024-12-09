@@ -1,80 +1,84 @@
-@php// Define translations for both languages
-                $commonData = [
-                    'en' => [
-                        'checkout' => 'CHECKOUT',
-                        'placehoder_checkout' => 'Voucher code',
-                        'apply' => 'Apply',
-                        'cancel' => 'Cancel',
-                        'close' => 'Close',
-                        'recipient' => 'RECIPIENT',
-                        'name' => 'Full name',
-                        'placeholder_name' => 'Enter full name',
-                        'placeholder_email' => 'Enter email',
-                        'phone_number' => 'Phone number',
-                        'placeholder_phone_number' => 'Enter phone number',
-                        'address' => 'Address', // Fixed duplicate key 'address'
-                        'new_address' => 'New Address',
-                        'notes' => 'Notes',
-                        'placeholder_address' => 'Enter address',
-                        'placeholder_notes' => 'Enter note',
-                        'province' => 'Province',
-                        'district' => 'District',
-                        'ward' => 'Ward',
-                        'placeholder_province' => 'Select province',
-                        'placeholder_district' => 'Select district',
-                        'placeholder_ward' => 'Select ward',
-                        'order_detail' => 'Order details',
-                        'total' => 'Total',
-                        'sale' => 'Sale off',
-                        'shipping' => 'Shipping',
-                        'payment' => 'Payment',
-                        'payment_select' => 'Select your payment method',
-                        'cash' => 'by Cash',
-                        'momo' => 'Momo',
-                        'complete' => 'Complete',
-                        'enter_code' => 'Enter your voucher code',
-                    ],
-                    'vi' => [
-                        'checkout' => 'THANH TOÁN',
-                        'placehoder_checkout' => 'Mã giảm giá',
-                        'apply' => 'Áp dụng',
-                        'cancel' => 'Hủy',
-                        'close' => 'Đóng',
-                        'recipient' => 'NGƯỜI NHẬN',
-                        'name' => 'Họ và tên',
-                        'placeholder_name' => 'Nhập họ và tên',
-                        'placeholder_email' => 'Nhập email',
-                        'phone_number' => 'Số điện thoại',
-                        'placeholder_phone_number' => 'Nhập số điện thoại',
-                        'address' => 'Địa chỉ', // Fixed duplicate key 'address'
-                        'new_address' => 'Địa chỉ mới',
-                        'notes' => 'Ghi chú',
-                        'placeholder_address' => 'Nhập địa chỉ',
-                        'placeholder_notes' => 'Nội dung',
-                        'province' => 'Tỉnh/Thành phố',
-                        'district' => 'Quận/Huyện',
-                        'ward' => 'Phường/Xã',
-                        'placeholder_province' => 'Chọn tỉnh/thành phố',
-                        'placeholder_district' => 'Chọn quận/huyện',
-                        'placeholder_ward' => 'Chọn Phường/xã',
-                        'order_detail' => 'Chi tiết đơn hàng',
-                        'total' => 'Tổng giá trị',
-                        'sale' => 'Giảm giá',
-                        'shipping' => 'Phí vận chuyển',
-                        'payment' => 'Phương thức thanh toán',
-                        'payment_select' => 'Lựa chọn phương thức thanh toán',
-                        'cash' => 'Tiền mặt',
-                        'momo' => 'Momo',
-                        'complete' => 'Hoàn thành thanh toán',
-                        'enter_code' => 'Nhập mã giảm giá',
-                    ],
-                ];
-                // Get the current language code
-                $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
-                // Get the translation data for the selected language
-                $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
-@endphp ?> ?> ?>
+@php
+    // Define translations for both languages
+    $commonData = [
+        'en' => [
+            'checkout' => 'CHECKOUT',
+            'placehoder_checkout' => 'Voucher code',
+            'apply' => 'Apply',
+            'cancel' => 'Cancel',
+            'close' => 'Close',
+            'recipient' => 'RECIPIENT',
+            'name' => 'Full name',
+            'placeholder_name' => 'Enter full name',
+            'placeholder_email' => 'Enter email',
+            'phone_number' => 'Phone number',
+            'placeholder_phone_number' => 'Enter phone number',
+            'address' => 'Address',
+            'new_address' => 'New Address',
+            'notes' => 'Notes',
+            'placeholder_address' => 'Enter address',
+            'placeholder_notes' => 'Enter note',
+            'province' => 'Province',
+            'district' => 'District',
+            'ward' => 'Ward',
+            'placeholder_province' => 'Select province',
+            'placeholder_district' => 'Select district',
+            'placeholder_ward' => 'Select ward',
+            'order_detail' => 'Order details',
+            'total' => 'Total',
+            'sale' => 'Sale off',
+            'shipping' => 'Shipping',
+            'payment' => 'Payment',
+            'payment_select' => 'Select your payment method',
+            'cash' => 'by Cash',
+            'momo' => 'Momo',
+            'complete' => 'Complete',
+            'enter_code' => 'Enter your voucher code',
+        ],
+        'vi' => [
+            'checkout' => 'THANH TOÁN',
+            'placehoder_checkout' => 'Mã giảm giá',
+            'apply' => 'Áp dụng',
+            'cancel' => 'Hủy',
+            'close' => 'Đóng',
+            'recipient' => 'NGƯỜI NHẬN',
+            'name' => 'Họ và tên',
+            'placeholder_name' => 'Nhập họ và tên',
+            'placeholder_email' => 'Nhập email',
+            'phone_number' => 'Số điện thoại',
+            'placeholder_phone_number' => 'Nhập số điện thoại',
+            'address' => 'Địa chỉ',
+            'new_address' => 'Địa chỉ mới',
+            'notes' => 'Ghi chú',
+            'placeholder_address' => 'Nhập địa chỉ',
+            'placeholder_notes' => 'Nội dung',
+            'province' => 'Tỉnh/Thành phố',
+            'district' => 'Quận/Huyện',
+            'ward' => 'Phường/Xã',
+            'placeholder_province' => 'Chọn tỉnh/thành phố',
+            'placeholder_district' => 'Chọn quận/huyện',
+            'placeholder_ward' => 'Chọn Phường/xã',
+            'order_detail' => 'Chi tiết đơn hàng',
+            'total' => 'Tổng giá trị',
+            'sale' => 'Giảm giá',
+            'shipping' => 'Phí vận chuyển',
+            'payment' => 'Phương thức thanh toán',
+            'payment_select' => 'Lựa chọn phương thức thanh toán',
+            'cash' => 'Tiền mặt',
+            'momo' => 'Momo',
+            'complete' => 'Hoàn thành thanh toán',
+            'enter_code' => 'Nhập mã giảm giá',
+        ],
+    ];
+
+    // Get the current language code
+    $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
+    // Get the translation data for the selected language
+    $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
+@endphp
+
 @extends('layouts.app')
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const voucherModal = document.getElementById('voucherModal');
@@ -116,7 +120,6 @@
         });
     });
 </script>
-
 
 
 @section('content')
