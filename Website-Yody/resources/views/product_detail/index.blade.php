@@ -253,8 +253,9 @@
             });
 
             function updateProductImage(maSP, maMau) {
+                const locale = '{{ app()->getLocale() }}'; 
                 $.ajax({
-                    url: '/get-image', // Đường dẫn đến hàm getImageByMaSPAndMaMau
+                    url: `/${locale}/get-image`, // Đường dẫn đến hàm getImageByMaSPAndMaMau
                     type: 'GET',
                     data: {
                         maSP: maSP,

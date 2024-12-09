@@ -17,6 +17,7 @@ use App\Mail\WelcomeMail; // Import the WelcomeMail class
 use App\Models\DiaChiKhachHang;
 use Illuminate\Support\Facades\Session;
 use App\Models\ChiTietSanPham;
+use Carbon\Carbon;
 
 class CheckoutController extends Controller
 {
@@ -603,18 +604,44 @@ class CheckoutController extends Controller
     }
     public function applyVoucher(Request $request)
     {
+        $locale = request()->segment(1, 'vi'); // Lấy mã ngôn ngữ từ URL
+        $commonData = [
+            'en' => [
+                'voucher_in_use' => 'The voucher is already in use.',
+                'voucher_expired' => 'The voucher has expired.',
+                'voucher_used' => 'The voucher has already been redeemed.',
+                'voucher_applied' => 'The voucher has been successfully applied.',
+                'voucher_not_exist' => 'The voucher does not exist.',
+            ],
+            'vi' => [
+                'voucher_in_use' => 'Voucher đang được sử dụng.',
+                'voucher_expired' => 'Voucher đã hết hạn.',
+                'voucher_used' => 'Voucher đã được sử dụng.',
+                'voucher_applied' => 'Voucher đã được áp dụng thành công.',
+                'voucher_not_exist' => 'Voucher không tồn tại.',
+            ],
+        ];
+        $selectedData = $commonData[$locale] ?? $commonData['vi'];
+
         $maVoucher = $request->input('voucher_code');
         $voucher = $this->KTVoucherActive($maVoucher);
+        $voucherNoActive = $this->KTVoucherNoActive($maVoucher);
+        $currentDate = Carbon::now();
         
         if (session()->get('MaVC') && session()->get('MaVC') == $maVoucher) {
-            return redirect()->back()->withErrors(['voucher_code' => 'Voucher đang được sử dụng']);
+            return redirect()->back()->withErrors(['voucher_code' => $selectedData['voucher_in_use']]);
         }
-    
+        if ($voucher && $voucher->NgayKT < $currentDate) {
+            return redirect()->back()->withErrors(['voucher_code' => $selectedData['voucher_expired']]);
+        }
+        if ($voucherNoActive) {
+            return redirect()->back()->withErrors(['voucher_code' => $selectedData['voucher_used']]);
+        }
         if ($voucher) {
             $this->SessionPutVoucher($voucher);
-            return redirect()->back()->with('success', 'Voucher đã được áp dụng thành công.');
+            return redirect()->back()->with('success', $selectedData['voucher_applied']);
         } else {
-            return redirect()->back()->withErrors(['voucher_code' => 'Voucher không hợp lệ hoặc đã hết hạn.']);
+            return redirect()->back()->withErrors(['voucher_code' => $selectedData['voucher_not_exist']]);
         }
     }
     public function SessionPutVoucher($voucher)
@@ -626,6 +653,12 @@ class CheckoutController extends Controller
     {
         return Voucher::where('MaVoucher', $maVoucher)
         ->where('Active', 1)  // Kiểm tra nếu voucher đang hoạt động
+        ->first();
+    }
+    public function KTVoucherNoActive($maVoucher)
+    {
+        return Voucher::where('MaVoucher', $maVoucher)
+        ->where('Active', 0)  
         ->first();
     }
     public function cancelVoucher(Request $request)
@@ -646,7 +679,7 @@ class CheckoutController extends Controller
     public function CreateVoucher($user)
     {
         $khachHang = KhachHang::find($user->MaKH);
-        if($khachHang->DiemTichLuy >=20000)
+        if($khachHang->DiemTichLuy >=10000)
         {
             do {
                 $maVC = 'VC' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
