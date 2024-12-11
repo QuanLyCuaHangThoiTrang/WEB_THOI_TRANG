@@ -49,7 +49,7 @@
                 <p class="text-lg font-semibold text-gray-800">{{ $KhuyenMai->TenKM }}</p>
                 @foreach ($KhuyenMai->sanPhamKhuyenMais as $SanPhamKhuyenMai)
                     <p class="text-sm text-gray-600 flex items-center">
-                        <a href="{{ url('/product_detail/' . $SanPhamKhuyenMai->SanPham->MaSP) }}"
+                        <a href="{{ url('/' . $locale . '/product_detail/' . $SanPhamKhuyenMai->SanPham->MaSP) }}"
                             class="hover:text-blue-500 transition-colors">
                             {{ $SanPhamKhuyenMai->SanPham->TenSP }}
                         </a>

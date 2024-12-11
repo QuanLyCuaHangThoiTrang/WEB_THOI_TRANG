@@ -43,7 +43,7 @@
             <div
                 class="grid md:grid-cols-2 items-center bg-white gap-4 max-md:gap-8 max-w-5xl max-md:max-w-lg w-full p-4 m-4 shadow-lg rounded-lg">
                 <div class="md:max-w-md w-full px-4">
-                    <form action="{{ route('login.postLogin', ['locale' => app()->getLocale()]) }}" method="POST">
+                    <form action="{{ route('login.postLogin', ['locale' => $locale]) }}" method="POST">
                         @csrf
                         <div class="mb-12">
                             <h3 class="text-gray-800 text-3xl font-bold">{{ $selectedData['login'] }}</h3>

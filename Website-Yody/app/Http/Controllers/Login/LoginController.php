@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Login;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App; 
 
 class LoginController extends Controller
 {
@@ -11,8 +12,9 @@ class LoginController extends Controller
     {
         return view('login.login');
     }
-    public function postLogin(Request $request)
+    public function postLogin(Request $request,$locale)
     {
+        App::setLocale($locale); 
         // Xác thực với Username và Password
         $credentials = $request->validate([
             'taikhoan' => ['required'], // Tên field Username từ form
@@ -28,7 +30,7 @@ class LoginController extends Controller
         if (Auth::attempt(['Username' => $request->taikhoan, 'password' => $request->matkhau], $remember)) {
             // Đăng nhập thành công
             $locale = app()->getLocale(); // Lấy ngôn ngữ hiện tại
-            return redirect()->route('home', ['locale' => $locale]);
+            return redirect()->route('home', ['locale' => app()->getLocale()]);
         }
     
         // Đăng nhập thất bại

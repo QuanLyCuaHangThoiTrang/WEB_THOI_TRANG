@@ -136,7 +136,7 @@ Route::prefix('{locale}')->where(['locale' => 'en|vi'])->group(function () {
 
 
     //payment
-    Route::get('/momo/response', [CheckoutController::class, 'handleMomoResponse'])->name('momo.response');
+    Route::get('/momo/response/{locale}', [CheckoutController::class, 'handleMomoResponse'])->name('momo.response');
     Route::get('/{locale}/ThanhToanThanhCong', [CheckoutController::class, 'ThanhToanThanhCong'])->name('thanhtoan.ThanhCong');
 // Logout Route
 Route::post('/{locale}/logout', function () {

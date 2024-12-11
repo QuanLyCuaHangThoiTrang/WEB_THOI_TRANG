@@ -12,6 +12,7 @@ use App\Models\KhachHang;
 use App\Models\Voucher;
 use App\Models\ChiTietDonHang; // Model chi tiết đơn hàng
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App; // Import App facade
 use Illuminate\Support\Facades\Mail; // Import Mail facade
 use App\Mail\WelcomeMail; // Import the WelcomeMail class
 use App\Models\DiaChiKhachHang;
@@ -77,8 +78,9 @@ class CheckoutController extends Controller
             return view('checkout.checkout', compact('tongGiaTri','chiTietGioHang', 'tongTien', 'giamGia','PhiShip'));
         }
     }
-    public function processCheckoutDH(Request $request)
+    public function processCheckoutDH(Request $request, $locale)
     {
+        App::setLocale($locale);
         if (Auth::check()) {
             $kt = true;
             $user = Auth::user();          
@@ -92,7 +94,7 @@ class CheckoutController extends Controller
 
                     }
                 }
-                return $this->storeOrder($request);
+                return $this->storeOrder($request, $locale);
             }         
             else 
             {
@@ -110,7 +112,7 @@ class CheckoutController extends Controller
                     return redirect()->route('cart', ['locale' => app()->getLocale()])->withErrors('Sản phẩm bạn mua đã hết hàng');
                 }
             }
-            return $this->storeOrder($request);   
+            return $this->storeOrder($request, $locale);   
         }
     }
 
@@ -120,8 +122,9 @@ class CheckoutController extends Controller
         ->where('MaMau',$MaMau)
         ->where('MaSize',$MaSize)->first();
     }
-    public function storeOrder(Request $request)
+    public function storeOrder(Request $request, $locale)
     {
+        app()->setLocale($locale);
         $email = $request->input('email');
         $hoten = $request->input('name');
         $maDC = $request->input('diachifull');   
@@ -212,16 +215,18 @@ class CheckoutController extends Controller
     
         // Save order based on authentication
         if (Auth::check()) {
-            return $this->saveOrderWithAuth($request, $diachi, $hoten, $email, $sodienthoai,$ghichu);
+            return $this->saveOrderWithAuth($request, $diachi, $hoten, $email, $sodienthoai,$ghichu, $locale);
         } else {
-            return $this->saveOrderNoAuth($request, $diachi, $hoten, $email, $sodienthoai,$ghichu);                
+            return $this->saveOrderNoAuth($request, $diachi, $hoten, $email, $sodienthoai,$ghichu, $locale);                
         }
     }
     
     
     
-    public function saveOrderWithAuth($request,$diachi,$hoten,$email,$sodienthoai,$ghichu)
+    public function saveOrderWithAuth($request,$diachi,$hoten,$email,$sodienthoai,$ghichu, $locale)
     {
+        app()->setLocale($locale);
+        
         $user = Auth::user();
         $gioHang = GioHang::where('MaKH', $user->MaKH)->first();
         $PhanTramGiamGia = 0;
@@ -305,15 +310,16 @@ class CheckoutController extends Controller
                 }
                 Mail::to($user->Email)->send(new ThanhToanThanhCongMail($user,$donHang));
                 
-                return redirect()->route('thanhtoan.ThanhCong', ['locale' => app()->getLocale()])->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
+                return redirect()->route('thanhtoan.ThanhCong', ['locale' => $locale])->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
 
             }
         } else {
-            return redirect()->route('cart', ['locale' => app()->getLocale()])->withErrors('Giỏ hàng của bạn trống');
+            return redirect()->route('cart', ['locale' => $locale])->withErrors('Giỏ hàng của bạn trống');
         }
     }
-    public function saveOrderNoAuth($request, $diachi,$hoten,$email,$sodienthoai,$ghichu)
+    public function saveOrderNoAuth($request, $diachi,$hoten,$email,$sodienthoai,$ghichu, $locale)
     {
+        app()->setLocale($locale);
         $gioHangSession = session()->get('gioHang', []);
         $PhanTramGiamGia = 0;
         $giamGia = 0;
@@ -367,6 +373,11 @@ class CheckoutController extends Controller
             // Tạo đơn hàng mới
             $giamGia = $PhanTramGiamGia;
             $tongTien = $tongGT - $giamGia + $phiship;   
+            if( $tongTien > 500000)
+            {
+                $phiship = 0;
+                $tongTien = $tongGT - $giamGia + $phiship;  
+            }
             if($ghichu || $ghichu !='')
             {
                 $ghichu = $email . ', ' . $sodienthoai . ', ' . $ghichu;       
@@ -387,12 +398,13 @@ class CheckoutController extends Controller
             session()->forget('gioHang');
             $this->ActiveVoucher(session()->get('MaVC'));
             Mail::to($email)->send(new ThanhToanThanhCongMail($khachhang,$donHang));
-            return redirect()->route('thanhtoan.ThanhCong', ['locale' => app()->getLocale()])->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
+            return redirect()->route('thanhtoan.ThanhCong', ['locale' => $locale])
+        ->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
 
         } 
         else 
         {
-            return redirect()->route('cart')->withErrors('Giỏ hàng của bạn trống.');
+            return redirect()->route('cart', ['locale' => app()->getLocale()])->withErrors('Giỏ hàng của bạn trống.');
         }
     }
     public function execPostRequest($url, $data)
@@ -424,8 +436,8 @@ class CheckoutController extends Controller
         $orderInfo = "Thanh toán qua MoMo"; 
         $amount = $TongTien; // Lấy số tiền từ request hoặc từ giỏ hàng
         $orderId = time() .""; // Mã đơn hàng tự sinh
-        $redirectUrl = route('momo.response'); // URL redirect sau khi thanh toán thành công
-        $ipnUrl = route('momo.response'); // IPN URL để nhận kết quả thanh toán từ Momo
+        $redirectUrl = route('momo.response', ['locale' => app()->getLocale()]);  // Truyền locale vào
+        $ipnUrl = route('momo.response', ['locale' => app()->getLocale()]); // Truyền locale vào
         $extraData = ""; // Dữ liệu bổ sung nếu có
 
         $requestId = time() . "";
@@ -477,11 +489,12 @@ class CheckoutController extends Controller
         session()->put('SDT_tam',$sdt);
         session()->put('ghichu_tam',$ghichu);
     }
-    public function handleMomoResponse(Request $request)
-    {      
+    public function handleMomoResponse(Request $request,$locale)
+    { 
+        App::setLocale($locale);     
         $paymentStatus = $request->input('message');
         if ($paymentStatus != 'Successful.') {
-            return redirect()->route('cart');
+            return redirect()->route('cart',['locale' => app()->getLocale()]);
         } 
 
         //get session MaDH,DiaChi...
@@ -523,8 +536,7 @@ class CheckoutController extends Controller
         }
 
         $this->ActiveVoucher(session()->get('MaVC'));
-        return redirect()->route('products.index', ['locale' => app()->getLocale()])
-        ->with('success', 'Thanh toán thành công và đơn hàng của bạn đã được lưu.');
+        return redirect()->route('thanhtoan.ThanhCong', ['locale' => app()->getLocale()])->with('success', 'Đơn hàng của bạn đã được tạo thành công.');
     
     }
     protected function updateDiemTichLuy($user)

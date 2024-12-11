@@ -62,10 +62,11 @@ class KhuyenMaiController extends Controller
             'NgayKetThuc.after' => 'Ngày kết thúc phải sau ngày bắt đầu.',
         ]); 
         $data['MaKM'] = $this->generateUniqueMaKM();
+        $moTa = strip_tags($request->input('MoTa'));
         KhuyenMai::create([
             'MaKM' => $data['MaKM'],
             'TenKM' => $data['TenKM'],
-            'MoTa' => $data['MoTa'],
+            'MoTa' => $moTa,
             'PhanTramGiamGia' => $data['PhanTramGiamGia'],
             'NgayBatDau' => $data['NgayBatDau'],
             'NgayKetThuc' => $data['NgayKetThuc'],
@@ -124,7 +125,7 @@ class KhuyenMaiController extends Controller
             return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
         }   
         $khuyenMai = KhuyenMai::with('sanPhamKhuyenMais.sanPham')->findOrFail($MaKM);
-        $products = SanPham::all();
+        $products = SanPham::where('GiaGiam','!=0',0)->get();
     
         // Lấy danh sách các sản phẩm đã thuộc khuyến mãi
         $sanPhamKhuyenMaiIds = $khuyenMai->sanPhamKhuyenMais->pluck('MaSP')->toArray();
@@ -162,11 +163,6 @@ class KhuyenMaiController extends Controller
                 ]);
             }
         }
-
-        // Xóa các sản phẩm đã có mà không được chọn nữa
-        SanPhamKhuyenMai::where('MaKM', $khuyenMaiId)
-            ->whereNotIn('MaSP', $selectedProductIds)
-            ->delete();
 
         return redirect()->route('khuyenmai.show', $khuyenMaiId)->with('success', 'Cập nhật sản phẩm khuyến mãi thành công!');
     }
