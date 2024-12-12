@@ -105,7 +105,7 @@
 
 
 
-                    <form action="{{ route('logout', ['locale' => app()->getLocale()]) }}" method="POST"
+                    <form action="{{ route('logout', ['locale' => $locale]) }}" method="POST"
                         class="flex items-center">
                         @csrf
                         <button type="submit" class="flex items-center">

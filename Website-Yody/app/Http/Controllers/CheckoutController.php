@@ -554,7 +554,7 @@ class CheckoutController extends Controller
             'DiaChiGiaoHang' => $diachi,
             'NgayDatHang' => now(),
             'TongGiaTri' => $tongGiaTri,
-            'TrangThai' => 'Chưa giao',
+            'TrangThai' => 'Chờ xác nhận',
             'PhuongThucThanhToan' => $paymentMethod,
             'GhiChu' => $GhiChu
         ]);

@@ -38,9 +38,10 @@ class LoginController extends Controller
     }
     
     // Đăng xuất
-    public function logout()
+    public function logout($locale)
     {
+        App::setLocale($locale); 
         Auth::logout();
-        return redirect()->route('login')->with('success', 'Đăng xuất thành công.');
+        return redirect()->route('login',['locale' => app()->getLocale()])->with('success', 'Đăng xuất thành công.');
     }
 }
