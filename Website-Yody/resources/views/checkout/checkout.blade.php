@@ -151,7 +151,7 @@
                     <div class="bg-white rounded-lg w-96 p-6">
                         <h2 class="text-lg font-bold text-gray-800 mb-4">{{ $selectedData['placehoder_checkout'] }}</h2>
                         <form class="formabc"
-                            action="{{ session('success') ? route('voucher.cancel', ['locale' => app()->getLocale()]) : route('checkout.applyVoucher', ['locale' => app()->getLocale()]) }}"
+                            action="{{ session('success') ? route('voucher.cancel', ['locale' => $locale]) : route('checkout.applyVoucher', ['locale' => app()->getLocale()]) }}"
                             method="POST">
                             @csrf
                             <div class="w-full mb-4">
@@ -177,7 +177,7 @@
 
 
 
-    <form class="formabc" action="{{ route('checkout.processDH', ['locale' => app()->getLocale()]) }}" method="POST">
+    <form class="formabc" action="{{ route('checkout.processDH', ['locale' => $locale]) }}" method="POST">
         @csrf
         @if ($errors->any())
             <div

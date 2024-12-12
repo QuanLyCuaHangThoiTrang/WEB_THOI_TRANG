@@ -86,18 +86,18 @@
         </div>
         <div class="space-y-3 p-3 shadow-lg NdKhuyenMai">
             <div class="flex flex-col items-center lg:flex-row lg:space-x-5 justify-center mt-2 pb-4">
-                @foreach ($KhuyenMais as $KhuyenMai)
+                @if($khuyenMai)
                     <div class="flex flex-col items-center text-center">
-                        <h3 class="text-lg sm:text-2xl lg:text-4xl uppercase font-bold">{{ $KhuyenMai->TenKM }}</h3>
+                        <h3 class="text-lg sm:text-2xl lg:text-4xl uppercase font-bold">{{ $khuyenMai->TenKM }}</h3>
                         <div class="text-gray-500 text-center px-3 py-2 mt-2 text-sm sm:text-base">
-                            {{ $KhuyenMai->MoTa }}
+                            {{ $khuyenMai->MoTa }}
                         </div>
                         <div style="display: none"
                             class="text-gray-500 text-center px-3 py-2 mt-2 text-sm sm:text-base NgayKT">
-                            {{ $KhuyenMai->NgayKetThuc }}
+                            {{ $khuyenMai->NgayKetThuc }}
                         </div>
                     </div>
-                @endforeach
+                @endif
             </div>
 
 
@@ -127,13 +127,13 @@
                 }
             }'>
 
-                @foreach ($KhuyenMais as $KhuyenMai)
-                    @foreach ($KhuyenMai->sanPhams as $SanPham)
+            @if($khuyenMai)
+                    @foreach ($khuyenMai->sanPhams as $SanPham)
                         <swiper-slide class="swiper-slide rounded cursor-pointer duration-150 flex flex-col"
                             style="transition: opacity 0.5s, transform 0.5s;">
                             <div class="container">
                                 <a
-                                    href="{{ route('product_detail', ['locale' => $locale, 'MaSP' => $sanPham->MaSP]) }}">
+                                    href="{{ route('product_detail', ['locale' => $locale, 'MaSP' => $SanPham->MaSP]) }}">
                                     <div class="flex flex-col pb-2">
                                         <div
                                             class="text-white absolute top-0 font-medium text-sm lg:text-lg bg-red-600 hover:text-white px-2 py-4 transition duration-150">
@@ -169,7 +169,7 @@
                             </div>
                         </swiper-slide>
                     @endforeach
-                @endforeach
+                @endif
             </swiper-container>
 
 

@@ -10,7 +10,7 @@
             'none' => 'Không đánh giá',
             'read' => 'Xem tất cả đánh giá',
             'total_ratings' => 'Tổng số đánh giá',
-            'ratingat' => 'Đánh giá tại',
+            'ratingin' => 'Đánh giá tại',
         ],
     ];
     $locale = request()->segment(1, 'vi'); // Default to 'vi' if no language code in URL
@@ -19,7 +19,7 @@
     $selectedData = $commonData[$locale] ?? $commonData['vi']; // Fall back to 'vi' if not found
 @endphp
 <div class="mt-8">
-    <h3 class="text-xl font-bold text-gray-800"> {{ $selectedData['total_ratings'] }} ({{ $tongSoDanhGia }})</h3>
+   <h3 class="text-xl font-bold text-gray-800"> {{ $selectedData['total_ratings'] }} ({{ $tongSoDanhGia }})</h3> 
     <div class="space-y-3 mt-4">
         @php
             $tongSoDanhGia = $danhGias->count();
@@ -127,7 +127,7 @@
                             </div>
                             <p class="text-sm text-gray-600 mt-1">{{ $danhGia->NoiDung }}</p>
                             <p class="text-xs text-gray-500 mt-1"> {{ $selectedData['ratingin'] }}
-                                {{ $danhGia->NgayDanhGia }}</p>
+                                {{ $danhGia->NgayDanhGia }}</p> 
                         </div>
                     @endforeach
                 @endif

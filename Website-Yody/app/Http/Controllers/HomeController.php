@@ -29,7 +29,7 @@ class HomeController extends Controller
                 ->from('sanphamkhuyenmai');
         })->get();
          // Lấy khuyến mãi, nếu không có thì trả về null
-        $khuyenMai = KhuyenMai::first();
+        $khuyenMaiHomes = KhuyenMai::where('NgayKetThuc', '>', now())->first();
 
         $SanPhamUaChuongs = ChiTietDonHang::selectRaw(
             'sanpham.MaSP,
@@ -55,7 +55,7 @@ class HomeController extends Controller
         return view('home.home', [
             'chiTietSanPhams' => $chiTietSanPhams,
             'SanPhamKhuyenMai' => $SanPhamKhuyenMai,
-            'khuyenMai' => $khuyenMai,
+            'khuyenMai' => $khuyenMaiHomes,
             'SanPhamUaChuongs' => $SanPhamUaChuongs
         ]);
     }
