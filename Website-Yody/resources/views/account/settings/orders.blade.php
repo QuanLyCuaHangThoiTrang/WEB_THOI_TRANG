@@ -7,9 +7,9 @@
             'statuses' => [
                 'default' => 'Sort by',
                 'tat_ca' => 'All',
-                'chua_xac_nhan' => 'Pending',
+                'cho_xac_nhan' => 'Pending',
                 'da_xac_nhan' => 'Confirmed',
-                'chua_giao' => 'Not Delivered',
+                'dang_giao' => 'On the way',
                 'giao_thanh_cong' => 'Delivered Successfully',
             ],
             'cancel_order' => 'Cancel Order',
@@ -27,9 +27,9 @@
             'statuses' => [
                 'default' => 'Sắp xếp theo',
                 'tat_ca' => 'Tất cả',
-                'chua_xac_nhan' => 'Chưa xác nhận',
+                'cho_xac_nhan' => 'Chờ xác nhận',
                 'da_xac_nhan' => 'Đã xác nhận',
-                'chua_giao' => 'Chưa giao',
+                'dang_giao' => 'Đang giao hàng',
                 'giao_thanh_cong' => 'Giao thành công',
             ],
             'cancel_order' => 'Hủy đơn',
@@ -135,12 +135,12 @@
                                                                 {{ $selectedData['statuses']['default'] }}</option>
                                                             <option value="tat_ca">{{ $selectedData['statuses']['tat_ca'] }}
                                                             </option>
-                                                            <option value="chua_xac_nhan">
-                                                                {{ $selectedData['statuses']['chua_xac_nhan'] }}</option>
+                                                            <option value="cho_xac_nhan">
+                                                                {{ $selectedData['statuses']['cho_xac_nhan'] }}</option>
                                                             <option value="da_xac_nhan">
                                                                 {{ $selectedData['statuses']['da_xac_nhan'] }}</option>
-                                                            <option value="chua_giao">
-                                                                {{ $selectedData['statuses']['chua_giao'] }}</option>
+                                                            <option value="dang_giao">
+                                                                {{ $selectedData['statuses']['dang_giao'] }}</option>
                                                             <option value="giao_thanh_cong">
                                                                 {{ $selectedData['statuses']['giao_thanh_cong'] }}</option>
                                                         </select>
@@ -209,7 +209,7 @@
                                                                 ? 'text-green-600'
                                                                 : ($order->TrangThai == 'Đã hủy'
                                                                     ? 'text-red-600'
-                                                                    : ($order->TrangThai == 'Chưa giao'
+                                                                    : ($order->TrangThai == 'Đang giao hàng'
                                                                         ? 'text-yellow-500'
                                                                         : 'text-gray-900')) }}">
                                                                 {{ $order->TrangThai }}

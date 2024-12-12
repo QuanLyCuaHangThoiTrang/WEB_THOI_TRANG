@@ -16,11 +16,14 @@
 
     <!-- Thanh lựa chọn hàng ngang -->
     <div class="btn-group mb-3" role="group" style="width:100%">
+
         <button type="button" class="btn btn-primary filter-button" data-status="all">Tất cả</button>
         <button type="button" class="btn btn-secondary filter-button" data-status="Chờ xác nhận">Chờ xác nhận</button>
         <button type="button" class="btn btn-warning filter-button" data-status="Đã xác nhận">Đã xác nhận</button>
         <button type="button" class="btn btn-info filter-button" data-status="Đang giao hàng">Đang giao hàng</button>
         <button type="button" class="btn btn-success filter-button" data-status="Giao thành công">Giao thành công</button>
+        <button type="button" class="btn btn-danger filter-button" data-status="Đã huỷ">Đã huỷ</button>
+        
     </div>
 
     <div class="card">
@@ -50,10 +53,13 @@
                             <td>{{ number_format($donhang->TongGiaTri, 0, ',', '.')}}đ</td>
                             <td>
                                 <select class="form-control status-select" data-id="{{ $donhang->MaDH }}">
+                               
                                     <option value="Chờ xác nhận" {{ $donhang->TrangThai == 'Chờ xác nhận' ? 'selected' : '' }}>Chờ xác nhận</option>
                                     <option value="Đã xác nhận" {{ $donhang->TrangThai == 'Đã xác nhận' ? 'selected' : '' }}>Đã xác nhận</option>
                                     <option value="Đang giao hàng" {{ $donhang->TrangThai == 'Đang giao hàng' ? 'selected' : '' }}>Đang giao hàng</option>
                                     <option value="Giao thành công" {{ $donhang->TrangThai == 'Giao thành công' ? 'selected' : '' }}>Giao thành công</option>
+                                    <option value="Đã huỷ" {{ $donhang->TrangThai == 'Đã huỷ' ? 'selected' : '' }}>Đã huỷ</option>
+                                  
                                 </select>
                             </td>
                             <td>{{$donhang->PhuongThucThanhToan}}</td>
