@@ -133,7 +133,7 @@
                             style="transition: opacity 0.5s, transform 0.5s;">
                             <div class="container">
                                 <a
-                                    href="{{ route('product_detail', ['locale' => $locale, 'MaSP' => $sanPham->MaSP]) }}">
+                                    href="{{ route('product_detail', ['locale' => $locale, 'MaSP' => $SanPham->MaSP]) }}">
                                     <div class="flex flex-col pb-2">
                                         <div
                                             class="text-white absolute top-0 font-medium text-sm lg:text-lg bg-red-600 hover:text-white px-2 py-4 transition duration-150">
