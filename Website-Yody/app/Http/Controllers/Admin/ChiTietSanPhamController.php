@@ -9,6 +9,8 @@ use App\Models\MauSac;
 use Illuminate\Support\Facades\Auth;
 use App\Models\KichThuoc;
 use App\Models\ChiTietDonHang;
+use App\Models\DanhGia;
+use App\Models\ChiTietSanPhamNhap;
 class ChiTietSanPhamController extends Controller
 {
     public function show($MaSP)
@@ -233,19 +235,36 @@ class ChiTietSanPhamController extends Controller
         if (!Auth::guard('admin')->check()) {
             return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
         }
+        
+        // Lấy chi tiết sản phẩm
         $detail = ChiTietSanPham::where('MaCTSP', $MaCTSP)->first();
+    
+        // Kiểm tra xem có chi tiết đơn hàng nào liên quan đến mã chi tiết sản phẩm này không
         $hasOrderDetails = ChiTietDonHang::where('MaCTSP', $MaCTSP)->exists();
+        
+        // Kiểm tra xem có bản ghi nào trong bảng ChiTietSanPhamNhap không
+        $hasPurchaseDetails = ChiTietSanPhamNhap::where('MaCTSP', $MaCTSP)->exists();
     
         if ($hasOrderDetails) {
             // Nếu có chi tiết đơn hàng liên quan, không cho phép xóa
-            return redirect()->route('product.details',['MaSP' => $detail->MaSP])->with('error', 'Không thể xóa chi tiết sản phẩm này vì có chi tiết đơn hàng liên quan.');
+            return redirect()->route('product.details', ['MaSP' => $detail->MaSP])->with('error', 'Không thể xóa chi tiết sản phẩm này vì có chi tiết đơn hàng liên quan.');
         }
+    
+        if ($hasPurchaseDetails) {
+            // Nếu có chi tiết sản phẩm nhập liên quan, không cho phép xóa
+            return redirect()->route('product.details', ['MaSP' => $detail->MaSP])->with('error', 'Không thể xóa chi tiết sản phẩm này vì có chi tiết nhập hàng liên quan.');
+        }
+    
         if (!$detail) {
             return redirect()->back()->with('error', 'Chi tiết sản phẩm không tìm thấy.');
         }
-
+    
+        // Xóa đánh giá của chi tiết sản phẩm này trong bảng DanhGia
+        DanhGia::where('MaCTSP', $MaCTSP)->delete();
+    
+        // Xóa chi tiết sản phẩm
         $detail->delete();
-
+    
         return redirect()->back()->with('success', 'Chi tiết sản phẩm đã được xóa.');
     }
 }

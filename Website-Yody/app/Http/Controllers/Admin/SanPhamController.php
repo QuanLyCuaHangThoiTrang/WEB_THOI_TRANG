@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\MauSac;
 use App\Models\KichThuoc;
 use App\Models\ChiTietDonHang;
+use App\Models\ChiTietSanPhamNhap;
+
+use App\Models\SanPhamKhuyenMai;
+
+use App\Models\ChiTietGioHang;
+
 use App\Http\Controllers\Controller;
 class SanPhamController extends Controller
 {
@@ -76,18 +82,19 @@ class SanPhamController extends Controller
     
         // Validate the request data
         $data = $request->validate([
-            'TenSP' => 'required|string|max:255',
+            'TenSP' => 'required|string|max:255|unique:sanpham,TenSP',
             'MaCTDM' => 'required|string|max:255',
             'MoTa' => 'required|string',
             'TrangThai' => 'required|boolean',
-            'GiaBan' => 'required|numeric|min:0',
+            'GiaBan' => 'nullable|numeric|min:0',
             'img.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'TenSP.required' => 'Tên sản phẩm không được để trống.',
+            'TenSP.unique' => 'Tên sản phẩm đã tồn tại, vui lòng chọn tên khác.',
             'MaCTDM.required' => 'Mã danh mục không được để trống.',
             'MoTa.required' => 'Mô tả không được để trống.',
             'TrangThai.required' => 'Trạng thái không được để trống.',
-            'GiaBan.required' => 'Giá bán không được để trống.',
+            //'GiaBan.required' => 'Giá bán không được để trống.',
             'GiaBan.numeric' => 'Giá bán phải là một số.',
             'GiaBan.min' => 'Giá bán phải lớn hơn hoặc bằng 0.',
         ]);
@@ -97,7 +104,7 @@ class SanPhamController extends Controller
     
         // Clean up MoTa
         $moTa = strip_tags($request->input('MoTa'));
-    
+        $data['GiaBan'] = $data['GiaBan'] ?? 0;
         // Create a new product
         $newProduct = SanPham::create([
             'MaSP' => $data['MaSP'],
@@ -112,25 +119,43 @@ class SanPhamController extends Controller
     }
     
     public function destroy($MaSP)
-    {
-        if (!Auth::guard('admin')->check()) {
-            return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
-        }
-        // Tìm sản phẩm theo MaSP
-        $product = SanPham::where('MaSP', $MaSP)->firstOrFail();
-        $chiTietSanPhamIds = ChiTietSanPham::where('MaSP', $MaSP)->pluck('MaCTSP');
-
-        // Kiểm tra xem có chi tiết sản phẩm nào trong ChiTietDonHang không
-        $hasOrderDetails = ChiTietDonHang::whereIn('MaCTSP', $chiTietSanPhamIds)->exists();
-    
-        if ($hasOrderDetails) {
-            // Nếu có chi tiết đơn hàng liên quan, không cho phép xóa
-            return redirect()->route('product.index')->with('error', 'Không thể xóa sản phẩm này vì có chi tiết đơn hàng liên quan.');
-        }
-        ChiTietSanPham::where('MaSP', $MaSP)->delete();
-        $product->delete();
-        return redirect()->route('product.index');
+{
+    if (!Auth::guard('admin')->check()) {
+        return redirect('/login'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
     }
+    
+    // Tìm sản phẩm theo MaSP
+    $product = SanPham::where('MaSP', $MaSP)->firstOrFail();
+    
+    // Lấy danh sách MaCTSP của sản phẩm này
+    $chiTietSanPhamIds = ChiTietSanPham::where('MaSP', $MaSP)->pluck('MaCTSP');
+
+    // Kiểm tra xem có chi tiết sản phẩm nào trong ChiTietDonHang không
+    $hasOrderDetails = ChiTietDonHang::whereIn('MaCTSP', $chiTietSanPhamIds)->exists();
+
+    // Kiểm tra xem có chi tiết sản phẩm nào trong ChiTietDonNhapHang không
+    $hasPurchaseDetails = ChiTietSanPhamNhap::whereIn('MaCTSP', $chiTietSanPhamIds)->exists();
+
+    // Kiểm tra xem có sản phẩm nào trong SanPhamKhuyenMai không
+    $hasPromotionDetails = SanPhamKhuyenMai::where('MaSP', $MaSP)->exists();
+
+    // Kiểm tra xem có chi tiết sản phẩm nào trong Giỏ hàng không
+    $hasCartDetails = ChiTietGioHang::whereIn('MaCTSP', $chiTietSanPhamIds)->exists();
+
+    // Nếu có chi tiết đơn hàng, chi tiết nhập hàng, sản phẩm khuyến mãi, hoặc giỏ hàng liên quan, không cho phép xóa
+    if ($hasOrderDetails || $hasPurchaseDetails || $hasPromotionDetails || $hasCartDetails) {
+        return redirect()->route('product.index')->with('error', 'Không thể xóa sản phẩm này vì có liên quan đến đơn hàng, nhập hàng, khuyến mãi hoặc giỏ hàng.');
+    }
+    
+    // Xóa các chi tiết sản phẩm
+    ChiTietSanPham::where('MaSP', $MaSP)->delete();
+    
+    // Xóa sản phẩm
+    $product->delete();
+
+    return redirect()->route('product.index')->with('success', 'Sản phẩm đã được xóa.');
+}
+
 
     public function edit($MaSP)
     {
