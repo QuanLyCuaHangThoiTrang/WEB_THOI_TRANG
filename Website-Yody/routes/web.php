@@ -140,9 +140,10 @@ Route::prefix('{locale}')->where(['locale' => 'en|vi'])->group(function () {
     Route::get('/momo/response/{locale}', [CheckoutController::class, 'handleMomoResponse'])->name('momo.response');
     Route::get('/{locale}/ThanhToanThanhCong', [CheckoutController::class, 'ThanhToanThanhCong'])->name('thanhtoan.ThanhCong');
 // Logout Route
-Route::post('/{locale}/logout', function () {
+Route::post('/{locale}/logout', function ($locale) {
+    App::setLocale($locale); 
     Auth::logout();
-    return redirect('/' . app()->getLocale());  // Redirect to the homepage with the correct locale
+    return redirect('/' . $locale);  // Redirect to the homepage with the correct locale
 })->name('logout');
 
 
